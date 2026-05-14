@@ -20,6 +20,8 @@ export { breadcrumb, type BreadcrumbInput, type BreadcrumbItemInput } from './br
 
 export { faqPage, type FaqPageInput, type FaqQuestionInput } from './faq-page.js';
 
+export { howTo, type HowToInput, type HowToStepInput } from './how-to.js';
+
 export {
   organization,
   type ContactPointInput,
