@@ -26,4 +26,13 @@ export {
   type OrganizationInput,
 } from './organization.js';
 
+export { product, type ProductInput } from './product.js';
+
+export {
+  softwareApplication,
+  type SoftwareApplicationInput,
+} from './software-application.js';
+
 export { webSite, type WebSiteInput } from './website.js';
+
+export type { AggregateRatingInput, OfferAvailability, OffersInput } from './_offers.js';
