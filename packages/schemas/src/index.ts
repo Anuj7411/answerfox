@@ -8,6 +8,14 @@
 
 export const VERSION = '0.0.0';
 
+export {
+  article,
+  blogPosting,
+  type ArticleInput,
+  type AuthorInput,
+  type PublisherInput,
+} from './article.js';
+
 export { breadcrumb, type BreadcrumbInput, type BreadcrumbItemInput } from './breadcrumb.js';
 
 export { faqPage, type FaqPageInput, type FaqQuestionInput } from './faq-page.js';
