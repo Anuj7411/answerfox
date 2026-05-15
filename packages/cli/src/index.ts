@@ -10,8 +10,10 @@
  */
 
 import { Command } from 'commander';
+import { registerAddCommand } from './commands/add.js';
 import { registerAuditCommand } from './commands/audit.js';
 import { registerExplainCommand } from './commands/explain.js';
+import { registerInitCommand } from './commands/init.js';
 
 export const VERSION = '0.0.0';
 
@@ -26,10 +28,20 @@ export function createProgram(): Command {
     .name('answerable')
     .description('The drop-in SEO toolkit that makes any site answerable by AI search engines.')
     .version(VERSION);
+  registerInitCommand(program);
+  registerAddCommand(program);
   registerAuditCommand(program);
   registerExplainCommand(program);
   return program;
 }
+
+export {
+  registerAddCommand,
+  runAddCommand,
+  type AddCommandDeps,
+  type AddCommandOptions,
+  type AddCommandResult,
+} from './commands/add.js';
 
 export {
   registerAuditCommand,
@@ -45,3 +57,30 @@ export {
   type ExplainCommandOptions,
   type ExplainCommandResult,
 } from './commands/explain.js';
+
+export {
+  registerInitCommand,
+  runInitCommand,
+  type InitCommandDeps,
+  type InitCommandOptions,
+  type InitCommandResult,
+} from './commands/init.js';
+
+export {
+  type Fs,
+  InMemoryFs,
+  NodeFs,
+  dirname,
+  joinPath,
+} from './install/fs.js';
+
+export {
+  ClackPrompter,
+  PromptCancelledError,
+  ScriptedPrompter,
+  type ConfirmPromptOptions,
+  type Prompter,
+  type TextPromptOptions,
+} from './install/prompter.js';
+
+export { detectNextProject, type NextProjectInfo } from './install/project.js';
