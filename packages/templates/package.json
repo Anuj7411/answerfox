@@ -1,0 +1,43 @@
+{
+  "name": "@answerable/templates",
+  "version": "0.0.0",
+  "description": "Page templates (About, Privacy, Terms, FAQ, Contact) for the Answerable SEO toolkit. Installed into user projects by the CLI.",
+  "license": "MIT",
+  "author": "Anuj Ojha",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Anuj7411/answerable.git",
+    "directory": "packages/templates"
+  },
+  "homepage": "https://github.com/Anuj7411/answerable/tree/main/packages/templates#readme",
+  "bugs": "https://github.com/Anuj7411/answerable/issues",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist .tsbuildinfo"
+  },
+  "dependencies": {
+    "@answerable/core": "workspace:*"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  }
+}
