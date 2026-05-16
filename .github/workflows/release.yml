@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  release:
+    name: Version + publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # Skip when the commit was already produced by the release bot itself.
+    if: github.repository == 'Anuj7411/answerable'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Fetch full history so changesets can compare against previous releases.
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Create Release PR or publish
+        uses: changesets/action@v1
+        with:
+          # When changesets exist on main, open a "Version Packages" PR.
+          # When that PR is merged (changesets consumed), publish to npm.
+          version: pnpm version-packages
+          publish: pnpm release
+          commit: 'chore(release): version packages'
+          title: 'chore(release): version packages'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Tell npm to emit a build provenance attestation, leveraging the
+          # `id-token: write` permission above. Verified at install time
+          # by `npm install --foreground-scripts` and visible on the npm
+          # package page.
+          NPM_CONFIG_PROVENANCE: 'true'
