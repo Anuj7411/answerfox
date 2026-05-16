@@ -23,32 +23,32 @@ Answerable is the missing tool that combines all three:
 
 ## Status
 
-**Pre-alpha — under active construction.** The monorepo scaffold is in place; package implementations are landing incrementally. See [ROADMAP](./docs/internal/ROADMAP.md) for the Phase 1 / 2 / 3 breakdown.
+**Pre-alpha.** All seven library packages are built and tested in-repo (374 tests passing). Nothing on npm yet — first publish lands when the audit framework reaches 50/50 checks. See [ROADMAP](./docs/internal/ROADMAP.md) for the Phase 1 / 2 / 3 breakdown.
 
-Nothing on npm yet. Star and watch the repo to follow along.
+Star and watch the repo to follow along.
 
-## Planned packages
+## Packages
 
-| Package | Purpose |
-|---|---|
-| `@answerable/core` | Shared types, utilities, error classes |
-| `@answerable/schemas` | Type-safe JSON-LD generators (Organization, FAQPage, Article, ...) |
-| `@answerable/metadata` | Next.js metadata API helpers |
-| `@answerable/sitemap` | Sitemap builder with smart defaults |
-| `@answerable/templates` | Trust-signal page templates (About, Privacy, Terms, FAQ, Contact) |
-| `@answerable/audit` | 50-check audit engine with auto-fix |
-| `@answerable/cli` | Unified `answerable` command-line entrypoint |
+| Package | Purpose | Status |
+|---|---|---|
+| `@answerable/core` | Shared types, branded URLs, errors, `Check<T>` | ✅ |
+| `@answerable/schemas` | Type-safe JSON-LD (Organization, WebSite, FAQPage, Article, BlogPosting, Breadcrumb, Product, SoftwareApplication, HowTo) | ✅ 8/8 |
+| `@answerable/metadata` | `defineSeo()` — Next.js App Router metadata helpers | ✅ |
+| `@answerable/sitemap` | `buildSitemap()` with smart path-based defaults | ✅ |
+| `@answerable/templates` | About, Privacy, Terms, FAQ, Contact templates | ✅ 5/5 |
+| `@answerable/audit` | Cheerio-backed audit engine | ✅ 17/50 checks |
+| `@answerable/cli` | `answerable init / add / audit / explain` | ✅ |
 
-## Quickstart (planned)
+## Quickstart
 
 ```bash
 # In your existing Next.js project:
-pnpm add @answerable/schemas @answerable/metadata @answerable/sitemap
-npx answerable init        # interactive setup
-npx answerable audit https://your-site.com
+pnpm add @answerable/schemas @answerable/metadata @answerable/sitemap @answerable/audit
+pnpm dlx @answerable/cli init        # 3 prompts → 7 files written
+pnpm dlx @answerable/cli audit http://localhost:3000
 ```
 
-A score of 85+ on first audit is the design target. Full quickstart docs land with v0.1.
+See [`examples/basic-nextjs/`](./examples/basic-nextjs) for a working minimal example — everything `init` would produce, committed and runnable.
 
 ## Repository layout
 
