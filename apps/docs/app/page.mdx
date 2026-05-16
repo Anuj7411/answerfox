@@ -1,0 +1,54 @@
+import { Callout } from 'nextra/components';
+
+# Answerable
+
+> The drop-in SEO toolkit that makes any site answerable by AI search engines.
+
+Install a few packages, run one command, and your Next.js site is SEO-ready, AI-search-ready, and audited continuously — without you becoming an SEO expert.
+
+```bash
+# In an existing Next.js project:
+pnpm add @answerable/schemas @answerable/metadata @answerable/sitemap @answerable/audit
+
+# Scaffold trust pages + sitemap + robots:
+pnpm dlx @answerable/cli init
+
+# Audit the result against 33 production-tested checks:
+pnpm dlx @answerable/cli audit http://localhost:3000
+```
+
+A score of 85+ on first audit is the design target. The [`examples/basic-nextjs`](https://github.com/Anuj7411/answerable/tree/main/examples/basic-nextjs) example scores 90+ out of the box.
+
+<Callout type="info">
+  **Pre-1.0.** All seven packages are built and tested in-repo. First npm publish lands when the audit framework reaches 50/50 checks. Until then, clone and link from the [repo](https://github.com/Anuj7411/answerable).
+</Callout>
+
+## What's in the toolkit
+
+| Package | Purpose |
+| --- | --- |
+| `@answerable/core` | Branded URL types, errors, the `Check<T>` interface |
+| `@answerable/schemas` | Type-safe JSON-LD generators (8 of them) |
+| `@answerable/metadata` | `defineSeo()` — Next.js metadata helpers |
+| `@answerable/sitemap` | `buildSitemap()` with smart path-based defaults |
+| `@answerable/templates` | Five trust-signal page templates |
+| `@answerable/audit` | Cheerio-backed audit engine (33 of 50 checks) |
+| `@answerable/cli` | The `answerable` command |
+
+## Why Answerable?
+
+Indie developers and SaaS founders waste **20–40 hours per launch** on SEO that should be automated. No other tool combines drop-in code + automated audit + plain-English explanations in one MIT-licensed package — that's the wedge.
+
+| | Drop-in fixes | Continuous audit | Plain-English teaching |
+| :--- | :---: | :---: | :---: |
+| `next-seo` | partial | ❌ | ❌ |
+| Lighthouse | ❌ | partial | ❌ |
+| Ahrefs / Semrush | ❌ | ✅ | ❌ |
+| AI-SEO checklists | ❌ | partial | ✅ |
+| **Answerable** | ✅ | ✅ | ✅ |
+
+## Next steps
+
+- **[Getting Started →](/docs)** — The 30-second story, in detail
+- **[The audit framework →](/docs/audit-framework)** — How scoring works, what the bands mean
+- **[All audit checks →](/docs/checks/A1)** — Every check, with rationale and fix recommendation

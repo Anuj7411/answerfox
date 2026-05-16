@@ -1,0 +1,120 @@
+import { Callout, Steps, Tabs } from 'nextra/components';
+
+# Getting Started
+
+This walks through scaffolding a fresh Next.js project with Answerable end-to-end. Five minutes from `pnpm add` to a 90+ audit score.
+
+## Prerequisites
+
+- Node.js ≥ 20
+- An existing Next.js 14+ App Router project
+- A terminal
+
+If you don't have a Next.js project yet, scaffold one:
+
+```bash
+pnpm dlx create-next-app@latest my-site
+cd my-site
+```
+
+## The flow
+
+<Steps>
+
+### Install the runtime packages
+
+```bash
+pnpm add @answerable/schemas @answerable/metadata @answerable/sitemap @answerable/audit
+```
+
+These are the building blocks `init` writes against. They stay in your `dependencies` because the generated code imports them at runtime.
+
+### Run `init`
+
+```bash
+pnpm dlx @answerable/cli init
+```
+
+Three questions: project name, domain, contact email. Everything else is derived from sensible defaults you'll edit in your editor.
+
+When it finishes, you have:
+
+```text
+app/
+├── about/page.tsx       ← Organization JSON-LD + trust page
+├── privacy/page.tsx     ← Privacy policy starter
+├── terms/page.tsx       ← Terms of use starter
+├── faq/page.tsx         ← FAQPage JSON-LD
+├── contact/page.tsx     ← Contact + mailto:
+├── sitemap.ts           ← buildSitemap()
+└── robots.ts            ← MetadataRoute.Robots
+```
+
+<Callout type="info">
+  Existing files are preserved by default — `init` prompts before overwriting any file that already exists on disk.
+</Callout>
+
+### Wire up `app/layout.tsx`
+
+`init` doesn't touch your root layout (yet). Add this to its `metadata` export:
+
+```tsx filename="app/layout.tsx"
+import { defineSeo } from '@answerable/metadata';
+
+export const metadata = defineSeo({
+  title: { default: 'My Site', template: '%s — My Site' },
+  description: 'What my site does, in 120-160 characters.',
+  url: 'https://mysite.com',
+  siteName: 'My Site',
+  locale: 'en_US',
+  image: 'https://mysite.com/og.png',
+});
+```
+
+That one call covers title template, description, canonical, OpenGraph, Twitter, and metadataBase — every social card and SEO signal Google looks at, with smart fallbacks.
+
+### Audit it
+
+Start your dev server:
+
+```bash
+pnpm dev
+```
+
+In another terminal:
+
+```bash
+pnpm dlx @answerable/cli audit http://localhost:3000
+```
+
+You should see a score around 75–90 out of 100, with specific findings flagged for the remaining points. Each finding includes a fix recommendation and a link to its full documentation.
+
+### Wire it into CI
+
+```yaml filename=".github/workflows/seo.yml"
+- name: SEO audit
+  run: pnpm dlx @answerable/cli audit ${{ env.PREVIEW_URL }} --ci --min-score 80
+```
+
+The `--ci` flag exits non-zero if the score drops below `--min-score`. Fails the build, surfaces the regression in the PR check, and you fix before merging.
+
+</Steps>
+
+## Common questions
+
+### Why so few prompts during `init`?
+
+Indie-dev tools that ask seven questions get abandoned mid-init. We ask the three values nobody else can guess — project name, domain, contact email — and put `[Edit me]` placeholders everywhere else. Better to give you starter content that flags what to edit than to fake-prompt for things like legal jurisdiction.
+
+### What if I already have an /about page?
+
+`answerable init` prompts before overwriting any existing file. Say no and the existing file stays. Or run `answerable add <template>` for a specific template (skipping the others), still with the overwrite prompt.
+
+### Does this support frameworks other than Next.js?
+
+Phase 1 ships Next.js App Router only. Astro, Remix, SvelteKit, and Pages Router land in Phase 2. The schema generators are framework-agnostic — they return plain objects you can stringify into a `<script type="application/ld+json">` anywhere.
+
+## Next steps
+
+- **[The audit framework →](/docs/audit-framework)** — How scoring works, what the bands mean
+- **[All audit checks →](/docs/checks/A1)** — Every check, with rationale and fix recommendation
