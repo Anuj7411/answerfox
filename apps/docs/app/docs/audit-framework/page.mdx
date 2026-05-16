@@ -1,0 +1,84 @@
+import { Callout } from 'nextra/components';
+
+# The audit framework
+
+Every check has a stable ID, a category, a severity, a point weight, and a docs URL. The runner executes all registered checks in parallel against a fetched URL and rolls them up into one score.
+
+## Scoring model
+
+Each check returns one of four statuses:
+
+| Status | Meaning | Earned points |
+|---|---|---|
+| `pass` | The page satisfies the check | Full points |
+| `warn` | Present but suboptimal | 0 |
+| `fail` | Missing or broken | 0 |
+| `skip` | Couldn't evaluate (e.g. a check that throws is captured as `skip`) | Excluded from denominator |
+
+The final score is `(earned points / max points across non-skipped checks) × 100`, rounded to an integer. Skipped checks **don't count against you** — a partial run scores against its own denominator.
+
+## Score bands
+
+| Score | Band |
+|---|---|
+| 91–100 | Excellent |
+| 81–90 | Strong |
+| 61–80 | Average |
+| 41–60 | Weak |
+| 0–40 | Critical |
+
+## Categories
+
+The 50 checks (33 shipped today, 17 in Phase 2) divide into six categories:
+
+| Category | Shipped / total | Points (shipped / total) |
+|---|---|---|
+| **A — Meta & technical foundations** | 9 / 10 | 17 / 20 |
+| **B — Content structure & chunking** | 6 / 11 | 11 / 20 |
+| **C — Structured data** | 2 / 10 | 5 / 18 |
+| **D — E-E-A-T & entity authority** | 6 / 12 | 14 / 22 |
+| **E — Off-site / citation surface** | 4 / 8 | 7 / 12 |
+| **F — Open Graph & social** | 6 / 7 | 7 / 8 |
+| **Total** | **33 / 50** | **~63 / 100** |
+
+## Severity vs points
+
+Severity (`critical` / `high` / `medium` / `low`) is independent of point weight. A 1-point check can still be `critical` if it represents a basic must-have that doesn't earn many points but blocks the page from being considered properly built.
+
+The console reporter groups failures by severity descending, so users see what to fix first.
+
+<Callout type="info">
+  Severity colours: critical = red, high = yellow, medium = blue, low = grey.
+</Callout>
+
+## Sensible defaults
+
+Three checks deliberately *pass* when the page is correct-but-empty:
+
+- **A8 (robots meta)** passes on absent robots meta — the default is `index, follow`, which is correct for a live page. The check only fires on accidental `noindex` (the most common SEO own-goal) or contradictory directives.
+- **B3 (heading hierarchy)** skips when no h2 or h3 exist — no headings to evaluate.
+- **B4 (long-page chunking)** passes pages under 1500 characters of body text — short pages don't need h2 sectioning.
+
+These prevent the audit from punishing minimal pages.
+
+## Errors don't crash
+
+A check that throws is captured by the runner and emitted as `skip` with the error message attached. The audit always completes — important when one bad check on a hot fork can't take down the whole report.
+
+## What runs where
+
+| Where | Use it for |
+|---|---|
+| `runChecks({ url, html, dom })` | Pure runner; tests pass pre-parsed input |
+| `audit(url, options?)` | Convenience wrapper that fetches first |
+| `answerable audit <url>` | CLI; calls `audit()` |
+
+The pure runner is exported so library consumers (a hosted SaaS, a custom dashboard, a different fetcher) can build on top of it without re-implementing the orchestration.
+
+## Stable IDs
+
+Check IDs (`A1`, `A3`, etc.) are part of the public API. Once shipped, an ID never gets renumbered — even when intermediate IDs are reserved for Phase 2 checks. Users who pin `--ignore A4` in CI today can trust that A4 won't quietly become something else next release.
+
+## See every check
+
+- **[All audit checks →](/docs/checks/A1)**
