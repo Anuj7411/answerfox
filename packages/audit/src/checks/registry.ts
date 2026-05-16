@@ -9,8 +9,24 @@ import { a7Charset } from './a7-charset.js';
 import { a8Robots } from './a8-robots.js';
 import { a9Favicon } from './a9-favicon.js';
 import { a10AppleTouchIcon } from './a10-apple-touch.js';
+import { b1SingleH1 } from './b1-single-h1.js';
+import { b3HeadingHierarchy } from './b3-heading-hierarchy.js';
+import { b4H2Sections } from './b4-h2-sections.js';
+import { b8ExternalCitations } from './b8-external-citations.js';
+import { b11InternalLinks } from './b11-internal-links.js';
+import { b14ListsOrTables } from './b14-lists-or-tables.js';
 import { c1JsonLd } from './c1-json-ld.js';
 import { c2Organization } from './c2-organization.js';
+import { d1AboutPageLinked } from './d1-about-page-linked.js';
+import { d2PrivacyLinked } from './d2-privacy-linked.js';
+import { d3TermsLinked } from './d3-terms-linked.js';
+import { d4ContactAccessible } from './d4-contact-accessible.js';
+import { d5ChromeTrustLink } from './d5-chrome-trust-link.js';
+import { d6FooterTrustLinks } from './d6-footer-trust-links.js';
+import { e1ReviewProfile } from './e1-review-profile.js';
+import { e7GithubLinked } from './e7-github-linked.js';
+import { e10SameAsThree } from './e10-same-as-three.js';
+import { e11LinkedinLinked } from './e11-linkedin-linked.js';
 import { f1OgTitle } from './f1-og-title.js';
 import { f2OgDescription } from './f2-og-description.js';
 import { f3OgImage } from './f3-og-image.js';
@@ -34,8 +50,24 @@ export const DEFAULT_CHECKS: readonly Check<AuditDom>[] = [
   a8Robots,
   a9Favicon,
   a10AppleTouchIcon,
+  b1SingleH1,
+  b3HeadingHierarchy,
+  b4H2Sections,
+  b8ExternalCitations,
+  b11InternalLinks,
+  b14ListsOrTables,
   c1JsonLd,
   c2Organization,
+  d1AboutPageLinked,
+  d2PrivacyLinked,
+  d3TermsLinked,
+  d4ContactAccessible,
+  d5ChromeTrustLink,
+  d6FooterTrustLinks,
+  e1ReviewProfile,
+  e7GithubLinked,
+  e10SameAsThree,
+  e11LinkedinLinked,
   f1OgTitle,
   f2OgDescription,
   f3OgImage,
