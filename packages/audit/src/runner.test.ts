@@ -22,9 +22,30 @@ const PERFECT_HTML = `<html lang="en">
     <meta property="og:url" content="https://example.com/page">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://example.com/og.png">
-    <script type="application/ld+json">{"@type":"Organization","name":"Acme"}</script>
+    <script type="application/ld+json">{"@type":"Organization","name":"Acme","sameAs":["https://twitter.com/acme","https://linkedin.com/company/acme","https://github.com/acme"]}</script>
   </head>
-  <body><h1>Hi</h1></body>
+  <body>
+    <nav><a href="/about">About</a> · <a href="/pricing">Pricing</a></nav>
+    <main>
+      <h1>The one and only h1</h1>
+      <h2>Section A</h2>
+      <p>Some intro prose for section A.</p>
+      <h2>Section B</h2>
+      <h3>Subsection of B</h3>
+      <ul>
+        <li><a href="/page-a">Page A</a></li>
+        <li><a href="/page-b">Page B</a></li>
+        <li><a href="/page-c">Page C</a></li>
+      </ul>
+      <p>External: <a href="https://research.org/paper">research</a>.</p>
+      <p>Profiles: <a href="https://g2.com/products/acme">G2</a>, <a href="https://github.com/acme">GitHub</a>, <a href="https://linkedin.com/company/acme">LinkedIn</a>.</p>
+    </main>
+    <footer>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/contact">Contact</a>
+    </footer>
+  </body>
 </html>`;
 
 const EMPTY_HTML = '<html></html>';
@@ -34,7 +55,7 @@ describe('runChecks', () => {
     const report = await runChecks({ url: URL, html: PERFECT_HTML, dom: loadHtml(PERFECT_HTML) });
     expect(report.score).toBe(100);
     expect(report.band).toBe('excellent');
-    expect(report.summary.pass).toBe(17);
+    expect(report.summary.pass).toBe(33);
     expect(report.summary.fail).toBe(0);
   });
 
@@ -61,8 +82,24 @@ describe('runChecks', () => {
       'A8',
       'A9',
       'A10',
+      'B1',
+      'B3',
+      'B4',
+      'B8',
+      'B11',
+      'B14',
       'C1',
       'C2',
+      'D1',
+      'D2',
+      'D3',
+      'D4',
+      'D5',
+      'D6',
+      'E1',
+      'E7',
+      'E10',
+      'E11',
       'F1',
       'F2',
       'F3',

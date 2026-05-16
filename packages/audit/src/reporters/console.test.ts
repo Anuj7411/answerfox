@@ -22,9 +22,28 @@ const PERFECT_HTML = `<html lang="en">
     <meta property="og:url" content="https://example.com/page">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://example.com/og.png">
-    <script type="application/ld+json">{"@type":"Organization","name":"Acme"}</script>
+    <script type="application/ld+json">{"@type":"Organization","name":"Acme","sameAs":["https://twitter.com/acme","https://linkedin.com/company/acme","https://github.com/acme"]}</script>
   </head>
-  <body></body>
+  <body>
+    <nav><a href="/about">About</a></nav>
+    <main>
+      <h1>The one and only h1</h1>
+      <h2>Section A</h2>
+      <h2>Section B</h2>
+      <ul>
+        <li><a href="/page-a">A</a></li>
+        <li><a href="/page-b">B</a></li>
+        <li><a href="/page-c">C</a></li>
+      </ul>
+      <p>External: <a href="https://research.org">research</a>.</p>
+      <p>Profiles: <a href="https://g2.com/products/acme">G2</a>, <a href="https://github.com/acme">GitHub</a>, <a href="https://linkedin.com/company/acme">LinkedIn</a>.</p>
+    </main>
+    <footer>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/contact">Contact</a>
+    </footer>
+  </body>
 </html>`;
 
 const BROKEN_HTML = '<html><head></head><body></body></html>';
@@ -52,7 +71,7 @@ describe('consoleReport', () => {
   it('lists every passed check at the bottom under [PASSED]', async () => {
     const report = await runChecks({ url: URL, html: PERFECT_HTML, dom: loadHtml(PERFECT_HTML) });
     const out = consoleReport(report, { color: false });
-    expect(out).toContain('[PASSED] 17');
+    expect(out).toContain('[PASSED] 33');
     expect(out).toContain('A1');
     expect(out).toContain('C1');
   });
