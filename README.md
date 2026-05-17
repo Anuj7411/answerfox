@@ -131,9 +131,14 @@ pnpm dlx @answerable-kit/cli audit ${PREVIEW_URL} --ci --min-score 80
 
 ## Status
 
-**Pre-1.0.** All seven library packages are built and tested in-repo (441 tests, all passing). The audit engine ships 33 of 50 checks covering ~63 of 100 points. CLI flow works end-to-end against any Next.js site.
+**v0.1.0 is live on npm.** All seven library packages publish under the [`@answerable-kit/*`](https://www.npmjs.com/org/answerable-kit) scope (441 tests passing). The audit engine ships 33 of 50 checks covering ~63 of 100 points. CLI flow works end-to-end against any Next.js site.
 
-**First npm publish lands when the audit framework reaches 50/50 checks.** Until then, you can clone this repo and use packages via `pnpm link` — see [CONTRIBUTING.md](./CONTRIBUTING.md). Star and watch the repo to follow along.
+```bash
+# Try it on any URL — no install needed:
+pnpm dlx @answerable-kit/cli audit https://example.com
+```
+
+The remaining 17 audit checks land incrementally on the path to 50/50. Star and watch the repo to follow releases.
 
 Phase 1 is feature-complete except for: remaining 17 audit checks, the docs site, and one more real-world example (Sotto). See [ROADMAP.md](./docs/internal/ROADMAP.md) for the full Phase 1 / 2 / 3 breakdown.
 

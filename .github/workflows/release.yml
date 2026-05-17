@@ -59,10 +59,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          # Provenance is temporarily disabled for the v0.1.0 bootstrap
-          # publish. npm rejects first-publishes-with-provenance for new
-          # packages unless a Trusted Publisher is pre-configured on the
-          # scope. Re-enable once at least one package exists in
-          # @answerable-kit/* (i.e. starting with v0.1.1), or configure
-          # GitHub Actions as a Trusted Publisher on each package.
-          # NPM_CONFIG_PROVENANCE: 'true'
+          # Emit a build provenance attestation (verifiable supply-chain
+          # claim signed via the `id-token: write` permission above).
+          # Visible on the npm package page and verifiable at install
+          # time. Was temporarily disabled for the v0.1.0 bootstrap
+          # publish — re-enabled now that the packages exist on npm.
+          NPM_CONFIG_PROVENANCE: 'true'
