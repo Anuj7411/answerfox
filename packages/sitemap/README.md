@@ -2,7 +2,7 @@
 
 Sitemap builder for the [Answerable](https://github.com/Anuj7411/answerable) SEO toolkit. Takes a list of paths, applies smart defaults inferred from path patterns, and returns a Next.js-compatible `MetadataRoute.Sitemap`.
 
-> **Pre-alpha.** Only `buildSitemap()` and `sitemapIndex()` ship today.
+> **v0.1.0.** `buildSitemap()` and `sitemapIndex()` ship today with smart path-based defaults for priority and change frequency.
 
 ## Install
 

@@ -2,7 +2,7 @@
 
 Type-safe JSON-LD generators for the [Answerable](https://github.com/Anuj7411/answerable) SEO toolkit. Each generator returns a fully-typed `WithContext<T>` object validated at the type level by [`schema-dts`](https://github.com/google/schema-dts).
 
-> **Pre-alpha.** Only `organization()` and `webSite()` ship today. Eight generators land in Phase 1 — see the [project roadmap](../../docs/internal/ROADMAP.md).
+> **v0.1.0.** All eight generators ship today: `organization`, `webSite`, `article`, `breadcrumb`, `faqPage`, `howTo`, `product`, and `softwareApplication`.
 
 ## Install
 

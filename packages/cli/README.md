@@ -2,7 +2,7 @@
 
 The `answerable` command. Wraps the [Answerable](https://github.com/Anuj7411/answerable) audit engine for terminal + CI use.
 
-> **Pre-alpha.** `audit` and `explain` ship today. `init`, `add`, and `verify` land in subsequent PRs.
+> **v0.1.0.** `audit`, `explain`, `init`, and `add` ship today. `verify` lands in a subsequent release.
 
 ## Install
 

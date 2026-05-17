@@ -2,7 +2,7 @@
 
 Next.js App Router metadata helpers for the [Answerable](https://github.com/Anuj7411/answerable) SEO toolkit. Compose `title`, `description`, canonical URL, OpenGraph, Twitter, and robots directives from a single typed input — with smart fallbacks across the social-card chain.
 
-> **Pre-alpha.** Only `defineSeo()` ships today. More helpers (`defineRobots()`, `defineOg()`) land in Phase 1 — see the [project roadmap](../../docs/internal/ROADMAP.md).
+> **v0.1.0.** `defineSeo()` ships today and is stable. Additional helpers (`defineRobots()`, `defineOg()`) are tracked on the [roadmap](../../docs/internal/ROADMAP.md).
 
 ## Install
 

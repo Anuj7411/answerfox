@@ -2,7 +2,7 @@
 
 The audit engine for the [Answerable](https://github.com/Anuj7411/answerable) SEO toolkit. Fetches a target URL, parses the HTML, runs every registered check in parallel, and returns a structured report with score, severity-grouped findings, evidence, and fix recommendations.
 
-> **Pre-alpha.** Foundations + first 5 checks ship today. The full 50-check framework lands across subsequent PRs — see [AUDIT-FRAMEWORK.md](../../docs/internal/AUDIT-FRAMEWORK.md).
+> **v0.1.0.** Foundations + 33 of 50 audit checks ship today (~63 of 100 score points). The remaining 17 checks land incrementally — see [AUDIT-FRAMEWORK.md](../../docs/internal/AUDIT-FRAMEWORK.md).
 
 ## Install
 
