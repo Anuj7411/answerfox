@@ -1,6 +1,6 @@
 {
   "name": "@answerable-kit/cli",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "The `answerable` command — runs audits, prints reports, explains checks.",
   "license": "MIT",
   "author": "Anuj Ojha",
@@ -23,7 +23,10 @@
   "bin": {
     "answerable": "./dist/bin.js"
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "sideEffects": false,
   "publishConfig": {
     "access": "public"

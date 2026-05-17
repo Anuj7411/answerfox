@@ -1,6 +1,6 @@
 {
   "name": "@answerable-kit/docs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "answerable.dev — documentation site for the Answerable SEO toolkit.",
   "type": "module",

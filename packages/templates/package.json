@@ -1,6 +1,6 @@
 {
   "name": "@answerable-kit/templates",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Page templates (About, Privacy, Terms, FAQ, Contact) for the Answerable SEO toolkit. Installed into user projects by the CLI.",
   "license": "MIT",
   "author": "Anuj Ojha",
@@ -20,7 +20,10 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "sideEffects": false,
   "publishConfig": {
     "access": "public"

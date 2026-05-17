@@ -1,6 +1,6 @@
 {
   "name": "@answerable-kit/core",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Shared types, utilities, and error classes for the Answerable SEO toolkit.",
   "license": "MIT",
   "author": "Anuj Ojha",
@@ -20,7 +20,10 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "sideEffects": false,
   "publishConfig": {
     "access": "public"

@@ -1,6 +1,6 @@
 {
   "name": "@answerable-kit/example-basic-nextjs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Minimal Next.js App Router example demonstrating every @answerable-kit/* package wired together.",
   "type": "module",
