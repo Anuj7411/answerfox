@@ -1,5 +1,15 @@
 # @answerable-kit/example-basic-nextjs
 
+## 0.0.2
+
+### Patch Changes
+
+- Updated dependencies [07e0c2f]
+  - @answerable-kit/audit@0.1.1
+  - @answerable-kit/metadata@0.1.1
+  - @answerable-kit/schemas@0.1.1
+  - @answerable-kit/sitemap@0.1.1
+
 ## 0.0.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@answerable-kit/sitemap",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Sitemap builder with smart path-based defaults for the Answerable SEO toolkit.",
   "license": "MIT",
   "author": "Anuj Ojha",
@@ -20,7 +20,10 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "sideEffects": false,
   "publishConfig": {
     "access": "public"

@@ -1,5 +1,13 @@
 # @answerable-kit/audit
 
+## 0.1.1
+
+### Patch Changes
+
+- 07e0c2f: Refresh package README headers: replace stale "Pre-alpha" notices with accurate v0.1.0 release context. No code or API changes — documentation only.
+- Updated dependencies [07e0c2f]
+  - @answerable-kit/core@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes
