@@ -8,7 +8,7 @@
 
 ## 1. The One Sentence
 
-> **Answerable is the only open-source AI-SEO toolkit that lives in your codebase and ships fixes as code.**
+> **Answerable is the only open-source AI-SEO toolkit (SEO + AEO + GEO unified) that lives in your codebase and ships fixes as code.**
 
 If this sentence stops being true, we have lost. Every feature, page, tweet, and PR is judged against it.
 
@@ -23,6 +23,7 @@ If this sentence stops being true, we have lost. Every feature, page, tweet, and
 | **Business model** | OSS engine (free forever) + Hosted SaaS (the revenue engine) | Resolves the "OSS vs SaaS" false choice |
 | **License strategy** | MIT today → AGPL on cloud-critical packages when needed | Protects against AWS-style cloud cloning while keeping community trust |
 | **AI-fix-as-code** | MVP must-have | This is the magic moment that wins ProductHunt and conversions |
+| **Unified SEO/AEO/GEO scoring** | Ships in v0.2.0 (Phase 1, week 1) | Core differentiator. Not marketing copy — actual three-score engine output. |
 | **Pricing tiers** | Free OSS · Pro $29/mo · Studio $99/mo | Lowest viable for indie devs; competitive vs Otterly ($29) |
 | **NOT competing with** | Profound (enterprise), Peec (mid-market), HubSpot AEO (CRM lead-gen) | Different customers, different price points |
 | **What we don't build** | Agency white-label · Multi-user teams (v1) · Enterprise SSO · Marketing CRM | Focus is the weapon |
@@ -251,9 +252,10 @@ Every step reinforces the three pillars. Every step is something competitors don
 | Auto-PR to GitHub | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | **✅** |
 | Indie pricing (<$30) | ❌ | ❌ | ✅ | ❌ | ✅ free | ? | **✅** |
 | Citation tracking | ✅ | ✅ | ✅ | ✅ | ✅ | vapor | **✅** |
-| **Total unique check ✅** | 1 | 1 | 2 | 1 | 2 | 0 | **9** |
+| **Unified SEO + AEO + GEO scoring** (3 scores, 1 tool) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | **✅** |
+| **Total unique check ✅** | 1 | 1 | 2 | 1 | 2 | 0 | **10** |
 
-**Answerable has 9 differentiators. The next closest competitor has 2.**
+**Answerable has 10 differentiators. The next closest competitor has 2.**
 
 That is what "stand unique in market" actually looks like when you write it down.
 
@@ -277,6 +279,104 @@ Personal bios, expert pages, author bylines, and verifiable credentials become f
 
 ### Bet 5: SEO becomes a programming concern, not a marketing concern (medium-high confidence)
 The line between "developer" and "SEO specialist" blurs as schema, performance, and AI-readiness become code-level concerns. We are the first tool built for this shift. We will be a category creator if we move fast enough.
+
+---
+
+## 7.5. SEO + AEO + GEO Coverage (The Unified Scoring Doctrine)
+
+This is the differentiator no competitor has. Read this section twice.
+
+### The three optimization games
+
+| Term | Stands for | What it optimizes for | Example |
+|---|---|---|---|
+| **SEO** | Search Engine Optimization | Rankings on Google/Bing — the 30-year game | "How do I rank #1 for 'best React framework'?" |
+| **AEO** | Answer Engine Optimization | Featured Snippets, "People Also Ask," voice assistants, AI chatbot answers | "Siri, what's the best React framework?" → Siri reads YOUR answer aloud |
+| **GEO** | Generative Engine Optimization | Citations *as a source* in generative AI responses — ChatGPT, Perplexity, Gemini, Claude, Copilot | ChatGPT writes "Next.js is recommended by [yoursite.com] for…" |
+
+### How they relate
+
+```
+                   ┌─────────────────────────────────────┐
+                   │           SEO (broadest)            │
+                   │   Google rankings, page speed,      │
+                   │   keywords, backlinks, meta tags    │
+                   │                                     │
+                   │   ┌─────────────────────────────┐   │
+                   │   │   AEO (answer-shaped SEO)   │   │
+                   │   │  Featured Snippets, voice,  │   │
+                   │   │  Q&A formatting, schema     │   │
+                   │   │                             │   │
+                   │   │  ┌────────────────────────┐ │   │
+                   │   │  │  GEO (AI-source SEO)   │ │   │
+                   │   │  │  ChatGPT/Perplexity    │ │   │
+                   │   │  │  citations, llms.txt,  │ │   │
+                   │   │  │  chunkability, E-E-A-T │ │   │
+                   │   │  └────────────────────────┘ │   │
+                   │   └─────────────────────────────┘   │
+                   └─────────────────────────────────────┘
+```
+
+GEO is a subset of AEO. AEO is a subset of SEO. But each has unique tactics. A site can have great SEO and terrible GEO (e.g., excellent backlinks but no `llms.txt`, no schema, no E-E-A-T signals).
+
+### How Answerable's 50-check framework maps
+
+Every check is tagged by which engine type it serves. Most checks serve multiple. The mapping:
+
+| Category | Total checks | SEO | AEO | GEO | Notes |
+|---|---|---|---|---|---|
+| A — Meta & technical | 10 | 10 | 10 | 10 | Foundation — all three care |
+| B — Content & chunking | 11 | 7 | **11** | **11** | "Chunking" is literally a GEO term |
+| C — Structured data | 10 | 8 | **10** | **10** | Schema is mandatory for AEO/GEO |
+| D — E-E-A-T & authority | 12 | 8 | 10 | **12** | E-E-A-T is THE GEO ranking factor |
+| E — Off-site citations | 8 | 5 | 6 | **8** | Brand mentions drive AI citations |
+| F — OpenGraph & social | 7 | 7 | 3 | 3 | Mostly traditional social SEO |
+| **TOTALS** | **50** | **45** | **50** | **54** | (some checks count for multiple engines weighted) |
+
+### What the user actually sees
+
+Instead of one score, three scores. Side by side. With sub-explanations:
+
+```
+Audit · https://mysite.com
+
+╭─ Overall ───────────╮  ╭─ SEO ──────────────╮  ╭─ AEO ──────────────╮  ╭─ GEO ──────────────╮
+│                     │  │                     │  │                     │  │                     │
+│      87 / 100       │  │      92 / 100       │  │      83 / 100       │  │      71 / 100       │
+│      Strong         │  │      Excellent      │  │      Strong         │  │      Average        │
+│                     │  │                     │  │                     │  │                     │
+╰─────────────────────╯  ╰─────────────────────╯  ╰─────────────────────╯  ╰─────────────────────╯
+
+You score well on traditional SEO. Your AI search visibility (GEO) lags behind —
+3 fixes would close the gap. Run: pnpm dlx @answerable-kit/cli explain GEO
+```
+
+Now the user knows *exactly* where to focus. A SaaS founder probably wants GEO. A blog wants AEO. A doc site wants all three. **One tool. Three honest scores. No misleading aggregate.**
+
+### Why this is uncopyable in the short term
+
+To copy this, a competitor would need to:
+1. Build (or buy) a 50+ check framework
+2. Research which engine type each check serves
+3. Implement the tagging system
+4. Rebuild their UI to show three scores
+5. Get their marketing team to stop using their existing single-term branding ("AI search visibility")
+
+That's a 6-12 month project for a funded team. By then we own the term **"unified AI-SEO scoring"** in the developer community. They'd be following us, not the other way around.
+
+### The 5 GEO-specific checks we ship in v0.2.0
+
+To make the GEO column real, not just a label, we add these to the existing 33 checks:
+
+| New check | What it checks | Why GEO cares |
+|---|---|---|
+| **G1: `llms.txt` present** | File at `/llms.txt` with sitemap-style content for LLMs | Emerging standard, like robots.txt for AI |
+| **G2: Content chunkability** | Sections under 200 words, clear H2/H3 hierarchy, no JS-rendered content | LLMs retrieve in chunks; un-chunked content gets ignored |
+| **G3: Author byline present** | Each content page has visible `byline`/author | E-E-A-T signal, LLMs cite attributed content more |
+| **G4: Date markers visible** | `datePublished` + `dateModified` in schema + visible on page | Freshness is a major AI ranking factor |
+| **G5: Citation-ready paragraphs** | Each paragraph makes one factual claim with optional source | LLMs lift paragraph-shaped content directly |
+
+After v0.2.0: **38 checks shipped of an expanded 55-check framework** (50 original + 5 GEO). Coverage rises from 63% to 69% of points.
 
 ---
 
@@ -367,17 +467,35 @@ This is the executable plan that flows from this positioning. Each phase is a si
 
 ### Phase 1 — Polish the OSS (weeks 1-3)
 
-Goal: make the OSS credible enough to underpin paid SaaS.
+Goal: make the OSS credible enough to underpin paid SaaS. The first week is the differentiator-engine work; weeks 2-3 are polish.
 
+**Week 1 — Ship SEO/AEO/GEO unified scoring (v0.2.0). FIRST. Before anything else.**
+
+This is the differentiator. Everything else builds on this engine output, so it must land first.
+
+- Day 1: Add `engines: ('seo' | 'aeo' | 'geo')[]` field to `Check<T>` interface in `@answerable-kit/core`
+- Day 1: Tag all 33 existing checks with the engines they serve in `@answerable-kit/audit` registry
+- Day 2: Add `computeScoresByEngine()` to runner — returns `{seo, aeo, geo, aggregate}`
+- Day 2: Update `consoleReport()` to render three score boxes + aggregate (see Section 7.5 mockup)
+- Day 3: Add 5 GEO-specific checks (G1-G5 from Section 7.5): `llms.txt`, content chunkability, author bylines, date markers, citation-ready paragraphs
+- Day 4: Update CLI output formatting and `pnpm dlx @answerable-kit/cli audit` command
+- Day 5: Update `AUDIT-FRAMEWORK.md` spec; ship v0.2.0 (minor bump because of new exported field)
+
+**Week 2 — Polish + new public artifacts**
+
+- Generate HTML report output from CLI (`--html report.html`) — must show three scores
 - Fix the Nextra docs site build (currently broken)
-- Add an `llms.txt` check to the audit framework (free trend bet)
-- Generate HTML report output from CLI (`--html report.html`)
-- Add 5 easy unshipped checks (B5, C3, C9 + 2 more) to push from 33/50 → 38/50
-- Update README and docs site with new positioning sentence
-- Add ProductHunt-quality landing page
-- Write 1 launch-quality blog post: "Why I open-sourced an AI-SEO toolkit"
+- Update README and docs site with new positioning sentence and SEO+AEO+GEO explanation
+- Add ProductHunt-quality landing page (visual design — separate work)
 
-**Outcome:** OSS feels like a real, polished product. 500+ GitHub stars achievable.
+**Week 3 — Content and momentum**
+
+- Write 1 launch-quality blog post: "Why I open-sourced an AI-SEO toolkit" (with SEO/AEO/GEO scoring breakdown)
+- Audit 10 famous sites (Vercel, Stripe, Linear, Notion, etc.) with the new three-score system; tweet results
+- Reach out to 5 dev influencers for private beta access
+- Submit to Hacker News with the three-score angle
+
+**Outcome:** OSS feels like a real, polished, *unique* product. 500+ GitHub stars achievable. The differentiator is live and demonstrable, not marketing copy.
 
 ### Phase 2 — Build the SaaS MVP (weeks 4-8)
 
@@ -443,7 +561,7 @@ Things that will kill this strategy. Watch for them.
 
 ## 13. The Single Sentence (One More Time)
 
-> **Answerable is the only open-source AI-SEO toolkit that lives in your codebase and ships fixes as code.**
+> **Answerable is the only open-source AI-SEO toolkit (SEO + AEO + GEO unified) that lives in your codebase and ships fixes as code.**
 
 Pin this on your wall. Make it the top of your Twitter bio. Put it in every README. Say it in every interview.
 
