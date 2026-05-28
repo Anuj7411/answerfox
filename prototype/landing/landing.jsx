@@ -10,14 +10,26 @@ function Landing() {
   return (
     <div className="screen" data-screen-label="Landing" style={{ '--ember': '#E87B2C' }}>
       <Bloom opts={{
-        base: '#C9C5BE',
-        ember: [232, 123, 44],
-        core: [232, 100, 30],
-        intensity: 0.86,
-        cx: 0.80, cy: 0.24, radius: 0.56,
+        /* v3.3 — slate lifted ~12 points and ember brightened so
+           the multiply blend stops landing in brown territory. */
+        base: '#D6D2CB',
+        ember: [248, 148, 68],
+        core: [250, 142, 60],
+        intensity: 0.80,
+        cx: 0.80, cy: 0.24, radius: 0.46,
+
+        /* orbital drift, kept clearly visible */
+        orbitX: 0.14, orbitY: 0.09, orbitPeriod: 26,
+
+        /* counter-bloom: quiet cool shape drifts opposite the ember
+           to give the slate parallax depth. Subtle but you feel it. */
+        counterBloom: { rgb: [120, 132, 148], a: 0.18 },
+
+        /* slow tonal sweep across the full canvas */
+        tonePeriod: 38,
+
         period: 22, breathAmp: 0.06,
         grainMul: 0.14, grainTime: 3.2,
-        tonePeriod: 60,
         renderScale: 0.82,
         fps: 30,
         w: 1440, h: 900,
