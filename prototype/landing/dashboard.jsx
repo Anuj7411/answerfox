@@ -26,8 +26,8 @@ function Dashboard() {
         ember: [248, 148, 68],
         core: [250, 142, 60],
         intensity: 0.35,
-        cx: 0.85, cy: 0.18, radius: 0.50,
-        orbitX: 0.10, orbitY: 0.06, orbitPeriod: 28,
+        cx: 0.50, cy: 0.46, radius: 0.50,
+        orbitX: 0.42, orbitY: 0.34, orbitPeriod: 46,
         period: 22, breathAmp: 0.06,
         grainMul: 0.13, grainTime: 3.2,
         tonePeriod: 42,
@@ -138,7 +138,7 @@ function ScoreCard(props) {
     <div className={'db-score-card' + (props.aggregate ? ' aggregate' : '')}>
       <div className="label">
         <span>{props.label}</span>
-        {trend === 'up'   && <span style={{ marginLeft: 'auto', color: 'var(--lime)', fontSize: 10 }}>▲ improving</span>}
+        {trend === 'up'   && <span style={{ marginLeft: 'auto', color: 'var(--positive)', fontSize: 10, fontWeight: 600 }}>▲ improving</span>}
         {trend === 'down' && <span style={{ marginLeft: 'auto', color: 'var(--magenta)', fontSize: 10 }}>▼ declining</span>}
         {props.sub        && <span style={{ marginLeft: 'auto', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontSize: 11 }}>{props.sub}</span>}
       </div>
