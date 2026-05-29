@@ -9,7 +9,7 @@ export const b3HeadingHierarchy = defineCheck<AuditDom>({
   description: 'Logical heading hierarchy (h2 before h3, no skipped levels)',
   rationale:
     'Screen readers and AI extraction models use heading order as the document outline. Skipping from h1 → h3 (with no h2 between) tells them the h3 is a subsection of nothing, which breaks chunking.',
-  docsUrl: 'https://answerable.dev/docs/checks/B3',
+  docsUrl: 'https://answerfox.dev/docs/checks/B3',
   run: ({ dom }) => {
     const headings = dom('h2, h3');
     if (headings.length === 0) {

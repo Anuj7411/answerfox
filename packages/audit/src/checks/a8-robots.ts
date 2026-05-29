@@ -9,7 +9,7 @@ export const a8Robots = defineCheck<AuditDom>({
   description: 'Robots meta consistent with intent (no accidental noindex)',
   rationale:
     'A stray `noindex` is the most common SEO own-goal — usually left over from a staging environment. Pages with noindex never rank, period. This check flags any robots directive that could be hiding the page from search.',
-  docsUrl: 'https://answerable.dev/docs/checks/A8',
+  docsUrl: 'https://answerfox.dev/docs/checks/A8',
   run: ({ dom }) => {
     const content = dom('meta[name="robots"]').attr('content')?.trim().toLowerCase() ?? '';
     if (!content) {

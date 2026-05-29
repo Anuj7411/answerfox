@@ -9,7 +9,7 @@ export const b14ListsOrTables = defineCheck<AuditDom>({
   description: 'Page uses lists (<ul>/<ol>) or tables for structured content',
   rationale:
     'AI answer engines preferentially extract content presented as lists and tables — they parse as structured data, not prose. A comparison written as a paragraph rarely gets surfaced; the same comparison in a table often does.',
-  docsUrl: 'https://answerable.dev/docs/checks/B14',
+  docsUrl: 'https://answerfox.dev/docs/checks/B14',
   run: ({ dom }) => {
     const ul = dom('ul').length;
     const ol = dom('ol').length;

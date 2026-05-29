@@ -9,7 +9,7 @@ export const f2OgDescription = defineCheck<AuditDom>({
   description: 'og:description set',
   rationale:
     'Open Graph description is the body text underneath the link preview when your page is shared. Without it, social platforms either pull from meta description (if you have one) or leave the snippet blank — which kills click-through.',
-  docsUrl: 'https://answerable.dev/docs/checks/F2',
+  docsUrl: 'https://answerfox.dev/docs/checks/F2',
   run: ({ dom }) => {
     const content = dom('meta[property="og:description"]').attr('content')?.trim() ?? '';
     if (!content) {

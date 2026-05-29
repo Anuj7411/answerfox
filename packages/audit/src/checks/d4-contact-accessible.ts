@@ -9,7 +9,7 @@ export const d4ContactAccessible = defineCheck<AuditDom>({
   description: 'Contact information accessible from this page',
   rationale:
     'A clear way to reach the team is an E-E-A-T baseline. Either a /contact page or a visible mailto: link counts — but one of them must be present, or AI engines (and humans) flag the site as untrustworthy.',
-  docsUrl: 'https://answerable.dev/docs/checks/D4',
+  docsUrl: 'https://answerfox.dev/docs/checks/D4',
   run: ({ dom }) => {
     const contactLinks = dom('a[href]').filter((_, el) => {
       const href = dom(el).attr('href') ?? '';

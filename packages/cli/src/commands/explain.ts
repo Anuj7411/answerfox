@@ -26,7 +26,7 @@ function makeStyles(useColor: boolean): Styles {
 }
 
 /**
- * Pure, testable runner for `answerable explain <check-id>`.
+ * Pure, testable runner for `answerfox explain <check-id>`.
  *
  * - Exit 0: check found, full doc printed to stdout
  * - Exit 2: unknown check ID; error message includes the available IDs

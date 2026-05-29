@@ -144,7 +144,7 @@ export function registerAddCommand(program: Command): void {
     .description('Install specific templates (about, privacy, terms, faq, contact)')
     .action(async (templates: string[]) => {
       const deps: AddCommandDeps = { fs: new NodeFs(), prompter: new ClackPrompter() };
-      // Support comma-separated form: `answerable add about,faq`
+      // Support comma-separated form: `answerfox add about,faq`
       const names = templates.flatMap((t) =>
         t
           .split(',')

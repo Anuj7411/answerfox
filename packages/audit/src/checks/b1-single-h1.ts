@@ -9,7 +9,7 @@ export const b1SingleH1 = defineCheck<AuditDom>({
   description: 'Exactly one <h1> on the page',
   rationale:
     'Search engines and AI answer engines use the <h1> to identify the primary topic of the page. Zero h1s leaves them guessing; multiple h1s split the signal and dilute ranking authority.',
-  docsUrl: 'https://answerable.dev/docs/checks/B1',
+  docsUrl: 'https://answerfox.dev/docs/checks/B1',
   run: ({ dom }) => {
     const h1s = dom('h1');
     if (h1s.length === 0) {

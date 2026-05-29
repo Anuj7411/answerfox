@@ -9,7 +9,7 @@ export const f7TwitterImage = defineCheck<AuditDom>({
   description: 'twitter:image declared (or og:image fallback acceptable)',
   rationale:
     'X (Twitter) falls back to og:image when twitter:image is missing, which is fine for most cases. Set a dedicated twitter:image only when the share preview should differ from the OG image (e.g. text-optimised crop for the 2:1 Twitter aspect).',
-  docsUrl: 'https://answerable.dev/docs/checks/F7',
+  docsUrl: 'https://answerfox.dev/docs/checks/F7',
   run: ({ dom }) => {
     const twitterImage = dom('meta[name="twitter:image"]').attr('content')?.trim();
     if (twitterImage !== undefined && twitterImage !== '') {

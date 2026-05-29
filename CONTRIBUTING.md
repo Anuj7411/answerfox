@@ -10,7 +10,7 @@ Thanks for your interest in Answerfox! This project is in pre-alpha — the publ
 
 ```bash
 git clone https://github.com/Anuj7411/answerfox.git
-cd answerable
+cd answerfox
 pnpm install
 pnpm check    # runs typecheck + lint + tests
 ```

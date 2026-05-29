@@ -2,7 +2,7 @@
 
 The documentation site for [Answerfox](https://github.com/Anuj7411/answerfox), built with [Nextra 4](https://nextra.site/) on Next.js 15 App Router.
 
-Lives at https://answerable.dev when deployed; runs at http://localhost:3000 locally.
+Lives at https://answerfox.dev when deployed; runs at http://localhost:3000 locally.
 
 ## Run it
 

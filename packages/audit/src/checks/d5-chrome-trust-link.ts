@@ -9,7 +9,7 @@ export const d5ChromeTrustLink = defineCheck<AuditDom>({
   description: 'About / Trust link present in <nav> or <header>',
   rationale:
     'A trust link in the site chrome (nav or header) tells both users and crawlers that the site stands behind a public identity. Hiding About-style pages in a deep menu signals the opposite.',
-  docsUrl: 'https://answerable.dev/docs/checks/D5',
+  docsUrl: 'https://answerfox.dev/docs/checks/D5',
   run: ({ dom }) => {
     const chromeLinks = dom('nav a[href], header a[href]').filter((_, el) => {
       const href = dom(el).attr('href') ?? '';

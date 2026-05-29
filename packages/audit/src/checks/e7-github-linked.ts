@@ -9,7 +9,7 @@ export const e7GithubLinked = defineCheck<AuditDom>({
   description: 'GitHub profile / repository linked from the page',
   rationale:
     'For technical products, GitHub is the canonical proof-of-work surface. A visible GitHub link tells AI engines (and developer users) you ship real code; absence is a soft red flag for any dev-tools product.',
-  docsUrl: 'https://answerable.dev/docs/checks/E7',
+  docsUrl: 'https://answerfox.dev/docs/checks/E7',
   run: ({ dom }) => {
     const links = dom('a[href]').filter((_, el) => {
       const href = (dom(el).attr('href') ?? '').toLowerCase();

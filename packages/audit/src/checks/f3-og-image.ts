@@ -9,7 +9,7 @@ export const f3OgImage = defineCheck<AuditDom>({
   description: 'og:image declared with an absolute http(s) URL',
   rationale:
     'The Open Graph image is the single biggest driver of social-share click-through. A 1200×630 dedicated image roughly triples engagement vs no image. Relative URLs are valid spec but crawled inconsistently — Facebook and LinkedIn both prefer absolute.',
-  docsUrl: 'https://answerable.dev/docs/checks/F3',
+  docsUrl: 'https://answerfox.dev/docs/checks/F3',
   run: ({ dom }) => {
     const content = dom('meta[property="og:image"]').attr('content')?.trim() ?? '';
     if (!content) {

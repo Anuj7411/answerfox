@@ -143,7 +143,7 @@ Fourteen features ship in v1.0. Every feature listed is mandatory. Every feature
 |---|---|---|---|
 | F1 | **Audit engine with three scores** | OSS package + Web | The 55-check framework. Returns SEO score, AEO score, GEO score, and Aggregate. Already shipped in OSS as v0.2.0. Web surface shows the same data visually. |
 | F2 | **CLI commands** | OSS | `pnpm dlx @answerfox/cli audit <url>` and `explain <check_id>` and `init` and `add`. Already shipped. |
-| F3 | **GitHub Action** | OSS | A reusable workflow at `answerable/audit-action@v1` that runs on PR and comments score delta. Free for OSS use. |
+| F3 | **GitHub Action** | OSS | A reusable workflow at `answerfox/audit-action@v1` that runs on PR and comments score delta. Free for OSS use. |
 | F4 | **Public score badge** | OSS + Web | Markdown-embeddable badge: `![Answerfox Score](https://answerfox.dev/badge/<domain>)`. Generates an SVG with the three scores. Caches 24 hours. Free distribution amplifier. |
 | F5 | **Web dashboard (latest audit only)** | Web | Sign-in with GitHub or Google. View only the most recent audit for one site. No historical view. Re-audit rate limited to 3 per day. Sharpens the upgrade path: if you want to see how your site improves over time, you need Pro. |
 
@@ -166,7 +166,7 @@ These three features serve both tiers. They are not differentiators and do not a
 |---|---|---|---|
 | F12 | **Authentication** | Web | OAuth via GitHub (primary) and Google (secondary). No email/password in v1. WorkOS AuthKit or Clerk for implementation. |
 | F13 | **Billing** | Web | Stripe Checkout for Pro subscription. Webhook-handled subscription lifecycle. Cancel anytime. Annual option (15% discount). |
-| F14 | **Site verification** | Web | Verify ownership of a site before adding to dashboard. Three methods: DNS TXT record, file upload at `/.well-known/answerable-verify`, or HTML meta tag. |
+| F14 | **Site verification** | Web | Verify ownership of a site before adding to dashboard. Three methods: DNS TXT record, file upload at `/.well-known/answerfox-verify`, or HTML meta tag. |
 
 **Total feature count: 14 (5 free + 6 paid + 3 platform foundations). That is all.**
 
@@ -432,7 +432,7 @@ Each journey below is a fully-specified flow with success criteria. UX details (
 **Status:** To be built
 
 **Specification:**
-- Published at `answerable/audit-action@v1` in a public GitHub repo
+- Published at `answerfox/audit-action@v1` in a public GitHub repo
 - Inputs: `url` (required), `min-score` (optional, default none), `fail-on-decline` (optional, default false)
 - Runs on `pull_request` and `push` events
 - Authenticates via optional `ANSWERABLE_API_KEY` secret (links audit to user's SaaS account)
@@ -642,9 +642,9 @@ The user can navigate away from the page. The fix shows up in their dashboard wi
 
 **Specification:**
 - Three verification methods (user picks one):
-  1. **HTML meta tag**: `<meta name="answerable-verify" content="<token>">` in `<head>`
-  2. **File upload**: `/.well-known/answerable-verify` returns plain text `<token>`
-  3. **DNS TXT record**: `TXT @answerable-verify=<token>` (longest, but for users who cannot edit HTML)
+  1. **HTML meta tag**: `<meta name="answerfox-verify" content="<token>">` in `<head>`
+  2. **File upload**: `/.well-known/answerfox-verify` returns plain text `<token>`
+  3. **DNS TXT record**: `TXT @answerfox-verify=<token>` (longest, but for users who cannot edit HTML)
 - Verification check: HTTP fetch + content match. Times out at 10 seconds.
 - Token expires after 7 days if not verified
 - Once verified, badge of trust shown on dashboard ("Verified site")

@@ -9,7 +9,7 @@ export const d2PrivacyLinked = defineCheck<AuditDom>({
   description: 'Privacy policy linked from this page',
   rationale:
     "A privacy policy is a baseline legal and trust requirement — GDPR, CCPA, and Google all expect one. Missing privacy is both a compliance risk and a signal that the site isn't serious.",
-  docsUrl: 'https://answerable.dev/docs/checks/D2',
+  docsUrl: 'https://answerfox.dev/docs/checks/D2',
   run: ({ dom }) => {
     const links = dom('a[href]').filter((_, el) => {
       const href = dom(el).attr('href') ?? '';

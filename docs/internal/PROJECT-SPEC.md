@@ -165,12 +165,12 @@ Templates are TypeScript files with placeholder tokens like `{{PROJECT_NAME}}`. 
 Single command-line entrypoint exposing:
 
 ```bash
-answerable init                              # Set up SEO in current project
-answerable add about,privacy,terms,faq      # Add specific templates
-answerable audit <url>                      # Run audit
-answerable audit --ci                       # CI mode (exits non-zero on regressions)
-answerable verify                           # Validate all JSON-LD in current project
-answerable explain <check-id>               # Print full doc for a check
+answerfox init                              # Set up SEO in current project
+answerfox add about,privacy,terms,faq      # Add specific templates
+answerfox audit <url>                      # Run audit
+answerfox audit --ci                       # CI mode (exits non-zero on regressions)
+answerfox verify                           # Validate all JSON-LD in current project
+answerfox explain <check-id>               # Print full doc for a check
 ```
 
 ## 6. Audit Engine Design
@@ -179,7 +179,7 @@ See `AUDIT-FRAMEWORK.md` for the full check list.
 
 ### Run flow
 
-1. User runs `answerable audit https://example.com`
+1. User runs `answerfox audit https://example.com`
 2. CLI fetches the URL (HEAD first to validate)
 3. Renders HTML via cheerio. If SPA detected (e.g., empty body), upgrades to Playwright.
 4. Each check receives the parsed DOM + the raw HTML
@@ -215,7 +215,7 @@ interface Check {
 ```bash
 cd my-nextjs-project
 pnpm add @answerfox/schemas @answerfox/metadata @answerfox/sitemap
-npx answerable init
+npx answerfox init
 # Interactive prompts:
 # - Project name
 # - Domain
@@ -233,14 +233,14 @@ npx answerable init
 ### Existing project audit (30 seconds)
 
 ```bash
-npx answerable audit https://my-site.com
+npx answerfox audit https://my-site.com
 # Outputs:
 # 📊 Score: 67/100 (Average)
 #
 # ❌ CRITICAL (3 issues)
-#   • Missing canonical URL  →  npx answerable fix canonical
-#   • No FAQPage schema      →  npx answerable add faq
-#   • No Organization schema →  npx answerable add organization
+#   • Missing canonical URL  →  npx answerfox fix canonical
+#   • No FAQPage schema      →  npx answerfox add faq
+#   • No Organization schema →  npx answerfox add organization
 #
 # ⚠️  HIGH (5 issues)
 # ...
@@ -251,7 +251,7 @@ npx answerable audit https://my-site.com
 ```yaml
 # .github/workflows/seo.yml
 - name: SEO audit
-  run: npx answerable audit ${{ env.PREVIEW_URL }} --ci --min-score 80
+  run: npx answerfox audit ${{ env.PREVIEW_URL }} --ci --min-score 80
 ```
 
 ## 8. Documentation Strategy

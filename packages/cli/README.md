@@ -1,6 +1,6 @@
 # @answerfox/cli
 
-The `answerable` command. Wraps the [Answerfox](https://github.com/Anuj7411/answerfox) audit engine for terminal + CI use.
+The `answerfox` command. Wraps the [Answerfox](https://github.com/Anuj7411/answerfox) audit engine for terminal + CI use.
 
 > **v0.1.0.** `audit`, `explain`, `init`, and `add` ship today. `verify` lands in a subsequent release.
 
@@ -12,27 +12,27 @@ npx @answerfox/cli audit https://example.com
 
 # Or globally:
 pnpm add -g @answerfox/cli
-answerable audit https://example.com
+answerfox audit https://example.com
 ```
 
 ## Commands
 
-### `answerable audit <url>`
+### `answerfox audit <url>`
 
 Fetch the URL, run every registered check, print a human-readable report.
 
 ```bash
 # Human report:
-answerable audit https://example.com
+answerfox audit https://example.com
 
 # Machine-readable JSON (for CI integration):
-answerable audit https://example.com --json
+answerfox audit https://example.com --json
 
 # CI gate — exits non-zero if score < threshold:
-answerable audit https://example.com --ci --min-score 80
+answerfox audit https://example.com --ci --min-score 80
 
 # Disable colour (for non-TTY pipelines):
-answerable audit https://example.com --no-color
+answerfox audit https://example.com --no-color
 ```
 
 | Flag | Description | Default |
@@ -47,12 +47,12 @@ Exit codes:
 - `1` — CI threshold not met
 - `2` — argument error (bad URL, unknown flag)
 
-### `answerable explain <check-id>`
+### `answerfox explain <check-id>`
 
 Print full documentation for a single check.
 
 ```bash
-answerable explain A4
+answerfox explain A4
 ```
 
 Outputs: description · category · severity + points · rationale · docs URL.

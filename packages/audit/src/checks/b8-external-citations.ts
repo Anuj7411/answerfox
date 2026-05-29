@@ -9,7 +9,7 @@ export const b8ExternalCitations = defineCheck<AuditDom>({
   description: 'At least one external citation (link to a different origin)',
   rationale:
     'Pages that cite authoritative outside sources earn more trust from both human readers and AI answer engines. Zero external links flag a page as a closed garden.',
-  docsUrl: 'https://answerable.dev/docs/checks/B8',
+  docsUrl: 'https://answerfox.dev/docs/checks/B8',
   run: ({ dom, url }) => {
     let pageOrigin: string;
     try {

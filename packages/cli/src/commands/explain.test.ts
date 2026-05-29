@@ -12,7 +12,7 @@ describe('runExplainCommand', () => {
     expect(result.stdout).toContain('Severity:');
     expect(result.stdout).toContain('critical');
     expect(result.stdout).toContain('Docs:');
-    expect(result.stdout).toContain('https://answerable.dev/docs/checks/A4');
+    expect(result.stdout).toContain('https://answerfox.dev/docs/checks/A4');
   });
 
   it('is case-insensitive (lowercase id matches uppercase)', () => {

@@ -71,7 +71,7 @@ A check that throws is captured by the runner and emitted as `skip` with the err
 |---|---|
 | `runChecks({ url, html, dom })` | Pure runner; tests pass pre-parsed input |
 | `audit(url, options?)` | Convenience wrapper that fetches first |
-| `answerable audit <url>` | CLI; calls `audit()` |
+| `answerfox audit <url>` | CLI; calls `audit()` |
 
 The pure runner is exported so library consumers (a hosted SaaS, a custom dashboard, a different fetcher) can build on top of it without re-implementing the orchestration.
 

@@ -9,7 +9,7 @@ export const e11LinkedinLinked = defineCheck<AuditDom>({
   description: 'LinkedIn company or personal profile linked',
   rationale:
     'LinkedIn is the highest-authority "who works here" signal. For B2B-leaning products, a LinkedIn link in the footer or About page improves entity-graph completeness with minimal effort.',
-  docsUrl: 'https://answerable.dev/docs/checks/E11',
+  docsUrl: 'https://answerfox.dev/docs/checks/E11',
   run: ({ dom }) => {
     const links = dom('a[href]').filter((_, el) => {
       const href = (dom(el).attr('href') ?? '').toLowerCase();

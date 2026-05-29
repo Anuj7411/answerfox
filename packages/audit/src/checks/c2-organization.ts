@@ -35,7 +35,7 @@ export const c2Organization = defineCheck<AuditDom>({
   description: 'Organization JSON-LD present',
   rationale:
     'Organization schema is what tells Google and AI answer engines who you are as an entity — name, logo, social profiles, contact. It powers the brand panel in SERPs and is the foundation for E-E-A-T (the second E is for entity).',
-  docsUrl: 'https://answerable.dev/docs/checks/C2',
+  docsUrl: 'https://answerfox.dev/docs/checks/C2',
   run: ({ dom }) => {
     const blocks = dom('script[type="application/ld+json"]');
     if (blocks.length === 0) {

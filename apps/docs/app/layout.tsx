@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: '%s — Answerfox',
   },
   description: 'The drop-in SEO toolkit that makes any site answerable by AI search engines.',
-  metadataBase: new URL('https://answerable.dev'),
+  metadataBase: new URL('https://answerfox.dev'),
 };
 
 const navbar = (

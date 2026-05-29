@@ -11,7 +11,7 @@ export const f6TwitterCard = defineCheck<AuditDom>({
   description: 'twitter:card set to a recognised card type',
   rationale:
     'twitter:card controls how the page renders when shared on X (Twitter). Without it, the platform falls back to a tiny text-only card. `summary_large_image` is the default people actually want — full-bleed image and prominent title.',
-  docsUrl: 'https://answerable.dev/docs/checks/F6',
+  docsUrl: 'https://answerfox.dev/docs/checks/F6',
   run: ({ dom }) => {
     const content = dom('meta[name="twitter:card"]').attr('content')?.trim().toLowerCase() ?? '';
     if (!content) {

@@ -1,6 +1,6 @@
 # @answerfox/cli
 
-The `answerable` command. Wraps the audit engine and templates package for terminal and CI use.
+The `answerfox` command. Wraps the audit engine and templates package for terminal and CI use.
 
 ## Install
 
@@ -20,12 +20,12 @@ pnpm dlx @answerfox/cli audit https://example.com
 
 | Command | Purpose |
 | --- | --- |
-| `answerable init` | Interactive — 3 prompts → 7 files (5 trust pages + sitemap + robots) |
-| `answerable add <names>` | Install specific templates (space or comma-separated) |
-| `answerable audit <url>` | Fetch and run every registered check; print report |
-| `answerable explain <id>` | Full doc for a single check (the same content as `/docs/checks/<id>`) |
+| `answerfox init` | Interactive — 3 prompts → 7 files (5 trust pages + sitemap + robots) |
+| `answerfox add <names>` | Install specific templates (space or comma-separated) |
+| `answerfox audit <url>` | Fetch and run every registered check; print report |
+| `answerfox explain <id>` | Full doc for a single check (the same content as `/docs/checks/<id>`) |
 
-## `answerable audit` flags
+## `answerfox audit` flags
 
 | Flag | Description | Default |
 | --- | --- | --- |

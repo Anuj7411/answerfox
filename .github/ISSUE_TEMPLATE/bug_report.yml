@@ -38,7 +38,7 @@ body:
       label: Reproduction steps
       description: Minimal steps or a link to a repo / StackBlitz that reproduces the issue.
       placeholder: |
-        1. Run `npx answerable init`
+        1. Run `npx answerfox init`
         2. ...
     validations:
       required: true

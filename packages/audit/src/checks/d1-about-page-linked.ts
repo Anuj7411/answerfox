@@ -9,7 +9,7 @@ export const d1AboutPageLinked = defineCheck<AuditDom>({
   description: 'About page linked from this page',
   rationale:
     "An About page is the single most-cited E-E-A-T signal Google enumerates. AI answer engines also crawl the About page to understand who's behind the content. No About link = no trust anchor.",
-  docsUrl: 'https://answerable.dev/docs/checks/D1',
+  docsUrl: 'https://answerfox.dev/docs/checks/D1',
   run: ({ dom }) => {
     const links = dom('a[href]').filter((_, el) => {
       const href = dom(el).attr('href') ?? '';

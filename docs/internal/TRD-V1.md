@@ -517,7 +517,7 @@ Optional v1 addition: `pnpm dlx @answerfox/cli login` flow that pairs the CLI to
 
 ### F3 GitHub Action
 
-Published at `answerable/audit-action@v1` (separate public repo). Composite action structure:
+Published at `answerfox/audit-action@v1` (separate public repo). Composite action structure:
 
 ```yaml
 # action.yml
@@ -983,10 +983,10 @@ export async function POST(req: NextRequest, { params }) {
   if (method === 'meta') {
     const html = await fetchSiteHtml(site.url);
     verified = html.includes(
-      `<meta name="answerable-verify" content="${site.verification_token}">`,
+      `<meta name="answerfox-verify" content="${site.verification_token}">`,
     );
   } else if (method === 'file') {
-    const res = await fetch(`${site.url}/.well-known/answerable-verify`);
+    const res = await fetch(`${site.url}/.well-known/answerfox-verify`);
     const text = await res.text();
     verified = text.trim() === site.verification_token;
   } else if (method === 'dns') {
@@ -1106,7 +1106,7 @@ The engine file is the v3.4 module from `prototype/landing/bloom-engine.js`, con
 |---|---|---|---|
 | GET | `/badge/:domain` | Public score SVG | none |
 | GET | `/site/:domain` | Public per-domain page | none |
-| GET | `/.well-known/answerable-policy` | Public policy doc | none |
+| GET | `/.well-known/answerfox-policy` | Public policy doc | none |
 
 ### Authenticated REST endpoints
 
@@ -1171,7 +1171,7 @@ jobs:
       - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: pages deploy apps/web/dist --project-name answerable-web
+          command: pages deploy apps/web/dist --project-name answerfox-web
 ```
 
 Workers deploy via `wrangler deploy` per worker, gated on the same workflow.

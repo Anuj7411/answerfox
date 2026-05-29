@@ -12,7 +12,7 @@ export const b4H2Sections = defineCheck<AuditDom>({
   description: 'Long pages broken into multiple h2 sections',
   rationale:
     'AI answer engines extract paragraphs anchored to their nearest heading. A 2000-word wall with no h2 is one chunk; the same content with five h2 sections is five quotable answers. Chunking is what makes a page "answerable".',
-  docsUrl: 'https://answerable.dev/docs/checks/B4',
+  docsUrl: 'https://answerfox.dev/docs/checks/B4',
   run: ({ dom }) => {
     const bodyText = (dom('body').first().text() || dom.root().text()).trim();
     const len = bodyText.length;

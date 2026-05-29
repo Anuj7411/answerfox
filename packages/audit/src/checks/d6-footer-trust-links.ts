@@ -15,7 +15,7 @@ export const d6FooterTrustLinks = defineCheck<AuditDom>({
   description: 'Footer links to /privacy, /terms, and /contact',
   rationale:
     'The standard E-E-A-T footer pattern (privacy + terms + contact) is what crawlers expect. Missing the trio signals that the site cuts corners on the legal and trust basics.',
-  docsUrl: 'https://answerable.dev/docs/checks/D6',
+  docsUrl: 'https://answerfox.dev/docs/checks/D6',
   run: ({ dom }) => {
     const footer = dom('footer');
     if (footer.length === 0) {

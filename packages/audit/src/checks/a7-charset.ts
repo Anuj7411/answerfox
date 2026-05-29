@@ -9,7 +9,7 @@ export const a7Charset = defineCheck<AuditDom>({
   description: 'Document charset declared as UTF-8',
   rationale:
     'Without an explicit charset declaration, browsers guess — usually correctly, but not always. Mis-detected encoding breaks special characters (currency symbols, accented letters, em dashes). The HTML5 form `<meta charset="utf-8">` is one line and ends the ambiguity.',
-  docsUrl: 'https://answerable.dev/docs/checks/A7',
+  docsUrl: 'https://answerfox.dev/docs/checks/A7',
   run: ({ dom }) => {
     // Prefer the modern <meta charset="..."> form; fall back to the legacy http-equiv form.
     const modernCharset = dom('meta[charset]').attr('charset')?.trim();

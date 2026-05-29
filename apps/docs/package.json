@@ -2,7 +2,7 @@
   "name": "@answerfox/docs",
   "version": "0.0.3",
   "private": true,
-  "description": "answerable.dev — documentation site for the Answerfox SEO toolkit.",
+  "description": "answerfox.dev — documentation site for the Answerfox SEO toolkit.",
   "type": "module",
   "scripts": {
     "dev": "next dev",

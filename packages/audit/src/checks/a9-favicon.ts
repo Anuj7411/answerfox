@@ -9,7 +9,7 @@ export const a9Favicon = defineCheck<AuditDom>({
   description: 'Favicon linked (any of rel="icon", "shortcut icon", or "mask-icon")',
   rationale:
     'Browsers fall back to /favicon.ico when no icon is declared, but the explicit form lets you ship modern multi-size SVG and PNG icons. Missing favicon links also miss the chance to brand bookmarks, browser tabs, and platform pinned-site widgets.',
-  docsUrl: 'https://answerable.dev/docs/checks/A9',
+  docsUrl: 'https://answerfox.dev/docs/checks/A9',
   run: ({ dom }) => {
     const iconLinks = dom('link[rel~="icon"], link[rel="shortcut icon"], link[rel="mask-icon"]');
     if (iconLinks.length === 0) {

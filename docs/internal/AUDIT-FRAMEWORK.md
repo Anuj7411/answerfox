@@ -119,7 +119,7 @@ Total: **100 points**
 
 ## Auto-Fix Legend
 
-- ✅ Full auto-fix available via `answerable fix <id>` or `answerable add <template>`
+- ✅ Full auto-fix available via `answerfox fix <id>` or `answerfox add <template>`
 - ⚠️ Guided fix — CLI prompts user for missing info and then patches
 - ❌ Manual — Content/research work the user must do themselves
 

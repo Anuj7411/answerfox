@@ -48,11 +48,11 @@ Seven packages, each does one thing well, designed to be composable.
 | [`@answerfox/sitemap`](./packages/sitemap) | `buildSitemap()` with priority and `changeFrequency` inferred from path patterns |
 | [`@answerfox/templates`](./packages/templates) | Five trust-signal page templates (About, Privacy, Terms, FAQ, Contact) the CLI installs |
 | [`@answerfox/audit`](./packages/audit) | Cheerio-backed audit engine — 33 checks shipping today, 17 more in Phase 2 |
-| [`@answerfox/cli`](./packages/cli) | The `answerable` command: `init`, `add`, `audit`, `explain` |
+| [`@answerfox/cli`](./packages/cli) | The `answerfox` command: `init`, `add`, `audit`, `explain` |
 
 ## The audit framework
 
-Every check is documented with a stable ID (e.g. `A4`), severity, point weight, and rationale. Run `answerable explain A4` to see the full doc for any check.
+Every check is documented with a stable ID (e.g. `A4`), severity, point weight, and rationale. Run `answerfox explain A4` to see the full doc for any check.
 
 ### Coverage today
 
@@ -80,10 +80,10 @@ Score: 72/100 (Average)
 [CRITICAL] 2 issue(s)
   A4 · Canonical URL declared as an absolute http(s) link
        Fix: Add <link rel="canonical" href="..."> to <head>
-       https://answerable.dev/docs/checks/A4
+       https://answerfox.dev/docs/checks/A4
   D2 · Privacy policy linked from this page
        Fix: Link to a /privacy page from this page (typically the footer).
-       https://answerable.dev/docs/checks/D2
+       https://answerfox.dev/docs/checks/D2
 
 [HIGH] 3 issue(s)
   ...
@@ -96,7 +96,7 @@ Score: 72/100 (Average)
 
 ## See it run
 
-The [`examples/basic-nextjs`](./examples/basic-nextjs) directory is a complete, committed Next.js 15 App Router app that consumes every `@answerfox/*` package. It's the equivalent of what `answerable init` would write in a fresh project, checked in so you can read each file:
+The [`examples/basic-nextjs`](./examples/basic-nextjs) directory is a complete, committed Next.js 15 App Router app that consumes every `@answerfox/*` package. It's the equivalent of what `answerfox init` would write in a fresh project, checked in so you can read each file:
 
 ```
 examples/basic-nextjs/app/
@@ -131,7 +131,7 @@ pnpm dlx @answerfox/cli audit ${PREVIEW_URL} --ci --min-score 80
 
 ## Status
 
-**v0.1.0 is live on npm.** All seven library packages publish under the [`@answerfox/*`](https://www.npmjs.com/org/answerable-kit) scope (441 tests passing). The audit engine ships 33 of 50 checks covering ~63 of 100 points. CLI flow works end-to-end against any Next.js site.
+**v0.1.0 is live on npm.** All seven library packages publish under the [`@answerfox/*`](https://www.npmjs.com/org/answerfox) scope (441 tests passing). The audit engine ships 33 of 50 checks covering ~63 of 100 points. CLI flow works end-to-end against any Next.js site.
 
 ```bash
 # Try it on any URL — no install needed:

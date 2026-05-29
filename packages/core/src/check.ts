@@ -73,7 +73,7 @@ export interface Check<TDom = unknown> {
  *   points: 3,
  *   description: '<title> present, 30-60 chars',
  *   rationale: 'Search and AI engines surface the title verbatim.',
- *   docsUrl: 'https://answerable.dev/docs/checks/A1',
+ *   docsUrl: 'https://answerfox.dev/docs/checks/A1',
  *   run: ({ html }) => {
  *     const match = html.match(/<title>([^<]*)<\/title>/i);
  *     if (!match) return { status: 'fail', fixRecommendation: 'Add a <title> tag.' };

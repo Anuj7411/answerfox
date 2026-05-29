@@ -17,7 +17,7 @@ const REGISTRY: Readonly<Record<TemplateName, Template>> = {
 /**
  * Every template registered with the package, in a stable order
  * matching the AUDIT-FRAMEWORK trust-page sequence (D1 → D4).
- * Useful for `answerable add all` flows in the CLI.
+ * Useful for `answerfox add all` flows in the CLI.
  */
 export function listTemplates(): readonly Template[] {
   return Object.values(REGISTRY);

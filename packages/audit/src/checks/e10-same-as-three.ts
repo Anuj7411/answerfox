@@ -48,7 +48,7 @@ export const e10SameAsThree = defineCheck<AuditDom>({
   description: 'Organization JSON-LD sameAs has ≥3 authoritative profile URLs',
   rationale:
     'The sameAs property on Organization JSON-LD is the most direct entity-graph signal you control. Three or more authoritative profiles (Twitter, LinkedIn, GitHub, Wikipedia, Crunchbase) ties your brand into the wider knowledge graph.',
-  docsUrl: 'https://answerable.dev/docs/checks/E10',
+  docsUrl: 'https://answerfox.dev/docs/checks/E10',
   run: ({ dom }) => {
     let best: string[] = [];
     dom('script[type="application/ld+json"]').each((_, el) => {

@@ -11,7 +11,7 @@ export const b11InternalLinks = defineCheck<AuditDom>({
   description: '≥3 internal links to sibling pages',
   rationale:
     'Internal links distribute authority across the site and tell crawlers how pages relate. A page with zero internal links is a dead-end; a page with three or more is part of a navigable web.',
-  docsUrl: 'https://answerable.dev/docs/checks/B11',
+  docsUrl: 'https://answerfox.dev/docs/checks/B11',
   run: ({ dom }) => {
     const internals: string[] = [];
     dom('a[href]').each((_, el) => {

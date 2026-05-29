@@ -72,7 +72,7 @@ function Landing() {
           <div className="term glass">
             <div className="term-bar">
               <span className="tl"></span><span className="tl"></span><span className="tl"></span>
-              <span className="tname">answerable — zsh</span>
+              <span className="tname">answerfox — zsh</span>
             </div>
             <div className="term-body">
               <div><span className="prompt">$</span> <span className="cmd">pnpm dlx @answerfox/cli audit vercel.com</span></div>

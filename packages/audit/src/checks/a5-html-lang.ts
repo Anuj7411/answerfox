@@ -17,7 +17,7 @@ export const a5HtmlLang = defineCheck<AuditDom>({
   description: '<html lang> attribute set to a BCP 47 language tag',
   rationale:
     'Screen readers, translation tools, and AI answer engines use <html lang> to know what language to interpret the page in. Without it, accessibility tooling guesses and assistive tech announces in the wrong voice.',
-  docsUrl: 'https://answerable.dev/docs/checks/A5',
+  docsUrl: 'https://answerfox.dev/docs/checks/A5',
   run: ({ dom }) => {
     const lang = dom('html').attr('lang')?.trim();
     if (!lang) {

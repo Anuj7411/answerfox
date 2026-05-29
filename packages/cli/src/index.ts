@@ -1,5 +1,5 @@
 /**
- * @answerfox/cli — the `answerable` command. Wraps the audit engine
+ * @answerfox/cli — the `answerfox` command. Wraps the audit engine
  * for terminal and CI use.
  *
  * The default export is `createProgram()`, which returns a configured
@@ -25,7 +25,7 @@ export const VERSION = '0.0.0';
 export function createProgram(): Command {
   const program = new Command();
   program
-    .name('answerable')
+    .name('answerfox')
     .description('The drop-in SEO toolkit that makes any site answerable by AI search engines.')
     .version(VERSION);
   registerInitCommand(program);

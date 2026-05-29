@@ -19,7 +19,7 @@ export const e1ReviewProfile = defineCheck<AuditDom>({
   description: 'Link to a review / marketplace profile (G2, Product Hunt, Capterra, ...)',
   rationale:
     "Third-party reviews are an off-site authority signal AI engines weight heavily — they're the SaaS equivalent of academic citations. One link to a review profile beats five sameAs entries on Twitter clones.",
-  docsUrl: 'https://answerable.dev/docs/checks/E1',
+  docsUrl: 'https://answerfox.dev/docs/checks/E1',
   run: ({ dom }) => {
     const matches = new Set<string>();
     dom('a[href]').each((_, el) => {

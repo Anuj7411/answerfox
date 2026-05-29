@@ -57,7 +57,7 @@ These are the only three things that make Answerfox Answerfox. Every feature mus
 **Why it wins:** Profound, Peec, Otterly all live in browser tabs. Marketers love that; developers ignore that. By the time a marketer sees a bad Lighthouse score on Profound, the developer has already committed bad code. We catch it at commit time.
 
 **What this gives us:**
-- **Workflow lock-in without friction.** Once `answerable audit` is in someone's CI, removing it is friction. Adding it costs 30 seconds.
+- **Workflow lock-in without friction.** Once `answerfox audit` is in someone's CI, removing it is friction. Adding it costs 30 seconds.
 - **Marketing channel = GitHub.** Every public GitHub repo using us is a billboard.
 - **CI integration tells us when sites change.** This is the cheapest possible "what changed?" signal.
 - **Differentiation that's hard to copy.** A GUI tool would need to rewrite as a CLI to follow us. Their UX team won't allow it.

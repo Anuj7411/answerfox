@@ -9,7 +9,7 @@ export const a6Viewport = defineCheck<AuditDom>({
   description: 'Viewport meta tag declares device-width + initial-scale=1',
   rationale:
     'Without a viewport meta, mobile browsers render at desktop width and scale down — text becomes unreadable and Google Mobile-Friendly checks fail. The canonical value is `width=device-width, initial-scale=1`.',
-  docsUrl: 'https://answerable.dev/docs/checks/A6',
+  docsUrl: 'https://answerfox.dev/docs/checks/A6',
   run: ({ dom }) => {
     const content = dom('meta[name="viewport"]').attr('content')?.trim() ?? '';
     if (!content) {

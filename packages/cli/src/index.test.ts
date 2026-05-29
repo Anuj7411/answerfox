@@ -9,9 +9,9 @@ describe('createProgram', () => {
     expect(names).toContain('explain');
   });
 
-  it('uses "answerable" as the program name', () => {
+  it('uses "answerfox" as the program name', () => {
     const program = createProgram();
-    expect(program.name()).toBe('answerable');
+    expect(program.name()).toBe('answerfox');
   });
 
   it('exposes a description and a version', () => {

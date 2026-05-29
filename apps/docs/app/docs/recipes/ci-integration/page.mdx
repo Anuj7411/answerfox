@@ -4,7 +4,7 @@ import { Callout } from 'nextra/components';
 
 **Problem.** You shipped a regression that quietly drops your SEO score from 85 to 60. By the time anyone notices, it's been live for a week and a couple of pages have stopped getting indexed. You want a CI check that catches score regressions before merge.
 
-**Solution.** Run `answerable audit --ci --min-score N` against a preview deployment in your PR pipeline. Non-zero exit fails the check.
+**Solution.** Run `answerfox audit --ci --min-score N` against a preview deployment in your PR pipeline. Non-zero exit fails the check.
 
 ## GitHub Actions
 
@@ -79,5 +79,5 @@ Sometimes a check fires on a real-world site for a reason that's out of your con
 
 ## See also
 
-- **[`answerable audit` reference](/docs/reference/cli)** — full flag list and exit codes
+- **[`answerfox audit` reference](/docs/reference/cli)** — full flag list and exit codes
 - **[Audit framework →](/docs/audit-framework)** — scoring model and band thresholds

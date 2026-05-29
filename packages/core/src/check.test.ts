@@ -11,7 +11,7 @@ describe('defineCheck', () => {
       points: 3,
       description: '<title> present, 30-60 chars',
       rationale: 'Search and AI engines display the title verbatim.',
-      docsUrl: 'https://answerable.dev/docs/checks/A1',
+      docsUrl: 'https://answerfox.dev/docs/checks/A1',
       run: () => ({ status: 'pass' }),
     });
 
@@ -29,7 +29,7 @@ describe('defineCheck', () => {
       points: 3,
       description: '<title> present',
       rationale: 'A page must declare a title.',
-      docsUrl: 'https://answerable.dev/docs/checks/A1',
+      docsUrl: 'https://answerfox.dev/docs/checks/A1',
       run: ({ html }) =>
         /<title>/i.test(html)
           ? { status: 'pass' }
@@ -53,7 +53,7 @@ describe('defineCheck', () => {
       points: 3,
       description: 'meta description present',
       rationale: 'Snippets are pulled from meta description.',
-      docsUrl: 'https://answerable.dev/docs/checks/A3',
+      docsUrl: 'https://answerfox.dev/docs/checks/A3',
       run: async () => ({ status: 'pass' }),
     });
 

@@ -12,7 +12,7 @@ export const a1Title = defineCheck<AuditDom>({
   description: '<title> present and 30-60 chars long',
   rationale:
     'The <title> is the single most prominent surface in SERPs and AI answer engines. Empty titles disappear; titles under 30 chars under-utilize valuable space; titles over 60 are truncated in Google SERPs.',
-  docsUrl: 'https://answerable.dev/docs/checks/A1',
+  docsUrl: 'https://answerfox.dev/docs/checks/A1',
   run: ({ dom }) => {
     const title = dom('title').first().text().trim();
     if (!title) {

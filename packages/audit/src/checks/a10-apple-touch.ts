@@ -9,7 +9,7 @@ export const a10AppleTouchIcon = defineCheck<AuditDom>({
   description: 'Apple touch icon linked',
   rationale:
     'Pinned web apps and bookmarked sites on iOS use the apple-touch-icon. Without it, iOS scales the favicon up and the result looks pixelated. 180×180 PNG is the modern recommendation.',
-  docsUrl: 'https://answerable.dev/docs/checks/A10',
+  docsUrl: 'https://answerfox.dev/docs/checks/A10',
   run: ({ dom }) => {
     const apple = dom('link[rel="apple-touch-icon"], link[rel="apple-touch-icon-precomposed"]');
     if (apple.length === 0) {

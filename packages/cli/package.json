@@ -1,7 +1,7 @@
 {
   "name": "@answerfox/cli",
   "version": "0.1.2",
-  "description": "The `answerable` command — runs audits, prints reports, explains checks.",
+  "description": "The `answerfox` command — runs audits, prints reports, explains checks.",
   "license": "MIT",
   "author": "Anuj Ojha",
   "repository": {
@@ -21,7 +21,7 @@
     }
   },
   "bin": {
-    "answerable": "./dist/bin.js"
+    "answerfox": "./dist/bin.js"
   },
   "files": ["dist", "README.md"],
   "sideEffects": false,

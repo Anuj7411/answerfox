@@ -80,7 +80,7 @@ describe('consoleReport', () => {
     const report = await runChecks({ url: URL, html: BROKEN_HTML, dom: loadHtml(BROKEN_HTML) });
     const out = consoleReport(report, { color: false });
     expect(out).toContain('Fix:');
-    expect(out).toContain('https://answerable.dev/docs/checks/');
+    expect(out).toContain('https://answerfox.dev/docs/checks/');
   });
 
   it('strips ANSI codes when color is false', async () => {

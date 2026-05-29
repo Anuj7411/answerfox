@@ -12,7 +12,7 @@ export const a3Description = defineCheck<AuditDom>({
   description: 'Meta description present and 120-160 chars long',
   rationale:
     'The meta description controls the SERP snippet 70% of the time. Missing descriptions force Google to synthesize one (often poorly). Out-of-range descriptions get truncated or padded with site boilerplate.',
-  docsUrl: 'https://answerable.dev/docs/checks/A3',
+  docsUrl: 'https://answerfox.dev/docs/checks/A3',
   run: ({ dom }) => {
     const description = dom('meta[name="description"]').attr('content')?.trim() ?? '';
     if (!description) {

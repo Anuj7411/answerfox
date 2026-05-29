@@ -13,10 +13,10 @@
 - [ ] `@answerfox/sitemap` — Sitemap builder with smart defaults
 - [ ] `@answerfox/templates` — 5 page templates (About, Privacy, Terms, FAQ, Contact)
 - [ ] `@answerfox/audit` — 50-check audit engine for Next.js sites
-- [ ] `@answerfox/cli` — Unified `answerable` command
+- [ ] `@answerfox/cli` — Unified `answerfox` command
 - [ ] CI on GitHub Actions (test, lint, typecheck, audit-self)
 - [ ] Changesets-based publishing to npm
-- [ ] Nextra docs site at `answerable.dev` (or fallback domain)
+- [ ] Nextra docs site at `answerfox.dev` (or fallback domain)
 - [ ] `examples/sotto/` — real-world example
 - [ ] `examples/basic-nextjs/` — minimal starter
 - [ ] Production-ready README with badges, screenshots, quickstart
@@ -39,8 +39,8 @@
 
 - ✅ `pnpm install` works in fresh clone
 - ✅ All packages publish to npm without errors
-- ✅ `npx answerable init` works in fresh Next.js project
-- ✅ `npx answerable audit https://example.com` returns sensible report
+- ✅ `npx answerfox init` works in fresh Next.js project
+- ✅ `npx answerfox audit https://example.com` returns sensible report
 - ✅ Docs site live with all recipes documented
 - ✅ Audit-self on docs site returns score >= 90
 - ✅ Sotto example imports the published packages and works
@@ -53,14 +53,14 @@
 - [ ] Next.js Pages Router support
 - [ ] Astro adapter
 - [ ] Remix adapter
-- [ ] AI content generators (`answerable generate-faq --about my-product`)
+- [ ] AI content generators (`answerfox generate-faq --about my-product`)
 - [ ] GitHub Action for CI integration
 - [ ] Google Search Console auto-submit
 - [ ] Bing Webmaster Tools auto-submit
 - [ ] Multi-locale audit support
 - [ ] Audit caching and historical tracking
 - [ ] Brand consistency analyzer (cross-page brand-token validation)
-- [ ] Schema diff tool (`answerable diff --before --after`)
+- [ ] Schema diff tool (`answerfox diff --before --after`)
 
 ## Phase 3 — Scale (Target: 6+ months out)
 
@@ -81,9 +81,9 @@
 A solo dev shipping a SaaS landing page can:
 
 1. Run `pnpm add @answerfox/cli` (5 sec)
-2. Run `npx answerable init` (2 min — interactive prompts)
+2. Run `npx answerfox init` (2 min — interactive prompts)
 3. Get: complete metadata setup, 5 trust pages, sitemap, robots, JSON-LD on every page
-4. Run `npx answerable audit https://my-site.com` (30 sec)
+4. Run `npx answerfox audit https://my-site.com` (30 sec)
 5. See a score of 85+ out of 100 on first try
 6. Push to production with confidence
 
