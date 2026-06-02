@@ -23,10 +23,7 @@
   "bin": {
     "answerfox": "./dist/bin.js"
   },
-  "files": [
-    "dist",
-    "README.md"
-  ],
+  "files": ["dist", "README.md"],
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
