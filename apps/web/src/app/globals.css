@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/* ============================================================
+   ANSWERFOX — SLATE FAMILY TOKENS (Tailwind 4 CSS-first @theme)
+   Values are the locked Brand System (see docs/internal/
+   BRAND-SYSTEM-LOCKED.md and TRD-V1.md section 16). Defined once
+   here so they never drift from the prototype.
+   ============================================================ */
+@theme {
+  /* slate base */
+  --color-slate-base: #d6d2cb;
+  --color-slate-elev: #e0dcd5;
+  --color-slate-recess: #c4c0b9;
+
+  /* ink */
+  --color-ink: #1a1814;
+  --color-ink-muted: #4a453e;
+  --color-ink-dim: #7a736a;
+  --color-ink-inverse: #f2efe9;
+
+  /* ember family + functional accents */
+  --color-marigold: #e8aa2a;
+  --color-saffron: #e5b225;
+  --color-amber: #ffa500;
+  --color-terracotta: #c6553c;
+  --color-ochre: #b85c1f;
+  --color-violet: #a855f7;
+  --color-lime: #a3ff12;
+  --color-magenta: #ff006e;
+  --color-positive: #1e9e57;
+
+  /* fonts (next/font injects the family vars on <html>) */
+  --font-display: var(--font-geist), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* radii */
+  --radius-card: 16px;
+  --radius-button: 12px;
+}
+
+/* ============================================================
+   PER-PAGE EMBER ACCENT (TRD section 16)
+   Each route layout sets data-page on <html>; the CSS variable
+   cascade selects the ember. Components read var(--ember).
+   ============================================================ */
+:root {
+  --ember: #f89444;
+  --ember-intensity: 0.8;
+}
+[data-page="pricing"] {
+  --ember: #e8aa2a;
+  --ember-intensity: 0.6;
+}
+[data-page="signin"] {
+  --ember: #c6553c;
+  --ember-intensity: 0.6;
+}
+[data-page="docs"] {
+  --ember: #b85c1f;
+  --ember-intensity: 0.6;
+}
+[data-page="dashboard"] {
+  --ember: #f89444;
+  --ember-intensity: 0.35;
+}
+[data-page="audit"] {
+  --ember: #e5b225;
+  --ember-intensity: 0.35;
+}
+[data-page="fix"] {
+  --ember: #ffa500;
+  --ember-intensity: 0.4;
+}
+[data-page="settings"] {
+  --ember: #b85c1f;
+  --ember-intensity: 0.25;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-slate-base);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
