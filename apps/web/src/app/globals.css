@@ -47,6 +47,19 @@
 :root {
   --ember: #f89444;
   --ember-intensity: 0.8;
+
+  /* Friendly aliases so the ported design-system CSS below reads cleanly.
+     Single source of truth stays the @theme tokens above. */
+  --ink: var(--color-ink);
+  --ink-muted: var(--color-ink-muted);
+  --ink-dim: var(--color-ink-dim);
+  --ink-inverse: var(--color-ink-inverse);
+  --bg-base: var(--color-slate-base);
+  --bg-elev: var(--color-slate-elev);
+  --bg-recess: var(--color-slate-recess);
+  --violet: var(--color-violet);
+  --border-subtle: rgba(26, 24, 20, 0.08);
+  --border-strong: rgba(26, 24, 20, 0.16);
 }
 [data-page="pricing"] {
   --ember: #e8aa2a;
@@ -84,4 +97,213 @@ body {
   background: var(--color-slate-base);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   DESIGN-SYSTEM COMPONENTS (ported from prototype/landing/slate.css)
+   Shared primitives reused across screens. Layout is composed with
+   Tailwind utilities in the markup; these cover the bespoke bits.
+   ============================================================ */
+
+/* type */
+.t-hero {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5.2vw, 72px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+  margin: 0;
+}
+.t-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* eyebrow (mono caption + ember dot) */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.eyebrow .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 0 4px color-mix(in oklch, var(--ember) 22%, transparent);
+}
+
+/* buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  height: 48px;
+  padding: 0 22px;
+  border-radius: var(--radius-button);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+}
+.btn:hover {
+  transform: translateY(-1px);
+}
+.btn-solid {
+  background: var(--ember);
+  color: var(--ink-inverse);
+  border-color: color-mix(in oklch, var(--ember) 70%, #000 12%);
+}
+.btn-solid:hover {
+  box-shadow: inset 0 0 22px color-mix(in oklch, #fff 18%, transparent), 0 6px 20px -8px
+    color-mix(in oklch, var(--ember) 60%, transparent);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: color-mix(in oklch, var(--ember) 42%, var(--border-strong));
+}
+.btn-ghost:hover {
+  background: color-mix(in oklch, var(--ember) 8%, transparent);
+}
+.btn-quiet {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+.btn-quiet:hover {
+  background: rgba(26, 24, 20, 0.04);
+}
+
+/* brand mark */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+}
+.brand .mark {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-subtle);
+  display: grid;
+  place-items: center;
+}
+.brand .mark i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 10px color-mix(in oklch, var(--ember) 70%, transparent);
+}
+.brand .wm {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* glass surface */
+.glass {
+  background: rgba(212, 209, 203, 0.62);
+  backdrop-filter: blur(12px) saturate(1.05);
+  -webkit-backdrop-filter: blur(12px) saturate(1.05);
+  border: 1px solid var(--border-subtle);
+}
+
+/* terminal card */
+.term {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 30px 60px -34px rgba(26, 24, 20, 0.35);
+}
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(184, 180, 173, 0.34);
+}
+.term-bar .tl {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(26, 24, 20, 0.18);
+}
+.term-bar .tname {
+  margin-left: 8px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--ink-dim);
+  letter-spacing: 0.04em;
+}
+.term-body {
+  padding: 18px 20px 22px;
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  line-height: 1.85;
+}
+.term-body .prompt {
+  color: var(--ember);
+}
+.term-body .cmd {
+  color: var(--ink);
+}
+.term-body .muted {
+  color: var(--ink-dim);
+}
+.term-body .ok {
+  color: var(--ink);
+}
+.term-scores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 14px;
+  margin-top: 8px;
+  align-items: center;
+}
+.term-scores .sc {
+  color: var(--ink-muted);
+}
+.term-scores .sc b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.term-scores .agg {
+  color: var(--ink);
+}
+.term-scores .agg b {
+  color: color-mix(in oklch, var(--ember) 64%, #000);
+}
+.term-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  vertical-align: -2px;
+  margin-left: 2px;
+  background: var(--ember);
+  animation: blink 1.1s steps(1) infinite;
+}
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
 }
