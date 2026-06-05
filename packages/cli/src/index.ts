@@ -9,13 +9,20 @@
  * commander.
  */
 
+import { readFileSync } from 'node:fs';
 import { Command } from 'commander';
 import { registerAddCommand } from './commands/add.js';
 import { registerAuditCommand } from './commands/audit.js';
 import { registerExplainCommand } from './commands/explain.js';
 import { registerInitCommand } from './commands/init.js';
 
-export const VERSION = '0.0.0';
+// Read the version from package.json so `--version` stays in sync with releases
+// instead of drifting from a hardcoded literal.
+const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')) as {
+  version: string;
+};
+
+export const VERSION = pkg.version;
 
 /**
  * Build the configured commander program. Separated from the bin
