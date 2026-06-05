@@ -78,7 +78,8 @@ export function registerAuditCommand(program: Command): void {
         typeof minScoreRaw === 'string' ? Number(minScoreRaw) : (minScoreRaw as number | undefined);
       if (minScore !== undefined && Number.isNaN(minScore)) {
         process.stderr.write(`Invalid --min-score: ${String(minScoreRaw)}\n`);
-        process.exit(2);
+        process.exitCode = 2;
+        return;
       }
 
       const result = await runAuditCommand(url, {
@@ -94,6 +95,10 @@ export function registerAuditCommand(program: Command): void {
       } else if (result.stdout.length > 0) {
         process.stdout.write(`${result.stdout}\n`);
       }
-      process.exit(result.exitCode);
+      // Set the exit code and let the process exit naturally. Calling
+      // process.exit() here force-kills the event loop while undici (fetch)
+      // sockets are still closing, which triggers a libuv assertion crash on
+      // Windows after the report prints. Natural exit avoids that and is fast.
+      process.exitCode = result.exitCode;
     });
 }
