@@ -21,7 +21,8 @@
     }
   },
   "bin": {
-    "answerfox": "./dist/bin.js"
+    "answerfox": "./dist/bin.js",
+    "af": "./dist/bin.js"
   },
   "files": ["dist", "README.md"],
   "sideEffects": false,
