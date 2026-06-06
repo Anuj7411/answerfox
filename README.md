@@ -10,24 +10,39 @@
 Answerfox audits your site for SEO, AEO (answer engines), and GEO (generative engines), explains every issue in plain English, and gives you the fix as code you commit. It runs in your terminal and your CI, not as another dashboard you have to log into.
 
 ```bash
-# Audit any URL, no install needed:
-pnpm dlx @answerfox/cli audit https://example.com
+# Try without installing:
+pnpm dlx @answerfox/cli audit https://stripe.com
 ```
 
 ## Quickstart
 
+Install once, then run any command:
+
 ```bash
-# Audit any site (works on any URL, great in CI):
+pnpm add -g @answerfox/cli
+# or: npm install -g @answerfox/cli
+```
+
+Installing gives you two commands: `answerfox` (the full name) and `af` (a shorter alias). Pick whichever feels right.
+
+```bash
+# Audit any URL
+af audit https://your-site.com
+
+# Read the full doc for any check, in your terminal
+af explain A4
+
+# Scaffold trust pages, sitemap, and robots in a Next.js project
+af init
+
+# Fail a CI build if the score drops below a threshold
+af audit ${PREVIEW_URL} --ci --min-score 80
+```
+
+If you'd rather not install, `pnpm dlx` runs the CLI for a one-shot. Note the URL must be on the SAME line:
+
+```bash
 pnpm dlx @answerfox/cli audit https://your-site.com
-
-# See the full doc for any check, offline, in your terminal:
-pnpm dlx @answerfox/cli explain A4
-
-# In an existing Next.js project, scaffold trust pages + sitemap + robots:
-pnpm dlx @answerfox/cli init
-
-# Fail a CI build if the score drops below a threshold:
-pnpm dlx @answerfox/cli audit ${PREVIEW_URL} --ci --min-score 80
 ```
 
 `audit` and `explain` run anywhere and need no setup. `init` and `add` are interactive (they prompt before writing files) and expect a Next.js App Router project.
@@ -56,6 +71,43 @@ Score: 20/100 (Critical)
 ```
 
 Every finding names the check, why it matters, and the exact fix, often pointing at the Answerfox package that emits it. Run `answerfox explain <id>` for the full rationale of any check.
+
+## What good looks like
+
+The score is a page-level machine-readability number, not a brand authority score. Audit a SaaS marketing page, a docs site, a content blog, or an indie product homepage. Avoid auditing logged-in product gates (like `linkedin.com`, `github.com`, `twitter.com`) where the public URL is intentionally sparse; the score will under-report because those pages are not built for crawlers.
+
+For reference, here is how the tool calibrates on sites you already know:
+
+| URL | Score | Why |
+|---|:---:|---|
+| `stripe.com` | 76 | Full marketing surface, three real fixable gaps. |
+| `calendly.com` | 74 | Same shape as Stripe, a couple of trust-page misses. |
+| `examples/basic-nextjs` (in this repo) | 79 | What the `init` command scaffolds out of the box. |
+| `vercel.com` | 68 | Solid, a few real misses. |
+| `github.com` | 52 | Logged-out product gate, intentionally sparse. |
+| `linkedin.com` | 50 | Logged-out product gate, intentionally sparse. |
+| `example.com` | 20 | Bare page, no SEO at all. |
+
+If your marketing page scores in the 70s with a few fixes flagged, you are doing well. If it scores in the 50s and you are not a login wall, the report is telling you something real.
+
+## You can audit any URL
+
+Point Answerfox at any URL that returns HTML. Homepage, subpage, blog post, docs page, a GitHub repo page, a YouTube channel, a Medium article, a Notion public page, a Substack newsletter. The CLI fetches the page and analyzes the HTML, whether that page is yours or someone else's.
+
+What the score means depends on who built the HTML you're auditing:
+
+| If you audit... | The score measures... |
+|---|---|
+| Your own site or blog (you control the HTML) | Your work. Actionable. |
+| A subpage of your site (e.g. `/pricing`, `/blog/post`) | Your work on that page. Actionable. |
+| A competitor's marketing page | Their work. Useful for benchmarking. |
+| A GitHub repo page (`github.com/<you>/<repo>`) | GitHub's repo template. Informational only. |
+| A YouTube channel page | YouTube's template. Informational. |
+| A LinkedIn profile or Medium article | Their platform template. Informational. |
+
+For actionable fixes, audit a URL whose HTML you actually control. For curiosity, competitive research, or platform diagnostics, audit anyone.
+
+A heads-up: `github.com/<owner>/<repo>` currently scores around 44 of 100, and `linkedin.com` scores 50. Big platforms are not yet optimizing their templated pages for AI search readability. Indie devs who host on their own domain just got a structural advantage in the AI search era.
 
 ## Why Answerfox
 
