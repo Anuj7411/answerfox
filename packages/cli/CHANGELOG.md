@@ -1,5 +1,11 @@
 # @answerfox/cli
 
+## 0.2.2
+
+### Patch Changes
+
+- f6c339e: Add `af` short alias for the `answerfox` binary. After `pnpm add -g @answerfox/cli`, both `answerfox audit <url>` and `af audit <url>` work identically. Saves 7 characters per invocation, faster for repeat use.
+
 ## 0.2.1
 
 ### Patch Changes
