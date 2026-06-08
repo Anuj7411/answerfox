@@ -1,9 +1,25 @@
 /**
  * Catalog of templates Answerfox's CLI can install. Stable string
- * literals — these become the values users pass to
- * `answerfox add <name>`.
+ * literals, these become the values users pass to `answerfox add <name>`.
+ *
+ * Two kinds of templates:
+ * - **Page templates** (about, privacy, terms, faq, contact): trust
+ *   pages installed into a Next.js App Router project at `app/<name>/page.tsx`.
+ * - **Manifest templates** (agent-card, mcp-server-card, api-catalog,
+ *   agent-permissions, oauth-discovery): agent-readiness manifests
+ *   installed at `public/.well-known/<file>`. Framework-agnostic
+ *   (Next.js, Astro, Remix, plain Vite, etc.). Shipped in v0.3.1.
+ *
+ * A template is a manifest if its filename starts with `public/`.
  */
-export type TemplateName = 'about' | 'privacy' | 'terms' | 'faq' | 'contact';
+export type PageTemplateName = 'about' | 'privacy' | 'terms' | 'faq' | 'contact';
+export type ManifestTemplateName =
+  | 'agent-card'
+  | 'mcp-server-card'
+  | 'api-catalog'
+  | 'agent-permissions'
+  | 'oauth-discovery';
+export type TemplateName = PageTemplateName | ManifestTemplateName;
 
 /**
  * Map of token name → substitution value. Both keys and values are

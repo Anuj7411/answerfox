@@ -1,4 +1,9 @@
-import { type TemplateName, getTemplate, renderTemplate } from '@answerfox/templates';
+import {
+  type TemplateName,
+  getTemplate,
+  isManifestTemplate,
+  renderTemplate,
+} from '@answerfox/templates';
 import type { Command } from 'commander';
 import { type Fs, NodeFs } from '../install/fs.js';
 import { detectNextProject } from '../install/project.js';
@@ -7,11 +12,18 @@ import { type InstallResult, installFile } from '../install/render.js';
 import { collectTokens, pickTokens } from '../install/tokens.js';
 
 const VALID_TEMPLATE_NAMES: ReadonlySet<TemplateName> = new Set([
+  // Page templates (Next.js App Router)
   'about',
   'privacy',
   'terms',
   'faq',
   'contact',
+  // Manifest templates (any framework with a public/ dir, v0.3.1+)
+  'agent-card',
+  'mcp-server-card',
+  'api-catalog',
+  'agent-permissions',
+  'oauth-discovery',
 ]);
 
 export interface AddCommandOptions {
@@ -66,24 +78,31 @@ export async function runAddCommand(
   }
 
   const cwd = opts.cwd ?? process.cwd();
+  const allManifests = templateNames.every((n) => isManifestTemplate(n as TemplateName));
   const project = detectNextProject(cwd, deps.fs);
-  if (!project.hasNext) {
-    return {
-      stdout: '',
-      exitCode: 2,
-      error: 'No Next.js project detected in this directory.',
-      written: [],
-      skipped: [],
-    };
-  }
-  if (!project.hasAppDir) {
-    return {
-      stdout: '',
-      exitCode: 2,
-      error: 'No app/ directory found. Answerfox supports the Next.js App Router only.',
-      written: [],
-      skipped: [],
-    };
+
+  if (!allManifests) {
+    // Page templates require a Next.js App Router project. Manifests
+    // (agent-card, mcp-server-card, etc.) write to public/.well-known/
+    // and work in any framework, so they skip this gate.
+    if (!project.hasNext) {
+      return {
+        stdout: '',
+        exitCode: 2,
+        error: 'No Next.js project detected in this directory.',
+        written: [],
+        skipped: [],
+      };
+    }
+    if (!project.hasAppDir) {
+      return {
+        stdout: '',
+        exitCode: 2,
+        error: 'No app/ directory found. Page templates require the Next.js App Router.',
+        written: [],
+        skipped: [],
+      };
+    }
   }
 
   // Union of tokens across selected templates.
@@ -141,7 +160,9 @@ function formatSummary(written: readonly string[], skipped: readonly string[]): 
 export function registerAddCommand(program: Command): void {
   program
     .command('add <templates...>')
-    .description('Install specific templates (about, privacy, terms, faq, contact)')
+    .description(
+      'Install templates. Pages (Next.js): about, privacy, terms, faq, contact. Agent-readiness manifests (any framework): agent-card, mcp-server-card, api-catalog, agent-permissions, oauth-discovery.',
+    )
     .action(async (templates: string[]) => {
       const deps: AddCommandDeps = { fs: new NodeFs(), prompter: new ClackPrompter() };
       // Support comma-separated form: `answerfox add about,faq`
