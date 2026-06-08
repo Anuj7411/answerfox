@@ -62,12 +62,16 @@ export default function LandingPage() {
           <div className="max-w-[640px]">
             <span className="eyebrow">
               <span className="dot" /> Open-source AI-SEO toolkit
+              <span className="ml-3 rounded-full bg-ember/15 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-ember">
+                v0.3.0: Agent Readiness
+              </span>
             </span>
             <h1 className="t-hero mt-6">
-              The only AI-SEO toolkit that lives in your codebase and ships fixes as code.
+              The open-source AI-SEO toolkit that lives in your codebase and ships fixes as code.
             </h1>
             <p className="mt-6 max-w-[540px] font-body text-xl leading-relaxed text-ink-muted">
-              Audit any site for SEO, AEO, and GEO across 55 checks. Then let AI write the fixes.
+              Audit any site for SEO, AEO, GEO, and AI Agent Readiness. 39 of 56 checks live today.
+              Each finding ships as code you commit.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-3.5">
               <button type="button" className="btn btn-solid">
@@ -98,26 +102,19 @@ export default function LandingPage() {
             <div className="term-body">
               <div>
                 <span className="prompt">$</span>{' '}
-                <span className="cmd">pnpm dlx @answerfox/cli audit vercel.com</span>
+                <span className="cmd">npx @answerfox/cli audit stripe.com</span>
               </div>
               <div className="muted">Audit running… done in 2.4s</div>
               <div className="ok">
-                Score: <b className="font-semibold">92</b>/100{' '}
-                <span className="muted">(Excellent)</span>
+                Score: <b className="font-semibold">76</b>/100{' '}
+                <span className="muted">(Average)</span>
               </div>
+              <div className="muted">26 pass · 3 fail · 4 warn · 0 skip</div>
               <div className="term-scores">
                 <span className="sc">
-                  SEO <b>92</b>
+                  Agent Readiness <b>0 / 6</b>
                 </span>
-                <span className="sc">
-                  AEO <b>87</b>
-                </span>
-                <span className="sc">
-                  GEO <b>74</b>
-                </span>
-                <span className="agg">
-                  Aggregate <b>84</b>
-                </span>
+                <span className="agg">Missing: G3 G4 G5</span>
                 <span className="term-cursor" />
               </div>
             </div>
