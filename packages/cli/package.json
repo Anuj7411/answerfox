@@ -1,6 +1,6 @@
 {
   "name": "@answerfox/cli",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "The `answerfox` command — runs audits, prints reports, explains checks.",
   "license": "MIT",
   "author": "Anuj Ojha",

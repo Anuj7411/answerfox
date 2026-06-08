@@ -1,6 +1,6 @@
 {
   "name": "@answerfox/templates",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Page templates (About, Privacy, Terms, FAQ, Contact) for the Answerfox SEO toolkit. Installed into user projects by the CLI.",
   "license": "MIT",
   "author": "Anuj Ojha",

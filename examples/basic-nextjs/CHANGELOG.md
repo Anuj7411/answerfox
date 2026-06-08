@@ -1,5 +1,15 @@
 # @answerfox/example-basic-nextjs
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [f514451]
+  - @answerfox/audit@0.3.0
+  - @answerfox/metadata@0.2.1
+  - @answerfox/schemas@0.2.1
+  - @answerfox/sitemap@0.2.1
+
 ## 0.0.4
 
 ### Patch Changes
