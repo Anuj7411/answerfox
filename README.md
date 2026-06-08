@@ -133,12 +133,12 @@ Seven packages, each does one thing, all composable.
 | [`@answerfox/metadata`](./packages/metadata) | `defineSeo()` composes title, description, canonical, OpenGraph, Twitter, and robots into a Next.js `Metadata` object |
 | [`@answerfox/sitemap`](./packages/sitemap) | `buildSitemap()` with priority and `changeFrequency` inferred from path patterns |
 | [`@answerfox/templates`](./packages/templates) | Five trust-page templates (About, Privacy, Terms, FAQ, Contact) the CLI installs |
-| [`@answerfox/audit`](./packages/audit) | Cheerio-backed audit engine, 33 checks shipping today |
+| [`@answerfox/audit`](./packages/audit) | Cheerio-backed audit engine, 39 of 56 checks shipping today |
 | [`@answerfox/cli`](./packages/cli) | The `answerfox` command: `audit`, `explain`, `init`, `add` |
 
 ## The audit framework
 
-Checks are scored 0-100 (single score plus a band: Critical, Weak, Average, Strong, Excellent) and grouped by category. The framework defines 50 checks; **33 are active today**.
+Checks are scored 0-100 (single score plus a band: Critical, Weak, Average, Strong, Excellent) and grouped by category. The framework defines 56 checks; **39 are active today**.
 
 | Category | Active | Total |
 |---|---|---|
@@ -148,9 +148,12 @@ Checks are scored 0-100 (single score plus a band: Critical, Weak, Average, Stro
 | D · E-E-A-T & authority | 6 | 12 |
 | E · Off-site citations | 4 | 8 |
 | F · OpenGraph & social | 6 | 7 |
-| **Total** | **33** | **50** |
+| G · Agent Readiness *(informational, see note)* | 6 | 6 |
+| **Total** | **39** | **56** |
 
 The remaining 17 (content-quality NLP, page-type heuristics, multi-page crawls) land incrementally. Full spec in [AUDIT-FRAMEWORK.md](./docs/internal/AUDIT-FRAMEWORK.md).
+
+**About Category G (Agent Readiness):** v0.3.0 ships 6 checks that detect AI-agent-era manifests on your origin (MCP Server Card, A2A `agent-card.json`, RFC 9727 API Catalog, `agent-permissions.json`, OAuth Authorization Server Metadata, WebMCP form annotations). These are **informational** in v0.3.x — they appear in the report but don't move your score, so the SEO/AEO/GEO baseline (0-100) stays comparable across versions. Future v0.4+ may roll them into scoring once standards stabilize.
 
 ## See it run
 

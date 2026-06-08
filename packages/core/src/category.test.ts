@@ -10,6 +10,7 @@ describe('CategorySchema', () => {
       'eeat-and-authority',
       'offsite-citations',
       'og-and-social',
+      'agent-readiness',
     ] as const;
     for (const c of valid) {
       expect(CategorySchema.parse(c)).toBe(c);
@@ -35,14 +36,34 @@ describe('CATEGORY_ID_PREFIX', () => {
 });
 
 describe('CATEGORY_POINT_BUDGET', () => {
-  it('totals exactly 100', () => {
-    const total = Object.values(CATEGORY_POINT_BUDGET).reduce((sum, n) => sum + n, 0);
+  it('SEO/AEO/GEO categories (A-F) total exactly 100', () => {
+    // Category G (agent-readiness) is informational in v0.3.x, it has
+    // points: 0 so it doesn't move the base 0-100 score. Sum the rest.
+    const total = (Object.values(CATEGORY_POINT_BUDGET) as number[]).reduce((sum, n) => sum + n, 0);
     expect(total).toBe(100);
   });
 
-  it('has a positive budget for every category', () => {
+  it('has a non-negative budget for every category', () => {
     for (const points of Object.values(CATEGORY_POINT_BUDGET)) {
-      expect(points).toBeGreaterThan(0);
+      expect(points).toBeGreaterThanOrEqual(0);
     }
+  });
+
+  it('has a positive budget for every scored category (A-F)', () => {
+    const scoredCategories = [
+      'meta-and-technical',
+      'content-structure',
+      'structured-data',
+      'eeat-and-authority',
+      'offsite-citations',
+      'og-and-social',
+    ] as const;
+    for (const c of scoredCategories) {
+      expect(CATEGORY_POINT_BUDGET[c]).toBeGreaterThan(0);
+    }
+  });
+
+  it('marks agent-readiness as informational (zero-pointed in v0.3.x)', () => {
+    expect(CATEGORY_POINT_BUDGET['agent-readiness']).toBe(0);
   });
 });

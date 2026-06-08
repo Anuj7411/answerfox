@@ -33,15 +33,26 @@ import { f3OgImage } from './f3-og-image.js';
 import { f5OgUrl } from './f5-og-url.js';
 import { f6TwitterCard } from './f6-twitter-card.js';
 import { f7TwitterImage } from './f7-twitter-image.js';
+import { g1McpServerCard } from './g1-mcp-server-card.js';
+import { g2AgentCard } from './g2-agent-card.js';
+import { g3ApiCatalog } from './g3-api-catalog.js';
+import { g4AgentPermissions } from './g4-agent-permissions.js';
+import { g5OauthDiscovery } from './g5-oauth-discovery.js';
+import { g6WebmcpForm } from './g6-webmcp-form.js';
 
 /**
  * Total number of audit checks planned in the full AUDIT-FRAMEWORK.md
  * spec. `DEFAULT_CHECKS.length` divided by this number is the engine's
- * current spec coverage (~63% at v0.1.x). Surfaced in reporters so
- * users know the framework is shipping incrementally rather than
- * inferring "100/100 means perfect site forever."
+ * current spec coverage. Surfaced in reporters so users know the
+ * framework is shipping incrementally rather than inferring "100/100
+ * means perfect site forever."
+ *
+ * v0.3.0 expanded the spec from 50 to 56 by adding category G
+ * (agent-readiness): G1 MCP Server Card, G2 A2A agent-card.json,
+ * G3 RFC 9727 API Catalog, G4 agent-permissions.json, G5 RFC 8414
+ * OAuth discovery, G6 WebMCP form annotations.
  */
-export const TOTAL_PLANNED_CHECKS = 50;
+export const TOTAL_PLANNED_CHECKS = 56;
 
 /**
  * Every check registered with the audit engine, in stable AUDIT-FRAMEWORK
@@ -83,4 +94,12 @@ export const DEFAULT_CHECKS: readonly Check<AuditDom>[] = [
   f5OgUrl,
   f6TwitterCard,
   f7TwitterImage,
+  // Category G (agent-readiness, v0.3.0+): informational checks for AI-agent
+  // manifests. Score-neutral (points: 0). See ROADMAP.md for v0.4 scoring plan.
+  g1McpServerCard,
+  g2AgentCard,
+  g3ApiCatalog,
+  g4AgentPermissions,
+  g5OauthDiscovery,
+  g6WebmcpForm,
 ];

@@ -1,8 +1,18 @@
 import { defineCheck, parseAbsoluteUrl } from '@answerfox/core';
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { AuditDom } from './parser.js';
 import { loadHtml } from './parser.js';
 import { bandFromScore, runChecks } from './runner.js';
+
+// Stub fetch globally so the G1-G5 checks (which fetch /.well-known/*)
+// behave deterministically. They get 404 here, which maps to "fail" — the
+// expected outcome for fixture sites without agent-readiness manifests.
+beforeEach(() => {
+  vi.stubGlobal('fetch', async () => new Response('', { status: 404 }));
+});
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 const URL = parseAbsoluteUrl('https://example.com');
 
@@ -53,10 +63,17 @@ const EMPTY_HTML = '<html></html>';
 describe('runChecks', () => {
   it('returns 100 + excellent band on a perfect fixture', async () => {
     const report = await runChecks({ url: URL, html: PERFECT_HTML, dom: loadHtml(PERFECT_HTML) });
+    // Score stays 100 because category G (Agent Readiness) checks have
+    // points: 0 — they're informational, not scored, in v0.3.0.
     expect(report.score).toBe(100);
     expect(report.band).toBe('excellent');
+    // 33 A-F checks pass on the perfect fixture.
     expect(report.summary.pass).toBe(33);
-    expect(report.summary.fail).toBe(0);
+    // G1-G5 fail because the fixture site doesn't host /.well-known/*
+    // manifests (we stubbed fetch to return 404).
+    expect(report.summary.fail).toBe(5);
+    // G6 skips because the perfect fixture has no <form> elements.
+    expect(report.summary.skip).toBe(1);
   });
 
   it('lands in critical band on a fixture missing nearly everything', async () => {
@@ -106,6 +123,12 @@ describe('runChecks', () => {
       'F5',
       'F6',
       'F7',
+      'G1',
+      'G2',
+      'G3',
+      'G4',
+      'G5',
+      'G6',
     ]);
   });
 
