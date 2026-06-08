@@ -1,6 +1,6 @@
 {
   "name": "@answerfox/schemas",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Type-safe JSON-LD generators for the Answerfox SEO toolkit (Organization, FAQPage, Article, ...).",
   "license": "MIT",
   "author": "Anuj Ojha",
