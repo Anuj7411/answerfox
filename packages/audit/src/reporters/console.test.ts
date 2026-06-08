@@ -100,7 +100,9 @@ describe('consoleReport', () => {
   it('shows a framework-coverage footer so 100/100 results stay honest', async () => {
     const report = await runChecks({ url: URL, html: PERFECT_HTML, dom: loadHtml(PERFECT_HTML) });
     const out = consoleReport(report, { color: false });
-    expect(out).toMatch(/\d+ of 50 audit checks active/);
+    // Use \d+ for the denominator so this assertion survives future
+    // framework expansions (50 in v0.1.x, 56 in v0.3.0, etc.).
+    expect(out).toMatch(/\d+ of \d+ audit checks active/);
     expect(out).toContain('github.com/Anuj7411/answerfox');
   });
 });
