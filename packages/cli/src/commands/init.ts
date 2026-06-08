@@ -1,4 +1,9 @@
-import { type Template, listTemplates, renderTemplate } from '@answerfox/templates';
+import {
+  type Template,
+  isManifestTemplate,
+  listTemplates,
+  renderTemplate,
+} from '@answerfox/templates';
 import type { Command } from 'commander';
 import { type Fs, NodeFs } from '../install/fs.js';
 import { detectNextProject } from '../install/project.js';
@@ -63,9 +68,14 @@ export async function runInitCommand(
 
   deps.prompter.intro('Answerfox · setting up SEO');
 
+  // `init` only scaffolds page templates (trust pages) and routing files.
+  // Manifest templates (agent-card, mcp-server-card, etc.) are opt-in via
+  // `af add agent-card` since not every project wants every manifest.
+  const pageTemplates = listTemplates().filter((t) => !isManifestTemplate(t.name));
+
   // Compute the union of tokens needed by every page template + routing files.
   const allRequired = new Set<string>(['URL']); // routing files use URL
-  for (const t of listTemplates()) {
+  for (const t of pageTemplates) {
     for (const token of t.requiredTokens) allRequired.add(token);
   }
 
@@ -81,8 +91,8 @@ export async function runInitCommand(
 
   const results: InstallResult[] = [];
 
-  // Page templates.
-  for (const template of listTemplates()) {
+  // Page templates only. Manifests are opt-in via `af add agent-card` etc.
+  for (const template of pageTemplates) {
     results.push(await installPageTemplate(template, tokens, cwd, deps));
   }
 

@@ -1,9 +1,17 @@
 import { describe, expect, it } from 'vitest';
-import { getTemplate, listTemplates, renderTemplate } from './registry.js';
+import { getTemplate, isManifestTemplate, listTemplates, renderTemplate } from './registry.js';
 import { extractTokens } from './render.js';
 import type { Template, TemplateName } from './types.js';
 
-const EXPECTED_NAMES: readonly TemplateName[] = ['about', 'privacy', 'terms', 'faq', 'contact'];
+const PAGE_NAMES: readonly TemplateName[] = ['about', 'privacy', 'terms', 'faq', 'contact'];
+const MANIFEST_NAMES: readonly TemplateName[] = [
+  'agent-card',
+  'mcp-server-card',
+  'api-catalog',
+  'agent-permissions',
+  'oauth-discovery',
+];
+const EXPECTED_NAMES: readonly TemplateName[] = [...PAGE_NAMES, ...MANIFEST_NAMES];
 
 const SAMPLE_VALUES: Readonly<Record<string, string>> = {
   PROJECT_NAME: 'Acme',
@@ -35,6 +43,7 @@ describe('listTemplates', () => {
 describe('getTemplate', () => {
   it('returns the same object across calls (safe to compare by reference)', () => {
     expect(getTemplate('about')).toBe(getTemplate('about'));
+    expect(getTemplate('agent-card')).toBe(getTemplate('agent-card'));
   });
 
   for (const name of EXPECTED_NAMES) {
@@ -44,8 +53,23 @@ describe('getTemplate', () => {
   }
 });
 
-describe('template invariants', () => {
-  for (const template of listTemplates()) {
+describe('isManifestTemplate', () => {
+  it('returns true for every manifest template', () => {
+    for (const name of MANIFEST_NAMES) {
+      expect(isManifestTemplate(name)).toBe(true);
+    }
+  });
+
+  it('returns false for every page template', () => {
+    for (const name of PAGE_NAMES) {
+      expect(isManifestTemplate(name)).toBe(false);
+    }
+  });
+});
+
+describe('page template invariants', () => {
+  for (const name of PAGE_NAMES) {
+    const template = getTemplate(name);
     describe(template.name, () => {
       it('has a filename inside the app/ directory ending with /page.tsx', () => {
         expect(template.filename.startsWith('app/')).toBe(true);
@@ -70,13 +94,52 @@ describe('template invariants', () => {
   }
 });
 
+describe('manifest template invariants', () => {
+  for (const name of MANIFEST_NAMES) {
+    const template = getTemplate(name);
+    describe(template.name, () => {
+      it('has a filename inside public/.well-known/', () => {
+        expect(template.filename.startsWith('public/.well-known/')).toBe(true);
+      });
+
+      it('has no required tokens (manifests are static in v0.3.1)', () => {
+        expect(template.requiredTokens).toEqual([]);
+      });
+
+      it('has non-empty content', () => {
+        expect(template.content.length).toBeGreaterThan(0);
+      });
+
+      it('contains a TODO placeholder OR is a static policy file', () => {
+        // agent-permissions is a complete policy (no TODOs needed).
+        // All others should have at least one TODO marker so the user
+        // knows what to edit.
+        if (template.name === 'agent-permissions') {
+          expect(template.content).toContain('"allow"');
+        } else {
+          expect(template.content).toContain('TODO');
+        }
+      });
+    });
+  }
+});
+
 describe('renderTemplate', () => {
-  for (const template of listTemplates()) {
+  for (const name of PAGE_NAMES) {
+    const template = getTemplate(name);
     it(`renders "${template.name}" with sample values and leaves no token placeholders`, () => {
       const valuesForTemplate = pickRequired(template, SAMPLE_VALUES);
       const out = renderTemplate(template.name, valuesForTemplate);
       expect(out).not.toMatch(/\{\{[A-Z][A-Z0-9_]*\}\}/);
       expect(out.length).toBeGreaterThan(0);
+    });
+  }
+
+  for (const name of MANIFEST_NAMES) {
+    const template = getTemplate(name);
+    it(`renders "${template.name}" with empty values (manifests have no tokens)`, () => {
+      const out = renderTemplate(template.name, {});
+      expect(out).toBe(template.content);
     });
   }
 

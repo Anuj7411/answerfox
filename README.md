@@ -35,6 +35,10 @@ af explain A4
 # Scaffold trust pages, sitemap, and robots in a Next.js project
 af init
 
+# Scaffold agent-readiness manifests (works in any framework)
+af add agent-card
+af add mcp-server-card api-catalog agent-permissions oauth-discovery
+
 # Fail a CI build if the score drops below a threshold
 af audit ${PREVIEW_URL} --ci --min-score 80
 ```
