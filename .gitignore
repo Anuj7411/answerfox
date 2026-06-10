@@ -46,3 +46,18 @@ Thumbs.db
 .cache/
 *.tgz
 .claude/
+
+# Private internal docs (outreach data, email drafts, idea specs)
+docs/internal/COLD-MAIL-DRAFTS.md
+docs/internal/COLD-OUTREACH-TARGETS.md
+docs/internal/VALIDATION-SPRINT-POSTS.md
+docs/internal/PH-LAUNCH-PACK.md
+docs/internal/IDEA-LEAN-RESEARCH-TOOL.md
+docs/internal/PRODUCTS-INVENTORY.md
+docs/internal/SPRINT-STATUS.md
+
+# Scratch / temp files from research sessions
+tp.html
+tp.txt
+vbjina.txt
+vbtmp.html

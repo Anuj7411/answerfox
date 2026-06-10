@@ -1,6 +1,7 @@
+import { PostHogProvider } from '@/components/providers/posthog-provider';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Inter } from 'next/font/google';
-import type { ReactNode } from 'react';
+import { type ReactNode, Suspense } from 'react';
 import './globals.css';
 
 // Self-hosted at build time by next/font (no third-party CDN, no FOIT).
@@ -20,7 +21,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${geist.variable} ${geistMono.variable} ${inter.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Suspense fallback={null}>
+          <PostHogProvider>{children}</PostHogProvider>
+        </Suspense>
+      </body>
     </html>
   );
 }
