@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import { GitHubIcon } from '@/components/icons';
 import { createBrowserSupabaseClient } from '@/lib/supabase/browser-client';
+import { useState } from 'react';
 
 interface SignInWithGitHubProps {
   /**
@@ -47,12 +47,7 @@ export function SignInWithGitHub({ redirectTo }: SignInWithGitHubProps) {
   }
 
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      disabled={pending}
-      className="btn btn-solid w-full"
-    >
+    <button type="button" onClick={handleClick} disabled={pending} className="btn btn-solid w-full">
       <GitHubIcon />
       {pending ? 'Redirecting...' : 'Continue with GitHub'}
     </button>

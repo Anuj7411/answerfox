@@ -1,6 +1,6 @@
+import { createMiddlewareSupabaseClient } from '@/lib/supabase/middleware-client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { createMiddlewareSupabaseClient } from '@/lib/supabase/middleware-client';
 
 /**
  * Next.js middleware that runs on every request matched by the

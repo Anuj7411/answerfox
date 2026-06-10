@@ -1,8 +1,8 @@
 'use client';
 
+import { initPostHog, posthog } from '@/lib/observability/posthog-client';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { type ReactNode, useEffect } from 'react';
-import { initPostHog, posthog } from '@/lib/observability/posthog-client';
 
 /**
  * Wraps the app to:
@@ -23,9 +23,10 @@ export function PostHogProvider({ children }: { readonly children: ReactNode }) 
 
   useEffect(() => {
     if (pathname === null) return;
-    const url = searchParams !== null && searchParams.toString().length > 0
-      ? `${pathname}?${searchParams.toString()}`
-      : pathname;
+    const url =
+      searchParams !== null && searchParams.toString().length > 0
+        ? `${pathname}?${searchParams.toString()}`
+        : pathname;
     posthog.capture?.('$pageview', { $current_url: url });
   }, [pathname, searchParams]);
 

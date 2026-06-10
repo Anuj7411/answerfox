@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
+import { NextResponse } from 'next/server';
 
 /**
  * Sign-out handler.

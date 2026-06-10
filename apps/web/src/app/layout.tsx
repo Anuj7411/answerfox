@@ -1,7 +1,7 @@
+import { PostHogProvider } from '@/components/providers/posthog-provider';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Inter } from 'next/font/google';
 import { type ReactNode, Suspense } from 'react';
-import { PostHogProvider } from '@/components/providers/posthog-provider';
 import './globals.css';
 
 // Self-hosted at build time by next/font (no third-party CDN, no FOIT).

@@ -1,7 +1,7 @@
-import Link from 'next/link';
+import { SignInWithGitHub } from '@/components/auth/sign-in-with-github';
 import { Bloom } from '@/components/bloom/Bloom';
 import type { BloomOpts } from '@/components/bloom/types';
-import { SignInWithGitHub } from '@/components/auth/sign-in-with-github';
+import Link from 'next/link';
 
 const signInBloom: BloomOpts = {
   base: '#D6D2CB',

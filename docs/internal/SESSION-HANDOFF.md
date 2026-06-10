@@ -1,286 +1,156 @@
-# Session Handoff — 2026-05-29
+# Session Handoff — 2026-06-08
 
-**Purpose:** Read this file fully before doing anything. It is the source of truth for resuming the Answerfox project in a new Claude Code session.
+**This is the latest handoff. Read this first.** Previous handoff (2026-06-06) text retained below as historical context.
 
-This handoff supersedes the previous one (which was about the v0.1.0 npm publish). All foundation work since then is captured here.
+---
+
+## 60-Second Recap (2026-06-08, Monday evening IST)
+
+**Where we are in one paragraph:** v0.2.2 of `@answerfox/cli` is shipping on npm with the new `af` alias. Validation sprint distribution is done: 20 cold emails sent Sat night, 3 LinkedIn DMs sent Sun (Gary Meehan/Vishnu Sankar/David Dias), Joost de Valk pending bare-connect, r/SideProject post auto-filtered with modmail pending, Indie Hackers + Show HN both blocked behind new-account gates. **The remaining signal sources are email replies + LinkedIn acceptances + r/SideProject mod decision.** Tuesday morning is the tally + decision day.
+
+**The strategic doc set:** This handoff (60-sec recap) + `ROADMAP.md` (6-week + 2027 bets) + `TECH-STRATEGY.md` (stack decisions + multi-language research) + `SPRINT-STATUS.md` (current sprint snapshot). Read in that order if resuming after a break.
+
+## What's next, locked in writing
+
+- **Today/tomorrow**: ship v0.3.0 Agent Readiness DETECTION (6 new audit checks G1-G6 for MCP Server Card, agent-card.json, RFC 9727, agent-permissions.json, OAuth discovery, WebMCP). Update apps/web landing copy in same PR.
+- **Week 2 (Jun 15-21)**: v0.3.1 scaffolding (`af add agent-card` etc) + apps/web Day 4 (Supabase + Drizzle schema)
+- **Week 3 (Jun 22-28)**: apps/web Day 5 (Auth) + dashboard MVP shell
+- **Week 4-6 (Jun 29 - Jul 19)**: continuous audit + diffs + alerts → Stripe IF paid signal OR Agent-Preference Analytics MVP if not → real Product Hunt launch with `PH-LAUNCH-PACK.md`
+- **Q4 2026**: Agent-Preference Analytics depth (Google Analytics for AI agents)
+- **2027 bets**: MCP Tool Selection Optimization (Q1-Q2), Agent Trust Layer (Q2-Q3), AI-Aware Content Negotiation (Q2-Q3). All documented in `ROADMAP.md`.
+
+## Stack decisions (locked, see TECH-STRATEGY.md for the why)
+
+- **v0.3.0 to v0.6.0**: TypeScript everywhere. Ship speed wins pre-validation.
+- **v0.5.0**: Bun compatibility (`bun add -g @answerfox/cli`)
+- **v0.6.0**: tsgo (Go-based tsc) for type checking when production-ready
+- **v0.7.0 (Q4 2026)**: First Rust hot path (HTML parsing via `lol-html` or `scraper`, exposed via WASM or N-API). Same shape as esbuild/swc/biome/bun.
+- **v1.0 (Q2 2027)**: Native `af` binary built from Rust for users who don't want Node. Distributed via GitHub releases. npm package stays for JS ecosystem.
+
+The principle: **rewrite WHAT'S SLOW, not WHAT EXISTS.** Hot paths get Rust eventually, public API stays TS.
+
+## Files anyone resuming this project should know about
+
+Public:
+- `README.md` (repo front page, v0.2.2)
+- `docs/internal/AUDIT-FRAMEWORK.md` (the 50-check spec)
+
+Internal (gitignored):
+- `docs/internal/SESSION-HANDOFF.md` (this file)
+- `docs/internal/ROADMAP.md` (6-week + 2027 bets)
+- `docs/internal/TECH-STRATEGY.md` (stack decisions + multi-language research with sources)
+- `docs/internal/SPRINT-STATUS.md` (validation sprint state)
+- `docs/internal/PRODUCTS-INVENTORY.md` (28 of Anuj's projects with metadata)
+- `docs/internal/COLD-OUTREACH-TARGETS.md` (46 verified solo indie devs)
+- `docs/internal/COLD-MAIL-DRAFTS.md` (20 emails, all sent)
+- `docs/internal/VALIDATION-SPRINT-POSTS.md` (sprint distribution copy)
+- `docs/internal/PH-LAUNCH-PACK.md` (Product Hunt playbook for AFTER v0.3.0)
+- `docs/internal/IDEA-LEAN-RESEARCH-TOOL.md` (parked idea)
+
+---
+
+## Previous handoff: 2026-06-06
+
+**Purpose:** Read this fully before doing anything. It is the source of truth for resuming Answerfox in a new session. It supersedes the 2026-05-29 handoff (that one predates the rename to Answerfox and the SaaS build).
 
 ---
 
 ## 60-Second Recap
 
-Anuj has been building **Answerfox**, an open-source AI-SEO toolkit launching as a SaaS. The OSS packages are already live on npm at v0.1.2. The SaaS launch foundation has been fully designed and architected through this session.
+The project is **Answerfox** (renamed this session from "Answerable"). Open-source AI-SEO toolkit (SEO + AEO + GEO) that lives in your codebase and ships fixes as code. OSS packages are live on npm under **`@answerfox/*` at 0.2.0**. The SaaS app (`apps/web`) has Week 1 Days 1-3 built and merged. We also ran deep research that produced a forward-looking wedge (Agent Readiness), and an office-hours session that set the next priority: validate paid demand before building more.
 
-**Current state:** Every foundation document is locked. The prototype landing page works in a browser. The next step is engineering work (scaffolding `apps/web` per the TRD).
-
-**User's strategic frame:** Solo lifestyle business, indie developer customer, $5-20K MRR target in 18-24 months. OSS first + paid SaaS for hosted convenience. Per `STRATEGIC-POSITIONING.md`.
-
-**User's working style:** "Recommend, don't ask." Decisive options preferred over neutral menus. See `~/.claude/projects/C--Projects-answerable/memory/MEMORY.md`.
+**The one pending action from last session:** merge **PR #44** (a "Version Packages" PR) to publish **`@answerfox/cli@0.2.1`** (the CLI bug fixes). Then the README's `npx @answerfox/cli` command gives the fixed tool. See "Immediate next steps."
 
 ---
 
-## What Is Locked (Every Foundation Document)
+## The Rename: Answerable -> Answerfox (DONE)
 
-All seven documents live under `docs/internal/`. Read in this order if catching up:
+Every namespace for "Answerable" was taken (.com/.io/.dev/.tech, the clean npm scope, the GitHub org) and a funded company already trades as "Answerable", so we renamed.
 
-| # | File | Status | Purpose |
-|---|---|---|---|
-| 1 | `STRATEGIC-POSITIONING.md` | ✅ Locked | The why. Positioning sentence, three pillars, OSS+SaaS doctrine, 10 differentiators vs Profound/Peec/Otterly/Searchable, future bets, ProductHunt strategy. |
-| 2 | `BRAND-BRIEF.md` | ✅ Locked (historical) | Original Aurora-era brand exploration. Voice rules, anti-AI checklist still apply. Gradient direction superseded. |
-| 3 | `BRAND-SYSTEM-LOCKED.md` | ✅ Source of truth | Slate Family system: 6 ember cousins on `#D6D2CB` slate base. Per-page color mapping. Intensity scale (80/60/35/40/60). Three-tier system (primary + Dawn Strip secondary + Ink Drop tertiary). CSS tokens. |
-| 4 | `PRD-V1.md` | ✅ Locked | 14 features (5 free + 6 paid + 3 platform foundations). 8 user journeys. Pricing: Free + Pro $29 + Studio $99 Phase 2. Launch checklist. 11 risks. |
-| 5 | `CLAUDE-DESIGN-PROMPTS-LOCKED-V33.md` | ✅ Ready | Per-screen Claude Design prompts incorporating v3.3 bloom learnings. For when the user wants to regenerate any screen in Claude Design. |
-| 6 | `TRD-V1.md` | ✅ Locked | Technical architecture. Full Postgres schema. Every PRD feature mapped to services. Tech stack: Cloudflare everywhere + Neon + Auth.js + Resend + Gemini 3.5 Flash + Stripe. Cost model. 14-week build plan. |
-| 7 | `SESSION-HANDOFF.md` | This file | Continuity bridge between sessions. |
-
-**Also relevant:** the older docs `CLAUDE-DESIGN-PROMPT.md`, `CLAUDE-DESIGN-PROMPT-MULTIPAGE.md`, `GRADIENT-EXPLORATION-PROMPT.md`, `GRADIENT-EXPLORATION-PROMPT-SET-B.md` are historical exploration artifacts from earlier in this session. The current source of truth for design prompts is `CLAUDE-DESIGN-PROMPTS-LOCKED-V33.md`.
+- **Name:** Answerfox. **Domain:** `answerfox.dev` (NOT yet purchased — grab via GitHub Student Pack, free year; `.dev` chosen over `.app`).
+- **GitHub repo:** renamed to **`Anuj7411/answerfox`** (old URL redirects). Repo lives under the personal account; an `answerfox` GitHub org is available if ever wanted.
+- **npm scope:** migrated `@answerable-kit/*` -> `@answerfox/*`, published at 0.2.0 via OIDC Trusted Publishing. Old `@answerable-kit/*` and the `@answerfox` 0.1.x bootstrap versions are **deprecated** with pointers.
+- Brand renamed across the 7 foundation docs + prototype (PR #34) and all package code (PR #35). The English adjective "answerable" was deliberately preserved (e.g. "makes any site answerable by AI").
 
 ---
 
-## What Is Built
+## What Is Built / Live
 
-### OSS packages (live on npm)
+### OSS packages (npm, scope `@answerfox/*`, all 0.2.0)
+`audit`, `cli`, `core`, `schemas`, `metadata`, `sitemap`, `templates`. Released via Changesets + **OIDC Trusted Publishing (no token)**, configured on all 7 packages by the user. Release workflow: `.github/workflows/release.yml` (guard is `Anuj7411/answerfox`; runs on push to main; `version-packages` script auto-runs `pnpm format` so changeset output stays Biome-clean).
 
-| Package | Version | Status |
-|---|---|---|
-| `@answerfox/audit` | 0.1.2 | Live. 33 of 50 checks shipped. Three-score (SEO/AEO/GEO) coverage footer added. |
-| `@answerfox/cli` | 0.1.2 | Live. `audit`, `explain`, `init`, `add` commands. |
-| `@answerfox/core` | 0.1.2 | Live. Branded types, errors, `Check<T>` interface. |
-| `@answerfox/schemas` | 0.1.2 | Live. 8 JSON-LD generators. |
-| `@answerfox/metadata` | 0.1.2 | Live. `defineSeo()` for Next.js. |
-| `@answerfox/sitemap` | 0.1.2 | Live. `buildSitemap()` + `sitemapIndex()`. |
-| `@answerfox/templates` | 0.1.2 | Live. 5 trust-page templates. |
+### CLI status (verified this session)
+- `audit <url>` and `explain <id>` are stable and CI-friendly (no TTY needed). `init`/`add` are interactive (need a real terminal + a Next.js project; `add` guards against non-Next.js dirs and prints a TTY error in non-interactive contexts).
+- **33 of 50 audit checks active.** Output is a single 0-100 score + band (Critical/Weak/Average/Strong/Excellent), checks grouped A-G. There is **NO** separate SEO/AEO/GEO three-score in the CLI; do not claim one.
+- `examples/basic-nextjs` audits to **79/100** out of the box (verified live, NOT the 90+ once claimed).
+- **Bugs fixed this session (PR #43):** `--version` now reads package.json (was hardcoded `0.0.0`); `audit` now sets `process.exitCode` and exits naturally instead of `process.exit()`, which was causing a **libuv assertion crash on Windows** (UV_HANDLE_CLOSING) after the report. Exit codes: 0 success, 1 CI threshold not met, 2 audit failed. A changeset for these is in PR #44 (pending publish as 0.2.1).
+- **Known minor gaps (not blockers):** check `docsUrl`s point to `answerfox.dev/docs/...` which is not deployed (dead links; `answerfox explain <id>` gives the doc offline). Docs site (Nextra) still does not build (known, decoupled).
 
-**Publishing pipeline:** Trusted Publishing via OIDC (no token). Workflow at `.github/workflows/release.yml`. Runs on push to main.
+### apps/web (the SaaS, Next.js 15) — Week 1 Days 1-3 DONE
+- **Day 1 (PR #40):** scaffolded `apps/web` as `@answerfox/web`, plain Next.js 15 App Router for Vercel, Tailwind 4 CSS-first `@theme` with the locked Slate tokens, self-hosted Geist/Geist Mono/Inter via next/font, `data-page` ember switching.
+- **Day 2 (PR #41):** ported the v3.4 bloom engine to typed ESM (`src/components/bloom/engine.ts`) + SSR-safe `<Bloom/>` wrapper + 15 unit tests for the pure math.
+- **Day 3 (PR #42):** ported the landing into the `(marketing)` route; design-system primitives moved into `globals.css` (aliased to the `@theme` tokens); responsive layout. Dropped the prototype's fake "500+ stars / 50K downloads" counters (real-numbers rule).
+- Prototype polish landed earlier (PR #33).
 
-### Prototype (visual proof, browser-runnable)
-
-Path: `prototype/landing/`
-
-| Screen | File | Status |
-|---|---|---|
-| 01 Landing | `landing.jsx` | ✅ Approved (slate ember at 80%) |
-| 02 Pricing | `pricing.jsx` | ✅ Built (slate marigold at 60%) |
-| 03 Dashboard | `dashboard.jsx` | ✅ Built (slate ember at 35%, with SVG sidebar icons) |
-| 04 Fix Studio | `fix-studio.jsx` | ✅ Built (slate amber at 40%, transparent base overlay) |
-| 05 Sign-in | `signin.jsx` | ✅ Built (slate terracotta at 60%) |
-
-**Engine:** `bloom-engine.js` v3.4 — 5-pass bloom (atmospheric haze + body + soft-light halo + multiply core + NO white pinpoint), grain crossfade (3.2s tile cycle), lissajous orbit with two distinct periods, slow tonal rotation, 30 FPS render.
-
-**To open:** `cd prototype/landing && npx serve .` then http://localhost:5500. Tab bar at top switches between 5 screens.
-
-### Documentation site (`apps/docs`)
-
-| Status | Detail |
-|---|---|
-| ⚠ Nextra build broken | Nextra 4 + Next 15 prerender issue. Decoupled from release pipeline (PR #19). Not blocking anything. Fix is future work. |
+### gstack (our dev methodology) — established
+gstack upgraded **1.40 -> 1.55**. `CLAUDE.md` created (PR #38) with voice rules, decision style, working conventions, the gstack dev loop, and skill routing. Proactive suggestions on. **gbrain skipped** (Mac-oriented, we are on Windows). Use the loop: plan-eng-review -> build -> /review -> /qa -> /ship -> /land-and-deploy -> /canary; /investigate for bugs; /context-save + /context-restore for continuity.
 
 ---
 
-## The Single Sentence (Locked Positioning)
+## STACK DECISION CHANGE (deviates from TRD-V1.md)
 
-> **Answerfox is the only open-source AI-SEO toolkit (SEO + AEO + GEO unified) that lives in your codebase and ships fixes as code.**
-
-Three pillars: **OSS first · Lives in your codebase · Ships fixes as code**.
-
-Differentiator: **Unified SEO + AEO + GEO three-score system**, ships in audit engine v0.2.0+ (next OSS release).
-
----
-
-## Active Task: Begin Week 1 of the TRD Build Plan
-
-Per `TRD-V1.md` section 25:
-
-**Week 1-2 — Foundations:**
-- Scaffold `apps/web` with Next.js 15 App Router
-- Configure Tailwind 4 with Slate Family tokens from `BRAND-SYSTEM-LOCKED.md`
-- Port `prototype/landing/bloom-engine.js` v3.4 to a TypeScript ESM module at `apps/web/src/components/bloom/engine.ts`
-- Create the `<Bloom />` React component wrapper at `apps/web/src/components/bloom/Bloom.tsx`
-- Set up Auth.js v5 with GitHub OAuth (primary) and Google OAuth (secondary)
-- Set up Drizzle + Neon Postgres
-- Run the initial migrations for `users`, `sessions`, `sites`, `audits`, `findings` (DDL in TRD section 5)
-- Wire Sentry + PostHog
-- Deploy the Landing screen to Cloudflare Pages staging
-
-**Before any code is written, the next session should:**
-1. Read this handoff fully
-2. Confirm the prototype runs (open localhost:5500 with the dev server)
-3. Confirm the OSS packages are live (`npm view @answerfox/audit version` returns 0.1.2)
-4. Ask the user: "Ready to scaffold `apps/web`?" before touching the filesystem
+The TRD said Cloudflare-only + Neon + Auth.js + R2/KV. We changed it this session:
+- **Hosting: Vercel first, migrate to Cloudflare later by traffic.** Day 1 is plain Next.js (no OpenNext adapter yet; that lands at the Cloudflare migration). Eng review (plan-eng-review) confirmed this.
+- **Backend: Supabase** (Postgres + Auth + Storage) instead of Neon + Auth.js + R2. Drizzle for schema-as-code. TRD `users` table becomes `public.profiles` keyed to `auth.users`; the rest of the schema carries over.
+- **Portability rule:** no Vercel-proprietary data services; scheduled jobs via Supabase, so the later Cloudflare move is a config change.
 
 ---
 
-## Decision History (The Big Choices, So Nothing Gets Re-Litigated)
+## Strategic verdict (office-hours) — THE PRIORITY
 
-| Decision | Locked answer | Reference |
-|---|---|---|
-| Success goal | Solo lifestyle business, $5-20K MRR | STRATEGIC-POSITIONING.md §2 |
-| Primary customer | Indie developers / solo founders on Next.js, Astro, Remix | STRATEGIC-POSITIONING.md §2 |
-| Business model | Free OSS + Pro $29/mo + Studio $99/mo (Phase 2) | PRD-V1.md §7 |
-| License | MIT, with AGPL on cloud-critical parts when/if needed | STRATEGIC-POSITIONING.md §2 |
-| AI fix is MVP must-have | Yes | PRD-V1.md F6 |
-| Unified SEO + AEO + GEO scoring | Ships in v0.2.0 of OSS audit engine | STRATEGIC-POSITIONING.md §7.5 |
-| AI vendor | Gemini 3.5 Flash on free tier, paid fallback | TRD-V1.md §3, §9 |
-| AI fix quota | 90/month (3/day) per Pro user | PRD-V1.md F6 |
-| Auth | Auth.js v5 (NextAuth), free OSS | TRD-V1.md §24 |
-| Hosting | Cloudflare Pages + Workers (no Vercel Pro, no AWS) | TRD-V1.md §24 |
-| Free tier dashboard | Latest audit only, no history | PRD-V1.md §5 (revised) |
-| Default theme | Light slate only at launch | BRAND-SYSTEM-LOCKED.md, TRD-V1.md §24 |
-| Annual billing | Yes at launch, 15% discount | TRD-V1.md §24 |
-| Brand signature gradient | Slate Family (6 ember cousins) | BRAND-SYSTEM-LOCKED.md |
-| Slate base color | `#D6D2CB` (was `#C9C5BE`, lifted to prevent brown multiply) | BRAND-SYSTEM-LOCKED.md, prototype v3.3 fix |
-| Landing ember | `#F89444` orange at 80% intensity | prototype, BRAND-SYSTEM-LOCKED.md |
-| White pinpoint at bloom center | REMOVED PERMANENTLY (it looked like a sun) | prototype v3.2 fix, all design prompts forbid it |
-| Bloom motion | Slow lissajous with two periods, 22-26s breath | prototype v3.4, user explicitly approved |
-| Grain | Smooth crossfade between tiles every 3.2s, not strobe | prototype v3.2 fix |
-| Launch timeline | 14.5 weeks from PRD lock (early-to-mid Sept 2026) | PRD-V1.md §1 |
+There are **no real users yet** (the OSS is published but unproven; user confirmed this explicitly). Office-hours verdict: **validate paid demand before building the SaaS further.** Do not keep building on conviction.
+
+- **The wedge (from deep research, run `wf_b6b410d4-ce3`):** **Agent Readiness / Agent Experience (AX)**, shipped as fix-as-code — scan and scaffold the agent-capability manifests (MCP Server Card at `.well-known/mcp/server-card.json`, A2A `agent-card.json`, API Catalog RFC 9727 at `.well-known/api-catalog`, `agent-permissions.json`, OAuth discovery RFC 8414/9728, WebMCP declarative form annotations) into the repo. Distinct from incumbents (Cloudflare Agent Readiness Score, Scrunch AXP ~$26M, acquired by Sitecore $225M) who only score at the CDN/edge and never touch the repo. Verified gap: Stripe/Vercel/Supabase/Linear are each missing 4-5 of the 6. Lead with the best-backed pair MCP + WebMCP. **Caveats:** Cloudflare already free-scores readiness (isitagentready.com) so the moat is the in-repo fix-and-commit + packaging, NOT the score; ZERO verified evidence agents yet prefer sites with these manifests (early bet, validate first); standards are immature/drifting; the window is now and short (all signals Apr-Jun 2026). Future bets (late-26/mid-27, medium confidence): agent-preference analytics ("did AX work" / agent-era rank tracking), MCP tool discoverability/selection (177K tools, selection accuracy collapses 43%->2% as tool count grows). Full detail in memory `project_deep-research-wedge.md`.
+- **Validation plan (in progress):** a **free-concierge offer** ("drop your URL, I'll open a free PR making your site agent-ready"), posted publicly (Show HN / r/nextjs / r/SaaS / X / MCP Discords) since there is no audience yet; optional personalized 1:1 cold emails from the user's personal Gmail (the Gmail MCP creates DRAFTS only; user sends; personalized 1:1 mail is NOT spam). Target pool: MCP server publishers / indie SaaS with an agent-readiness gap. The Agent Readiness scan is the hook. **Decision rule:** one paid "yes" from real targets = build the feature; crickets after a genuine push = reposition. Posting was blocked only on the README being launch-ready (now done pending the 0.2.1 publish). Do NOT build an outreach/lead-gen agent (mature tools exist; it is a distraction).
 
 ---
 
-## What We Will NOT Build (Discipline Through Subtraction)
-
-Anti-goals from PRD-V1.md §15 and STRATEGIC-POSITIONING.md §9. Anything from this list that comes up in conversation should be politely deferred:
-
-- White-label agency reports (wrong customer)
-- Enterprise SSO/SAML (wrong customer)
-- Multi-user team accounts (v1; Studio in Phase 2 only)
-- Real-time anything (batched is fine and cheaper)
-- AI chat interface (gimmicky, kills focus)
-- Custom dashboards/widgets (opinionated > flexible)
-- Browser extension (not our customer's workflow)
-- Mobile app (audits are not a mobile use case)
-- Backlink monitoring (Ahrefs' job)
-- Keyword research (different category)
-- Multi-language SEO at launch (English first)
-- Local SEO (different category)
-- AI Citation Tracking at launch (Phase 2, separate launch event)
+## Parked idea: lean research tool
+The user wants to build a token-optimized personal research tool (a leaner deep-research): cut ~3M-token runs by grouping similar agents into clusters, optimizing token use, defining the problem before researching, with specialized agents (read prior chats, same-domain idea improvement, future-market SaaS builder). Personal use first, productize only after Answerfox ships. Spec at `docs/internal/IDEA-LEAN-RESEARCH-TOOL.md` (uncommitted). Memory: `project_lean-research-tool.md`.
 
 ---
 
-## User Preferences and Working Style
+## Immediate next steps (in order)
 
-These are confirmed through many sessions of work. The new agent should internalize them.
-
-| Preference | Detail |
-|---|---|
-| Decision style | "Recommend, don't ask." Give a concrete recommendation with reasoning. Use `AskUserQuestion` only when truly needed for non-trivial branching. Never give neutral menus. |
-| Voice in product copy | Friendly + educational. Sharp not warm. **Zero em-dashes anywhere.** Use commas, periods, or restructure. AI-tells to avoid: delve, leverage, harness, unlock the potential, seamless, in today's fast-paced world. |
-| Voice in our internal chats | Same. The user reads carefully and notices em-dashes and AI-isms. |
-| Decisiveness | The user wants forward progress. After enough exploration, they want a lock. When they say "we can proceed," lock and move. |
-| Iteration on feel | User has strong design instincts. When they say "too brown" or "too still" or "too fast," they are right. Don't argue, iterate. |
-| Money pressure | User is bootstrapping with no revenue yet. Free tiers preferred until forced off. Per TRD-V1.md §22. |
-| OSS commitment | The OSS engine is a strategic moat. Stay MIT. The AGPL option is reserved for SaaS-critical components if needed. |
+1. **Merge PR #44** ("chore(release): version packages", branch `changeset-release/main`) with `gh pr merge 44 --squash --admin --delete-branch`. It bumps `@answerfox/cli` to **0.2.1**. Merging triggers the release workflow to publish 0.2.1 via OIDC. (Changeset-bot PRs get no CI, so admin-merge is expected.)
+2. **Verify the publish:** after the release run completes, `npx @answerfox/cli@latest --version` should print `0.2.1` and `audit https://example.com` should run with no assertion crash.
+3. **Then GitHub is launch-ready.** Help the user run the validation: post the free-concierge Agent Readiness offer (Show HN / r/nextjs / r/SaaS / X / MCP Discords) from personal accounts; optionally draft 1:1 emails into Gmail for specific targets the user names. Watch for the one paid "yes."
+4. **Week 1 Days 4-5 (gated on the user's accounts):** Day 4 = `packages/saas-shared` Drizzle schema (`profiles`, `sites`, `audits`, `findings` per TRD §5) + Supabase Postgres + first migration. Day 5 = Supabase Auth (GitHub OAuth via `@supabase/ssr`) + sign-in page + Sentry + PostHog. Needs: Supabase project (`DATABASE_URL`, `DIRECT_URL`, anon key, service_role), a GitHub OAuth app (configured inside Supabase), Sentry DSN, PostHog key. Env names + setup steps were given in chat (memory S457).
 
 ---
 
-## Known Issues
-
-| Issue | Severity | Plan |
-|---|---|---|
-| Nextra docs site does not build (Next 15 + Nextra 4 prerender) | Low | Decoupled from release pipeline. Fix in dedicated PR when there's time. Does not block launch. |
-| 17 audit checks still unshipped (33 of 50) | Medium | Add incrementally. v0.2.0 ships the 5 GEO checks (G1-G5) per STRATEGIC-POSITIONING.md §7.5. |
-| OSS `apps/docs` references old `@answerable/*` scope in a few corners | Low | Already renamed to `@answerfox/*` per PR #22. If any lingering references, fix in passing. |
-| No marketing site yet (only the prototype) | Expected | This is the Week 1-2 build per TRD-V1.md §25. |
+## Open PRs / repo state
+- **Open:** PR #44 (version packages -> cli 0.2.1). Merge it (step 1 above).
+- **Merged this session/recently:** #33 (prototype polish), #34 (rebrand docs+prototype), #35 (npm scope migration), #36 (release 0.2.0), #37 (CI Node 24 + format fix), #38 (CLAUDE.md gstack), #39 (changeset autoformat), #40-#42 (web Days 1-3), #43 (CLI fixes + README).
+- **Untracked files in the working tree to deal with:** `docs/internal/IDEA-LEAN-RESEARCH-TOOL.md` (intentional, commit when convenient), and stray `tp.html`, `tp.txt`, `vbjina.txt`, `vbtmp.html` (unknown origin — review and delete or gitignore). Local `.claude/launch.json` is gitignored (prototype + web dev servers).
+- Branch hygiene learning: `gh pr merge --delete-branch` removes the local branch too; **recut a fresh feature branch before each new chunk** or commits land on `main`.
 
 ---
 
-## Important Files To Be Aware Of
-
-| Path | What it is |
-|---|---|
-| `package.json` (root) | Turborepo + pnpm workspaces config. `release` script runs `build:packages && changeset publish`. |
-| `.github/workflows/release.yml` | OSS publish via Trusted Publishing (OIDC, no token) |
-| `packages/audit/AUDIT-FRAMEWORK.md` | The 55-check spec (50 original + 5 GEO planned for v0.2.0) |
-| `packages/audit/src/checks/registry.ts` | Where new checks get registered |
-| `prototype/landing/bloom-engine.js` | The v3.4 bloom renderer. Ports to TypeScript at apps/web/src/components/bloom/engine.ts in Week 1. |
-| `prototype/landing/index.html` | Entry point for browser preview |
-| `~/.claude/projects/C--Projects-answerable/memory/MEMORY.md` | User auto-memory, persists across sessions |
+## User preferences / working style (carry these over)
+- **Recommend, don't ask.** Concrete recommendation + reasoning. AskUserQuestion only for genuine branching. Never a neutral menu.
+- **Voice:** zero em-dashes anywhere (chat AND copy); friendly + educational, sharp not warm; no AI-tells (delve, leverage, harness, seamless, robust, comprehensive, etc.); **real numbers only**, no fake counters/testimonials/logos.
+- **Honesty:** the user explicitly values blunt, honest partnership over cheerleading. Do not overstate risk or treat OSS publish as proof of demand.
+- **Conventions:** small PRs, one concept each; conventional commits (feat/fix/chore/prototype/docs); co-author line `Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>`; main is protected (PR + green CI + linear history); the user is fine with hands-off GitHub (admin-merge after CI green).
 
 ---
 
-## Working Conventions (Established)
-
-| Convention | Detail |
-|---|---|
-| Small PRs | One concept per PR. Multi-PR sequences are normal. |
-| Changesets | Every package-affecting PR adds a changeset under `.changeset/`. |
-| Branch protection on main | Requires PR + CI green + linear history. No direct push. |
-| Commit messages | Conventional commits (feat:, fix:, docs:, chore:, prototype:). Include `Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>` at the end. |
-| File creation policy | Do NOT create documentation (`*.md`, READMEs) unless explicitly asked. Currently the foundation docs are all the user wants. |
-| Em-dashes | Forbidden in product copy and the user's preference is to avoid them in chats too. |
-| Marketing claims | Real numbers only. No fake testimonials, no fake counters, no "trusted by Y companies" without real logos. |
+## Memory files (auto-loaded each session, under `~/.claude/projects/C--Projects-answerable/memory/`)
+- `MEMORY.md` (index), `feedback_decision_style.md`, `project_deep-research-wedge.md` (the Agent Readiness verdict), `project_lean-research-tool.md` (the parked tool idea). The claude-mem timeline (S/numeric IDs) holds finer-grained history; fetch with get_observations.
 
 ---
 
-## Quick Command Reference
+## The opening message for the new session
+Paste this to resume seamlessly:
 
-```bash
-# Open the visual prototype
-cd prototype/landing && npx serve .
-# Then open http://localhost:5500
-
-# Verify all OSS packages are live at v0.1.2
-for pkg in audit cli core schemas metadata sitemap templates; do
-  echo "@answerfox/$pkg -> $(curl -s https://registry.npmjs.org/@answerfox/$pkg/latest | python -c "import sys,json; print(json.load(sys.stdin).get('version','MISSING'))" 2>/dev/null)"
-done
-
-# Run the full check (typecheck + lint + 162 tests)
-pnpm check
-
-# OSS publish (only when changesets exist on main)
-# Trusted Publishing fires automatically on push to main
-
-# Run a real audit from the OSS CLI
-pnpm dlx @answerfox/cli audit https://vercel.com
-```
-
----
-
-## The Opening Message For The New Session
-
-When you start the new Claude Code session, paste this exact message as your first prompt:
-
-> Read `docs/internal/SESSION-HANDOFF.md` fully before doing anything else.
->
-> We are picking up Answerfox, an open-source AI-SEO toolkit launching as a SaaS. All seven foundation documents are locked (STRATEGIC-POSITIONING, BRAND-BRIEF, BRAND-SYSTEM-LOCKED, PRD-V1, CLAUDE-DESIGN-PROMPTS-LOCKED-V33, TRD-V1, SESSION-HANDOFF). The OSS packages are live on npm at v0.1.2. The visual prototype at `prototype/landing/` validates the v3.4 bloom engine and all 5 foundation screens.
->
-> The active task is Week 1 of the TRD build plan: scaffold `apps/web` with Next.js 15, configure Tailwind with Slate Family tokens, port the v3.4 bloom engine to TypeScript, set up Auth.js v5 with GitHub OAuth, set up Drizzle + Neon Postgres, run initial migrations, wire Sentry + PostHog.
->
-> Before writing any code, confirm the prototype still runs (start the dev server, check localhost:5500) and propose the exact Week 1 day-by-day plan. I prefer the "recommend, don't ask" style — give me a concrete plan and I'll approve or tweak.
->
-> Voice rules: zero em-dashes anywhere. Friendly + educational tone. No AI-tells (delve, leverage, harness, unlock the potential, seamless, in today's fast-paced world).
-
----
-
-## Success Criteria For The Next Session
-
-When the next session ends, these should be true:
-
-1. The user understands what was built and what is next, with no confusion
-2. `apps/web` directory exists with Next.js 15 scaffolded
-3. Tailwind config has the Slate Family tokens
-4. The Bloom component renders the v3.4 engine in a React app
-5. Auth.js v5 is wired up with at least GitHub OAuth working end-to-end
-6. Drizzle schema is defined per `TRD-V1.md` §5
-7. Initial Neon migration runs cleanly
-8. Sentry + PostHog initialized
-9. A working Landing page renders at `localhost:3000` (or staging URL)
-10. A new commit history exists on a feature branch like `feat/web-foundations-week-1`
-11. This handoff doc gets updated with the new current state
-
----
-
-## Final Reminders For The Next Agent
-
-1. **Read the strategic positioning doc** before suggesting any pivot or feature. The user has thought hard about positioning.
-2. **Trust the prototype.** The bloom engine v3.4 is the visual truth. Port it faithfully.
-3. **The TRD is the implementation truth.** Every architectural decision is justified there.
-4. **The user is the visual decider.** When the user pushes back on feel ("too brown," "too fast," "too still"), iterate. Don't argue.
-5. **Stay free-tier first.** Cost discipline is part of the strategy.
-6. **No new docs unless asked.** The seven foundation docs are enough. Do not add more.
-7. **Zero em-dashes. Ever.**
-
----
-
-**Last session ended: 2026-05-29**
-**TRD-V1.md committed on branch `docs/strategic-positioning`. Needs to be merged to main.**
-**Welcome the user with: "Picking up from the v3.4 prototype + TRD lock. Ready to scaffold apps/web for Week 1?"**
+> Read `docs/internal/SESSION-HANDOFF.md` fully before doing anything. We are continuing Answerfox exactly where we left off. The immediate next step is to merge PR #44 to publish `@answerfox/cli@0.2.1` (the CLI fixes), then verify `npx @answerfox/cli@latest`. After that the GitHub is launch-ready and we run the Agent Readiness validation (free-concierge offer). Keep the same working style: recommend don't ask, zero em-dashes, no AI-tells, real numbers only, honest partner. Continue.
