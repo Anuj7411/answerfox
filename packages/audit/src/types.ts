@@ -1,4 +1,5 @@
 import type { AbsoluteUrl, Category, Severity } from '@answerfox/core';
+import type { GatePageDetection } from './gate-detector.js';
 
 /**
  * Outcome of a single check after the runner has resolved any errors
@@ -43,6 +44,14 @@ export interface AuditReport {
     readonly warn: number;
     readonly skip: number;
   };
+  /**
+   * Optional context emitted when the audited URL looks like a
+   * logged-out gate page (login wall). Reporters use this to print a
+   * banner above the score so users understand WHY the score is low
+   * (the page is intentionally minimal, not broken). Score itself is
+   * not adjusted, this is explanation only.
+   */
+  readonly gatePage?: GatePageDetection | undefined;
 }
 
 export interface AuditOptions {
