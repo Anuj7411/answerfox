@@ -1,5 +1,6 @@
 import kleur from 'kleur';
 import { DEFAULT_CHECKS, TOTAL_PLANNED_CHECKS } from '../checks/registry.js';
+import { formatGateBanner } from '../gate-detector.js';
 import type { AuditReport, CheckRunResult, ScoreBand } from '../types.js';
 
 const SEVERITY_ORDER = ['critical', 'high', 'medium', 'low'] as const;
@@ -41,6 +42,23 @@ export function consoleReport(report: AuditReport, options: ConsoleReportOptions
   lines.push(c.bold(`Audit · ${report.url}`));
   lines.push(`Fetched ${report.fetchedAt}`);
   lines.push('');
+
+  // Gate-page banner sits ABOVE the score so users read the context
+  // before the number. Only printed when the page is classified as a
+  // gate (logged-out login wall). See gate-detector.ts for heuristics.
+  if (report.gatePage !== undefined) {
+    const banner = formatGateBanner(report.gatePage);
+    if (banner !== null) {
+      const indented = banner
+        .split('\n')
+        .map((l) => `  ${l}`)
+        .join('\n');
+      lines.push(c.yellow(c.bold('⚠ Gate page detected')));
+      lines.push(c.yellow(indented));
+      lines.push('');
+    }
+  }
+
   lines.push(
     `${c.bold('Score:')} ${scoreColor(c, report.score)(`${report.score}/100`)} ${c.dim(`(${BAND_LABEL[report.band]})`)}`,
   );

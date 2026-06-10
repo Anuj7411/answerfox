@@ -2,6 +2,7 @@ import type { AbsoluteUrl, Check, CheckResult } from '@answerfox/core';
 import { parseAbsoluteUrl } from '@answerfox/core';
 import { DEFAULT_CHECKS } from './checks/registry.js';
 import { type FetchAndParseOptions, fetchAndParse } from './crawler.js';
+import { detectGatePage } from './gate-detector.js';
 import { type AuditDom, loadHtml } from './parser.js';
 import type { AuditReport, CheckRunResult, ScoreBand } from './types.js';
 
@@ -56,6 +57,11 @@ export async function runChecks(input: RunChecksInput): Promise<AuditReport> {
 
   const score = computeScore(results);
 
+  // Gate-page detection runs after checks so the report can attach
+  // context for low scores caused by intentional minimalism (login
+  // walls). The score itself is NOT adjusted; this is explanation only.
+  const gatePage = detectGatePage(input.dom);
+
   return {
     url: input.url,
     fetchedAt,
@@ -63,6 +69,7 @@ export async function runChecks(input: RunChecksInput): Promise<AuditReport> {
     score,
     band: bandFromScore(score),
     summary,
+    gatePage: gatePage.isGate ? gatePage : undefined,
   };
 }
 
