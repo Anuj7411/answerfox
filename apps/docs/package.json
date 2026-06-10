@@ -1,6 +1,6 @@
 {
   "name": "@answerfox/docs",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "description": "answerfox.dev — documentation site for the Answerfox SEO toolkit.",
   "type": "module",
