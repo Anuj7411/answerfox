@@ -1,5 +1,6 @@
 import { listSitesForUser } from '@/lib/db/queries/sites';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
+import Link from 'next/link';
 
 /**
  * Dashboard home. Shows:
@@ -47,11 +48,14 @@ function NoSitesEmptyState() {
       <h2 className="text-xl font-semibold">Add your first site</h2>
       <p className="mt-3 max-w-[480px] font-body text-ink-muted">
         Drop a URL and Answerfox will run all 56 checks on demand. Schedule weekly audits and get
-        notified when your score drops. Add-site is shipping next.
+        notified when your score drops.
       </p>
-      <div className="mt-6 flex flex-wrap items-center gap-3 font-mono text-[12.5px] text-ink-muted">
-        <span>
-          <b className="font-semibold text-ink">CLI today:</b>{' '}
+      <div className="mt-6 flex flex-wrap items-center gap-3">
+        <Link href="/dashboard/sites/new" className="btn btn-solid">
+          Add a site
+        </Link>
+        <span className="font-mono text-[12.5px] text-ink-muted">
+          or run from the CLI:{' '}
           <code className="rounded bg-ink/5 px-2 py-0.5">
             npx @answerfox/cli audit your-site.com
           </code>
@@ -68,8 +72,16 @@ function SitesPreview({ count }: { count: number }) {
         You have {count} site{count === 1 ? '' : 's'}
       </h2>
       <p className="mt-3 max-w-[480px] font-body text-ink-muted">
-        The full sites list and history view ships in Day 7.
+        View the full list with last-audit chips, or add another.
       </p>
+      <div className="mt-5 flex flex-wrap items-center gap-3">
+        <Link href="/dashboard/sites" className="btn btn-solid">
+          View sites
+        </Link>
+        <Link href="/dashboard/sites/new" className="btn btn-quiet">
+          Add another
+        </Link>
+      </div>
     </section>
   );
 }
