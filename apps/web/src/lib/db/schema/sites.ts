@@ -1,5 +1,5 @@
 import { index, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
-import { profiles } from './profiles.js';
+import { profiles } from './profiles';
 
 /**
  * A site (origin) owned by a user. One profile → many sites.

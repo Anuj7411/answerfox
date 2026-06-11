@@ -1,5 +1,5 @@
 import { index, pgEnum, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
-import { audits } from './audits.js';
+import { audits } from './audits';
 
 /**
  * Outcome status from the audit framework.

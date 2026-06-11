@@ -13,7 +13,7 @@
  * See `drizzle/0000_initial.sql` for the first migration.
  */
 
-export * from './profiles.js';
-export * from './sites.js';
-export * from './audits.js';
-export * from './findings.js';
+export * from './profiles';
+export * from './sites';
+export * from './audits';
+export * from './findings';
