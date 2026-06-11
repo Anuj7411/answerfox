@@ -60,6 +60,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@answerfox/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       '@supabase/ssr':
         specifier: ^0.5.0
         version: 0.5.2(@supabase/supabase-js@2.108.1)
