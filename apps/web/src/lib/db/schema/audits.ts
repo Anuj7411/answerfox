@@ -9,7 +9,7 @@ import {
   timestamp,
   uuid,
 } from 'drizzle-orm/pg-core';
-import { sites } from './sites.js';
+import { sites } from './sites';
 
 /**
  * The five score bands defined in AUDIT-FRAMEWORK.md, persisted
