@@ -9,6 +9,7 @@ import { a7Charset } from './a7-charset.js';
 import { a8Robots } from './a8-robots.js';
 import { a9Favicon } from './a9-favicon.js';
 import { a10AppleTouchIcon } from './a10-apple-touch.js';
+import { a11Sitemap } from './a11-sitemap.js';
 import { b1SingleH1 } from './b1-single-h1.js';
 import { b3HeadingHierarchy } from './b3-heading-hierarchy.js';
 import { b4H2Sections } from './b4-h2-sections.js';
@@ -39,6 +40,7 @@ import { g3ApiCatalog } from './g3-api-catalog.js';
 import { g4AgentPermissions } from './g4-agent-permissions.js';
 import { g5OauthDiscovery } from './g5-oauth-discovery.js';
 import { g6WebmcpForm } from './g6-webmcp-form.js';
+import { g7LlmsTxt } from './g7-llms-txt.js';
 
 /**
  * Total number of audit checks planned in the full AUDIT-FRAMEWORK.md
@@ -52,7 +54,7 @@ import { g6WebmcpForm } from './g6-webmcp-form.js';
  * G3 RFC 9727 API Catalog, G4 agent-permissions.json, G5 RFC 8414
  * OAuth discovery, G6 WebMCP form annotations.
  */
-export const TOTAL_PLANNED_CHECKS = 56;
+export const TOTAL_PLANNED_CHECKS = 58;
 
 /**
  * Every check registered with the audit engine, in stable AUDIT-FRAMEWORK
@@ -70,6 +72,7 @@ export const DEFAULT_CHECKS: readonly Check<AuditDom>[] = [
   a8Robots,
   a9Favicon,
   a10AppleTouchIcon,
+  a11Sitemap,
   b1SingleH1,
   b3HeadingHierarchy,
   b4H2Sections,
@@ -94,12 +97,15 @@ export const DEFAULT_CHECKS: readonly Check<AuditDom>[] = [
   f5OgUrl,
   f6TwitterCard,
   f7TwitterImage,
-  // Category G (agent-readiness, v0.3.0+): informational checks for AI-agent
-  // manifests. Score-neutral (points: 0). See ROADMAP.md for v0.4 scoring plan.
+  // Category G (agent-readiness): scaffolding checks for AI-agent
+  // manifests. Weighted at 35 of 100 total points starting v0.5.0 —
+  // makes Agent Readiness the wedge metric, not an optional sidecar.
+  // G1=6, G2=6, G3=5, G4=5, G5=4, G6=4, G7=5.
   g1McpServerCard,
   g2AgentCard,
   g3ApiCatalog,
   g4AgentPermissions,
   g5OauthDiscovery,
   g6WebmcpForm,
+  g7LlmsTxt,
 ];

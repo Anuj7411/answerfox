@@ -63,15 +63,17 @@ const EMPTY_HTML = '<html></html>';
 describe('runChecks', () => {
   it('a classic-perfect fixture without AR manifests lands in average band', async () => {
     const report = await runChecks({ url: URL, html: PERFECT_HTML, dom: loadHtml(PERFECT_HTML) });
-    // Math: 33 A-F checks pass (earned 62 of 62 A-F max points), G1-G5
-    // fail (forfeit 26 max points), G6 skips (excluded from denominator).
-    // Score = 62 / 88 = 70 -> 'average' band. The drop from 100 is the
+    // Math: 33 A-F checks pass (earned 62 of 62 A-F max points). A11
+    // sitemap.xml fails (no stub returns 404) forfeiting 2 max points.
+    // G1-G5 fail forfeiting 26 max points. G7 llms.txt fails forfeiting
+    // 5 max points. G6 skips (excluded from denominator).
+    // Score = 62 / 95 = 65 -> 'average' band. The drop from 100 is the
     // wedge made visible: a perfect classic-SEO site without AR manifests
     // is no longer 'excellent' by Answerfox's framework.
-    expect(report.score).toBe(70);
+    expect(report.score).toBe(65);
     expect(report.band).toBe('average');
     expect(report.summary.pass).toBe(33);
-    expect(report.summary.fail).toBe(5);
+    expect(report.summary.fail).toBe(7);
     expect(report.summary.skip).toBe(1);
   });
 
@@ -98,6 +100,7 @@ describe('runChecks', () => {
       'A8',
       'A9',
       'A10',
+      'A11',
       'B1',
       'B3',
       'B4',
@@ -128,6 +131,7 @@ describe('runChecks', () => {
       'G4',
       'G5',
       'G6',
+      'G7',
     ]);
   });
 
