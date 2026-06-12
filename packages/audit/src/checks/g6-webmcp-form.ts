@@ -14,13 +14,13 @@ import type { AuditDom } from '../parser.js';
  * Detection is conservative: we look for any of the candidate attribute
  * patterns currently in flight. As the spec stabilizes, we'll tighten.
  *
- * Currently informational (points: 0) per v0.3.0 design.
+ * Weighted at 4 points starting v0.5.0 (part of the 30-point G budget).
  */
 export const g6WebmcpForm = defineCheck<AuditDom>({
   id: 'G6',
   category: 'agent-readiness',
   severity: 'low',
-  points: 0,
+  points: 4,
   description: 'WebMCP form annotations on at least 1 form',
   rationale:
     'WebMCP form annotations let agents fill and submit your forms without scraping the DOM. Sites without them force every agent (ChatGPT, Claude, etc.) to re-implement form understanding for your specific markup. As the spec ships (Chrome 146 Canary, mid 2026), this becomes a real differentiator.',

@@ -14,13 +14,13 @@ import { fetchWellKnown } from './_well-known.js';
  *
  * Spec: https://www.rfc-editor.org/rfc/rfc8414
  *
- * Currently informational (points: 0) per v0.3.0 design.
+ * Weighted at 4 points starting v0.5.0 (part of the 30-point G budget).
  */
 export const g5OauthDiscovery = defineCheck<AuditDom>({
   id: 'G5',
   category: 'agent-readiness',
   severity: 'low',
-  points: 0,
+  points: 4,
   description: 'OAuth Authorization Server Metadata (RFC 8414) present',
   rationale:
     "RFC 8414 metadata lets agents discover your OAuth token endpoint, supported flows, and scopes without prior knowledge. Required for agent-to-agent auth at scale. If your site doesn't authenticate users at all, this check is skippable, but most production sites should publish it.",

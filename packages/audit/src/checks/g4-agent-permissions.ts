@@ -11,13 +11,13 @@ import { fetchWellKnown } from './_well-known.js';
  *
  * Spec: https://arxiv.org/pdf/2601.02371 (early proposal)
  *
- * Currently informational (points: 0) per v0.3.0 design.
+ * Weighted at 5 points starting v0.5.0 (part of the 30-point G budget).
  */
 export const g4AgentPermissions = defineCheck<AuditDom>({
   id: 'G4',
   category: 'agent-readiness',
   severity: 'medium',
-  points: 0,
+  points: 5,
   description: 'agent-permissions.json present at /.well-known/agent-permissions.json',
   rationale:
     "agent-permissions.json is robots.txt for AI agents. It declares which agents are allowed, which actions they can take, and any rate limits. Without it, agents either defer to robots.txt (which doesn't cover agent actions) or proceed without policy clarity.",

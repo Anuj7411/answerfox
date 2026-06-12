@@ -61,18 +61,17 @@ const PERFECT_HTML = `<html lang="en">
 const EMPTY_HTML = '<html></html>';
 
 describe('runChecks', () => {
-  it('returns 100 + excellent band on a perfect fixture', async () => {
+  it('a classic-perfect fixture without AR manifests lands in average band', async () => {
     const report = await runChecks({ url: URL, html: PERFECT_HTML, dom: loadHtml(PERFECT_HTML) });
-    // Score stays 100 because category G (Agent Readiness) checks have
-    // points: 0 — they're informational, not scored, in v0.3.0.
-    expect(report.score).toBe(100);
-    expect(report.band).toBe('excellent');
-    // 33 A-F checks pass on the perfect fixture.
+    // Math: 33 A-F checks pass (earned 62 of 62 A-F max points), G1-G5
+    // fail (forfeit 26 max points), G6 skips (excluded from denominator).
+    // Score = 62 / 88 = 70 -> 'average' band. The drop from 100 is the
+    // wedge made visible: a perfect classic-SEO site without AR manifests
+    // is no longer 'excellent' by Answerfox's framework.
+    expect(report.score).toBe(70);
+    expect(report.band).toBe('average');
     expect(report.summary.pass).toBe(33);
-    // G1-G5 fail because the fixture site doesn't host /.well-known/*
-    // manifests (we stubbed fetch to return 404).
     expect(report.summary.fail).toBe(5);
-    // G6 skips because the perfect fixture has no <form> elements.
     expect(report.summary.skip).toBe(1);
   });
 

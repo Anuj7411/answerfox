@@ -1,3 +1,4 @@
+import { ArMiniChip } from '@/components/dashboard/ar-mini-chip';
 import { AuditNowButton } from '@/components/dashboard/audit-now-button';
 import { ScoreBandChip } from '@/components/dashboard/score-band-chip';
 import { listLatestAuditsForUser } from '@/lib/db/queries/audits';
@@ -65,7 +66,10 @@ export default async function SitesPage() {
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
                     {latest !== undefined && (
-                      <ScoreBandChip score={latest.score} band={latest.band} />
+                      <>
+                        <ArMiniChip agentReadinessScore={latest.agentReadinessScore} />
+                        <ScoreBandChip score={latest.score} band={latest.band} />
+                      </>
                     )}
                     <span className="font-mono text-[12px] text-ink-muted">
                       {site.lastAuditedAt === null
