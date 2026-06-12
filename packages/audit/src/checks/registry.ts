@@ -10,6 +10,8 @@ import { a8Robots } from './a8-robots.js';
 import { a9Favicon } from './a9-favicon.js';
 import { a10AppleTouchIcon } from './a10-apple-touch.js';
 import { a11Sitemap } from './a11-sitemap.js';
+import { a12LinkHeaders } from './a12-link-headers.js';
+import { a13AiBotRules } from './a13-ai-bot-rules.js';
 import { b1SingleH1 } from './b1-single-h1.js';
 import { b3HeadingHierarchy } from './b3-heading-hierarchy.js';
 import { b4H2Sections } from './b4-h2-sections.js';
@@ -18,6 +20,8 @@ import { b11InternalLinks } from './b11-internal-links.js';
 import { b14ListsOrTables } from './b14-lists-or-tables.js';
 import { c1JsonLd } from './c1-json-ld.js';
 import { c2Organization } from './c2-organization.js';
+import { c3MarkdownNegotiation } from './c3-markdown-negotiation.js';
+import { c4ContentSignals } from './c4-content-signals.js';
 import { d1AboutPageLinked } from './d1-about-page-linked.js';
 import { d2PrivacyLinked } from './d2-privacy-linked.js';
 import { d3TermsLinked } from './d3-terms-linked.js';
@@ -41,6 +45,7 @@ import { g4AgentPermissions } from './g4-agent-permissions.js';
 import { g5OauthDiscovery } from './g5-oauth-discovery.js';
 import { g6WebmcpForm } from './g6-webmcp-form.js';
 import { g7LlmsTxt } from './g7-llms-txt.js';
+import { g8WebBotAuth } from './g8-web-bot-auth.js';
 
 /**
  * Total number of audit checks planned in the full AUDIT-FRAMEWORK.md
@@ -54,7 +59,7 @@ import { g7LlmsTxt } from './g7-llms-txt.js';
  * G3 RFC 9727 API Catalog, G4 agent-permissions.json, G5 RFC 8414
  * OAuth discovery, G6 WebMCP form annotations.
  */
-export const TOTAL_PLANNED_CHECKS = 58;
+export const TOTAL_PLANNED_CHECKS = 63;
 
 /**
  * Every check registered with the audit engine, in stable AUDIT-FRAMEWORK
@@ -73,6 +78,8 @@ export const DEFAULT_CHECKS: readonly Check<AuditDom>[] = [
   a9Favicon,
   a10AppleTouchIcon,
   a11Sitemap,
+  a12LinkHeaders,
+  a13AiBotRules,
   b1SingleH1,
   b3HeadingHierarchy,
   b4H2Sections,
@@ -81,6 +88,8 @@ export const DEFAULT_CHECKS: readonly Check<AuditDom>[] = [
   b14ListsOrTables,
   c1JsonLd,
   c2Organization,
+  c3MarkdownNegotiation,
+  c4ContentSignals,
   d1AboutPageLinked,
   d2PrivacyLinked,
   d3TermsLinked,
@@ -108,4 +117,5 @@ export const DEFAULT_CHECKS: readonly Check<AuditDom>[] = [
   g5OauthDiscovery,
   g6WebmcpForm,
   g7LlmsTxt,
+  g8WebBotAuth,
 ];

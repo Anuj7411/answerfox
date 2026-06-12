@@ -18,6 +18,11 @@ export interface FetchAndParseResult {
   readonly status: number;
   readonly html: string;
   readonly dom: AuditDom;
+  /**
+   * Response headers from the initial fetch. Plumbed through to checks
+   * that need them (A12 Link headers, C4 Content Signals, G8 Web Bot Auth).
+   */
+  readonly headers: Headers;
 }
 
 /**
@@ -89,5 +94,6 @@ export async function fetchAndParse(
     status: response.status,
     html,
     dom: loadHtml(html),
+    headers: response.headers,
   };
 }
