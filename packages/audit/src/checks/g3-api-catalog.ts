@@ -11,13 +11,13 @@ import { fetchWellKnown } from './_well-known.js';
  *
  * Spec: https://www.rfc-editor.org/rfc/rfc9727
  *
- * Currently informational (points: 0) per v0.3.0 design.
+ * Weighted at 5 points starting v0.5.0 (part of the 30-point G budget).
  */
 export const g3ApiCatalog = defineCheck<AuditDom>({
   id: 'G3',
   category: 'agent-readiness',
   severity: 'medium',
-  points: 0,
+  points: 5,
   description: 'API Catalog (RFC 9727) present at /.well-known/api-catalog',
   rationale:
     "RFC 9727 is the IETF standard for advertising your APIs to machine consumers. AI agents that want to interact with your services discover them through this catalog. Without it, agents can't even know your APIs exist unless they're already documented in agent-specific manifests.",

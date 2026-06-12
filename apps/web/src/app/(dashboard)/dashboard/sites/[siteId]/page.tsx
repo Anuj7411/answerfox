@@ -1,5 +1,5 @@
+import { AgentReadinessHero } from '@/components/dashboard/agent-readiness-hero';
 import { AuditNowButton } from '@/components/dashboard/audit-now-button';
-import { ScoreBandChip } from '@/components/dashboard/score-band-chip';
 import { getLatestAuditForSite, listFindingsForAudit } from '@/lib/db/queries/audits';
 import { getSiteForUser } from '@/lib/db/queries/sites';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
@@ -67,7 +67,7 @@ export default async function SiteDetailPage({ params }: PageProps) {
         <section className="glass rounded-2xl border border-ink/10 p-8">
           <h2 className="text-xl font-semibold">No audits yet</h2>
           <p className="mt-3 max-w-[480px] font-body text-ink-muted">
-            Run your first audit to see how this site scores on SEO, AEO, GEO, and Agent Readiness.
+            Run your first audit to see how this site scores on Agent Readiness, SEO, AEO, and GEO.
           </p>
         </section>
       ) : (
@@ -94,16 +94,24 @@ interface LatestAuditViewProps {
 
 async function LatestAuditView({ auditId, auditSummary }: LatestAuditViewProps) {
   const findings = await listFindingsForAudit(auditId);
+
+  // Lead with agent-readiness findings regardless of severity — that's
+  // the wedge. Then the rest, severity-ordered as before.
+  const agentReadinessFails = findings.filter(
+    (f) => f.category === 'agent-readiness' && f.status !== 'pass',
+  );
+  const otherGrouped = SEVERITY_ORDER.map((sev) => ({
+    severity: sev,
+    items: findings.filter(
+      (f) => f.severity === sev && f.status !== 'pass' && f.category !== 'agent-readiness',
+    ),
+  })).filter((g) => g.items.length > 0);
+
   const totalChecks =
     auditSummary.passCount +
     auditSummary.failCount +
     auditSummary.warnCount +
     auditSummary.skipCount;
-
-  const grouped = SEVERITY_ORDER.map((sev) => ({
-    severity: sev,
-    items: findings.filter((f) => f.severity === sev && f.status !== 'pass'),
-  })).filter((g) => g.items.length > 0);
 
   return (
     <div className="space-y-8">
@@ -118,43 +126,72 @@ async function LatestAuditView({ auditId, auditSummary }: LatestAuditViewProps) 
         </div>
       )}
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card label="Score">
-          <ScoreBandChip score={auditSummary.score} band={auditSummary.band} size="md" />
-        </Card>
-        <Card label="Checks run">
-          <p className="font-mono text-2xl font-semibold">{totalChecks}</p>
-          <p className="mt-1 text-[12px] text-ink-muted">
-            <span className="text-emerald-700">{auditSummary.passCount} pass</span>
-            {' · '}
-            <span className="text-red-700">{auditSummary.failCount} fail</span>
-            {' · '}
-            <span className="text-amber-700">{auditSummary.warnCount} warn</span>
-            {auditSummary.skipCount > 0 ? ` · ${auditSummary.skipCount} skip` : ''}
-          </p>
-        </Card>
-        <Card label="Agent Readiness">
-          <p className="font-mono text-2xl font-semibold">
-            {auditSummary.agentReadinessScore}
-            <span className="text-base text-ink-muted"> / 6</span>
-          </p>
-          <p className="mt-1 text-[12px] text-ink-muted">G category checks passing</p>
-        </Card>
-        <Card label="Audited">
-          <p className="font-mono text-[13px]">
-            {auditSummary.fetchedAt.toISOString().slice(0, 16).replace('T', ' ')} UTC
-          </p>
-        </Card>
+      <AgentReadinessHero
+        agentReadinessScore={auditSummary.agentReadinessScore}
+        score={auditSummary.score}
+        band={auditSummary.band}
+      />
+
+      <section className="rounded-xl border border-ink/10 bg-slate-base/40 px-5 py-4">
+        <p className="font-mono text-[12.5px] text-ink-muted">
+          <span className="font-semibold text-ink">{totalChecks} checks</span>
+          {' · '}
+          <span className="text-emerald-700">{auditSummary.passCount} pass</span>
+          {' · '}
+          <span className="text-red-700">{auditSummary.failCount} fail</span>
+          {' · '}
+          <span className="text-amber-700">{auditSummary.warnCount} warn</span>
+          {auditSummary.skipCount > 0 ? ` · ${auditSummary.skipCount} skip` : ''}
+          {' · '}
+          audited {auditSummary.fetchedAt.toISOString().slice(0, 16).replace('T', ' ')} UTC
+        </p>
       </section>
 
+      {agentReadinessFails.length > 0 && (
+        <section className="space-y-3">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-xl font-semibold">Agent Readiness — fix these first</h2>
+            <p className="font-mono text-[12px] text-ink-muted">
+              {agentReadinessFails.length} of 6 manifests missing
+            </p>
+          </div>
+          <ul className="space-y-2">
+            {agentReadinessFails.map((f) => (
+              <li key={f.id} className="rounded-lg border border-orange-300 bg-orange-50 px-4 py-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="font-mono text-[13px] font-semibold">{f.checkId}</p>
+                  <span
+                    className={`rounded-full px-2 py-0.5 font-mono text-[11px] uppercase ${
+                      statusBadgeStyle[f.status] ?? 'bg-slate-100 text-slate-700'
+                    }`}
+                  >
+                    {f.status}
+                  </span>
+                </div>
+                {f.evidence !== null && (
+                  <p className="mt-2 text-sm">
+                    <span className="text-ink-muted">Evidence:</span> {f.evidence}
+                  </p>
+                )}
+                {f.fixRecommendation !== null && (
+                  <p className="mt-1 text-sm">
+                    <span className="text-ink-muted">Fix:</span> {f.fixRecommendation}
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <section className="space-y-6">
-        <h2 className="text-xl font-semibold">Findings to fix</h2>
-        {grouped.length === 0 ? (
+        <h2 className="text-xl font-semibold">Other findings to fix</h2>
+        {otherGrouped.length === 0 ? (
           <p className="font-body text-ink-muted">
-            No fails or warns. Nice. Run another audit later to catch regressions.
+            No classic-SEO fails or warns. Nice. Run another audit later to catch regressions.
           </p>
         ) : (
-          grouped.map((group) => (
+          otherGrouped.map((group) => (
             <div key={group.severity} className="space-y-2">
               <h3 className="font-mono text-[13px] uppercase tracking-wide text-ink-muted">
                 {severityLabel[group.severity]} ({group.items.length})
@@ -195,15 +232,6 @@ async function LatestAuditView({ auditId, auditSummary }: LatestAuditViewProps) 
           ))
         )}
       </section>
-    </div>
-  );
-}
-
-function Card({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="rounded-xl border border-ink/10 bg-slate-base/50 p-5">
-      <p className="font-mono text-[11.5px] uppercase tracking-wide text-ink-muted">{label}</p>
-      <div className="mt-2">{children}</div>
     </div>
   );
 }

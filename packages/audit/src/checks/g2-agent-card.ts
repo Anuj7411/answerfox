@@ -11,13 +11,13 @@ import { fetchWellKnown } from './_well-known.js';
  *
  * Spec: https://agent2agent.info/ (AgentCard)
  *
- * Currently informational (points: 0) per v0.3.0 design.
+ * Weighted at 6 points starting v0.5.0 (part of the 30-point G budget).
  */
 export const g2AgentCard = defineCheck<AuditDom>({
   id: 'G2',
   category: 'agent-readiness',
   severity: 'medium',
-  points: 0,
+  points: 6,
   description: 'A2A agent-card.json present at /.well-known/agent-card.json',
   rationale:
     "The A2A AgentCard is how an agent advertises its identity, capabilities, and trust signals to other agents. Sites and agent endpoints without it can't be discovered or trusted by agent-to-agent traffic. Stripe, Vercel, Supabase, and Linear were all missing this as of mid 2026.",

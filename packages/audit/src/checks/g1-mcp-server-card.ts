@@ -12,13 +12,15 @@ import { fetchWellKnown } from './_well-known.js';
  *
  * Spec: https://modelcontextprotocol.io/ (server card discovery)
  *
- * Currently informational (points: 0) per v0.3.0 design.
+ * Weighted at 6 points starting v0.5.0: Agent Readiness is the
+ * Answerfox wedge, so the G category contributes 30 of the 100-point
+ * total. MCP discovery is the most foundational of the six.
  */
 export const g1McpServerCard = defineCheck<AuditDom>({
   id: 'G1',
   category: 'agent-readiness',
   severity: 'medium',
-  points: 0,
+  points: 6,
   description: 'MCP Server Card present at /.well-known/mcp/server-card.json',
   rationale:
     "The MCP Server Card lets AI agents discover that your site exposes an MCP server. Without it, agents can't find your tools even if your MCP server is running. As of mid 2026, fewer than 1 in 100 sites with public APIs publish one.",
