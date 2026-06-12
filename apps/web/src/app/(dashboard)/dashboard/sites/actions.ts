@@ -1,7 +1,10 @@
 'use server';
 
+import { createAuditWithFindings } from '@/lib/db/mutations/audits';
 import { createSiteForUser } from '@/lib/db/mutations/sites';
+import { getSiteForUser } from '@/lib/db/queries/sites';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
+import { audit } from '@answerfox/audit';
 import { parseAbsoluteUrl } from '@answerfox/core';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -72,4 +75,66 @@ export async function addSiteAction(
   revalidatePath('/dashboard');
   revalidatePath('/dashboard/sites');
   redirect('/dashboard/sites');
+}
+
+/**
+ * Form state returned by runAuditAction. `errors.general` carries a
+ * human-readable failure reason (fetch timeout, parse error, DB
+ * write error). Empty when the audit succeeded — by then we've
+ * already redirected to the detail page.
+ */
+export interface RunAuditFormState {
+  readonly errors?: {
+    readonly general?: string;
+  };
+}
+
+/**
+ * Server Action: run a fresh audit for one of the user's sites,
+ * persist the report + findings, redirect to the audit detail page.
+ *
+ * Synchronous on purpose for Day 8 MVP. A real audit takes 2-8s
+ * which is on the edge of acceptable for an inline button click;
+ * Day 10+ moves this to a background queue with optimistic UI.
+ *
+ * Ownership is checked twice: once before the expensive HTTP fetch
+ * to avoid running an audit for someone else's site, once implicitly
+ * via the createAuditWithFindings transaction (siteId is trusted at
+ * that point).
+ */
+export async function runAuditAction(
+  _prev: RunAuditFormState,
+  formData: FormData,
+): Promise<RunAuditFormState> {
+  const supabase = await createServerSupabaseClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user === null) {
+    return { errors: { general: 'You must be signed in to run an audit.' } };
+  }
+
+  const siteId = (formData.get('siteId') ?? '').toString();
+  if (siteId.length === 0) {
+    return { errors: { general: 'Missing site id.' } };
+  }
+
+  const site = await getSiteForUser(siteId, user.id);
+  if (site === null) {
+    return { errors: { general: 'Site not found.' } };
+  }
+
+  try {
+    const report = await audit(site.url);
+    await createAuditWithFindings({ siteId: site.id, report });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Audit failed.';
+    return { errors: { general: message } };
+  }
+
+  revalidatePath('/dashboard');
+  revalidatePath('/dashboard/sites');
+  revalidatePath(`/dashboard/sites/${site.id}`);
+  redirect(`/dashboard/sites/${site.id}`);
 }
