@@ -60,6 +60,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@answerfox/audit':
+        specifier: workspace:*
+        version: link:../../packages/audit
       '@answerfox/core':
         specifier: workspace:*
         version: link:../../packages/core

@@ -1,3 +1,6 @@
+import { AuditNowButton } from '@/components/dashboard/audit-now-button';
+import { ScoreBandChip } from '@/components/dashboard/score-band-chip';
+import { listLatestAuditsForUser } from '@/lib/db/queries/audits';
 import { listSitesForUser } from '@/lib/db/queries/sites';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
 import Link from 'next/link';
@@ -9,7 +12,11 @@ export default async function SitesPage() {
   } = await supabase.auth.getUser();
   if (user === null) return null;
 
-  const sites = await listSitesForUser(user.id);
+  const [sites, latestAudits] = await Promise.all([
+    listSitesForUser(user.id),
+    listLatestAuditsForUser(user.id),
+  ]);
+  const latestBySiteId = new Map(latestAudits.map((a) => [a.siteId, a]));
 
   return (
     <div className="space-y-8">
@@ -39,26 +46,38 @@ export default async function SitesPage() {
         </section>
       ) : (
         <ul className="space-y-3">
-          {sites.map((site) => (
-            <li
-              key={site.id}
-              className="rounded-xl border border-ink/10 bg-slate-base/50 p-5 transition-colors hover:bg-slate-base/70"
-            >
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="min-w-0">
-                  <h3 className="truncate font-semibold">{site.name}</h3>
-                  <p className="truncate font-mono text-[12.5px] text-ink-muted">{site.url}</p>
+          {sites.map((site) => {
+            const latest = latestBySiteId.get(site.id);
+            return (
+              <li
+                key={site.id}
+                className="rounded-xl border border-ink/10 bg-slate-base/50 p-5 transition-colors hover:bg-slate-base/70"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <Link
+                      href={`/dashboard/sites/${site.id}`}
+                      className="truncate font-semibold hover:underline"
+                    >
+                      {site.name}
+                    </Link>
+                    <p className="truncate font-mono text-[12.5px] text-ink-muted">{site.url}</p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    {latest !== undefined && (
+                      <ScoreBandChip score={latest.score} band={latest.band} />
+                    )}
+                    <span className="font-mono text-[12px] text-ink-muted">
+                      {site.lastAuditedAt === null
+                        ? 'Not audited yet'
+                        : `Audited ${formatRelativeTime(site.lastAuditedAt)}`}
+                    </span>
+                    <AuditNowButton siteId={site.id} />
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="font-mono text-[12px] text-ink-muted">
-                    {site.lastAuditedAt === null
-                      ? 'Not audited yet'
-                      : `Audited ${formatRelativeTime(site.lastAuditedAt)}`}
-                  </span>
-                </div>
-              </div>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>
