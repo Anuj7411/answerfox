@@ -24,6 +24,8 @@ const VALID_TEMPLATE_NAMES: ReadonlySet<TemplateName> = new Set([
   'api-catalog',
   'agent-permissions',
   'oauth-discovery',
+  'llms-txt',
+  'web-bot-auth',
 ]);
 
 export interface AddCommandOptions {

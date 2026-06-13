@@ -5,10 +5,12 @@ import { agentPermissionsTemplate } from './templates/agent-permissions.js';
 import { apiCatalogTemplate } from './templates/api-catalog.js';
 import { contactTemplate } from './templates/contact.js';
 import { faqTemplate } from './templates/faq.js';
+import { llmsTxtTemplate } from './templates/llms-txt.js';
 import { mcpServerCardTemplate } from './templates/mcp-server-card.js';
 import { oauthDiscoveryTemplate } from './templates/oauth-discovery.js';
 import { privacyTemplate } from './templates/privacy.js';
 import { termsTemplate } from './templates/terms.js';
+import { webBotAuthTemplate } from './templates/web-bot-auth.js';
 import type { Template, TemplateName, TokenValues } from './types.js';
 
 const REGISTRY: Readonly<Record<TemplateName, Template>> = {
@@ -24,6 +26,8 @@ const REGISTRY: Readonly<Record<TemplateName, Template>> = {
   'api-catalog': apiCatalogTemplate,
   'agent-permissions': agentPermissionsTemplate,
   'oauth-discovery': oauthDiscoveryTemplate,
+  'llms-txt': llmsTxtTemplate,
+  'web-bot-auth': webBotAuthTemplate,
 };
 
 /**

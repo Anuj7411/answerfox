@@ -18,7 +18,9 @@ export type ManifestTemplateName =
   | 'mcp-server-card'
   | 'api-catalog'
   | 'agent-permissions'
-  | 'oauth-discovery';
+  | 'oauth-discovery'
+  | 'llms-txt'
+  | 'web-bot-auth';
 export type TemplateName = PageTemplateName | ManifestTemplateName;
 
 /**
