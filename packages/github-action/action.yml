@@ -1,0 +1,187 @@
+# Reusable composite GitHub Action that audits a deployed URL with
+# @answerfox/cli, posts the result as a sticky PR comment, and gates
+# the workflow on optional pass thresholds.
+#
+# Canonical reference path (post-org-move): answerfox/audit-action@v1
+# Today, while we're in the monorepo: Anuj7411/answerfox/packages/github-action@main
+#
+# See packages/github-action/README.md for usage examples.
+
+name: 'Answerfox Audit'
+description: 'Audit a URL for Agent Readiness + classic SEO/AEO/GEO and post the score delta to your PR.'
+author: 'Answerfox'
+branding:
+  icon: 'eye'
+  color: 'orange'
+
+inputs:
+  url:
+    description: 'URL to audit. Usually the Vercel/Netlify preview deployment URL for the PR.'
+    required: true
+  min-score:
+    description: 'Minimum 0-100 score. The action fails if the result is below this value. Leave unset to never fail on score alone.'
+    required: false
+    default: ''
+  min-agent-readiness:
+    description: 'Minimum Agent Readiness checks passing (0-8). The action fails if AR is below this value. Leave unset to never fail on AR alone.'
+    required: false
+    default: ''
+  fail-on-decline:
+    description: 'If "true", fail when the score declines vs the previous run on this branch (comparison disabled in v1; reserved for follow-up).'
+    required: false
+    default: 'false'
+  api-key:
+    description: 'Optional Answerfox API key. When present, the audit is associated with your SaaS account so it shows up in the dashboard history.'
+    required: false
+    default: ''
+  comment:
+    description: 'Whether to post / update a sticky PR comment summarising the audit. "true" by default; set to "false" to suppress.'
+    required: false
+    default: 'true'
+
+outputs:
+  score:
+    description: 'The 0-100 score from the audit.'
+    value: ${{ steps.audit.outputs.score }}
+  band:
+    description: 'The score band (critical / weak / average / strong / excellent).'
+    value: ${{ steps.audit.outputs.band }}
+  agent-readiness:
+    description: 'Agent Readiness checks passing, formatted as "N/8".'
+    value: ${{ steps.audit.outputs.agent_readiness }}
+  pass-count:
+    description: 'Number of passing checks.'
+    value: ${{ steps.audit.outputs.pass_count }}
+  fail-count:
+    description: 'Number of failing checks.'
+    value: ${{ steps.audit.outputs.fail_count }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run Answerfox audit
+      id: audit
+      shell: bash
+      env:
+        AF_URL: ${{ inputs.url }}
+        AF_API_KEY: ${{ inputs.api-key }}
+      run: |
+        set -euo pipefail
+
+        if [ -z "${AF_URL}" ]; then
+          echo "::error::input 'url' is required"
+          exit 1
+        fi
+
+        # Pin via npx so we don't need a project package.json on the runner.
+        # --yes accepts the install prompt non-interactively.
+        AUDIT_JSON="$(npx --yes @answerfox/cli@latest audit "${AF_URL}" --json)"
+
+        # Capture for the PR comment step.
+        echo "$AUDIT_JSON" > "${RUNNER_TEMP}/answerfox-audit.json"
+
+        score=$(node -e "const d=JSON.parse(process.argv[1]); console.log(d.score)" "$AUDIT_JSON")
+        band=$(node -e "const d=JSON.parse(process.argv[1]); console.log(d.band)" "$AUDIT_JSON")
+        pass=$(node -e "const d=JSON.parse(process.argv[1]); console.log(d.summary.pass)" "$AUDIT_JSON")
+        fail=$(node -e "const d=JSON.parse(process.argv[1]); console.log(d.summary.fail)" "$AUDIT_JSON")
+        warn=$(node -e "const d=JSON.parse(process.argv[1]); console.log(d.summary.warn)" "$AUDIT_JSON")
+        skip=$(node -e "const d=JSON.parse(process.argv[1]); console.log(d.summary.skip)" "$AUDIT_JSON")
+        ar=$(node -e "const d=JSON.parse(process.argv[1]); const g=d.results.filter(r=>r.category==='agent-readiness'); const p=g.filter(r=>r.status==='pass').length; console.log(p+'/'+g.length)" "$AUDIT_JSON")
+
+        echo "score=${score}" >> "$GITHUB_OUTPUT"
+        echo "band=${band}" >> "$GITHUB_OUTPUT"
+        echo "agent_readiness=${ar}" >> "$GITHUB_OUTPUT"
+        echo "pass_count=${pass}" >> "$GITHUB_OUTPUT"
+        echo "fail_count=${fail}" >> "$GITHUB_OUTPUT"
+        echo "warn_count=${warn}" >> "$GITHUB_OUTPUT"
+        echo "skip_count=${skip}" >> "$GITHUB_OUTPUT"
+
+        # Surface in the run summary so it's visible even without a PR comment.
+        {
+          echo "## Answerfox audit"
+          echo ""
+          echo "**${AF_URL}**"
+          echo ""
+          echo "| Metric | Value |"
+          echo "|---|---|"
+          echo "| Score | ${score}/100 (${band}) |"
+          echo "| Agent Readiness | ${ar} |"
+          echo "| Pass / Fail / Warn / Skip | ${pass} / ${fail} / ${warn} / ${skip} |"
+        } >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Gate on min-score
+      if: inputs.min-score != ''
+      shell: bash
+      env:
+        SCORE: ${{ steps.audit.outputs.score }}
+        MIN: ${{ inputs.min-score }}
+      run: |
+        if [ "${SCORE}" -lt "${MIN}" ]; then
+          echo "::error::Score ${SCORE} is below required minimum ${MIN}"
+          exit 1
+        fi
+
+    - name: Gate on min-agent-readiness
+      if: inputs.min-agent-readiness != ''
+      shell: bash
+      env:
+        AR: ${{ steps.audit.outputs.agent_readiness }}
+        MIN_AR: ${{ inputs.min-agent-readiness }}
+      run: |
+        AR_PASSED="${AR%%/*}"
+        if [ "${AR_PASSED}" -lt "${MIN_AR}" ]; then
+          echo "::error::Agent Readiness ${AR} is below required minimum ${MIN_AR}/8"
+          exit 1
+        fi
+
+    - name: Post sticky PR comment
+      if: inputs.comment == 'true' && github.event_name == 'pull_request'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        REPO: ${{ github.repository }}
+        AF_URL: ${{ inputs.url }}
+        SCORE: ${{ steps.audit.outputs.score }}
+        BAND: ${{ steps.audit.outputs.band }}
+        AR: ${{ steps.audit.outputs.agent_readiness }}
+        PASS: ${{ steps.audit.outputs.pass_count }}
+        FAIL: ${{ steps.audit.outputs.fail_count }}
+        WARN: ${{ steps.audit.outputs.warn_count }}
+        SKIP: ${{ steps.audit.outputs.skip_count }}
+      run: |
+        set -euo pipefail
+
+        # We use a magic marker so subsequent runs update this comment
+        # rather than spawning a new one per PR push.
+        MARKER='<!-- answerfox:audit-comment:v1 -->'
+
+        BODY=$(cat <<EOF
+        ${MARKER}
+        ### 🦊 Answerfox audit
+
+        **\`${AF_URL}\`**
+
+        | | |
+        |---|---|
+        | **Score** | **${SCORE}/100** · ${BAND} |
+        | **Agent Readiness** | **${AR}** |
+        | Pass / Fail / Warn / Skip | ${PASS} / ${FAIL} / ${WARN} / ${SKIP} |
+
+        Run \`npx @answerfox/cli audit ${AF_URL}\` locally for the full report. Run \`npx @answerfox/cli add <manifest>\` to scaffold any missing Agent Readiness manifests.
+        EOF
+        )
+
+        # Find the existing comment with our marker, if any.
+        EXISTING_ID=$(gh api "repos/${REPO}/issues/${PR_NUMBER}/comments" --paginate \
+          --jq "[.[] | select(.body | contains(\"${MARKER}\"))][0].id // \"\"")
+
+        if [ -n "${EXISTING_ID}" ]; then
+          gh api --method PATCH "repos/${REPO}/issues/comments/${EXISTING_ID}" \
+            -f body="${BODY}" > /dev/null
+          echo "Updated existing audit comment #${EXISTING_ID}"
+        else
+          gh api --method POST "repos/${REPO}/issues/${PR_NUMBER}/comments" \
+            -f body="${BODY}" > /dev/null
+          echo "Posted new audit comment"
+        fi
