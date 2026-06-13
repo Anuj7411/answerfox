@@ -20,6 +20,7 @@ export const CategorySchema = z.enum([
   'offsite-citations',
   'og-and-social',
   'agent-readiness',
+  'agentic-commerce',
 ]);
 export type Category = z.infer<typeof CategorySchema>;
 
@@ -35,6 +36,7 @@ export const CATEGORY_ID_PREFIX = {
   'offsite-citations': 'E',
   'og-and-social': 'F',
   'agent-readiness': 'G',
+  'agentic-commerce': 'H',
 } as const satisfies Record<Category, string>;
 
 export type CategoryIdPrefix = (typeof CATEGORY_ID_PREFIX)[Category];
@@ -47,11 +49,12 @@ export type CategoryIdPrefix = (typeof CATEGORY_ID_PREFIX)[Category];
  * Source: docs/internal/AUDIT-FRAMEWORK.md §1 + ROADMAP.md (v0.3.0 entry).
  */
 export const CATEGORY_POINT_BUDGET = {
-  'meta-and-technical': 20,
+  'meta-and-technical': 21,
   'content-structure': 20,
-  'structured-data': 18,
+  'structured-data': 9,
   'eeat-and-authority': 22,
   'offsite-citations': 12,
   'og-and-social': 8,
-  'agent-readiness': 0,
+  'agent-readiness': 39,
+  'agentic-commerce': 12,
 } as const satisfies Record<Category, number>;

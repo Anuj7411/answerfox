@@ -64,17 +64,16 @@ describe('runChecks', () => {
   it('a classic-perfect fixture without AR manifests lands in average band', async () => {
     const report = await runChecks({ url: URL, html: PERFECT_HTML, dom: loadHtml(PERFECT_HTML) });
     // Math: 33 A-F checks pass (62 of 62 A-F max). A11, A13, C3, C4
-    // fail (8 max points across the four). G1-G5 fail (26 max). G7
-    // llms.txt fails (5 max). G6, A12, G8 skip (no forms / no headers
-    // in the runChecks direct test path) — excluded from denominator.
-    // Considered max = 62 + 8 + 26 + 5 = 101. Earned = 62. Score = 61
-    // -> 'average' band. The drop from 100 is the wedge made visible:
-    // a perfect classic-SEO site without AR manifests is no longer
-    // 'excellent' by Answerfox's framework.
-    expect(report.score).toBe(61);
-    expect(report.band).toBe('average');
+    // fail (8 max points). G1-G5 + G7 fail (31 max). H1-H4 fail
+    // (12 max — full Agentic Commerce category). A12, G6, G8 skip.
+    // Considered max = 62 + 8 + 31 + 12 = 113. Earned = 62.
+    // Score = 55 -> 'weak' band. A classic-perfect site that skips
+    // every agent and commerce manifest is now decisively below
+    // average — the wedge sharpens with every category added.
+    expect(report.score).toBe(55);
+    expect(report.band).toBe('weak');
     expect(report.summary.pass).toBe(33);
-    expect(report.summary.fail).toBe(10);
+    expect(report.summary.fail).toBe(14);
     expect(report.summary.skip).toBe(3);
   });
 
@@ -138,6 +137,10 @@ describe('runChecks', () => {
       'G6',
       'G7',
       'G8',
+      'H1',
+      'H2',
+      'H3',
+      'H4',
     ]);
   });
 

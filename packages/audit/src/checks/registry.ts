@@ -46,6 +46,10 @@ import { g5OauthDiscovery } from './g5-oauth-discovery.js';
 import { g6WebmcpForm } from './g6-webmcp-form.js';
 import { g7LlmsTxt } from './g7-llms-txt.js';
 import { g8WebBotAuth } from './g8-web-bot-auth.js';
+import { h1X402 } from './h1-x402.js';
+import { h2Ucp } from './h2-ucp.js';
+import { h3Acp } from './h3-acp.js';
+import { h4Mpp } from './h4-mpp.js';
 
 /**
  * Total number of audit checks planned in the full AUDIT-FRAMEWORK.md
@@ -59,7 +63,7 @@ import { g8WebBotAuth } from './g8-web-bot-auth.js';
  * G3 RFC 9727 API Catalog, G4 agent-permissions.json, G5 RFC 8414
  * OAuth discovery, G6 WebMCP form annotations.
  */
-export const TOTAL_PLANNED_CHECKS = 63;
+export const TOTAL_PLANNED_CHECKS = 67;
 
 /**
  * Every check registered with the audit engine, in stable AUDIT-FRAMEWORK
@@ -118,4 +122,11 @@ export const DEFAULT_CHECKS: readonly Check<AuditDom>[] = [
   g6WebmcpForm,
   g7LlmsTxt,
   g8WebBotAuth,
+  // Category H (agentic-commerce, v0.6.0): x402 / UCP / ACP / MPP.
+  // 12 of 100 points total — H1=4, H2=3, H3=3, H4=2. Tracks the
+  // four commerce protocols Cloudflare added to AR Score by May 2026.
+  h1X402,
+  h2Ucp,
+  h3Acp,
+  h4Mpp,
 ];
