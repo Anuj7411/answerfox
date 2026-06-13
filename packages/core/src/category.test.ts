@@ -42,8 +42,16 @@ describe('CATEGORY_POINT_BUDGET', () => {
     // but C shrank when v0.4 reorganised, then v0.5 re-added 4 pts. G
     // (agent-readiness) is 39 now, H (agentic-commerce) is 12.
     // Score normalisation in the runner handles the 100-point UX promise.
-    const af = (['meta-and-technical','content-structure','structured-data','eeat-and-authority','offsite-citations','og-and-social'] as const)
-      .reduce((sum, c) => sum + CATEGORY_POINT_BUDGET[c], 0);
+    const af = (
+      [
+        'meta-and-technical',
+        'content-structure',
+        'structured-data',
+        'eeat-and-authority',
+        'offsite-citations',
+        'og-and-social',
+      ] as const
+    ).reduce((sum, c) => sum + CATEGORY_POINT_BUDGET[c], 0);
     expect(af).toBe(92);
     expect(CATEGORY_POINT_BUDGET['agent-readiness']).toBe(39);
     expect(CATEGORY_POINT_BUDGET['agentic-commerce']).toBe(12);
