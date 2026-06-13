@@ -9,10 +9,30 @@ import type { AbsoluteUrl } from './url.js';
  * playwright, JSDOM) can supply their own typed handle without forcing
  * `@answerfox/core` to depend on a parser.
  */
+/**
+ * Minimal structural interface for HTTP response headers. The DOM
+ *  type conforms to this, so  doesn't
+ * need to pull in DOM lib to type the optional  field on
+ * .
+ */
+export interface HttpResponseHeaders {
+  get(name: string): string | null;
+}
+
 export interface CheckInput<TDom = unknown> {
   readonly url: AbsoluteUrl;
   readonly html: string;
   readonly dom: TDom;
+  /**
+   * HTTP response headers from the initial fetch. Present when the
+   * audit was run via the full  pipeline, absent when
+   * the runner was invoked directly with fixture HTML. Checks that
+   * depend on headers must guard for absence.
+   *
+   * Typed as a minimal structural interface so    * doesn't need DOM lib for the  global. The DOM Headers
+   * conforms to this shape, so real callers pass it transparently.
+   */
+  readonly headers?: HttpResponseHeaders | undefined;
 }
 
 /**

@@ -63,18 +63,19 @@ const EMPTY_HTML = '<html></html>';
 describe('runChecks', () => {
   it('a classic-perfect fixture without AR manifests lands in average band', async () => {
     const report = await runChecks({ url: URL, html: PERFECT_HTML, dom: loadHtml(PERFECT_HTML) });
-    // Math: 33 A-F checks pass (earned 62 of 62 A-F max points). A11
-    // sitemap.xml fails (no stub returns 404) forfeiting 2 max points.
-    // G1-G5 fail forfeiting 26 max points. G7 llms.txt fails forfeiting
-    // 5 max points. G6 skips (excluded from denominator).
-    // Score = 62 / 95 = 65 -> 'average' band. The drop from 100 is the
-    // wedge made visible: a perfect classic-SEO site without AR manifests
-    // is no longer 'excellent' by Answerfox's framework.
-    expect(report.score).toBe(65);
+    // Math: 33 A-F checks pass (62 of 62 A-F max). A11, A13, C3, C4
+    // fail (8 max points across the four). G1-G5 fail (26 max). G7
+    // llms.txt fails (5 max). G6, A12, G8 skip (no forms / no headers
+    // in the runChecks direct test path) — excluded from denominator.
+    // Considered max = 62 + 8 + 26 + 5 = 101. Earned = 62. Score = 61
+    // -> 'average' band. The drop from 100 is the wedge made visible:
+    // a perfect classic-SEO site without AR manifests is no longer
+    // 'excellent' by Answerfox's framework.
+    expect(report.score).toBe(61);
     expect(report.band).toBe('average');
     expect(report.summary.pass).toBe(33);
-    expect(report.summary.fail).toBe(7);
-    expect(report.summary.skip).toBe(1);
+    expect(report.summary.fail).toBe(10);
+    expect(report.summary.skip).toBe(3);
   });
 
   it('lands in critical band on a fixture missing nearly everything', async () => {
@@ -101,6 +102,8 @@ describe('runChecks', () => {
       'A9',
       'A10',
       'A11',
+      'A12',
+      'A13',
       'B1',
       'B3',
       'B4',
@@ -109,6 +112,8 @@ describe('runChecks', () => {
       'B14',
       'C1',
       'C2',
+      'C3',
+      'C4',
       'D1',
       'D2',
       'D3',
@@ -132,6 +137,7 @@ describe('runChecks', () => {
       'G5',
       'G6',
       'G7',
+      'G8',
     ]);
   });
 

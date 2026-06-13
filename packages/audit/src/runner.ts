@@ -10,6 +10,12 @@ export interface RunChecksInput {
   readonly url: AbsoluteUrl;
   readonly html: string;
   readonly dom: AuditDom;
+  /**
+   * Response headers from the initial fetch. Optional because tests
+   * commonly invoke runChecks directly with fixture HTML. Production
+   * callers (the convenience ) plumb these through.
+   */
+  readonly headers?: Headers | undefined;
   /** Override the default check set. Defaults to every registered check. */
   readonly checks?: readonly Check<AuditDom>[];
 }
@@ -29,7 +35,12 @@ export async function runChecks(input: RunChecksInput): Promise<AuditReport> {
   const results: CheckRunResult[] = await Promise.all(
     checks.map(async (check) => {
       try {
-        const result = await check.run({ url: input.url, html: input.html, dom: input.dom });
+        const result = await check.run({
+          url: input.url,
+          html: input.html,
+          dom: input.dom,
+          ...(input.headers !== undefined && { headers: input.headers }),
+        });
         return buildResult(check, result);
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
@@ -142,6 +153,7 @@ export async function audit(
     url: parsed,
     html: fetched.html,
     dom,
+    headers: fetched.headers,
     ...(options.checks !== undefined && { checks: options.checks }),
   });
 }
