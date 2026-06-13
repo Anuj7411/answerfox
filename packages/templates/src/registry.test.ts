@@ -10,6 +10,8 @@ const MANIFEST_NAMES: readonly TemplateName[] = [
   'api-catalog',
   'agent-permissions',
   'oauth-discovery',
+  'llms-txt',
+  'web-bot-auth',
 ];
 const EXPECTED_NAMES: readonly TemplateName[] = [...PAGE_NAMES, ...MANIFEST_NAMES];
 
@@ -98,8 +100,10 @@ describe('manifest template invariants', () => {
   for (const name of MANIFEST_NAMES) {
     const template = getTemplate(name);
     describe(template.name, () => {
-      it('has a filename inside public/.well-known/', () => {
-        expect(template.filename.startsWith('public/.well-known/')).toBe(true);
+      it('has a filename under public/ (root or .well-known/)', () => {
+        // Most manifests live at /.well-known/<name>. llms.txt is the
+        // exception — its spec puts it at the origin root.
+        expect(template.filename.startsWith('public/')).toBe(true);
       });
 
       it('has no required tokens (manifests are static in v0.3.1)', () => {
