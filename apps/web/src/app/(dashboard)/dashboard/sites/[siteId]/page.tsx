@@ -1,5 +1,6 @@
 import { AgentReadinessHero } from '@/components/dashboard/agent-readiness-hero';
 import { AuditNowButton } from '@/components/dashboard/audit-now-button';
+import { VerificationPanel } from '@/components/dashboard/verification-panel';
 import { getLatestAuditForSite, listFindingsForAudit } from '@/lib/db/queries/audits';
 import { getSiteForUser } from '@/lib/db/queries/sites';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
@@ -60,10 +61,29 @@ export default async function SiteDetailPage({ params }: PageProps) {
           <h1 className="t-hero mt-2 text-3xl">{site.name}</h1>
           <p className="mt-1 truncate font-mono text-[13px] text-ink-muted">{site.url}</p>
         </div>
-        <AuditNowButton siteId={site.id} variant="full" />
+        {site.verificationStatusValue === 'verified' ? (
+          <AuditNowButton siteId={site.id} variant="full" />
+        ) : null}
       </div>
 
-      {latest === null ? (
+      <VerificationPanel
+        siteId={site.id}
+        siteUrl={site.url}
+        status={site.verificationStatusValue}
+        token={site.verificationToken}
+        verifiedMethod={site.verificationMethodValue}
+        verifiedAt={site.verifiedAt}
+      />
+
+      {site.verificationStatusValue !== 'verified' ? (
+        <section className="glass rounded-2xl border border-ink/10 p-8">
+          <h2 className="text-xl font-semibold">Audit runs unlock after verification</h2>
+          <p className="mt-3 max-w-[480px] font-body text-ink-muted">
+            Once we confirm you control {site.url}, the Audit now button appears here and you can
+            run the full 50-check Agent Readiness + SEO/AEO/GEO sweep.
+          </p>
+        </section>
+      ) : latest === null ? (
         <section className="glass rounded-2xl border border-ink/10 p-8">
           <h2 className="text-xl font-semibold">No audits yet</h2>
           <p className="mt-3 max-w-[480px] font-body text-ink-muted">
