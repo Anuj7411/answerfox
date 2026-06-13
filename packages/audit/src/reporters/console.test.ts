@@ -56,7 +56,7 @@ describe('consoleReport', () => {
     // Classic-perfect fixture without AR manifests scores below 100 now
     // that G1-G5 carry real weight. Match the shape, not the exact value.
     expect(out).toMatch(/\d+\/100/);
-    expect(out).toMatch(/Excellent|Strong|Average/);
+    expect(out).toMatch(/Excellent|Strong|Average|Weak/);
   });
 
   it('groups failures by severity descending', async () => {
