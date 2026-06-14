@@ -1,5 +1,6 @@
 import { Bloom } from '@/components/bloom/Bloom';
 import type { BloomOpts } from '@/components/bloom/types';
+import { FoxMark } from '@/components/brand/fox-mark';
 import { GitHubIcon } from '@/components/icons';
 
 // Landing bloom: slate ember at 80% intensity (BRAND-SYSTEM-LOCKED + prototype).
@@ -37,9 +38,7 @@ export default function LandingPage() {
       <div className="relative z-10 mx-auto flex min-h-screen max-w-[1200px] flex-col px-6 sm:px-10">
         <nav className="flex h-[76px] shrink-0 items-center justify-between">
           <div className="brand">
-            <span className="mark">
-              <i />
-            </span>
+            <FoxMark size={28} />
             <span className="wm">Answerfox</span>
           </div>
           <div className="hidden items-center gap-7 md:flex">

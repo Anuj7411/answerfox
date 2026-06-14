@@ -1,5 +1,7 @@
 import { type AuditReport, audit, consoleReport } from '@answerfox/audit';
 import type { Command } from 'commander';
+import { VERSION } from '../index.js';
+import { banner } from '../install/banner.js';
 
 export interface AuditCommandOptions {
   readonly json?: boolean;
@@ -45,9 +47,10 @@ export async function runAuditCommand(
     };
   }
 
+  const useColor = opts.color ?? true;
   const stdout = opts.json
     ? JSON.stringify(report, null, 2)
-    : consoleReport(report, { color: opts.color ?? true });
+    : `${banner({ noColor: !useColor, version: `v${VERSION}` })}\n\n${consoleReport(report, { color: useColor })}`;
 
   let exitCode = 0;
   if (opts.ci) {
