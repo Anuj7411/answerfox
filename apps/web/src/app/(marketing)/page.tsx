@@ -1,4 +1,5 @@
 import { Bloom } from '@/components/bloom/Bloom';
+import { LandingTerminal } from '@/components/bloom/LandingTerminal';
 import type { BloomOpts } from '@/components/bloom/types';
 import { GitHubIcon } from '@/components/icons';
 import Link from 'next/link';
@@ -6,18 +7,19 @@ import Link from 'next/link';
 const landingBloom: BloomOpts = {
   base: '#D6D2CB',
   ember: [248, 148, 68],
-  intensity: 0.8,
-  cx: 0.8,
-  cy: 0.24,
-  radius: 0.46,
-  orbitX: 0.14,
-  orbitY: 0.09,
-  orbitPeriod: 26,
-  counterBloom: { rgb: [120, 132, 148], a: 0.18 },
+  intensity: 0.74,
+  cx: 0.78,
+  cy: 0.42,
+  radius: 0.5,
+  orbitX: 0.04,
+  orbitY: 0.035,
+  orbitPeriod: 30,
+  orbitPeriod2: 36,
+  counterBloom: { rgb: [120, 116, 108], a: 0.14 },
   tonePeriod: 38,
   period: 22,
-  breathAmp: 0.06,
-  grainMul: 0.14,
+  breathAmp: 0.045,
+  grainMul: 0.15,
   grainTime: 3.2,
   renderScale: 0.82,
   fps: 30,
@@ -91,7 +93,11 @@ const COMPARISON_ROWS: ReadonlyArray<{
 
 export default function LandingPage() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-slate-base text-ink">
+    <main
+      className="relative min-h-screen overflow-hidden bg-slate-base text-ink"
+      data-page="landing"
+      style={{ ['--ember' as string]: '#F89444' } as React.CSSProperties}
+    >
       <Bloom opts={landingBloom} />
 
       <div className="relative z-10 mx-auto flex max-w-[1200px] flex-col px-6 sm:px-10">
@@ -127,8 +133,8 @@ export default function LandingPage() {
               </span>
             </span>
             <h1 className="t-hero mt-6">
-              Audit, scaffold, and auto-PR the manifests that make your site discoverable to AI
-              agents.
+              Audit, scaffold, and <em>auto-PR</em> the manifests that make your site discoverable
+              to AI agents.
             </h1>
             <p className="mt-6 max-w-[560px] font-body text-xl leading-relaxed text-ink-muted">
               Open source. Lives in your repo. Ships fixes as code. Covers classic SEO, AEO, and GEO
@@ -158,37 +164,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="term glass w-full max-w-[470px] shrink-0">
-            <div className="term-bar">
-              <span className="tl" />
-              <span className="tl" />
-              <span className="tl" />
-              <span className="tname">answerfox · zsh</span>
-            </div>
-            <div className="term-body">
-              <div>
-                <span className="prompt">$</span>{' '}
-                <span className="cmd">npx @answerfox/cli audit stripe.com</span>
-              </div>
-              <div className="muted">Audit running... done in 2.4s</div>
-              <div className="ok">
-                Score: <b className="font-semibold">55</b>/100 <span className="muted">(Weak)</span>
-              </div>
-              <div className="muted">33 pass · 14 fail · 0 warn · 3 skip</div>
-              <div className="term-scores">
-                <span className="sc">
-                  Agent Readiness <b>1 / 8</b>
-                </span>
-                <span className="agg">Missing: G1 G2 G3 G4 G5 G7 G8</span>
-                <span className="term-cursor" />
-              </div>
-              <div className="mt-3">
-                <span className="prompt">$</span>{' '}
-                <span className="cmd">npx @answerfox/cli add mcp-server-card</span>
-              </div>
-              <div className="ok">Wrote public/.well-known/mcp/server-card.json</div>
-            </div>
-          </div>
+          <LandingTerminal />
         </section>
 
         <section className="pb-16 pt-4">
