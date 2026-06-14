@@ -1,6 +1,7 @@
 import { SignInWithGitHub } from '@/components/auth/sign-in-with-github';
 import { Bloom } from '@/components/bloom/Bloom';
 import type { BloomOpts } from '@/components/bloom/types';
+import { FoxMark } from '@/components/brand/fox-mark';
 import Link from 'next/link';
 
 const signInBloom: BloomOpts = {
@@ -41,9 +42,7 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
       <div className="relative z-10 mx-auto flex min-h-screen max-w-[1200px] flex-col px-6 sm:px-10">
         <nav className="flex h-[76px] shrink-0 items-center justify-between">
           <Link href="/" className="brand">
-            <span className="mark">
-              <i />
-            </span>
+            <FoxMark size={28} />
             <span className="wm">Answerfox</span>
           </Link>
         </nav>
