@@ -1,0 +1,37 @@
+# Dogfood: run the Answerfox audit action against a public URL on
+# every PR. Doubles as a worked example for users — copy this file
+# into your own repo, swap in your preview URL, and you're done.
+#
+# We audit example.com here because it's stable. In a real project
+# you'd audit the deployment preview URL emitted by Vercel/Netlify/etc.
+
+name: Answerfox audit (dogfood)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'packages/github-action/**'
+      - '.github/workflows/example-audit.yml'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Audit example.com
+        uses: ./packages/github-action
+        with:
+          url: https://example.com
+          min-score: 10
+          min-agent-readiness: 0
