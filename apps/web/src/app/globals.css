@@ -520,3 +520,149 @@ body {
   font-style: normal;
   color: color-mix(in oklch, var(--ember) 80%, #000);
 }
+
+/* ============================================================
+   Landing V3 — full layout/typography overrides
+   Scoped under .lvp so they only fire on the landing page.
+   Mirrors the locked landing-v3.jsx from the design handoff.
+   ============================================================ */
+.lvp .layer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Nav */
+.lvp .nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 72px;
+  height: 84px;
+}
+.lvp .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+.lvp .nav-links a {
+  font-size: 14.5px;
+  color: var(--ink-muted);
+  transition: color .14s ease;
+}
+.lvp .nav-links a:hover {
+  color: var(--ink);
+}
+.lvp .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.lvp .nstar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 13px;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background: rgba(255, 255, 255, 0.4);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink);
+}
+.lvp .nstar b {
+  font-weight: 500;
+}
+
+/* Hero — two-column grid, balanced */
+.lvp .hero {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: 1.04fr 0.96fr;
+  align-items: center;
+  gap: 72px;
+  padding: 0 72px 80px;
+}
+
+/* Left copy column */
+.lvp .lp {
+  max-width: 600px;
+}
+.lvp .lp h1 {
+  font-family: var(--font-display);
+  font-size: 60px;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+  margin: 22px 0 0;
+  text-wrap: balance;
+  color: var(--ink);
+}
+.lvp .lp h1 em {
+  font-style: normal;
+  color: color-mix(in oklch, var(--ember) 80%, #000);
+}
+.lvp .lp .sub {
+  margin: 24px 0 0;
+  font-family: var(--font-body);
+  font-size: 19.5px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+  max-width: 45ch;
+  text-wrap: pretty;
+}
+.lvp .cta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 38px;
+}
+.lvp .cta .btn {
+  height: 50px;
+}
+.lvp .trust {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  color: var(--ink-muted);
+  flex-wrap: wrap;
+}
+.lvp .trust b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.lvp .trust .sep {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--ink-dim);
+  opacity: 0.55;
+}
+
+/* Right column wraps the terminal so the floating chip can position later */
+.lvp .stage {
+  position: relative;
+}
+
+/* Responsive: below 980px, stack vertically and shrink typography */
+@media (max-width: 980px) {
+  .lvp .nav {
+    padding: 0 24px;
+  }
+  .lvp .hero {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 24px 24px 64px;
+  }
+  .lvp .lp h1 {
+    font-size: clamp(38px, 6.4vw, 60px);
+  }
+  .lvp .lp .sub {
+    font-size: 17px;
+  }
+}
