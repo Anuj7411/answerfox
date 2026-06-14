@@ -1,6 +1,7 @@
 import { Bloom } from '@/components/bloom/Bloom';
 import { LandingTerminal } from '@/components/bloom/LandingTerminal';
 import type { BloomOpts } from '@/components/bloom/types';
+import { FoxMark } from '@/components/brand/fox-mark';
 import { GitHubIcon } from '@/components/icons';
 import Link from 'next/link';
 
@@ -36,9 +37,7 @@ export default function LandingPage() {
       <div className="layer relative z-10">
         <nav className="nav">
           <Link href="/" className="brand">
-            <span className="mark">
-              <i />
-            </span>
+            <FoxMark size={28} />
             <span className="wm">Answerfox</span>
           </Link>
           <div className="nav-links">

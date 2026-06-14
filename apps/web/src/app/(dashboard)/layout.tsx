@@ -1,3 +1,4 @@
+import { FoxMark } from '@/components/brand/fox-mark';
 import { SignOutButton } from '@/components/dashboard/sign-out-button';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
 import Link from 'next/link';
@@ -35,9 +36,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
       <header className="border-b border-ink/10 bg-slate-base/60 backdrop-blur">
         <nav className="mx-auto flex h-[64px] max-w-[1200px] items-center justify-between px-6 sm:px-10">
           <Link href="/dashboard" className="brand">
-            <span className="mark">
-              <i />
-            </span>
+            <FoxMark size={26} />
             <span className="wm">Answerfox</span>
           </Link>
           <div className="flex items-center gap-4">
