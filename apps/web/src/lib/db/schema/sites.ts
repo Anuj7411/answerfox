@@ -1,16 +1,47 @@
-import { index, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { index, pgEnum, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { profiles } from './profiles';
 
 /**
- * A site (origin) owned by a user. One profile → many sites.
+ * Verification status lifecycle.
  *
- * `url` is the canonical absolute origin (e.g. `https://stripe.com`).
- * Audits may target subpaths of this origin, but the site row
- * itself is keyed to the origin level for analytics rollup.
+ * -  — site row exists but the owner has not started the
+ *   verification flow yet (default for legacy rows or freshly added
+ *   sites that skipped the prompt).
+ * -  — token has been issued and the user is mid-flow. The
+ *   token is valid for 7 days from .
+ * -  — at least one of the three methods (meta tag, file,
+ *   DNS TXT) returned the matching token within the validity window.
+ *    and  record which.
+ * -  — most recent verification attempt did not find the token
+ *   anywhere. User can re-initiate. Distinct from  so we can
+ *   render a 'try again' affordance instead of a 'still waiting' one.
+ */
+export const verificationStatus = pgEnum('verification_status', [
+  'unverified',
+  'pending',
+  'verified',
+  'failed',
+]);
+
+/**
+ * Which method succeeded when the site was verified.
  *
- * `lastAuditedAt` is denormalized for fast "list my sites with
- * their freshness" queries on the dashboard. Kept in sync by
- * the audit-runner Edge Function (or trigger, TBD in Day 5+).
+ * -  — <meta name='answerfox-verify' content='<token>'> in <head>.
+ * -  — /.well-known/answerfox-verify returns plain text token.
+ * -  — TXT record on origin with value answerfox-verify=<token>.
+ *
+ * Null until verification succeeds.
+ */
+export const verificationMethod = pgEnum('verification_method', ['meta', 'file', 'dns']);
+
+/**
+ * A site (origin) owned by a user. One profile -> many sites.
+ *
+ * Verification (v0.6 / phase 3c, F14 in PRICING-LOCKED.md): audits
+ * cannot run against a site until its owner has proven they control
+ * the origin via one of three methods. The token, status, and
+ * timestamps for that flow live here so we can render the UI and
+ * gate audit-now on a single query.
  */
 export const sites = pgTable(
   'sites',
@@ -23,6 +54,13 @@ export const sites = pgTable(
     name: text('name').notNull(),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     lastAuditedAt: timestamp('last_audited_at', { withTimezone: true }),
+    verificationToken: text('verification_token'),
+    verificationStatusValue: verificationStatus('verification_status_value')
+      .notNull()
+      .default('unverified'),
+    verificationInitiatedAt: timestamp('verification_initiated_at', { withTimezone: true }),
+    verifiedAt: timestamp('verified_at', { withTimezone: true }),
+    verificationMethodValue: verificationMethod('verification_method_value'),
   },
   (table) => ({
     userIdIdx: index('sites_user_id_idx').on(table.userId),
