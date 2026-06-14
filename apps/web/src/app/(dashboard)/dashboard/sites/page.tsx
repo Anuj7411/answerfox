@@ -52,13 +52,13 @@ export default async function SitesPage() {
             return (
               <li
                 key={site.id}
-                className="rounded-xl border border-ink/10 bg-slate-base/50 p-5 transition-colors hover:bg-slate-base/70"
+                className="group rounded-xl border border-ink/10 bg-slate-base/50 p-5 transition-all hover:-translate-y-0.5 hover:border-ember/40 hover:bg-slate-base/70 hover:shadow-md"
               >
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="min-w-0">
                     <Link
                       href={`/dashboard/sites/${site.id}`}
-                      className="truncate font-semibold hover:underline"
+                      className="truncate font-semibold transition-colors group-hover:text-ember"
                     >
                       {site.name}
                     </Link>

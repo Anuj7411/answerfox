@@ -30,8 +30,8 @@ export default async function DashboardHome() {
       <section>
         <h1 className="t-hero text-3xl">Welcome back, {userName}.</h1>
         <p className="mt-3 max-w-[560px] font-body text-ink-muted">
-          Your audit history, site list, and Agent Readiness scaffolding live here. Add a site to
-          start tracking SEO, AEO, GEO, and Agent Readiness over time.
+          Your dashboard for Agent Readiness scoring and fix-as-code. Track manifests, watch the 0-8
+          AR score move, ship the PR when it does not.
         </p>
       </section>
 
@@ -47,8 +47,8 @@ function NoSitesEmptyState() {
     <section className="glass rounded-2xl border border-ink/10 p-8">
       <h2 className="text-xl font-semibold">Add your first site</h2>
       <p className="mt-3 max-w-[480px] font-body text-ink-muted">
-        Drop a URL and Answerfox will run all 56 checks on demand. Schedule weekly audits and get
-        notified when your score drops.
+        Drop a URL. Answerfox runs all 50 checks (16 of 16 Cloudflare AR Score parity, plus 34
+        classic SEO/AEO/GEO checks) and surfaces the manifests you are missing.
       </p>
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <Link href="/dashboard/sites/new" className="btn btn-solid">
@@ -95,7 +95,7 @@ function ComingSoonGrid() {
     },
     {
       title: 'Agent Readiness trends',
-      body: '6 manifests, tracked over time. Catch regressions when you redeploy.',
+      body: '8 manifests, tracked over time. Catch regressions when you redeploy.',
       eta: 'Week 4',
     },
     {

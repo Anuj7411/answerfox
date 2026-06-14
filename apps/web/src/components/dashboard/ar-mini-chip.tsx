@@ -2,7 +2,7 @@ interface ArMiniChipProps {
   readonly agentReadinessScore: number;
 }
 
-const TOTAL_AR_CHECKS = 6;
+const TOTAL_AR_CHECKS = 8;
 
 /**
  * Compact "x/6 AR" chip for site list cards. Colored by completion

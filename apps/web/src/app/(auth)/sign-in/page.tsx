@@ -49,12 +49,28 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
         </nav>
 
         <div className="flex flex-1 items-center justify-center">
-          <div className="glass w-full max-w-[420px] rounded-2xl p-8">
-            <h1 className="t-hero text-2xl">Sign in to Answerfox</h1>
+          <div className="glass w-full max-w-[460px] rounded-2xl p-8">
+            <span className="eyebrow">
+              <span className="dot" /> Agent Readiness toolkit
+            </span>
+            <h1 className="t-hero mt-5 text-2xl">Sign in to Answerfox</h1>
             <p className="mt-3 font-body text-ink-muted">
-              Continue with GitHub to access your dashboard, scheduled audits, and the Agent
-              Readiness scaffolding commands.
+              Continue with GitHub. We never read your repos, only the email + name on your profile.
             </p>
+            <ul className="mt-5 space-y-2 text-[14px]">
+              <li className="flex items-start gap-2">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ember" />
+                <span>Track Agent Readiness across your sites, 8 manifest checks per site</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ember" />
+                <span>One-command scaffolders for every missing manifest (Free tier)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ember" />
+                <span>Auto-PR the fixes to your repo (Studio tier, first 100 at $69 lifetime)</span>
+              </li>
+            </ul>
 
             {error !== undefined && error.length > 0 && (
               <div className="mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">

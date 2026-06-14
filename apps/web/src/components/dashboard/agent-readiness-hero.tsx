@@ -7,11 +7,11 @@ interface AgentReadinessHeroProps {
   readonly band: ScoreBand;
 }
 
-const TOTAL_AR_CHECKS = 6;
+const TOTAL_AR_CHECKS = 8;
 
 /**
  * Two-panel hero on the site detail page. Agent Readiness on the left
- * (bigger, brand orange, leads with the raw 0-6 count), the legacy
+ * (bigger, brand orange, leads with the raw 0-8 count), the legacy
  * 0-100 score on the right (smaller, monochrome).
  *
  * The split is the wedge made visible: Answerfox sells Agent
@@ -57,8 +57,8 @@ export function AgentReadinessHero({ agentReadinessScore, score, band }: AgentRe
             </>
           ) : (
             <>
-              All 6 agent manifests present. AI agents can discover, authenticate, and act on this
-              site without hardcoded knowledge.
+              All {TOTAL_AR_CHECKS} agent manifests present. AI agents can discover, authenticate,
+              and act on this site without hardcoded knowledge.
             </>
           )}
         </p>
