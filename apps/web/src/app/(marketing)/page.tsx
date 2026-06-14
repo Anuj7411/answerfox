@@ -16,12 +16,11 @@ const landingBloom: BloomOpts = {
   orbitPeriod: 30,
   orbitPeriod2: 36,
   counterBloom: { rgb: [120, 116, 108], a: 0.14 },
-  tonePeriod: 38,
-  period: 22,
+  period: 16,
   breathAmp: 0.045,
   grainMul: 0.15,
   grainTime: 3.2,
-  renderScale: 0.82,
+  renderScale: 0.6,
   fps: 30,
 };
 
@@ -67,15 +66,15 @@ export default function LandingPage() {
         <div className="hero">
           <div className="lp">
             <span className="eyebrow">
-              <span className="dot" /> The Agent Readiness toolkit
+              <span className="dot" /> Open-source Agent Readiness toolkit
             </span>
             <h1>
-              Audit, scaffold, and <em>auto-PR</em> the manifests that make your site discoverable
-              to AI agents.
+              The only AI-SEO toolkit that lives in your codebase and{' '}
+              <em>ships fixes as code.</em>
             </h1>
             <p className="sub">
-              Open source. Lives in your repo. Ships fixes as code. Covers classic SEO, AEO, and GEO
-              too. 50 checks active today.
+              Audit any site for SEO, AEO, GEO, and Agent Readiness across 50 checks, then let AI
+              write the fixes and open the PR.
             </p>
             <div className="cta">
               <Link href="/sign-in" className="btn btn-solid">
