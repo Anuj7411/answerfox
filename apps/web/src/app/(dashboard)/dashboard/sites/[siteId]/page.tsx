@@ -172,7 +172,7 @@ async function LatestAuditView({ auditId, auditSummary }: LatestAuditViewProps) 
           <div className="flex items-baseline justify-between">
             <h2 className="text-xl font-semibold">Agent Readiness — fix these first</h2>
             <p className="font-mono text-[12px] text-ink-muted">
-              {agentReadinessFails.length} of 6 manifests missing
+              {agentReadinessFails.length} of 8 manifests missing
             </p>
           </div>
           <ul className="space-y-2">
