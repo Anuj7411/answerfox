@@ -36,7 +36,10 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
   const error = params.error;
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-slate-base text-ink">
+    <main
+      className="relative isolate min-h-screen overflow-hidden bg-slate-base text-ink"
+      data-page="signin"
+    >
       <Bloom opts={signInBloom} />
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-[1200px] flex-col px-6 sm:px-10">

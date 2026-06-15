@@ -32,7 +32,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   }
 
   return (
-    <main className="min-h-screen bg-slate-base text-ink">
+    <main className="min-h-screen bg-slate-base text-ink" data-page="dashboard">
       <header className="border-b border-ink/10 bg-slate-base/60 backdrop-blur">
         <nav className="mx-auto flex h-[64px] max-w-[1200px] items-center justify-between px-6 sm:px-10">
           <Link href="/dashboard" className="brand">
