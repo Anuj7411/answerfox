@@ -69,8 +69,7 @@ export default function LandingPage() {
               <span className="dot" /> Open-source Agent Readiness toolkit
             </span>
             <h1>
-              The only AI-SEO toolkit that lives in your codebase and{' '}
-              <em>ships fixes as code.</em>
+              The only AI-SEO toolkit that lives in your codebase and <em>ships fixes as code.</em>
             </h1>
             <p className="sub">
               Audit any site for SEO, AEO, GEO, and Agent Readiness across 50 checks, then let AI

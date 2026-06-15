@@ -61,3 +61,6 @@ tp.html
 tp.txt
 vbjina.txt
 vbtmp.html
+
+# Session handoff (per-session, not for sharing)
+.claude-handoff.md
