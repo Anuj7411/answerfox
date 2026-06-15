@@ -181,7 +181,7 @@ const SUMMARY: ReadonlyArray<{ readonly tool: string; readonly oneLine: string }
 
 export default function ComparePage() {
   return (
-    <main className="relative min-h-screen bg-slate-base text-ink">
+    <main className="relative min-h-screen bg-slate-base text-ink" data-page="docs">
       <div className="mx-auto max-w-[1200px] px-6 pt-10 pb-20 sm:px-10">
         <nav className="flex h-[60px] items-center justify-between">
           <Link href="/" className="brand">

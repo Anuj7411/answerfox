@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const signInBloom: BloomOpts = {
   base: '#D6D2CB',
-  ember: [248, 148, 68],
+  ember: [198, 85, 60],
   intensity: 0.6,
   cx: 0.5,
   cy: 0.4,
