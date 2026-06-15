@@ -27,7 +27,7 @@ const landingBloom: BloomOpts = {
 export default function LandingPage() {
   return (
     <main
-      className="lvp relative min-h-screen overflow-hidden bg-slate-base text-ink"
+      className="lvp relative isolate min-h-screen overflow-hidden bg-slate-base text-ink"
       data-page="landing"
       style={{ ['--ember' as string]: '#F89444' } as React.CSSProperties}
     >
