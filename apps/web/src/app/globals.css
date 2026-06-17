@@ -1273,24 +1273,11 @@ body {
   font-family: var(--font-display);
   font-size: 13.5px;
   font-weight: 600;
-  color: var(--ink-muted);
+  color: var(--ink);
   letter-spacing: -0.01em;
 }
-.siv .hc .wm-sm .mk {
-  width: 18px;
-  height: 18px;
-  border-radius: 6px;
-  background: var(--bg-elev);
-  border: 1px solid var(--border-subtle);
-  display: grid;
-  place-items: center;
-}
-.siv .hc .wm-sm .mk i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--ember);
-  box-shadow: 0 0 7px color-mix(in oklch, var(--ember) 70%, transparent);
+.siv .hc .wm-sm svg {
+  display: block;
 }
 .siv .hc h2 {
   font-family: var(--font-display);

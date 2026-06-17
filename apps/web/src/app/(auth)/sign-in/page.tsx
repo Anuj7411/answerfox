@@ -7,18 +7,21 @@ import Link from 'next/link';
 const signInBloom: BloomOpts = {
   base: '#D6D2CB',
   ember: [198, 85, 60],
-  intensity: 0.62,
-  cx: 0.26,
+  intensity: 0.58,
+  cx: 0.5,
   cy: 0.5,
-  radius: 0.6,
-  orbitX: 0.1,
-  orbitY: 0.08,
-  orbitPeriod: 13,
-  orbitPeriod2: 17,
-  period: 9,
-  breathAmp: 0.08,
-  grainMul: 0.22,
+  radius: 0.55,
+  orbitX: 0.06,
+  orbitY: 0.05,
+  orbitPeriod: 28,
+  orbitPeriod2: 34,
+  counterBloom: { rgb: [120, 116, 108], a: 0.14 },
+  period: 14,
+  breathAmp: 0.045,
+  grainMul: 0.1,
+  grainTime: 3.2,
   renderScale: 0.6,
+  fps: 30,
 };
 
 interface SignInPageProps {
@@ -111,9 +114,7 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
             <div className="hc">
               <div className="pad">
                 <span className="wm-sm">
-                  <span className="mk">
-                    <i />
-                  </span>{' '}
+                  <FoxMark size={18} />
                   Answerfox
                 </span>
                 <h2>Welcome.</h2>
