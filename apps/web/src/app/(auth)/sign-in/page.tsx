@@ -9,17 +9,18 @@ const signInBloom: BloomOpts = {
   ember: [198, 85, 60],
   intensity: 0.6,
   cx: 0.5,
-  cy: 0.4,
-  radius: 0.5,
-  orbitX: 0.08,
-  orbitY: 0.06,
-  orbitPeriod: 32,
-  tonePeriod: 38,
-  period: 22,
-  breathAmp: 0.05,
-  grainMul: 0.12,
+  cy: 0.5,
+  radius: 0.6,
+  orbitX: 0.28,
+  orbitY: 0.2,
+  orbitPeriod: 22,
+  orbitPeriod2: 31,
+  counterBloom: { rgb: [120, 116, 108], a: 0.14 },
+  period: 14,
+  breathAmp: 0.045,
+  grainMul: 0.15,
   grainTime: 3.2,
-  renderScale: 0.7,
+  renderScale: 0.6,
   fps: 30,
 };
 
@@ -30,63 +31,111 @@ interface SignInPageProps {
   }>;
 }
 
+function SiCheck() {
+  return (
+    <span className="sck" aria-hidden>
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+        <title>check</title>
+        <path
+          d="M3.5 8.5l2.8 2.8L12.5 5"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
+  );
+}
+
 export default async function SignInPage({ searchParams }: SignInPageProps) {
   const params = await searchParams;
   const redirectTo = params.redirect;
   const error = params.error;
 
   return (
-    <main
-      className="relative isolate min-h-screen overflow-hidden bg-slate-base text-ink"
-      data-page="signin"
-    >
+    <main className="siv relative isolate min-h-screen overflow-hidden text-ink" data-page="signin">
       <Bloom opts={signInBloom} />
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-[1200px] flex-col px-6 sm:px-10">
-        <nav className="flex h-[76px] shrink-0 items-center justify-between">
+      <div className="layer">
+        <div className="si-top">
           <Link href="/" className="brand">
             <FoxMark size={28} />
             <span className="wm">Answerfox</span>
           </Link>
-        </nav>
+          <div className="util">
+            <Link href="/compare">Docs</Link>
+            <a href="mailto:hello@answerfox.dev">Need help?</a>
+            <Link className="new" href="/sign-in">
+              Create account
+            </Link>
+          </div>
+        </div>
 
-        <div className="flex flex-1 items-center justify-center">
-          <div className="glass w-full max-w-[460px] rounded-2xl p-8">
-            <span className="eyebrow">
-              <span className="dot" /> Agent Readiness toolkit
+        <div className="si-body">
+          <div className="left">
+            <span className="hi">
+              <span className="d" /> Welcome back
             </span>
-            <h1 className="t-hero mt-5 text-2xl">Sign in to Answerfox</h1>
-            <p className="mt-3 font-body text-ink-muted">
-              Continue with GitHub. We never read your repos, only the email + name on your profile.
-            </p>
-            <ul className="mt-5 space-y-2 text-[14px]">
-              <li className="flex items-start gap-2">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ember" />
-                <span>Track Agent Readiness across your sites, 8 manifest checks per site</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ember" />
-                <span>One-command scaffolders for every missing manifest (Free tier)</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ember" />
-                <span>Auto-PR the fixes to your repo (Studio tier, first 100 at $69 lifetime)</span>
-              </li>
-            </ul>
+            <h1>Let&rsquo;s get your site answerable.</h1>
+            <p className="lede">Sign in to pick up exactly where you left off.</p>
 
-            {error !== undefined && error.length > 0 && (
-              <div className="mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
-                {error}
+            <div className="checks">
+              <div className="row">
+                <SiCheck />
+                <span>
+                  <b>50 checks</b> across SEO, AEO, GEO, and Agent Readiness.
+                </span>
               </div>
-            )}
-
-            <div className="mt-7">
-              <SignInWithGitHub redirectTo={redirectTo} />
+              <div className="row">
+                <SiCheck />
+                <span>
+                  <b>16 of 16</b> Cloudflare AR Score parity, plus 34 of our own.
+                </span>
+              </div>
+              <div className="row">
+                <SiCheck />
+                <span>
+                  AI writes the fix, you review the diff, we open the <b>pull request</b>.
+                </span>
+              </div>
             </div>
 
-            <p className="mt-6 text-center font-mono text-[12px] tracking-wide text-ink-muted">
-              First-time sign-in creates your profile. MIT, no telemetry on the OSS CLI.
-            </p>
+            <div className="ftr">
+              <span>MIT licensed</span>
+              <span className="sep" />
+              <span>500+ stars</span>
+              <span className="sep" />
+              <span>v0.6.0 shipped</span>
+            </div>
+          </div>
+
+          <div className="right">
+            <div className="hc">
+              <div className="pad">
+                <span className="wm-sm">
+                  <FoxMark size={18} />
+                  Answerfox
+                </span>
+                <h2>Welcome.</h2>
+                <p className="si-subtext">
+                  Audit your site for SEO, AEO, GEO, and Agent Readiness across 50 checks, then let
+                  AI write the fixes and open the PR.
+                </p>
+
+                {error !== undefined && error.length > 0 && <div className="si-error">{error}</div>}
+
+                <div className="si-actions">
+                  <SignInWithGitHub redirectTo={redirectTo} />
+                </div>
+
+                <div className="si-div">Free to sign in, no credit card</div>
+                <p className="si-foot">
+                  By continuing you agree to our <Link href="/terms">terms</Link> and{' '}
+                  <Link href="/privacy">privacy</Link>.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
