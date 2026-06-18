@@ -1184,11 +1184,7 @@ body {
   display: grid;
   place-items: center;
   color: #fff;
-  background: linear-gradient(
-    140deg,
-    color-mix(in oklch, var(--ember) 86%, #000 6%),
-    var(--ember)
-  );
+  background: linear-gradient(140deg, color-mix(in oklch, var(--ember) 86%, #000 6%), var(--ember));
   box-shadow: 0 5px 12px -5px color-mix(in oklch, var(--ember) 60%, transparent);
 }
 
@@ -1228,11 +1224,11 @@ body {
   display: flex;
   flex-direction: column;
   background: linear-gradient(180deg, #fbf8f2 0%, #f2eee7 100%);
-  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.75) inset, 0 1px 0 rgba(255, 255, 255, 0.9) inset,
-    0 46px 92px -42px rgba(26, 24, 20, 0.5), 0 0 0 1px rgba(26, 24, 20, 0.05);
+  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.75) inset, 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0
+    46px 92px -42px rgba(26, 24, 20, 0.5), 0 0 0 1px rgba(26, 24, 20, 0.05);
 }
 .siv .hc::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 50%;
   top: -58%;
@@ -1249,7 +1245,7 @@ body {
   opacity: 0.5;
 }
 .siv .hc::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -1329,7 +1325,7 @@ body {
 }
 .siv .hc .si-div::before,
 .siv .hc .si-div::after {
-  content: '';
+  content: "";
   flex: 1;
   height: 1px;
   background: var(--border-subtle);

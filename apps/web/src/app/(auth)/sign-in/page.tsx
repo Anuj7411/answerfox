@@ -123,9 +123,7 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
                   AI write the fixes and open the PR.
                 </p>
 
-                {error !== undefined && error.length > 0 && (
-                  <div className="si-error">{error}</div>
-                )}
+                {error !== undefined && error.length > 0 && <div className="si-error">{error}</div>}
 
                 <div className="si-actions">
                   <SignInWithGitHub redirectTo={redirectTo} />
