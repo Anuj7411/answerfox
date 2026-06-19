@@ -1,4 +1,5 @@
 import { AgentReadinessHero } from '@/components/dashboard/agent-readiness-hero';
+import { AiFixPanel } from '@/components/dashboard/ai-fix-panel';
 import { AuditNowButton } from '@/components/dashboard/audit-now-button';
 import { VerificationPanel } from '@/components/dashboard/verification-panel';
 import { getLatestAuditForSite, listFindingsForAudit } from '@/lib/db/queries/audits';
@@ -198,6 +199,7 @@ async function LatestAuditView({ auditId, auditSummary }: LatestAuditViewProps) 
                     <span className="text-ink-muted">Fix:</span> {f.fixRecommendation}
                   </p>
                 )}
+                <AiFixPanel findingId={f.id} checkId={f.checkId} />
               </li>
             ))}
           </ul>
@@ -245,6 +247,7 @@ async function LatestAuditView({ auditId, auditSummary }: LatestAuditViewProps) 
                         <span className="text-ink-muted">Fix:</span> {f.fixRecommendation}
                       </p>
                     )}
+                    <AiFixPanel findingId={f.id} checkId={f.checkId} />
                   </li>
                 ))}
               </ul>
