@@ -1,6 +1,7 @@
 import { AgentReadinessHero } from '@/components/dashboard/agent-readiness-hero';
 import { AiFixPanel } from '@/components/dashboard/ai-fix-panel';
 import { AuditNowButton } from '@/components/dashboard/audit-now-button';
+import { AuditScheduleCard } from '@/components/dashboard/audit-schedule-card';
 import { VerificationPanel } from '@/components/dashboard/verification-panel';
 import { getLatestAuditForSite, listFindingsForAudit } from '@/lib/db/queries/audits';
 import { getSiteForUser } from '@/lib/db/queries/sites';
@@ -75,6 +76,14 @@ export default async function SiteDetailPage({ params }: PageProps) {
         verifiedMethod={site.verificationMethodValue}
         verifiedAt={site.verifiedAt}
       />
+
+      {site.verificationStatusValue === 'verified' && (
+        <AuditScheduleCard
+          siteId={site.id}
+          current={site.auditSchedule}
+          nextAt={site.nextScheduledAuditAt}
+        />
+      )}
 
       {site.verificationStatusValue !== 'verified' ? (
         <section className="glass rounded-2xl border border-ink/10 p-8">
