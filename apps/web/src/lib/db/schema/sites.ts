@@ -35,6 +35,15 @@ export const verificationStatus = pgEnum('verification_status', [
 export const verificationMethod = pgEnum('verification_method', ['meta', 'file', 'dns']);
 
 /**
+ * Site-level continuous-audit schedule.
+ * - `off`: no scheduled audits, the user re-audits manually.
+ * - `daily`: ~24h cadence. Cron sweeps every hour and triggers any site
+ *   whose `next_scheduled_audit_at` is in the past.
+ * - `weekly`: ~7d cadence, same sweep behaviour.
+ */
+export const auditSchedule = pgEnum('audit_schedule', ['off', 'daily', 'weekly']);
+
+/**
  * A site (origin) owned by a user. One profile -> many sites.
  *
  * Verification (v0.6 / phase 3c, F14 in PRICING-LOCKED.md): audits
@@ -61,6 +70,8 @@ export const sites = pgTable(
     verificationInitiatedAt: timestamp('verification_initiated_at', { withTimezone: true }),
     verifiedAt: timestamp('verified_at', { withTimezone: true }),
     verificationMethodValue: verificationMethod('verification_method_value'),
+    auditSchedule: auditSchedule('audit_schedule').notNull().default('off'),
+    nextScheduledAuditAt: timestamp('next_scheduled_audit_at', { withTimezone: true }),
   },
   (table) => ({
     userIdIdx: index('sites_user_id_idx').on(table.userId),
