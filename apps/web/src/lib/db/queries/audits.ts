@@ -78,3 +78,18 @@ export async function getLatestAuditForSite(siteId: string) {
     .limit(1);
   return row ?? null;
 }
+
+/**
+ * Latest two audits for a site, newest first. Powers the diff view —
+ * returns an empty array if the site has never been audited and a
+ * one-element array after the very first run. Diffing only makes
+ * sense when both elements are present.
+ */
+export async function getLastTwoAuditsForSite(siteId: string) {
+  return getDb()
+    .select()
+    .from(audits)
+    .where(eq(audits.siteId, siteId))
+    .orderBy(desc(audits.fetchedAt))
+    .limit(2);
+}

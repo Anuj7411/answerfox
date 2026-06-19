@@ -1,8 +1,14 @@
 import { AgentReadinessHero } from '@/components/dashboard/agent-readiness-hero';
 import { AiFixPanel } from '@/components/dashboard/ai-fix-panel';
+import { AuditDiffCard } from '@/components/dashboard/audit-diff-card';
 import { AuditNowButton } from '@/components/dashboard/audit-now-button';
 import { VerificationPanel } from '@/components/dashboard/verification-panel';
-import { getLatestAuditForSite, listFindingsForAudit } from '@/lib/db/queries/audits';
+import { diffAudits } from '@/lib/audit/diff-audits';
+import {
+  getLastTwoAuditsForSite,
+  getLatestAuditForSite,
+  listFindingsForAudit,
+} from '@/lib/db/queries/audits';
 import { getSiteForUser } from '@/lib/db/queries/sites';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
 import Link from 'next/link';
@@ -92,10 +98,47 @@ export default async function SiteDetailPage({ params }: PageProps) {
           </p>
         </section>
       ) : (
-        <LatestAuditView auditId={latest.id} auditSummary={latest} />
+        <>
+          <AuditTrendSlot siteId={site.id} />
+          <LatestAuditView auditId={latest.id} auditSummary={latest} />
+        </>
       )}
     </div>
   );
+}
+
+/**
+ * Renders the "Since last audit" diff card when the site has at least
+ * two audits, otherwise renders nothing. Separated into its own
+ * server component so the underlying `listFindingsForAudit` calls
+ * stream alongside `LatestAuditView` instead of blocking it.
+ */
+async function AuditTrendSlot({ siteId }: { siteId: string }) {
+  const lastTwo = await getLastTwoAuditsForSite(siteId);
+  if (lastTwo.length < 2) return null;
+  const [latest, previous] = lastTwo as [(typeof lastTwo)[number], (typeof lastTwo)[number]];
+
+  const [latestFindings, previousFindings] = await Promise.all([
+    listFindingsForAudit(latest.id),
+    listFindingsForAudit(previous.id),
+  ]);
+
+  const diff = diffAudits({
+    previous: {
+      score: previous.score,
+      agentReadinessScore: previous.agentReadinessScore,
+      fetchedAt: previous.fetchedAt,
+    },
+    latest: {
+      score: latest.score,
+      agentReadinessScore: latest.agentReadinessScore,
+      fetchedAt: latest.fetchedAt,
+    },
+    previousFindings,
+    latestFindings,
+  });
+
+  return <AuditDiffCard diff={diff} />;
 }
 
 interface LatestAuditViewProps {
