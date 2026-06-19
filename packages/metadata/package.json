@@ -1,6 +1,6 @@
 {
   "name": "@answerfox/metadata",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Next.js App Router metadata helpers for the Answerfox SEO toolkit.",
   "license": "MIT",
   "author": "Anuj Ojha",

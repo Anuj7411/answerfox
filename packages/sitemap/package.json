@@ -1,6 +1,6 @@
 {
   "name": "@answerfox/sitemap",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Sitemap builder with smart path-based defaults for the Answerfox SEO toolkit.",
   "license": "MIT",
   "author": "Anuj Ojha",
