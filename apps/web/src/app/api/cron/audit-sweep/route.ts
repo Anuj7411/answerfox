@@ -1,3 +1,4 @@
+import { processScoreDropAlert } from '@/lib/audit/process-score-drop';
 import { getDb } from '@/lib/db/client';
 import { createAuditWithFindings } from '@/lib/db/mutations/audits';
 import { listSitesDueForAudit } from '@/lib/db/queries/due-audits';
@@ -45,12 +46,19 @@ export async function GET(request: Request) {
   const results = await Promise.allSettled(
     dueSites.map(async (site) => {
       const report = await audit(site.url);
-      await createAuditWithFindings({ siteId: site.id, report });
+      const newAudit = await createAuditWithFindings({ siteId: site.id, report });
       const nextAt = advanceSchedule(site.auditSchedule, startedAt);
       await getDb()
         .update(sites)
         .set({ nextScheduledAuditAt: nextAt })
         .where(eq(sites.id, site.id));
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
+      await processScoreDropAlert({
+        siteId: site.id,
+        currentAuditId: newAudit.id,
+        currentScore: newAudit.score,
+        siteDetailUrl: `${appUrl}/dashboard/sites/${site.id}`,
+      });
       return { id: site.id, url: site.url };
     }),
   );

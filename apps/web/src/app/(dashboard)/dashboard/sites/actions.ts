@@ -1,5 +1,6 @@
 'use server';
 
+import { processScoreDropAlert } from '@/lib/audit/process-score-drop';
 import { createAuditWithFindings } from '@/lib/db/mutations/audits';
 import { createSiteForUser } from '@/lib/db/mutations/sites';
 import { getSiteForUser } from '@/lib/db/queries/sites';
@@ -127,7 +128,14 @@ export async function runAuditAction(
 
   try {
     const report = await audit(site.url);
-    await createAuditWithFindings({ siteId: site.id, report });
+    const newAudit = await createAuditWithFindings({ siteId: site.id, report });
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
+    await processScoreDropAlert({
+      siteId: site.id,
+      currentAuditId: newAudit.id,
+      currentScore: newAudit.score,
+      siteDetailUrl: `${appUrl}/dashboard/sites/${site.id}`,
+    });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Audit failed.';
     return { errors: { general: message } };
