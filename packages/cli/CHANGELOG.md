@@ -1,5 +1,199 @@
 # @answerfox/cli
 
+## 0.4.2
+
+### Patch Changes
+
+- 4d8a0de: Reweight Agent Readiness category (G1-G6) from 0 to 30 of 100 total points.
+
+  Agent Readiness is the Answerfox wedge — until now the six G category
+  checks (MCP Server Card, A2A agent-card.json, RFC 9727 API Catalog,
+  agent-permissions.json, OAuth discovery, WebMCP form annotations) were
+  informational only and didn't affect the score. A site that aced classic
+  SEO but shipped zero agent manifests scored 100/100, which undermines
+  the point of the framework.
+
+  New weights: G1=6, G2=6, G3=5, G4=5, G5=4, G6=4 (total 30 of 100).
+  A "classic-perfect" site with no AR manifests now scores 70 (average band)
+  instead of 100 (excellent). Existing classic-SEO checks are unchanged.
+
+  Tests updated to match. No code-path changes outside `points: 0 → N` on
+  the six G check definitions.
+
+- 0141cc0: v0.5.0 phase 1 — Cloudflare Agent Readiness Score coverage parity push.
+
+  Adds 2 new checks (sitemap.xml at A11, llms.txt at G7), bringing the active
+  audit framework from 39 to 41 checks (of 58 planned by v0.6.0).
+
+  New checks
+
+  - **A11 sitemap.xml**: detects sitemap.xml at the origin root, accepts both
+    urlset and sitemapindex shapes. 2 points, medium severity. Matches the
+    Cloudflare "Discoverability" category.
+  - **G7 llms.txt**: detects llms.txt at the origin root, requires markdown
+    shape with an H1 and at least one link. 5 points, medium severity. Adopted
+    by ~10% of all sites, ~40% of developer-facing SaaS (Anthropic, Stripe,
+    Vercel, Cloudflare).
+
+  Framework reweight
+
+  - G category total moves from 30 to 35 of 100 points (G7 added at 5 pts;
+    G1-G6 unchanged).
+  - A classic-perfect fixture without AR manifests now scores 65 (was 70 in
+    v0.4.x reweight, was 100 in v0.3.x). The wedge gets sharper with every
+    AR check added.
+
+  New helper
+
+  - `fetchOriginPath(url, path)` for root-relative artifact fetches, mirroring
+    the existing `fetchWellKnown` helper. Used by A11 and G7.
+
+  Tests
+
+  - 13 new test cases (7 for A11, 6 for G7) covering pass/fail/warn/network
+    error/empty body/wrong shape branches per check. All 204 tests pass.
+
+- 515ca16: v0.5.0 phase 2 — Cloudflare Agent Readiness Score coverage parity, phase 2 of 3.
+
+  Adds 5 new checks bringing the active framework from 41 to 46 of 63 planned.
+  Cloudflare-equivalent coverage moves from 8 of 16 to 13 of 16. The final 3
+  (x402, UCP, ACP, MPP as a single Agentic Commerce category H) land in v0.6.0.
+
+  New checks
+
+  - **A12 RFC 8288 Link headers**: detects Link headers in the HTTP response
+    with rel attributes. 1 point, low severity. Skips on the runChecks
+    fixture path (no headers context).
+  - **A13 AI bot rules**: detects explicit AI bot user agents in robots.txt
+    (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, OAI-SearchBot,
+    anthropic-ai, cohere-ai, CCBot, and 10 more). 2 points, medium severity.
+  - **C3 Markdown content negotiation**: re-fetches the audited URL with
+    Accept: text/markdown, checks if Content-Type or body shape is markdown.
+    2 points, low severity.
+  - **C4 Content Signals**: detects X-Content-Signals HTTP header or
+    matching meta tag, requires at least one recognised policy field
+    (use-policy, citation, training, paywall, freshness). 2 points, medium.
+  - **G8 Web Bot Auth (RFC 9421)**: detects HTTP Message Signatures via
+    Signature-Input + Signature headers. 4 points, low severity. Skips
+    on the runChecks fixture path.
+
+  Crawler refactor
+
+  - `FetchAndParseResult` now includes a `headers: Headers` field.
+  - `RunChecksInput` accepts an optional `headers?: Headers` field.
+  - `@answerfox/core`'s `CheckInput` interface adds an optional
+    `headers?: Headers` field so checks can typesafely access response
+    headers. Backward-compatible: existing checks ignore the new field.
+
+  Framework reweight
+
+  - A category: 18 → 21 of 100 pts (A12=1, A13=2 added)
+  - C category: 5 → 9 of 100 pts (C3=2, C4=2 added)
+  - G category: 35 → 39 of 100 pts (G8=4 added)
+  - Total max-points budget: ~101 of normalized 100 (score normalizes)
+  - A classic-perfect fixture without AR manifests now scores 61 (was 65
+    after phase 1, was 70 after AR-first reweight, was 100 in v0.3.x).
+
+  Tests
+
+  - 24 new test cases (5 for A12, 5 for A13, 4 for C3, 5 for C4, 5 for G8).
+  - All 228 tests pass.
+
+- bcc78c2: v0.5.0 phase 3 — completes the agent manifest scaffolder set.
+
+  Adds two new manifest templates so the CLI can scaffold every G category
+  check that audits to a missing file. Users who score 0/8 on Agent
+  Readiness can now run a single command per gap to ship the fix.
+
+  New templates
+
+  - **llms-txt** at `public/llms.txt` (audit check G7). Per the llmstxt.org
+    spec: H1 site name, blockquote description, and starter sections with
+    curated markdown links to docs, about, and optional content.
+  - **web-bot-auth** at `public/.well-known/http-message-signatures-directory`
+    (audit check G8). JWKS-shaped JSON declaring an Ed25519 public key with
+    an inline `_comment` field walking the user through key generation
+    (`openssl genpkey -algorithm ed25519`), base64url encoding, and signing
+    per RFC 9421.
+
+  CLI commands
+
+  - `answerfox add llms-txt` — scaffolds the llms.txt file
+  - `answerfox add web-bot-auth` — scaffolds the JWKS directory
+  - Both join the existing `agent-card`, `mcp-server-card`, `api-catalog`,
+    `agent-permissions`, `oauth-discovery` set. Total of 7 G-category
+    manifest scaffolders now available.
+
+  Notes
+
+  - Both new templates are framework-agnostic (no Next.js gate, write
+    under `public/`).
+  - The registry-invariant test was relaxed to allow `public/<file>` in
+    addition to `public/.well-known/<file>` — llms.txt is the spec
+    exception that puts the file at the origin root.
+  - No new audit checks in this PR. Phase 3 closes the "we fix" promise
+    for the 8 AR checks already shipped (G1-G8). Agentic Commerce (H1-H4)
+    lands next in v0.6.0.
+
+- 304703a: v0.6.0 — Agentic Commerce category H. **16 of 16 Cloudflare AR Score parity reached.**
+
+  Adds 4 new audit checks for the agentic commerce protocols Cloudflare tracks
+  in their AR Score. After this release, every check Cloudflare scores is
+  covered, plus 36 checks we have they don't (classic SEO/AEO/GEO + the WebMCP,
+  A2A, and agent-permissions G checks they skipped).
+
+  New category
+
+  - **H — agentic-commerce**: 4 checks, 12 of 100 max points.
+
+  New checks
+
+  - **H1 x402** (4 pts, medium): detects x402 capability via
+    `/.well-known/x402` manifest OR `X-Payment-Required` header. x402
+    was acquired by the Linux Foundation in 2026 (Coinbase origins,
+    $50M+ cumulative volume by April).
+  - **H2 UCP** (3 pts, medium): detects Universal Commerce Protocol
+    manifest at `/.well-known/ucp.json`. Google + Shopify/Walmart/Target
+    launch, January 11 2026.
+  - **H3 ACP** (3 pts, medium): detects Agentic Commerce Protocol
+    manifest at `/.well-known/acp.json`. OpenAI + Stripe joint protocol
+    for agent checkout flows.
+  - **H4 MPP** (2 pts, low): detects Machine Payment Protocol manifest
+    at `/.well-known/mpp.json`. Cloudflare addition to AR Score, May 2026.
+
+  Core API additions
+
+  - `'agentic-commerce'` added to the `Category` enum.
+  - `CATEGORY_ID_PREFIX['agentic-commerce'] = 'H'`.
+  - `CATEGORY_POINT_BUDGET` updated to reflect actual per-category
+    weights: A=21, B=20, C=9, D=22, E=12, F=8, G=39, H=12. Total of
+    143 max points (score normalizes to 100 in the runner).
+
+  Framework
+
+  - Active checks: 46 → **50** of 67 planned.
+  - Cloudflare-equivalent coverage: 13 of 16 → **16 of 16**.
+  - Classic-perfect fixture without AR + commerce manifests now scores
+    **55** (was 61 after phase 2, was 100 in v0.3.x). Drops from
+    "average" to "weak" band — a perfect SEO site that ships zero
+    agent or commerce signals is no longer middling, it's deficient.
+
+  Tests
+
+  - 14 new test cases (4 H1, 4 H2, 3 H3, 3 H4).
+  - runner.test.ts updated for new check IDs and new score math.
+  - console.test.ts updated to allow Weak band on the perfect fixture.
+  - All 242 tests pass.
+
+- Updated dependencies [4d8a0de]
+- Updated dependencies [0141cc0]
+- Updated dependencies [515ca16]
+- Updated dependencies [bcc78c2]
+- Updated dependencies [304703a]
+  - @answerfox/audit@0.5.0
+  - @answerfox/core@0.4.0
+  - @answerfox/templates@0.4.0
+
 ## 0.4.1
 
 ### Patch Changes

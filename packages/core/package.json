@@ -1,6 +1,6 @@
 {
   "name": "@answerfox/core",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Shared types, utilities, and error classes for the Answerfox SEO toolkit.",
   "license": "MIT",
   "author": "Anuj Ojha",
