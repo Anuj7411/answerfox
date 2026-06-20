@@ -1,6 +1,7 @@
 import 'server-only';
 import { getDb } from '@/lib/db/client';
 import { sites } from '@/lib/db/schema/sites';
+import { and, eq } from 'drizzle-orm';
 
 export interface CreateSiteInput {
   readonly userId: string;
@@ -30,4 +31,37 @@ export async function createSiteForUser(input: CreateSiteInput) {
     throw new Error('Insert returned no row');
   }
   return row;
+}
+
+/**
+ * Rename a site the user owns. The userId guard is belt-and-braces
+ * over the higher-layer ownership check in the server action.
+ * Returns true if a row was updated, false if nothing matched.
+ */
+export async function renameSiteForUser(input: {
+  userId: string;
+  siteId: string;
+  name: string;
+}): Promise<boolean> {
+  const rows = await getDb()
+    .update(sites)
+    .set({ name: input.name })
+    .where(and(eq(sites.id, input.siteId), eq(sites.userId, input.userId)))
+    .returning({ id: sites.id });
+  return rows.length > 0;
+}
+
+/**
+ * Delete a site (and all dependent rows via ON DELETE CASCADE on the
+ * audits / findings / agent_visits / ai_fixes foreign keys).
+ */
+export async function deleteSiteForUser(input: {
+  userId: string;
+  siteId: string;
+}): Promise<boolean> {
+  const rows = await getDb()
+    .delete(sites)
+    .where(and(eq(sites.id, input.siteId), eq(sites.userId, input.userId)))
+    .returning({ id: sites.id });
+  return rows.length > 0;
 }
