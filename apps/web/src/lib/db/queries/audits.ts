@@ -93,3 +93,22 @@ export async function getLastTwoAuditsForSite(siteId: string) {
     .orderBy(desc(audits.fetchedAt))
     .limit(2);
 }
+
+/**
+ * Last N audits for a site, newest first. Powers the home-page score
+ * trend chart. Returns just the fields the chart needs to keep the
+ * payload small — fetchedAt, score, agentReadinessScore.
+ */
+export async function getRecentAuditScoresForSite(siteId: string, limit = 7) {
+  return getDb()
+    .select({
+      id: audits.id,
+      fetchedAt: audits.fetchedAt,
+      score: audits.score,
+      agentReadinessScore: audits.agentReadinessScore,
+    })
+    .from(audits)
+    .where(eq(audits.siteId, siteId))
+    .orderBy(desc(audits.fetchedAt))
+    .limit(limit);
+}
