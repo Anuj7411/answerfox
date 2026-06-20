@@ -1,11 +1,14 @@
 import { AgentReadinessHero } from '@/components/dashboard/agent-readiness-hero';
 import { AiFixPanel } from '@/components/dashboard/ai-fix-panel';
+import { AiTrafficTile } from '@/components/dashboard/ai-traffic-tile';
 import { AlertThresholdCard } from '@/components/dashboard/alert-threshold-card';
+import { AnalyticsIntegrationCard } from '@/components/dashboard/analytics-integration-card';
 import { AuditDiffCard } from '@/components/dashboard/audit-diff-card';
 import { AuditNowButton } from '@/components/dashboard/audit-now-button';
 import { AuditScheduleCard } from '@/components/dashboard/audit-schedule-card';
 import { VerificationPanel } from '@/components/dashboard/verification-panel';
 import { diffAudits } from '@/lib/audit/diff-audits';
+import { getAgentTrafficSummary } from '@/lib/db/queries/agent-visits';
 import {
   getLastTwoAuditsForSite,
   getLatestAuditForSite,
@@ -95,6 +98,10 @@ export default async function SiteDetailPage({ params }: PageProps) {
         </div>
       )}
 
+      {site.verificationStatusValue === 'verified' && (
+        <AnalyticsSlot siteId={site.id} hasToken={site.ingestToken !== null} />
+      )}
+
       {site.verificationStatusValue !== 'verified' ? (
         <section className="glass rounded-2xl border border-ink/10 p-8">
           <h2 className="text-xl font-semibold">Audit runs unlock after verification</h2>
@@ -152,6 +159,22 @@ async function AuditTrendSlot({ siteId }: { siteId: string }) {
   });
 
   return <AuditDiffCard diff={diff} />;
+}
+
+/**
+ * Two-column row: per-site AI traffic tile + analytics integration
+ * card. Streams alongside the audit content so the page doesn't block
+ * on the GROUP BY agent-visits query.
+ */
+async function AnalyticsSlot({ siteId, hasToken }: { siteId: string; hasToken: boolean }) {
+  const summary = await getAgentTrafficSummary(siteId);
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
+  return (
+    <div className="grid gap-4 md:grid-cols-2">
+      <AiTrafficTile summary={summary} integrated={hasToken} />
+      <AnalyticsIntegrationCard siteId={siteId} hasToken={hasToken} appUrl={appUrl} />
+    </div>
+  );
 }
 
 interface LatestAuditViewProps {
