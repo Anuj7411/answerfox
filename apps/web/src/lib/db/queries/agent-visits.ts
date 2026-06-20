@@ -3,7 +3,7 @@ import type { AgentLabel } from '@/lib/analytics/classify-agent';
 import { getDb } from '@/lib/db/client';
 import { agentVisits } from '@/lib/db/schema/agent-visits';
 import { sites } from '@/lib/db/schema/sites';
-import { and, eq, gte, sql } from 'drizzle-orm';
+import { and, desc, eq, gte, sql } from 'drizzle-orm';
 
 export interface AgentTrafficBucket {
   readonly label: AgentLabel;
@@ -148,4 +148,28 @@ export async function getTrafficCountsPerSite(
     .groupBy(agentVisits.siteId);
 
   return new Map(rows.map((r) => [r.siteId, r.count]));
+}
+
+/**
+ * Recent visits for a single site filtered to one classifier label.
+ * Powers the per-engine drill-down page. Newest first, capped at
+ * `limit` rows to keep the table render cheap.
+ */
+export async function listRecentVisitsForSiteAndLabel(
+  siteId: string,
+  label: AgentLabel,
+  limit = 100,
+) {
+  return getDb()
+    .select({
+      id: agentVisits.id,
+      userAgent: agentVisits.userAgent,
+      referrer: agentVisits.referrer,
+      path: agentVisits.path,
+      recordedAt: agentVisits.recordedAt,
+    })
+    .from(agentVisits)
+    .where(and(eq(agentVisits.siteId, siteId), eq(agentVisits.label, label)))
+    .orderBy(desc(agentVisits.recordedAt))
+    .limit(limit);
 }
