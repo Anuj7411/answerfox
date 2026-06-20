@@ -1,5 +1,6 @@
 import type { AgentLabel } from '@/lib/analytics/classify-agent';
 import type { AgentTrafficSummary } from '@/lib/db/queries/agent-visits';
+import Link from 'next/link';
 
 interface AiTrafficTileProps {
   readonly summary: AgentTrafficSummary;
@@ -80,11 +81,8 @@ export function AiTrafficTile({ summary, integrated }: AiTrafficTileProps) {
         {summary.buckets.map((b) => {
           const { name, tone } = LABEL_DISPLAY[b.label];
           const width = b.count === 0 ? 0 : Math.max(2, Math.round((b.count / max) * 100));
-          return (
-            <li
-              key={b.label}
-              className="grid grid-cols-[100px_1fr_56px] items-center gap-3 text-[13px]"
-            >
+          const row = (
+            <div className="grid grid-cols-[100px_1fr_56px] items-center gap-3 text-[13px]">
               <span className="font-mono text-[12.5px] text-ink-muted">{name}</span>
               <span className="h-2 overflow-hidden rounded-full bg-ink/5">
                 <span
@@ -93,6 +91,20 @@ export function AiTrafficTile({ summary, integrated }: AiTrafficTileProps) {
                 />
               </span>
               <span className="text-right font-mono tabular-nums text-ink">{b.count}</span>
+            </div>
+          );
+          return (
+            <li key={b.label}>
+              {b.count === 0 ? (
+                <div className="cursor-default opacity-70">{row}</div>
+              ) : (
+                <Link
+                  href={`/dashboard/sites/${summary.siteId}/traffic/${b.label}`}
+                  className="block rounded-md transition-colors hover:bg-ink/5"
+                >
+                  {row}
+                </Link>
+              )}
             </li>
           );
         })}
