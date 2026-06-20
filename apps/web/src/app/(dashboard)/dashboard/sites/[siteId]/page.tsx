@@ -1,5 +1,6 @@
 import { AgentReadinessHero } from '@/components/dashboard/agent-readiness-hero';
 import { AiFixPanel } from '@/components/dashboard/ai-fix-panel';
+import { AlertThresholdCard } from '@/components/dashboard/alert-threshold-card';
 import { AuditDiffCard } from '@/components/dashboard/audit-diff-card';
 import { AuditNowButton } from '@/components/dashboard/audit-now-button';
 import { AuditScheduleCard } from '@/components/dashboard/audit-schedule-card';
@@ -84,11 +85,14 @@ export default async function SiteDetailPage({ params }: PageProps) {
       />
 
       {site.verificationStatusValue === 'verified' && (
-        <AuditScheduleCard
-          siteId={site.id}
-          current={site.auditSchedule}
-          nextAt={site.nextScheduledAuditAt}
-        />
+        <div className="grid gap-4 md:grid-cols-2">
+          <AuditScheduleCard
+            siteId={site.id}
+            current={site.auditSchedule}
+            nextAt={site.nextScheduledAuditAt}
+          />
+          <AlertThresholdCard siteId={site.id} current={site.alertThreshold} />
+        </div>
       )}
 
       {site.verificationStatusValue !== 'verified' ? (

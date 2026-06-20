@@ -1,4 +1,4 @@
-import { index, pgEnum, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { index, integer, pgEnum, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { profiles } from './profiles';
 
 /**
@@ -72,6 +72,7 @@ export const sites = pgTable(
     verificationMethodValue: verificationMethod('verification_method_value'),
     auditSchedule: auditSchedule('audit_schedule').notNull().default('off'),
     nextScheduledAuditAt: timestamp('next_scheduled_audit_at', { withTimezone: true }),
+    alertThreshold: integer('alert_threshold'),
   },
   (table) => ({
     userIdIdx: index('sites_user_id_idx').on(table.userId),
