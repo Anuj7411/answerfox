@@ -122,3 +122,30 @@ export async function getAgentTrafficSummaryForUser(
     totalSiteCount: siteRows.length,
   };
 }
+
+/**
+ * Trailing-window visit count per site for every site a user owns.
+ * Powers the sites list page so we can show "32 visits this week"
+ * next to the integration-status chip without an N+1 of queries.
+ *
+ * Returns a Map keyed by site_id with the count. Sites with zero
+ * traffic don't appear in the map (caller should default to 0).
+ */
+export async function getTrafficCountsPerSite(
+  userId: string,
+  windowDays = 7,
+  now: Date = new Date(),
+): Promise<Map<string, number>> {
+  const since = new Date(now.getTime() - windowDays * 24 * 60 * 60 * 1000);
+  const rows = await getDb()
+    .select({
+      siteId: agentVisits.siteId,
+      count: sql<number>`count(*)::int`,
+    })
+    .from(agentVisits)
+    .innerJoin(sites, eq(sites.id, agentVisits.siteId))
+    .where(and(eq(sites.userId, userId), gte(agentVisits.recordedAt, since)))
+    .groupBy(agentVisits.siteId);
+
+  return new Map(rows.map((r) => [r.siteId, r.count]));
+}
