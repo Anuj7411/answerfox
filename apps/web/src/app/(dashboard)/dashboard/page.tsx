@@ -1,6 +1,11 @@
 import { HomeAiTrafficTile } from '@/components/dashboard/home-ai-traffic-tile';
+import { ScoreTrendChart } from '@/components/dashboard/score-trend-chart';
 import { getAgentTrafficSummaryForUser } from '@/lib/db/queries/agent-visits';
-import { listFindingsForAudit, listLatestAuditsForUser } from '@/lib/db/queries/audits';
+import {
+  getRecentAuditScoresForSite,
+  listFindingsForAudit,
+  listLatestAuditsForUser,
+} from '@/lib/db/queries/audits';
 import { listSitesForUser } from '@/lib/db/queries/sites';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
 import Link from 'next/link';
@@ -34,9 +39,10 @@ export default async function DashboardHome() {
     return <NoAuditState site={primarySite} />;
   }
 
-  const [findings, aiTraffic] = await Promise.all([
+  const [findings, aiTraffic, trendAudits] = await Promise.all([
     listFindingsForAudit(primaryAudit.id),
     getAgentTrafficSummaryForUser(user.id),
+    getRecentAuditScoresForSite(primarySite.id, 7),
   ]);
   const failedFindings = findings.filter((f) => f.status === 'fail');
   const topFour = failedFindings.slice(0, 4);
@@ -95,6 +101,8 @@ export default async function DashboardHome() {
       </div>
 
       <HomeAiTrafficTile summary={aiTraffic} />
+
+      <ScoreTrendChart siteName={primarySite.name} audits={trendAudits} />
 
       <div className="db-bento">
         <div className="tile db-find-tile">
