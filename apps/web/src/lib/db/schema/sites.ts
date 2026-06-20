@@ -73,6 +73,7 @@ export const sites = pgTable(
     auditSchedule: auditSchedule('audit_schedule').notNull().default('off'),
     nextScheduledAuditAt: timestamp('next_scheduled_audit_at', { withTimezone: true }),
     alertThreshold: integer('alert_threshold'),
+    ingestToken: text('ingest_token'),
   },
   (table) => ({
     userIdIdx: index('sites_user_id_idx').on(table.userId),
