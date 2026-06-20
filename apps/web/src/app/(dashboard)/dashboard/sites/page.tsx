@@ -1,10 +1,14 @@
 import { ArMiniChip } from '@/components/dashboard/ar-mini-chip';
 import { AuditNowButton } from '@/components/dashboard/audit-now-button';
 import { ScoreBandChip } from '@/components/dashboard/score-band-chip';
+import { SiteStatusBadges } from '@/components/dashboard/site-status-badges';
+import { getTrafficCountsPerSite } from '@/lib/db/queries/agent-visits';
 import { listLatestAuditsForUser } from '@/lib/db/queries/audits';
 import { listSitesForUser } from '@/lib/db/queries/sites';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
 import Link from 'next/link';
+
+const TRAFFIC_WINDOW_DAYS = 7;
 
 export default async function SitesPage() {
   const supabase = await createServerSupabaseClient();
@@ -13,9 +17,10 @@ export default async function SitesPage() {
   } = await supabase.auth.getUser();
   if (user === null) return null;
 
-  const [sites, latestAudits] = await Promise.all([
+  const [sites, latestAudits, trafficCountsBySiteId] = await Promise.all([
     listSitesForUser(user.id),
     listLatestAuditsForUser(user.id),
+    getTrafficCountsPerSite(user.id, TRAFFIC_WINDOW_DAYS),
   ]);
   const latestBySiteId = new Map(latestAudits.map((a) => [a.siteId, a]));
 
@@ -78,6 +83,15 @@ export default async function SitesPage() {
                     </span>
                     <AuditNowButton siteId={site.id} />
                   </div>
+                </div>
+                <div className="mt-3">
+                  <SiteStatusBadges
+                    auditSchedule={site.auditSchedule}
+                    alertThreshold={site.alertThreshold}
+                    hasIngestToken={site.ingestToken !== null}
+                    trafficCount={trafficCountsBySiteId.get(site.id) ?? 0}
+                    windowDays={TRAFFIC_WINDOW_DAYS}
+                  />
                 </div>
               </li>
             );
