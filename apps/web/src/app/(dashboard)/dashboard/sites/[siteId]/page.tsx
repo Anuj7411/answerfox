@@ -6,6 +6,7 @@ import { AnalyticsIntegrationCard } from '@/components/dashboard/analytics-integ
 import { AuditDiffCard } from '@/components/dashboard/audit-diff-card';
 import { AuditNowButton } from '@/components/dashboard/audit-now-button';
 import { AuditScheduleCard } from '@/components/dashboard/audit-schedule-card';
+import { SiteManagementCard } from '@/components/dashboard/site-management-card';
 import { VerificationPanel } from '@/components/dashboard/verification-panel';
 import { diffAudits } from '@/lib/audit/diff-audits';
 import { getAgentTrafficSummary } from '@/lib/db/queries/agent-visits';
@@ -131,6 +132,8 @@ export default async function SiteDetailPage({ params }: PageProps) {
           <LatestAuditView auditId={latest.id} auditSummary={latest} />
         </>
       )}
+
+      <SiteManagementCard siteId={site.id} currentName={site.name} />
     </div>
   );
 }
