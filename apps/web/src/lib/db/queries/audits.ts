@@ -95,6 +95,29 @@ export async function getLastTwoAuditsForSite(siteId: string) {
 }
 
 /**
+ * Full audit history for a site, newest first. Capped at 200 rows so
+ * the history page can render without windowing. Returns the score
+ * fields + the four bucket counts for the row summary.
+ */
+export async function listAuditHistoryForSite(siteId: string, limit = 200) {
+  return getDb()
+    .select({
+      id: audits.id,
+      fetchedAt: audits.fetchedAt,
+      score: audits.score,
+      band: audits.band,
+      agentReadinessScore: audits.agentReadinessScore,
+      passCount: audits.passCount,
+      failCount: audits.failCount,
+      warnCount: audits.warnCount,
+    })
+    .from(audits)
+    .where(eq(audits.siteId, siteId))
+    .orderBy(desc(audits.fetchedAt))
+    .limit(limit);
+}
+
+/**
  * Last N audits for a site, newest first. Powers the home-page score
  * trend chart. Returns just the fields the chart needs to keep the
  * payload small — fetchedAt, score, agentReadinessScore.

@@ -74,7 +74,15 @@ export default async function SiteDetailPage({ params }: PageProps) {
           <p className="mt-1 truncate font-mono text-[13px] text-ink-muted">{site.url}</p>
         </div>
         {site.verificationStatusValue === 'verified' ? (
-          <AuditNowButton siteId={site.id} variant="full" />
+          <div className="flex items-center gap-3">
+            <Link
+              href={`/dashboard/sites/${site.id}/history`}
+              className="font-mono text-[12.5px] text-ink-muted hover:underline"
+            >
+              History →
+            </Link>
+            <AuditNowButton siteId={site.id} variant="full" />
+          </div>
         ) : null}
       </div>
 
