@@ -129,7 +129,7 @@ export default async function SiteDetailPage({ params }: PageProps) {
       ) : (
         <>
           <AuditTrendSlot siteId={site.id} />
-          <LatestAuditView auditId={latest.id} auditSummary={latest} />
+          <LatestAuditView siteId={site.id} auditId={latest.id} auditSummary={latest} />
         </>
       )}
 
@@ -189,6 +189,7 @@ async function AnalyticsSlot({ siteId, hasToken }: { siteId: string; hasToken: b
 }
 
 interface LatestAuditViewProps {
+  readonly siteId: string;
   readonly auditId: string;
   readonly auditSummary: {
     readonly score: number;
@@ -203,7 +204,7 @@ interface LatestAuditViewProps {
   };
 }
 
-async function LatestAuditView({ auditId, auditSummary }: LatestAuditViewProps) {
+async function LatestAuditView({ siteId, auditId, auditSummary }: LatestAuditViewProps) {
   const findings = await listFindingsForAudit(auditId);
 
   // Lead with agent-readiness findings regardless of severity — that's
@@ -243,7 +244,7 @@ async function LatestAuditView({ auditId, auditSummary }: LatestAuditViewProps) 
         band={auditSummary.band}
       />
 
-      <section className="rounded-xl border border-ink/10 bg-slate-base/40 px-5 py-4">
+      <section className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-ink/10 bg-slate-base/40 px-5 py-4">
         <p className="font-mono text-[12.5px] text-ink-muted">
           <span className="font-semibold text-ink">{totalChecks} checks</span>
           {' · '}
@@ -256,6 +257,13 @@ async function LatestAuditView({ auditId, auditSummary }: LatestAuditViewProps) 
           {' · '}
           audited {auditSummary.fetchedAt.toISOString().slice(0, 16).replace('T', ' ')} UTC
         </p>
+        <a
+          href={`/api/sites/${siteId}/audits/${auditId}/export`}
+          className="font-mono text-[11.5px] text-ink-muted hover:text-ink hover:underline"
+          download
+        >
+          Export JSON →
+        </a>
       </section>
 
       {agentReadinessFails.length > 0 && (

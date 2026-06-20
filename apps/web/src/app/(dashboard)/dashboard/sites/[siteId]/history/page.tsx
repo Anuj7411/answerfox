@@ -58,6 +58,7 @@ export default async function AuditHistoryPage({ params }: PageProps) {
                   <th className="px-5 py-3 font-mono font-normal">Pass</th>
                   <th className="px-5 py-3 font-mono font-normal">Fail</th>
                   <th className="px-5 py-3 font-mono font-normal">Warn</th>
+                  <th className="px-5 py-3 font-mono font-normal">Export</th>
                 </tr>
               </thead>
               <tbody>
@@ -81,6 +82,15 @@ export default async function AuditHistoryPage({ params }: PageProps) {
                     <td className="px-5 py-3 font-mono tabular-nums text-red-700">{a.failCount}</td>
                     <td className="px-5 py-3 font-mono tabular-nums text-amber-700">
                       {a.warnCount}
+                    </td>
+                    <td className="px-5 py-3">
+                      <a
+                        href={`/api/sites/${site.id}/audits/${a.id}/export`}
+                        className="font-mono text-[11.5px] text-ink-muted hover:text-ink hover:underline"
+                        download
+                      >
+                        JSON
+                      </a>
                     </td>
                   </tr>
                 ))}
