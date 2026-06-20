@@ -1,3 +1,5 @@
+import { HomeAiTrafficTile } from '@/components/dashboard/home-ai-traffic-tile';
+import { getAgentTrafficSummaryForUser } from '@/lib/db/queries/agent-visits';
 import { listFindingsForAudit, listLatestAuditsForUser } from '@/lib/db/queries/audits';
 import { listSitesForUser } from '@/lib/db/queries/sites';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
@@ -32,7 +34,10 @@ export default async function DashboardHome() {
     return <NoAuditState site={primarySite} />;
   }
 
-  const findings = await listFindingsForAudit(primaryAudit.id);
+  const [findings, aiTraffic] = await Promise.all([
+    listFindingsForAudit(primaryAudit.id),
+    getAgentTrafficSummaryForUser(user.id),
+  ]);
   const failedFindings = findings.filter((f) => f.status === 'fail');
   const topFour = failedFindings.slice(0, 4);
   const topFailure = failedFindings[0];
@@ -88,6 +93,8 @@ export default async function DashboardHome() {
           isCount
         />
       </div>
+
+      <HomeAiTrafficTile summary={aiTraffic} />
 
       <div className="db-bento">
         <div className="tile db-find-tile">

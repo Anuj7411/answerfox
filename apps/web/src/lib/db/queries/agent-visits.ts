@@ -2,6 +2,7 @@ import 'server-only';
 import type { AgentLabel } from '@/lib/analytics/classify-agent';
 import { getDb } from '@/lib/db/client';
 import { agentVisits } from '@/lib/db/schema/agent-visits';
+import { sites } from '@/lib/db/schema/sites';
 import { and, eq, gte, sql } from 'drizzle-orm';
 
 export interface AgentTrafficBucket {
@@ -58,4 +59,66 @@ export async function getAgentTrafficSummary(
   const total = buckets.reduce((sum, b) => sum + b.count, 0);
 
   return { total, buckets, windowDays, siteId };
+}
+
+export interface UserAgentTrafficSummary {
+  readonly total: number;
+  readonly buckets: ReadonlyArray<AgentTrafficBucket>;
+  readonly windowDays: number;
+  readonly integratedSiteCount: number;
+  readonly totalSiteCount: number;
+}
+
+/**
+ * Cross-site rollup of agent visits for every site owned by a user.
+ *
+ * Same zero-fill bucket order as the per-site variant so the dashboard
+ * can render both tiles with a consistent legend. Also returns
+ * `integratedSiteCount` (sites with an ingest token minted) and
+ * `totalSiteCount` so the home page can show the right empty state
+ * ("0 of 3 sites integrated" beats a bare empty card).
+ */
+export async function getAgentTrafficSummaryForUser(
+  userId: string,
+  windowDays = 7,
+  now: Date = new Date(),
+): Promise<UserAgentTrafficSummary> {
+  const since = new Date(now.getTime() - windowDays * 24 * 60 * 60 * 1000);
+  const db = getDb();
+
+  const [trafficRows, siteRows] = await Promise.all([
+    db
+      .select({
+        label: agentVisits.label,
+        count: sql<number>`count(*)::int`,
+      })
+      .from(agentVisits)
+      .innerJoin(sites, eq(sites.id, agentVisits.siteId))
+      .where(and(eq(sites.userId, userId), gte(agentVisits.recordedAt, since)))
+      .groupBy(agentVisits.label),
+    db
+      .select({
+        id: sites.id,
+        ingestToken: sites.ingestToken,
+      })
+      .from(sites)
+      .where(eq(sites.userId, userId)),
+  ]);
+
+  const byLabel = new Map<AgentLabel, number>(ZERO_LABELS.map((l) => [l, 0]));
+  for (const row of trafficRows) {
+    byLabel.set(row.label, row.count);
+  }
+
+  const buckets = ZERO_LABELS.map((label) => ({ label, count: byLabel.get(label) ?? 0 }));
+  const total = buckets.reduce((sum, b) => sum + b.count, 0);
+  const integratedSiteCount = siteRows.filter((s) => s.ingestToken !== null).length;
+
+  return {
+    total,
+    buckets,
+    windowDays,
+    integratedSiteCount,
+    totalSiteCount: siteRows.length,
+  };
 }
