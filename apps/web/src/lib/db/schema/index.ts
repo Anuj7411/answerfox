@@ -18,3 +18,4 @@ export * from './sites';
 export * from './audits';
 export * from './findings';
 export * from './ai-fixes';
+export * from './agent-visits';
