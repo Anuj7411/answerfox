@@ -95,11 +95,11 @@ export default async function DashboardLayout({ children }: { children: ReactNod
                 </span>
                 AI Fixes
               </Link>
-              <Link href="/dashboard/sites/new" className="db-row">
+              <Link href="/dashboard/settings" className="db-row">
                 <span className="ic">
                   <DbIcon name="settings" />
                 </span>
-                Add site
+                Settings
               </Link>
             </div>
 
