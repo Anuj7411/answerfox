@@ -58,6 +58,7 @@ export default async function AuditHistoryPage({ params }: PageProps) {
                   <th className="px-5 py-3 font-mono font-normal">Pass</th>
                   <th className="px-5 py-3 font-mono font-normal">Fail</th>
                   <th className="px-5 py-3 font-mono font-normal">Warn</th>
+                  <th className="px-5 py-3 font-mono font-normal">Compare</th>
                   <th className="px-5 py-3 font-mono font-normal">Export</th>
                 </tr>
               </thead>
@@ -82,6 +83,18 @@ export default async function AuditHistoryPage({ params }: PageProps) {
                     <td className="px-5 py-3 font-mono tabular-nums text-red-700">{a.failCount}</td>
                     <td className="px-5 py-3 font-mono tabular-nums text-amber-700">
                       {a.warnCount}
+                    </td>
+                    <td className="px-5 py-3">
+                      {audits.length > 1 && audits[0] !== undefined && audits[0].id !== a.id ? (
+                        <Link
+                          href={`/dashboard/sites/${site.id}/compare/${a.id}/${audits[0].id}`}
+                          className="font-mono text-[11.5px] text-ink-muted hover:text-ink hover:underline"
+                        >
+                          vs latest
+                        </Link>
+                      ) : (
+                        <span className="font-mono text-[11.5px] text-ink-dim">—</span>
+                      )}
                     </td>
                     <td className="px-5 py-3">
                       <a
