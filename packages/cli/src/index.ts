@@ -14,6 +14,7 @@ import { Command } from 'commander';
 import { registerAddCommand } from './commands/add.js';
 import { registerAuditCommand } from './commands/audit.js';
 import { registerExplainCommand } from './commands/explain.js';
+import { registerInitAnalyticsCommand } from './commands/init-analytics.js';
 import { registerInitCommand } from './commands/init.js';
 
 // Read the version from package.json so `--version` stays in sync with releases
@@ -36,6 +37,7 @@ export function createProgram(): Command {
     .description('The drop-in SEO toolkit that makes any site answerable by AI search engines.')
     .version(VERSION);
   registerInitCommand(program);
+  registerInitAnalyticsCommand(program);
   registerAddCommand(program);
   registerAuditCommand(program);
   registerExplainCommand(program);
@@ -72,6 +74,14 @@ export {
   type InitCommandOptions,
   type InitCommandResult,
 } from './commands/init.js';
+
+export {
+  registerInitAnalyticsCommand,
+  runInitAnalyticsCommand,
+  type InitAnalyticsCommandOptions,
+  type InitAnalyticsCommandResult,
+  type SupportedFramework,
+} from './commands/init-analytics.js';
 
 export {
   type Fs,
