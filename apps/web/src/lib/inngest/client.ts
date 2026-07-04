@@ -52,6 +52,25 @@ export const proofRequested = eventType('answerfox/proof.requested', {
   schema: staticSchema<ProofRequestedData>(),
 });
 
+/** Payload for a Drift Guard check after a deploy/push landed. */
+export interface DriftCheckRequestedData extends Record<string, unknown> {
+  installationId: number;
+  /** e.g. "acme/docs" */
+  repoFullName: string;
+  /** The linked site to re-audit. */
+  siteUrl: string;
+  /** Score from the last known-good audit. */
+  priorScore: number;
+  /** Check ids already failing before this deploy. */
+  priorFailedCheckIds: string[];
+  /** What fired the check. */
+  source: 'deployment' | 'push' | 'cron';
+}
+
+export const driftCheckRequested = eventType('answerfox/drift-check.requested', {
+  schema: staticSchema<DriftCheckRequestedData>(),
+});
+
 /**
  * Free tier: 50K step-runs/month. Keys (INNGEST_EVENT_KEY,
  * INNGEST_SIGNING_KEY) are only required in production; the local dev

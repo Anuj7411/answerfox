@@ -1,9 +1,10 @@
 import { applyWebhookAction } from '@/lib/db/mutations/github-installations';
+import { detectDriftTrigger } from '@/lib/github/drift-events';
 import { detectProofTrigger } from '@/lib/github/proof-events';
 import { verifyWebhookSignature } from '@/lib/github/verify-signature';
 import { mapWebhookToActions } from '@/lib/github/webhook-events';
-import { inngest, proofRequested } from '@/lib/inngest/client';
-import { resolveProofContext } from '@/lib/proof/resolve-context';
+import { driftCheckRequested, inngest, proofRequested } from '@/lib/inngest/client';
+import { resolveRepoContext } from '@/lib/proof/resolve-context';
 import { NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
@@ -51,7 +52,7 @@ export async function POST(request: Request) {
   let proofEnqueued = false;
   const trigger = detectProofTrigger(eventName, payload);
   if (trigger !== null && trigger.checkId !== null) {
-    const context = await resolveProofContext(trigger.repoFullName);
+    const context = await resolveRepoContext(trigger.repoFullName);
     if (context !== null) {
       await inngest.send(
         proofRequested.create({
@@ -67,5 +68,29 @@ export async function POST(request: Request) {
     }
   }
 
-  return NextResponse.json({ applied: actions.length, proofEnqueued }, { status: 202 });
+  // Drift Guard: a deploy/default-branch push triggers a re-audit; any
+  // regression enqueues its fix-PR (debounced downstream per repo).
+  let driftEnqueued = false;
+  const drift = detectDriftTrigger(eventName, payload);
+  if (drift !== null) {
+    const context = await resolveRepoContext(drift.repoFullName);
+    if (context !== null) {
+      await inngest.send(
+        driftCheckRequested.create({
+          installationId: drift.installationId,
+          repoFullName: drift.repoFullName,
+          siteUrl: context.siteUrl,
+          priorScore: context.beforeScore,
+          priorFailedCheckIds: [...context.priorFailedCheckIds],
+          source: drift.source,
+        }),
+      );
+      driftEnqueued = true;
+    }
+  }
+
+  return NextResponse.json(
+    { applied: actions.length, proofEnqueued, driftEnqueued },
+    { status: 202 },
+  );
 }
