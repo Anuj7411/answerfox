@@ -1,5 +1,7 @@
 import { runDriftAudit } from '@/lib/drift/audit-adapter';
 import { runDrift } from '@/lib/drift/run-drift';
+import { getInstallationClient } from '@/lib/github/app-client';
+import { resolveTargetPath } from '@/lib/github/resolve-target-path';
 import { driftCheckRequested, fixPrRequested, inngest } from '@/lib/inngest/client';
 
 /**
@@ -24,6 +26,16 @@ export const checkDrift = inngest.createFunction(
   async ({ event, step }) => {
     const { installationId, repoFullName, siteUrl, priorScore, priorFailedCheckIds, source } =
       event.data;
+    const [owner, repo] = repoFullName.split('/');
+
+    // Resolved once per drift check (not per regressed check) since
+    // it's the same repo either way — real stack detection instead of
+    // a hardcoded file guess.
+    const targetPath = await step.run('resolve-target-path', async () => {
+      if (!owner || !repo) return 'index.html';
+      const client = await getInstallationClient(installationId);
+      return resolveTargetPath(client, owner, repo);
+    });
 
     const outcome = await step.run('run-drift', async () =>
       runDrift(
@@ -34,10 +46,7 @@ export const checkDrift = inngest.createFunction(
             fixPrRequested.create({
               installationId,
               repoFullName,
-              // Drift fixes target the audited page's source; until stack
-              // detection (week 3+) maps checks to files per framework,
-              // the primary page template is the default target.
-              targetPath: 'index.html',
+              targetPath,
               checkId,
               description: `Drift Guard: check ${checkId} passed before the latest ${source} and fails now.`,
               fixRecommendation: null,
