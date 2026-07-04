@@ -39,7 +39,34 @@ export const BRANCH_PREFIX = 'answerfox/';
 
 export function fixBranchName(editSet: EditSet, requestId: string): string {
   const slug = editSet.checkId.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-  return `${BRANCH_PREFIX}fix-${slug}-${requestId.slice(0, 8)}`;
+  // Use a wide slice of the requestId: 8 hex chars is only ~32 bits and
+  // collides sooner than uniform math suggests once ids share prefixes.
+  const suffix = requestId.replace(/[^a-zA-Z0-9]+/g, '').slice(0, 16);
+  return `${BRANCH_PREFIX}fix-${slug}-${suffix}`;
+}
+
+/** Count open AnswerFox PRs across ALL pages, not just the first 100. */
+async function countOpenAnswerfoxPrs(
+  client: GitHubClient,
+  owner: string,
+  repo: string,
+): Promise<number> {
+  let ours = 0;
+  // Safety bound: 20 pages = 2000 open PRs. Beyond that the repo has
+  // bigger problems than our cap; treat it as "at cap" by returning a
+  // large count so we refuse rather than spam.
+  for (let page = 1; page <= 20; page++) {
+    const resp = (await client.request('GET /repos/{owner}/{repo}/pulls', {
+      owner,
+      repo,
+      state: 'open',
+      per_page: 100,
+      page,
+    })) as { data: Array<{ head?: { ref?: string } }> };
+    ours += resp.data.filter((pr) => pr.head?.ref?.startsWith(BRANCH_PREFIX)).length;
+    if (resp.data.length < 100) return ours;
+  }
+  return Number.MAX_SAFE_INTEGER;
 }
 
 export async function createFixPr(
@@ -50,13 +77,7 @@ export async function createFixPr(
   if (files.size === 0) return { ok: false, reason: 'EditSet produced no files.' };
 
   // PR hygiene cap: count open PRs whose head branch is ours.
-  const openPrs = (await client.request('GET /repos/{owner}/{repo}/pulls', {
-    owner,
-    repo,
-    state: 'open',
-    per_page: 100,
-  })) as { data: Array<{ head?: { ref?: string } }> };
-  const ours = openPrs.data.filter((pr) => pr.head?.ref?.startsWith(BRANCH_PREFIX)).length;
+  const ours = await countOpenAnswerfoxPrs(client, owner, repo);
   if (ours >= MAX_OPEN_PRS) {
     return {
       ok: false,
@@ -77,12 +98,21 @@ export async function createFixPr(
   const baseSha = baseRef.data.object.sha;
 
   const branch = fixBranchName(editSet, requestId);
-  await client.request('POST /repos/{owner}/{repo}/git/refs', {
-    owner,
-    repo,
-    ref: `refs/heads/${branch}`,
-    sha: baseSha,
-  });
+  try {
+    await client.request('POST /repos/{owner}/{repo}/git/refs', {
+      owner,
+      repo,
+      ref: `refs/heads/${branch}`,
+      sha: baseSha,
+    });
+  } catch (err) {
+    // 422 = "Reference already exists". This is the queue-retry path
+    // (a partial run created the ref, then a later step failed and
+    // Inngest re-invoked us). Deterministic branch name means reusing
+    // it is correct; the per-file PUTs below are themselves idempotent.
+    const status = (err as { status?: number }).status;
+    if (status !== 422) throw err;
+  }
 
   // One commit per file via the contents API: small sets (1-3 files),
   // and each write stays within the queue's pacing budget.
@@ -110,14 +140,31 @@ export async function createFixPr(
     });
   }
 
-  const pr = (await client.request('POST /repos/{owner}/{repo}/pulls', {
-    owner,
-    repo,
-    title: editSet.title,
-    head: branch,
-    base: baseBranch,
-    body: `${editSet.description}\n\n---\nFinding \`${editSet.checkId}\` · opened by AnswerFox · one finding, one PR. Merging triggers a re-audit that comments the before/after score.`,
-  })) as { data: { number: number; html_url: string } };
-
-  return { ok: true, prNumber: pr.data.number, prUrl: pr.data.html_url, branch };
+  const body = `${editSet.description}\n\n---\nFinding \`${editSet.checkId}\` · opened by AnswerFox · one finding, one PR. Merging triggers a re-audit that comments the before/after score.`;
+  try {
+    const pr = (await client.request('POST /repos/{owner}/{repo}/pulls', {
+      owner,
+      repo,
+      title: editSet.title,
+      head: branch,
+      base: baseBranch,
+      body,
+    })) as { data: { number: number; html_url: string } };
+    return { ok: true, prNumber: pr.data.number, prUrl: pr.data.html_url, branch };
+  } catch (err) {
+    // 422 on create = a PR for this head already exists (queue retry).
+    // Look it up and return it so the retry is a no-op success.
+    if ((err as { status?: number }).status !== 422) throw err;
+    const existing = (await client.request('GET /repos/{owner}/{repo}/pulls', {
+      owner,
+      repo,
+      state: 'open',
+      head: `${owner}:${branch}`,
+    })) as { data: Array<{ number: number; html_url: string }> };
+    const found = existing.data[0];
+    if (found === undefined) {
+      return { ok: false, reason: 'PR creation returned 422 but no open PR found for the branch.' };
+    }
+    return { ok: true, prNumber: found.number, prUrl: found.html_url, branch };
+  }
 }

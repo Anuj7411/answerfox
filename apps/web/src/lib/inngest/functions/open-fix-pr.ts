@@ -1,3 +1,5 @@
+import { getInstallationClient } from '@/lib/github/app-client';
+import { runFixPipeline } from '@/lib/github/run-fix-pipeline';
 import { fixPrRequested, inngest } from '@/lib/inngest/client';
 
 /**
@@ -14,10 +16,10 @@ import { fixPrRequested, inngest } from '@/lib/inngest/client';
  * - `throttle` 20/min per installation: even sequential PRs are paced
  *   well under the write budget, leaving headroom for other App calls.
  *
- * Week-1 scope: the queue semantics and a simulated PR step, so the
- * exit test (synthetic burst serializes, no 403 conditions possible)
- * is provable before the App has API credentials. Week 2 replaces
- * `simulate-pr` with the real branch+commit+PR steps via Octokit.
+ * The step runs the real pipeline: authenticate as the installation,
+ * read the target file, generate a validated EditSet, and open the
+ * capped fix-PR. `createFixPr` is idempotent (ref/PR reuse on 422), so
+ * the `retries: 3` here is safe against partial-run replays.
  */
 export const openFixPr = inngest.createFunction(
   {
@@ -32,23 +34,36 @@ export const openFixPr = inngest.createFunction(
     retries: 3,
   },
   async ({ event, step }) => {
-    const { installationId, repoFullName, checkId, requestId } = event.data;
+    const {
+      installationId,
+      repoFullName,
+      targetPath,
+      checkId,
+      description,
+      fixRecommendation,
+      evidence,
+      siteUrl,
+      requestId,
+    } = event.data;
 
-    const result = await step.run('simulate-pr', async () => {
-      // Placeholder for week 2: create branch, apply validated
-      // search/replace edits, open the PR via Octokit. The delay
-      // stands in for the real API round-trips so queue serialization
-      // is observable end to end.
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      return {
-        installationId,
-        repoFullName,
+    const [owner, repo] = repoFullName.split('/');
+    if (!owner || !repo) {
+      return { stage: 'no-file', reason: `Malformed repoFullName: ${repoFullName}` } as const;
+    }
+
+    return step.run('open-fix-pr', async () => {
+      const client = await getInstallationClient(installationId);
+      return runFixPipeline(client, {
+        owner,
+        repo,
+        targetPath,
         checkId,
+        description,
+        fixRecommendation,
+        evidence,
+        siteUrl,
         requestId,
-        simulatedAt: new Date().toISOString(),
-      };
+      });
     });
-
-    return result;
   },
 );

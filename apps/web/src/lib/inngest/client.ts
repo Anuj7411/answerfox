@@ -9,9 +9,19 @@ export interface FixPrRequestedData extends Record<string, unknown> {
   installationId: number;
   /** e.g. "acme/docs" */
   repoFullName: string;
+  /** Repo-relative file the fix targets (from stack detection / audit). */
+  targetPath: string;
   /** Audit check that produced the finding, e.g. "C2". */
   checkId: string;
-  /** Correlation id for logs and the dashboard. */
+  /** Human-readable finding description for the fix prompt. */
+  description: string;
+  /** Recommended fix direction, if the check provides one. */
+  fixRecommendation: string | null;
+  /** Evidence string from the audit, if any. */
+  evidence: string | null;
+  /** The audited site URL, for prompt context. */
+  siteUrl: string;
+  /** Correlation id for logs, the dashboard, and the branch name. */
   requestId: string;
 }
 

@@ -77,11 +77,26 @@ function extractJson(text: string): string {
   return candidate.slice(start, end + 1);
 }
 
-function parseEditSet(raw: string, checkId: string): EditSet | string {
-  let parsed: unknown;
+function tryParse(raw: string): unknown {
+  // We ask for responseMimeType application/json, so the raw text is
+  // usually clean JSON. Parse it directly first — that avoids the
+  // brace-slicing heuristic mangling edits whose own content contains
+  // braces. Only fall back to fence/brace extraction if that fails.
   try {
-    parsed = JSON.parse(extractJson(raw));
+    return JSON.parse(raw.trim());
   } catch {
+    // fall through
+  }
+  try {
+    return JSON.parse(extractJson(raw));
+  } catch {
+    return undefined;
+  }
+}
+
+function parseEditSet(raw: string, checkId: string): EditSet | string {
+  const parsed = tryParse(raw);
+  if (parsed === undefined) {
     return 'Response was not valid JSON.';
   }
   if (typeof parsed !== 'object' || parsed === null) return 'Response JSON was not an object.';
