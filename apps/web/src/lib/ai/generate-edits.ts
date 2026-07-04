@@ -183,9 +183,24 @@ export async function generateValidatedEditSet(
 
   const reasons: string[] = [];
   let previousFailure: string | null = null;
+  // Track whether the most recent failure was a transient API error
+  // (503/429/timeout). Those should trigger an Inngest step retry, not
+  // a permanent give-up — the model isn't wrong, it's momentarily down.
+  let lastWasTransient = false;
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-    const raw = await modelCall(buildPrompt(input, previousFailure));
+    let raw: string;
+    try {
+      raw = await modelCall(buildPrompt(input, previousFailure));
+      lastWasTransient = false;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Model call failed.';
+      reasons.push(`attempt ${attempt}: ${message}`);
+      lastWasTransient = isTransient(message);
+      // Don't feed an API/transport error back as a content correction.
+      previousFailure = null;
+      continue;
+    }
     const parsed = parseEditSet(raw, input.checkId);
     if (typeof parsed === 'string') {
       reasons.push(`attempt ${attempt}: ${parsed}`);
@@ -215,5 +230,19 @@ export async function generateValidatedEditSet(
     };
   }
 
+  // Exhausted attempts. If the failures were transient API outages,
+  // throw a retryable error so the Inngest step retries later with
+  // backoff. If they were content failures (unfixable), give up cleanly
+  // so we don't burn retries on a fix that will never validate.
+  if (lastWasTransient) {
+    throw new Error(`Fix generation failed after transient model errors: ${reasons.join(' | ')}`);
+  }
   return { ok: false, attempts: MAX_ATTEMPTS, reasons };
+}
+
+/** Classify an error message as a transient (retryable) API/transport error. */
+function isTransient(message: string): boolean {
+  return /HTTP (?:429|500|502|503|504)|timed out|failed before it reached|fetch failed|network|ECONNRESET|ETIMEDOUT/i.test(
+    message,
+  );
 }

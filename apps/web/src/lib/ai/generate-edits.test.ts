@@ -104,4 +104,34 @@ describe('generateValidatedEditSet', () => {
     expect(garbage.ok).toBe(false);
     if (!garbage.ok) expect(garbage.reasons[0]).toContain('not valid JSON');
   });
+
+  it('does not crash on a thrown model error; retries then recovers', async () => {
+    let call = 0;
+    const result = await generateValidatedEditSet(input(), {
+      modelCall: async () => {
+        call += 1;
+        if (call === 1) throw new Error('Gemini returned HTTP 503: overloaded');
+        return GOOD_RESPONSE;
+      },
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.attempts).toBe(2);
+  });
+
+  it('throws a retryable error when every attempt is a transient API outage', async () => {
+    await expect(
+      generateValidatedEditSet(input(), {
+        modelCall: async () => {
+          throw new Error('Gemini returned HTTP 503: overloaded');
+        },
+      }),
+    ).rejects.toThrow(/transient model errors/);
+  });
+
+  it('gives up cleanly (no throw) when failures are content, not transient', async () => {
+    const result = await generateValidatedEditSet(input(), {
+      modelCall: async () => 'not json at all',
+    });
+    expect(result.ok).toBe(false);
+  });
 });
