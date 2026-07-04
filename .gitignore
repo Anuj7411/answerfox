@@ -64,3 +64,6 @@ vbtmp.html
 
 # Session handoff (per-session, not for sharing)
 .claude-handoff.md
+
+# Internal strategy docs — never publish to the public repo
+BUILD_HANDOFF.md
