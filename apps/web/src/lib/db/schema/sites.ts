@@ -53,6 +53,14 @@ export const verificationMethod = pgEnum('verification_method', ['meta', 'file',
 export const auditSchedule = pgEnum('audit_schedule', ['off', 'daily', 'weekly']);
 
 /**
+ * Billing plan for the fix-PR loop on this site (§1: $9/repo/mo or
+ * $90/yr). Set to 'paid' by the Dodo/Polar webhook once the payment
+ * link's `state` param round-trips to this site's installation; every
+ * new linked site starts 'free'.
+ */
+export const sitePlan = pgEnum('site_plan', ['free', 'paid']);
+
+/**
  * A site (origin) owned by a user. One profile -> many sites.
  *
  * Verification (v0.6 / phase 3c, F14 in PRICING-LOCKED.md): audits
@@ -94,6 +102,17 @@ export const sites = pgTable(
      */
     repoFullName: text('repo_full_name'),
     installationId: bigint('installation_id', { mode: 'number' }),
+    /**
+     * §3 free tier: "the first fix is free, staying fixed is $9."
+     * Public repos are free forever regardless of this column (that
+     * check happens against the repo's live visibility, not here).
+     * For a private repo, a site starts 'free' and gets exactly one
+     * fix-PR before `freeLoopConsumedAt` blocks further ones — set the
+     * moment that one PR opens, via an atomic UPDATE...WHERE NULL so a
+     * burst of simultaneous findings can't all sneak through as free.
+     */
+    plan: sitePlan('plan').notNull().default('free'),
+    freeLoopConsumedAt: timestamp('free_loop_consumed_at', { withTimezone: true }),
   },
   (table) => ({
     userIdIdx: index('sites_user_id_idx').on(table.userId),

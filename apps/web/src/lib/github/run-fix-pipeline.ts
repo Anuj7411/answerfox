@@ -1,5 +1,6 @@
 import 'server-only';
 import { type EditGenInput, generateValidatedEditSet } from '@/lib/ai/generate-edits';
+import { checkFixEntitlement } from '@/lib/entitlement/check-fix-entitlement';
 import { type CreateFixPrResult, type GitHubClient, createFixPr } from './create-fix-pr';
 
 /**
@@ -24,6 +25,7 @@ export interface FixPipelineInput {
 
 export type FixPipelineResult =
   | ({ readonly stage: 'pr-opened' } & Extract<CreateFixPrResult, { ok: true }>)
+  | { readonly stage: 'not-entitled'; readonly reason: string }
   | { readonly stage: 'no-file'; readonly reason: string }
   | { readonly stage: 'no-valid-fix'; readonly reasons: readonly string[] }
   | { readonly stage: 'pr-failed'; readonly reason: string };
@@ -51,9 +53,20 @@ async function readFile(
 export async function runFixPipeline(
   client: GitHubClient,
   input: FixPipelineInput,
-  opts: { readonly generate?: typeof generateValidatedEditSet } = {},
+  opts: {
+    readonly generate?: typeof generateValidatedEditSet;
+    readonly checkEntitlement?: typeof checkFixEntitlement;
+  } = {},
 ): Promise<FixPipelineResult> {
   const generate = opts.generate ?? generateValidatedEditSet;
+  const checkEntitlement = opts.checkEntitlement ?? checkFixEntitlement;
+
+  // Gate FIRST, before any file read or model call — a blocked request
+  // should never burn a Gemini call or a GitHub write.
+  const entitlement = await checkEntitlement(client, input.owner, input.repo);
+  if (!entitlement.allowed) {
+    return { stage: 'not-entitled', reason: entitlement.reason };
+  }
 
   const current = await readFile(client, input.owner, input.repo, input.targetPath);
   if (current === null) {

@@ -57,10 +57,17 @@ const goodGen = async (): Promise<EditGenResult> => ({
   model: 'test',
 });
 
+// Every existing test needs an entitlement check that doesn't hit the
+// real DB; new tests below exercise the gate itself.
+const allowEntitlement = async () => ({ allowed: true as const, consumesFreeLoop: false });
+
 describe('runFixPipeline', () => {
   it('opens a PR when file reads and a valid fix is generated', async () => {
     const c = client();
-    const result = await runFixPipeline(c, input, { generate: goodGen });
+    const result = await runFixPipeline(c, input, {
+      generate: goodGen,
+      checkEntitlement: allowEntitlement,
+    });
     expect(result.stage).toBe('pr-opened');
     if (result.stage === 'pr-opened') expect(result.prNumber).toBe(7);
     expect(c.calls).toContain('POST /repos/{owner}/{repo}/pulls');
@@ -68,7 +75,10 @@ describe('runFixPipeline', () => {
 
   it('stops at no-file when the target cannot be read', async () => {
     const c = client({ 'GET /repos/{owner}/{repo}/contents/{path}': new Error('404') });
-    const result = await runFixPipeline(c, input, { generate: goodGen });
+    const result = await runFixPipeline(c, input, {
+      generate: goodGen,
+      checkEntitlement: allowEntitlement,
+    });
     expect(result.stage).toBe('no-file');
     expect(c.calls).not.toContain('POST /repos/{owner}/{repo}/pulls');
   });
@@ -77,6 +87,7 @@ describe('runFixPipeline', () => {
     const c = client();
     const result = await runFixPipeline(c, input, {
       generate: async () => ({ ok: false, attempts: 3, reasons: ['nope'] }),
+      checkEntitlement: allowEntitlement,
     });
     expect(result.stage).toBe('no-valid-fix');
     if (result.stage === 'no-valid-fix') expect(result.reasons).toEqual(['nope']);
@@ -89,8 +100,30 @@ describe('runFixPipeline', () => {
         data: Array.from({ length: 5 }, (_, i) => ({ head: { ref: `answerfox/x-${i}` } })),
       },
     });
-    const result = await runFixPipeline(c, input, { generate: goodGen });
+    const result = await runFixPipeline(c, input, {
+      generate: goodGen,
+      checkEntitlement: allowEntitlement,
+    });
     expect(result.stage).toBe('pr-failed');
     if (result.stage === 'pr-failed') expect(result.reason).toContain('PR cap');
+  });
+
+  it('stops at not-entitled BEFORE reading the file or calling the model (saves Gemini quota)', async () => {
+    const c = client();
+    let generateCalled = false;
+    const result = await runFixPipeline(c, input, {
+      generate: async () => {
+        generateCalled = true;
+        return goodGen();
+      },
+      checkEntitlement: async () => ({
+        allowed: false,
+        reason: 'Free loop already used on this private repo.',
+      }),
+    });
+    expect(result.stage).toBe('not-entitled');
+    if (result.stage === 'not-entitled') expect(result.reason).toContain('Free loop');
+    expect(generateCalled).toBe(false);
+    expect(c.calls).toEqual([]); // zero GitHub API calls made
   });
 });
