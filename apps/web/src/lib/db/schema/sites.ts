@@ -1,4 +1,13 @@
-import { index, integer, pgEnum, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import {
+  bigint,
+  index,
+  integer,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+} from 'drizzle-orm/pg-core';
 import { profiles } from './profiles';
 
 /**
@@ -74,9 +83,21 @@ export const sites = pgTable(
     nextScheduledAuditAt: timestamp('next_scheduled_audit_at', { withTimezone: true }),
     alertThreshold: integer('alert_threshold'),
     ingestToken: text('ingest_token'),
+    /**
+     * The GitHub repo (e.g. "acme/docs") a fix-PR loop is wired to,
+     * and the installation that grants access to it. Set during
+     * onboarding once the customer picks which repo backs this site.
+     * Proof-of-Fix and Drift Guard look sites up by `repoFullName` to
+     * know what to re-audit and comment on after a webhook fires.
+     * Nullable: a site can exist (free one-shot audits) before any
+     * repo is linked.
+     */
+    repoFullName: text('repo_full_name'),
+    installationId: bigint('installation_id', { mode: 'number' }),
   },
   (table) => ({
     userIdIdx: index('sites_user_id_idx').on(table.userId),
+    repoFullNameIdx: index('sites_repo_full_name_idx').on(table.repoFullName),
   }),
 );
 

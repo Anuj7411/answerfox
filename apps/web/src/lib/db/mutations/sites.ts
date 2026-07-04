@@ -65,3 +65,23 @@ export async function deleteSiteForUser(input: {
     .returning({ id: sites.id });
   return rows.length > 0;
 }
+
+/**
+ * Link a site to the GitHub repo + installation that backs its
+ * fix-PR loop. Onboarding calls this once the customer picks which
+ * installed repo maps to which site; it's what turns on Proof-of-Fix
+ * and Drift Guard for that site (both look sites up by repoFullName).
+ */
+export async function linkSiteToRepo(input: {
+  userId: string;
+  siteId: string;
+  repoFullName: string;
+  installationId: number;
+}): Promise<boolean> {
+  const rows = await getDb()
+    .update(sites)
+    .set({ repoFullName: input.repoFullName, installationId: input.installationId })
+    .where(and(eq(sites.id, input.siteId), eq(sites.userId, input.userId)))
+    .returning({ id: sites.id });
+  return rows.length > 0;
+}
