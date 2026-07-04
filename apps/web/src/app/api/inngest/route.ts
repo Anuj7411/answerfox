@@ -1,5 +1,6 @@
 import { inngest } from '@/lib/inngest/client';
 import { openFixPr } from '@/lib/inngest/functions/open-fix-pr';
+import { postProof } from '@/lib/inngest/functions/post-proof';
 import { serve } from 'inngest/next';
 
 export const runtime = 'nodejs';
@@ -11,5 +12,5 @@ export const runtime = 'nodejs';
  */
 export const { GET, POST, PUT } = serve({
   client: inngest,
-  functions: [openFixPr],
+  functions: [openFixPr, postProof],
 });

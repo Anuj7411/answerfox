@@ -1,6 +1,9 @@
 import { applyWebhookAction } from '@/lib/db/mutations/github-installations';
+import { detectProofTrigger } from '@/lib/github/proof-events';
 import { verifyWebhookSignature } from '@/lib/github/verify-signature';
 import { mapWebhookToActions } from '@/lib/github/webhook-events';
+import { inngest, proofRequested } from '@/lib/inngest/client';
+import { resolveProofContext } from '@/lib/proof/resolve-context';
 import { NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
@@ -44,5 +47,25 @@ export async function POST(request: Request) {
     await applyWebhookAction(action);
   }
 
-  return NextResponse.json({ applied: actions.length }, { status: 202 });
+  // Proof-of-Fix: a merged fix-PR triggers a re-audit + score comment.
+  let proofEnqueued = false;
+  const trigger = detectProofTrigger(eventName, payload);
+  if (trigger !== null && trigger.checkId !== null) {
+    const context = await resolveProofContext(trigger.repoFullName);
+    if (context !== null) {
+      await inngest.send(
+        proofRequested.create({
+          installationId: trigger.installationId,
+          repoFullName: trigger.repoFullName,
+          prNumber: trigger.prNumber,
+          siteUrl: context.siteUrl,
+          checkId: trigger.checkId,
+          beforeScore: context.beforeScore,
+        }),
+      );
+      proofEnqueued = true;
+    }
+  }
+
+  return NextResponse.json({ applied: actions.length, proofEnqueued }, { status: 202 });
 }

@@ -34,6 +34,24 @@ export const fixPrRequested = eventType('answerfox/fix-pr.requested', {
   schema: staticSchema<FixPrRequestedData>(),
 });
 
+/** Payload for a Proof-of-Fix re-audit after one of our PRs merges. */
+export interface ProofRequestedData extends Record<string, unknown> {
+  installationId: number;
+  /** e.g. "acme/docs" */
+  repoFullName: string;
+  prNumber: number;
+  /** The audited site URL to re-score. */
+  siteUrl: string;
+  /** The check the merged PR fixed, e.g. "C2". */
+  checkId: string;
+  /** Score recorded before the fix (latest audit prior to merge). */
+  beforeScore: number;
+}
+
+export const proofRequested = eventType('answerfox/proof.requested', {
+  schema: staticSchema<ProofRequestedData>(),
+});
+
 /**
  * Free tier: 50K step-runs/month. Keys (INNGEST_EVENT_KEY,
  * INNGEST_SIGNING_KEY) are only required in production; the local dev
