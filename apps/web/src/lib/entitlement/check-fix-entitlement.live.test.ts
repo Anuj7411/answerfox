@@ -1,8 +1,8 @@
 import { readFileSync } from 'node:fs';
-import { and, eq } from 'drizzle-orm';
-import { beforeAll, describe, expect, it } from 'vitest';
 import { getDb } from '@/lib/db/client';
 import { sites } from '@/lib/db/schema/sites';
+import { and, eq } from 'drizzle-orm';
+import { beforeAll, describe, expect, it } from 'vitest';
 
 // Live entitlement test: the real DB + real GitHub visibility check
 // against af-test-site (private=true, linked, plan=free). Proves the
