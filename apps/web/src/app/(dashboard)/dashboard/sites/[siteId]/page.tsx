@@ -80,6 +80,19 @@ export default async function SiteDetailPage({ params }: PageProps) {
     answerHistory = [];
   }
 
+  // Upgrade CTA is server-rendered and hidden unless Polar is configured,
+  // so a visitor never reaches a broken checkout. The link carries the
+  // site id as metadata, which round-trips back through the order.paid
+  // webhook to mark exactly this site paid.
+  const polarProductId = process.env.POLAR_PRODUCT_ID ?? '';
+  const polarConfigured =
+    process.env.POLAR_ACCESS_TOKEN !== undefined && polarProductId.length > 0;
+  const checkoutHref = `/api/checkout?products=${encodeURIComponent(
+    polarProductId,
+  )}&customerEmail=${encodeURIComponent(user.email ?? '')}&metadata=${encodeURIComponent(
+    JSON.stringify({ site_id: site.id }),
+  )}`;
+
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -158,6 +171,31 @@ export default async function SiteDetailPage({ params }: PageProps) {
           <LatestAuditView siteId={site.id} auditId={latest.id} auditSummary={latest} />
         </>
       )}
+
+      {polarConfigured && site.plan === 'free' ? (
+        <section className="glass rounded-2xl border border-ink/10 p-8">
+          <h2 className="text-xl font-semibold">Keep the fixes flowing</h2>
+          <p className="mt-2 max-w-[520px] font-body text-ink-muted">
+            Private repos get one free fix loop, then $9/mo per repo to keep fixes shipping and
+            staying fixed. Public repos are free forever.
+          </p>
+          <a
+            href={checkoutHref}
+            className="mt-4 inline-flex rounded-md border border-ember/40 bg-ember/10 px-4 py-2 text-[14px] font-medium hover:bg-ember/20"
+          >
+            Upgrade this site for $9/mo
+          </a>
+        </section>
+      ) : null}
+
+      {site.plan === 'paid' ? (
+        <section className="glass rounded-2xl border border-ink/10 p-6">
+          <p className="text-[14px] font-semibold">This site is on the paid plan.</p>
+          <p className="mt-1 text-[13px] text-ink-muted">
+            Fixes keep shipping as PRs and drift stays guarded.
+          </p>
+        </section>
+      ) : null}
 
       <SiteManagementCard siteId={site.id} currentName={site.name} />
     </div>

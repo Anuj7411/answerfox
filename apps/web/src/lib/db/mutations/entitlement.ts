@@ -20,13 +20,27 @@ export async function consumeFreeLoopIfAvailable(siteId: string): Promise<boolea
 }
 
 /**
- * Set a site to the paid plan. Called by the Dodo/Polar payment
- * webhook once the `state` param round-trips to this site's id.
+ * Set a site to the paid plan. Called by the Polar `order.paid` webhook
+ * once the `site_id` round-trips through the checkout metadata.
  */
 export async function markSitePaid(siteId: string): Promise<boolean> {
   const rows = await getDb()
     .update(sites)
     .set({ plan: 'paid' })
+    .where(eq(sites.id, siteId))
+    .returning({ id: sites.id });
+  return rows.length > 0;
+}
+
+/**
+ * Return a site to the free plan. Called by the Polar
+ * `subscription.canceled` / `subscription.revoked` webhooks so a lapsed
+ * subscription re-gates the fix loop.
+ */
+export async function markSiteFree(siteId: string): Promise<boolean> {
+  const rows = await getDb()
+    .update(sites)
+    .set({ plan: 'free' })
     .where(eq(sites.id, siteId))
     .returning({ id: sites.id });
   return rows.length > 0;
