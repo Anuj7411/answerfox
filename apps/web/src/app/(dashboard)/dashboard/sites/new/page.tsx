@@ -1,4 +1,5 @@
 import { AddSiteForm } from '@/components/dashboard/add-site-form';
+import { RepoOnboarder } from '@/components/dashboard/repo-onboarder';
 import Link from 'next/link';
 
 export default function NewSitePage() {
@@ -20,6 +21,15 @@ export default function NewSitePage() {
 
       <section className="glass rounded-2xl border border-ink/10 p-8">
         <AddSiteForm />
+      </section>
+
+      <section className="glass rounded-2xl border border-ink/10 p-8">
+        <h2 className="text-lg font-semibold">Connect a GitHub repo</h2>
+        <p className="mt-2 font-body text-[14px] text-ink-muted">
+          Pick a repo the Answerfox App is installed on. We create the site, link the repo, and run
+          the first audit in one step, so fixes can ship as pull requests.
+        </p>
+        <RepoOnboarder />
       </section>
 
       <p className="text-center font-mono text-[12px] tracking-wide text-ink-muted">
