@@ -4,6 +4,7 @@ import { createAnswerModel } from '@/lib/agent-answer/answer-model';
 import { DEFAULT_DEVELOPER_QUESTIONS } from '@/lib/agent-answer/default-questions';
 import { runAgentAnswerTest } from '@/lib/agent-answer/run-agent-answer-test';
 import type { AgentAnswerReport } from '@/lib/agent-answer/types';
+import { createPublicScan } from '@/lib/db/mutations/public-scans';
 import { validateScanUrl } from '@/lib/scan/validate-scan-url';
 import { fetchCrawlerView } from '@/lib/xray/crawler-fetch';
 
@@ -29,7 +30,13 @@ export type PublicScanState =
   | { readonly status: 'idle' }
   | { readonly status: 'invalid'; readonly reason: string }
   | { readonly status: 'unavailable'; readonly reason: string }
-  | { readonly status: 'succeeded'; readonly report: AgentAnswerReport }
+  | {
+      readonly status: 'succeeded';
+      /** null when persistence failed (e.g. migration not applied); the
+       *  result still shows, it just is not shareable. */
+      readonly scanId: string | null;
+      readonly report: AgentAnswerReport;
+    }
   | { readonly status: 'failed'; readonly error: string };
 
 export async function runPublicScanAction(rawUrl: string): Promise<PublicScanState> {
@@ -47,7 +54,15 @@ export async function runPublicScanAction(rawUrl: string): Promise<PublicScanSta
       { crawlerFetch: fetchCrawlerView, model },
       PUBLIC_QUESTIONS,
     );
-    return { status: 'succeeded', report };
+    // Best-effort persist so the result is shareable at /scan/:id. A
+    // storage failure must not fail a good scan; it just means no link.
+    let scanId: string | null = null;
+    try {
+      scanId = await createPublicScan(report);
+    } catch (persistErr) {
+      console.error('Failed to persist public scan:', persistErr);
+    }
+    return { status: 'succeeded', scanId, report };
   } catch (err) {
     return { status: 'failed', error: err instanceof Error ? err.message : 'Scan failed.' };
   }

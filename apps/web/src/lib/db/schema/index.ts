@@ -20,4 +20,5 @@ export * from './findings';
 export * from './ai-fixes';
 export * from './agent-visits';
 export * from './agent-answer-reports';
+export * from './public-scans';
 export * from './github-installations';
