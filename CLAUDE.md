@@ -1,9 +1,11 @@
 # Answerfox
 
-Answerfox is an open-source AI-SEO toolkit (SEO + AEO + GEO unified) that lives in
-your codebase and ships fixes as code. The OSS packages publish under `@answerfox/*`;
-the SaaS app lives in `apps/web`. Foundation docs are in `docs/internal/` — read
-`SESSION-HANDOFF.md` first when resuming a session.
+Answerfox is an open-source AI-readiness platform that lives in your codebase and
+ships fixes as pull requests, then proves the fix moved the score. It covers
+answerability (SEO/AEO/GEO, get cited by AI) and agent-actionability (real agents can
+use your site), with compliance-as-code next. The OSS packages publish under
+`@answerfox/*`; the SaaS app lives in `apps/web`. Foundation docs are in
+`docs/internal/`; read `SESSION-HANDOFF.md` first when resuming a session.
 
 ## Voice and writing rules
 

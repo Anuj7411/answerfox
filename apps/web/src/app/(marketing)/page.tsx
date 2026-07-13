@@ -65,14 +65,16 @@ export default function LandingPage() {
         <div className="hero">
           <div className="lp">
             <span className="eyebrow">
-              <span className="dot" /> Open-source Agent Readiness toolkit
+              <span className="dot" /> Open-source. Fixes ship as pull requests.
             </span>
             <h1>
-              The only AI-SEO toolkit that lives in your codebase and <em>ships fixes as code.</em>
+              The AI-readiness layer that lives in your codebase and{' '}
+              <em>ships the fix as a pull request.</em>
             </h1>
             <p className="sub">
-              Audit any site for SEO, AEO, GEO, and Agent Readiness across 50 checks, then let AI
-              write the fixes and open the PR.
+              Answerfox audits your site the way an AI crawler and a real agent see it, writes the
+              fix, opens the PR, and proves the score moved. Not another dashboard. The fix, in your
+              repo.
             </p>
             <div className="cta">
               <Link href="/sign-in" className="btn btn-solid">
