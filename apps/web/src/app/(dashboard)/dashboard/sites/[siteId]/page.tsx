@@ -10,6 +10,7 @@ import { AuditScheduleCard } from '@/components/dashboard/audit-schedule-card';
 import { SiteManagementCard } from '@/components/dashboard/site-management-card';
 import { VerificationPanel } from '@/components/dashboard/verification-panel';
 import { diffAudits } from '@/lib/audit/diff-audits';
+import { listAgentAnswerReportsForSite } from '@/lib/db/queries/agent-answer-reports';
 import { getAgentTrafficSummary } from '@/lib/db/queries/agent-visits';
 import {
   getLastTwoAuditsForSite,
@@ -63,6 +64,21 @@ export default async function SiteDetailPage({ params }: PageProps) {
 
   const latest = await getLatestAuditForSite(site.id);
 
+  // Guarded: if the agent_answer_reports table is not migrated yet, an
+  // empty trend must not break the whole page render.
+  let answerHistory: { id: string; score: number; gapCount: number; label: string }[] = [];
+  try {
+    const rows = await listAgentAnswerReportsForSite(site.id);
+    answerHistory = rows.map((r) => ({
+      id: r.id,
+      score: r.answerabilityScore,
+      gapCount: r.gapCount,
+      label: r.createdAt.toISOString().slice(0, 10),
+    }));
+  } catch {
+    answerHistory = [];
+  }
+
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -113,7 +129,7 @@ export default async function SiteDetailPage({ params }: PageProps) {
       )}
 
       {site.verificationStatusValue === 'verified' && (
-        <AgentAnswerPanel siteId={site.id} siteUrl={site.url} />
+        <AgentAnswerPanel siteId={site.id} siteUrl={site.url} history={answerHistory} />
       )}
 
       {site.verificationStatusValue !== 'verified' ? (

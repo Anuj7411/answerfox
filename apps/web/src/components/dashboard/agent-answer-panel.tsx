@@ -4,28 +4,48 @@ import {
   type RunAgentAnswerState,
   runAgentAnswerAction,
 } from '@/app/(dashboard)/dashboard/sites/[siteId]/agent-answer-actions';
-import { useActionState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState, useTransition } from 'react';
+
+export interface AgentAnswerRunSummary {
+  readonly id: string;
+  readonly score: number;
+  readonly gapCount: number;
+  /** Pre-formatted on the server (YYYY-MM-DD) to avoid hydration drift. */
+  readonly label: string;
+}
 
 interface AgentAnswerPanelProps {
   readonly siteId: string;
   readonly siteUrl: string;
+  readonly history: readonly AgentAnswerRunSummary[];
 }
-
-const initialState: RunAgentAnswerState = { status: 'idle' };
 
 /**
  * "Run Agent Answer Simulation" section on the site detail page.
  *
- * Feeds a coding agent only what an AI crawler receives from the site,
- * asks real developer questions, and reports whether the agent could
- * answer. The score is an outcome metric (could an agent actually
- * answer), not a checklist, and each gap maps to a fix downstream.
+ * Feeds a coding agent only what an AI crawler sees, asks real developer
+ * questions, and scores whether it could answer. Each run persists, so
+ * the panel also shows answerability over time, the trend no other tool
+ * tracks. On a fresh run we refresh the server data so the new point
+ * appears in the trend.
  */
-export function AgentAnswerPanel({ siteId, siteUrl }: AgentAnswerPanelProps) {
-  const [state, formAction, pending] = useActionState(
-    async () => runAgentAnswerAction(siteId),
-    initialState,
-  );
+export function AgentAnswerPanel({ siteId, siteUrl, history }: AgentAnswerPanelProps) {
+  const router = useRouter();
+  const [state, setState] = useState<RunAgentAnswerState>({ status: 'idle' });
+  const [pending, start] = useTransition();
+
+  function run(e: React.FormEvent) {
+    e.preventDefault();
+    start(async () => {
+      const res = await runAgentAnswerAction(siteId);
+      setState(res);
+      if (res.status === 'succeeded') router.refresh();
+    });
+  }
+
+  const latestScore =
+    state.status === 'succeeded' ? state.report.answerabilityScore : (history[0]?.score ?? null);
 
   return (
     <section className="glass rounded-2xl border border-ink/10 p-8">
@@ -38,17 +58,17 @@ export function AgentAnswerPanel({ siteId, siteUrl }: AgentAnswerPanelProps) {
             fix.
           </p>
         </div>
-        {state.status === 'succeeded' ? (
+        {latestScore !== null ? (
           <div className="text-right">
             <p className="font-mono text-[11px] uppercase tracking-wide text-ink-muted">
               Answerability
             </p>
-            <p className="t-hero text-4xl">{state.report.answerabilityScore}</p>
+            <p className="t-hero text-4xl">{latestScore}</p>
           </div>
         ) : null}
       </div>
 
-      <form action={formAction} className="mt-4">
+      <form onSubmit={run} className="mt-4">
         <button
           type="submit"
           disabled={pending}
@@ -56,7 +76,7 @@ export function AgentAnswerPanel({ siteId, siteUrl }: AgentAnswerPanelProps) {
         >
           {pending
             ? 'Running the simulation...'
-            : state.status === 'succeeded' || state.status === 'failed'
+            : state.status === 'succeeded' || state.status === 'failed' || history.length > 0
               ? 'Run again'
               : 'Run simulation'}
         </button>
@@ -77,7 +97,37 @@ export function AgentAnswerPanel({ siteId, siteUrl }: AgentAnswerPanelProps) {
           <p className="mt-1 font-mono text-[12px] text-red-900/85">{state.error}</p>
         </div>
       ) : null}
+
+      <TrendView runs={history} />
     </section>
+  );
+}
+
+function TrendView({ runs }: { readonly runs: readonly AgentAnswerRunSummary[] }) {
+  if (runs.length === 0) return null;
+  return (
+    <div className="mt-6">
+      <p className="font-mono text-[11px] uppercase tracking-wide text-ink-muted">
+        Answerability over time
+      </p>
+      <ul className="mt-2 space-y-1.5">
+        {runs.map((r) => (
+          <li key={r.id} className="flex items-center gap-3">
+            <span className="w-[74px] font-mono text-[11.5px] text-ink-muted">{r.label}</span>
+            <span className="h-2 max-w-full flex-1 rounded bg-ink/5">
+              <span
+                className="block h-2 rounded bg-ember/50"
+                style={{ width: `${Math.max(2, Math.min(100, r.score))}%` }}
+              />
+            </span>
+            <span className="w-8 text-right font-mono text-[12px]">{r.score}</span>
+            <span className="w-14 text-right font-mono text-[11px] text-ink-muted">
+              {r.gapCount} gaps
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
@@ -97,10 +147,7 @@ function ReportView({
       {report.gaps.length > 0 ? (
         <ul className="space-y-2">
           {report.gaps.map((gap) => (
-            <li
-              key={gap.question}
-              className="rounded-lg border border-ink/15 bg-white/70 p-3"
-            >
+            <li key={gap.question} className="rounded-lg border border-ink/15 bg-white/70 p-3">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <p className="text-[13px] font-medium text-ink/90">{gap.question}</p>
                 <span

@@ -19,4 +19,5 @@ export * from './audits';
 export * from './findings';
 export * from './ai-fixes';
 export * from './agent-visits';
+export * from './agent-answer-reports';
 export * from './github-installations';

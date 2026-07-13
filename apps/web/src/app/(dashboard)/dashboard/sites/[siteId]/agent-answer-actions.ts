@@ -3,6 +3,7 @@
 import { createAnswerModel } from '@/lib/agent-answer/answer-model';
 import { runAgentAnswerTest } from '@/lib/agent-answer/run-agent-answer-test';
 import type { AgentAnswerReport } from '@/lib/agent-answer/types';
+import { createAgentAnswerReport } from '@/lib/db/mutations/agent-answer-reports';
 import { getSiteForUser } from '@/lib/db/queries/sites';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
 import { fetchCrawlerView } from '@/lib/xray/crawler-fetch';
@@ -46,6 +47,14 @@ export async function runAgentAnswerAction(siteId: string): Promise<RunAgentAnsw
       crawlerFetch: fetchCrawlerView,
       model,
     });
+    // Best-effort persist: the simulation already succeeded, so a
+    // storage failure (e.g. the migration not yet applied) must not turn
+    // a good run into a failed one. It just means no trend point.
+    try {
+      await createAgentAnswerReport({ siteId, report });
+    } catch (persistErr) {
+      console.error('Failed to persist agent answer report:', persistErr);
+    }
     return { status: 'succeeded', report };
   } catch (err) {
     return {
