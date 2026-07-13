@@ -9,6 +9,7 @@ import { AuditNowButton } from '@/components/dashboard/audit-now-button';
 import { AuditScheduleCard } from '@/components/dashboard/audit-schedule-card';
 import { SiteManagementCard } from '@/components/dashboard/site-management-card';
 import { VerificationPanel } from '@/components/dashboard/verification-panel';
+import { XrayPanel } from '@/components/dashboard/xray-panel';
 import { diffAudits } from '@/lib/audit/diff-audits';
 import { listAgentAnswerReportsForSite } from '@/lib/db/queries/agent-answer-reports';
 import { getAgentTrafficSummary } from '@/lib/db/queries/agent-visits';
@@ -130,6 +131,10 @@ export default async function SiteDetailPage({ params }: PageProps) {
 
       {site.verificationStatusValue === 'verified' && (
         <AgentAnswerPanel siteId={site.id} siteUrl={site.url} history={answerHistory} />
+      )}
+
+      {site.verificationStatusValue === 'verified' && (
+        <XrayPanel siteId={site.id} siteUrl={site.url} />
       )}
 
       {site.verificationStatusValue !== 'verified' ? (
