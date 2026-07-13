@@ -1,4 +1,4 @@
-import { FoxMark } from '@/components/brand/fox-mark';
+import { NavItem } from '@/components/dashboard/porcelain-nav';
 import { SignOutButton } from '@/components/dashboard/sign-out-button';
 import { listSitesForUser } from '@/lib/db/queries/sites';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
@@ -8,177 +8,280 @@ import type { ReactNode } from 'react';
 
 export const dynamic = 'force-dynamic';
 
+const DISPLAY = 'var(--font-archivo-expanded), var(--font-archivo), system-ui, sans-serif';
+const MONO = 'var(--font-jetbrains), ui-monospace, monospace';
+const LINE = 'rgba(20,22,16,.10)';
+
 /**
- * Dashboard shell (V3). Sidebar (brand, sites list, nav, account chip)
- * plus a top bar (site switcher, search placeholder, bell placeholder).
- *
- * Middleware also gates `/dashboard/*` for unauthenticated users; this
- * server-side check is belt-and-braces.
+ * Porcelain dashboard shell: a 236px sidebar (site switcher, workspace
+ * nav, account foot) plus a top bar. Every dashboard page renders inside
+ * the centered content column. Per-site nav is added by the site-level
+ * layout when we reach the site pages.
  */
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
   const supabase = await createServerSupabaseClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-  if (user === null) {
-    redirect('/sign-in?redirect=/dashboard');
-  }
+  if (user === null) redirect('/sign-in?redirect=/dashboard');
 
   const sites = await listSitesForUser(user.id);
   const userName = (user.user_metadata?.name as string | undefined) ?? user.email ?? 'You';
   const userEmail = user.email ?? '';
-  const initials = (() => {
-    const source = userName.trim();
-    if (source.length === 0) return 'U';
-    const parts = source.split(/\s+/).filter(Boolean);
-    if (parts.length >= 2) {
-      const a = parts[0]?.[0] ?? '';
-      const b = parts[1]?.[0] ?? '';
-      return `${a}${b}`.toUpperCase();
-    }
-    return source.slice(0, 2).toUpperCase();
-  })();
-  const primarySite = sites[0];
+  const initials = computeInitials(userName);
+  const primary = sites[0];
 
   return (
-    <main className="dvp relative isolate min-h-screen overflow-hidden" data-page="dashboard">
-      <div className="layer">
-        <div className="db">
-          <aside className="db-side">
-            <Link href="/dashboard" className="brand">
-              <FoxMark size={26} />
-              <span className="wm">Answerfox</span>
-            </Link>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '236px 1fr',
+        minHeight: '100vh',
+        background: '#F4F5F3',
+        color: '#14150F',
+        fontFamily: 'var(--font-archivo), system-ui, sans-serif',
+      }}
+    >
+      <aside
+        style={{
+          background: '#ECEEEB',
+          borderRight: `1px solid ${LINE}`,
+          padding: 16,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 6,
+          position: 'sticky',
+          top: 0,
+          height: '100vh',
+          overflow: 'auto',
+        }}
+      >
+        <Link
+          href="/dashboard"
+          style={{
+            background: '#FFFFFF',
+            border: `1px solid ${LINE}`,
+            borderRadius: 8,
+            padding: '10px 12px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            textDecoration: 'none',
+          }}
+        >
+          <FoxLogo />
+          <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.15, minWidth: 0 }}>
+            <span
+              style={{
+                fontFamily: DISPLAY,
+                fontWeight: 800,
+                fontSize: 13.5,
+                letterSpacing: '-.01em',
+                color: '#14150F',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {primary ? primary.name : 'Answerfox'}
+            </span>
+            <span style={{ fontFamily: MONO, fontSize: 11, color: '#767B73' }}>
+              {sites.length} site{sites.length === 1 ? '' : 's'}
+            </span>
+          </span>
+          <span style={{ marginLeft: 'auto', color: '#767B73', fontSize: 12 }}>⌄</span>
+        </Link>
 
-            {sites.length > 0 && (
-              <div className="db-sec">
-                <div className="lbl">Sites</div>
-                {sites.slice(0, 5).map((site, idx) => (
-                  <Link
-                    key={site.id}
-                    href={`/dashboard/sites/${site.id}`}
-                    className={`db-row${idx === 0 ? ' active' : ''}`}
-                  >
-                    <span
-                      className="db-dot"
-                      style={{ background: idx === 0 ? 'var(--ember)' : 'var(--violet)' }}
-                    />
-                    <span className="db-row-txt">{site.name}</span>
-                  </Link>
-                ))}
-                {sites.length > 5 && (
-                  <Link href="/dashboard/sites" className="db-row db-row-more">
-                    +{sites.length - 5} more
-                  </Link>
-                )}
-              </div>
-            )}
+        <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <GroupLabel>Workspace</GroupLabel>
+          <NavItem href="/dashboard" exact>
+            Overview
+          </NavItem>
+          <NavItem href="/dashboard/sites">Sites</NavItem>
+          <NavItem href="/dashboard/settings">Settings</NavItem>
+        </div>
 
-            <div className="db-sec">
-              <div className="lbl">Navigate</div>
-              <Link href="/dashboard" className="db-row active">
-                <span className="ic">
-                  <DbIcon name="audits" />
-                </span>
-                Audits
-              </Link>
-              <Link href="/dashboard/sites" className="db-row">
-                <span className="ic">
-                  <DbIcon name="findings" />
-                </span>
-                Findings
-              </Link>
-              <Link href="/dashboard/sites" className="db-row">
-                <span className="ic">
-                  <DbIcon name="fixes" />
-                </span>
-                AI Fixes
-              </Link>
-              <Link href="/dashboard/settings" className="db-row">
-                <span className="ic">
-                  <DbIcon name="settings" />
-                </span>
-                Settings
-              </Link>
-            </div>
-
-            <div className="db-foot">
-              <div className="db-plan">
-                <span>Plan</span>
-                <span className="free">Free</span>
-              </div>
-              <Link href="/pricing" className="db-up">
-                Upgrade to Pro
-              </Link>
-              <div className="db-acct">
-                <span className="av" aria-hidden>
-                  {initials}
-                </span>
-                <span className="who">
-                  <span className="n">{userName}</span>
-                  <span className="e">{userEmail}</span>
-                </span>
-              </div>
-              <SignOutButton />
-            </div>
-          </aside>
-
-          <section className="db-main">
-            <div className="db-top">
-              <Link
-                href={primarySite ? `/dashboard/sites/${primarySite.id}` : '/dashboard/sites'}
-                className="db-switch"
+        <div
+          style={{
+            marginTop: 'auto',
+            paddingTop: 14,
+            borderTop: `1px solid ${LINE}`,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 10,
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9, minWidth: 0 }}>
+            <span
+              aria-hidden
+              style={{
+                width: 26,
+                height: 26,
+                borderRadius: '50%',
+                background: '#14150F',
+                color: '#F4F5F3',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 12,
+                fontWeight: 600,
+                flex: '0 0 auto',
+              }}
+            >
+              {initials}
+            </span>
+            <span style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+              <span
+                style={{
+                  fontSize: 12.5,
+                  fontWeight: 600,
+                  color: '#14150F',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
               >
-                <span className="db-dot" style={{ background: 'var(--ember)' }} />
-                {primarySite ? primarySite.name : 'No sites yet'}
-                <span className="db-switch-caret">▾</span>
-              </Link>
-              <div className="right">
-                <span className="db-search" aria-hidden>
-                  <DbIcon name="search" size={15} />
-                  <span className="db-search-ph">Search findings, fixes…</span>
-                  <kbd>⌘K</kbd>
-                </span>
-                <button type="button" className="db-bell" aria-label="Notifications" disabled>
-                  <span className="nd" />
-                  <DbIcon name="bell" size={16} />
-                </button>
-              </div>
-            </div>
+                {userName}
+              </span>
+              <span
+                style={{
+                  fontFamily: MONO,
+                  fontSize: 11,
+                  color: '#767B73',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {userEmail}
+              </span>
+            </span>
+          </div>
+          <SignOutButton />
+          <div style={{ fontFamily: MONO, fontSize: 11, color: '#767B73' }}>answerfox v0.9</div>
+        </div>
+      </aside>
 
-            <div className="db-content">{children}</div>
-          </section>
+      <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+        <div
+          style={{
+            height: 56,
+            background: '#F4F5F3',
+            borderBottom: `1px solid ${LINE}`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 24px',
+            position: 'sticky',
+            top: 0,
+            zIndex: 20,
+          }}
+        >
+          <div style={{ fontFamily: MONO, fontSize: 12, color: '#767B73' }}>dashboard</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <Link
+              href="/dashboard/sites/new"
+              style={{
+                padding: '6px 12px',
+                background: 'transparent',
+                border: '1px solid rgba(20,22,16,.16)',
+                borderRadius: 6,
+                fontFamily: 'var(--font-archivo), sans-serif',
+                fontSize: 13,
+                fontWeight: 500,
+                color: '#2A2E29',
+                textDecoration: 'none',
+              }}
+            >
+              + Add a site
+            </Link>
+            <span
+              aria-hidden
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: '50%',
+                background: '#14150F',
+                color: '#F4F5F3',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 13,
+                fontWeight: 600,
+              }}
+            >
+              {initials.slice(0, 1)}
+            </span>
+          </div>
+        </div>
+
+        <div
+          style={{
+            maxWidth: 1240,
+            width: '100%',
+            margin: '0 auto',
+            padding: 24,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 16,
+          }}
+        >
+          {children}
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 
-function DbIcon({ name, size = 16 }: { name: string; size?: number }) {
-  const paths: Record<string, string> = {
-    audits: 'M3 13h3l2 5 4-13 2 8h4',
-    findings: 'M4 5h12M4 10h12M4 15h7',
-    fixes: 'M11 2 4 12h5l-1 8 8-12h-5z',
-    settings:
-      'M10 7.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM10 1.5v2M10 16.5v2M18.5 10h-2M3.5 10h-2M15.4 4.6l-1.4 1.4M6 14l-1.4 1.4M15.4 15.4 14 14M6 6 4.6 4.6',
-    search: 'M9 3a6 6 0 1 0 0 12A6 6 0 0 0 9 3zM17 17l-4-4',
-    bell: 'M10 2a5 5 0 0 0-5 5c0 5-2 6-2 6h14s-2-1-2-6a5 5 0 0 0-5-5zM8.5 17a1.5 1.5 0 0 0 3 0',
-  };
+function GroupLabel({ children }: { readonly children: ReactNode }) {
+  return (
+    <div
+      style={{
+        fontFamily: MONO,
+        fontSize: 11,
+        letterSpacing: '.12em',
+        textTransform: 'uppercase',
+        color: '#767B73',
+        padding: '0 10px',
+        margin: '4px 0 6px',
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function FoxLogo() {
   return (
     <svg
-      width={size}
-      height={size}
-      viewBox="0 0 20 20"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      viewBox="296 223 927 518"
+      style={{ display: 'block', height: 20, width: 'auto', flex: '0 0 auto' }}
       aria-hidden
     >
-      <title>{name}</title>
-      <path d={paths[name]} />
+      <defs>
+        <mask id="afxm">
+          <rect x="296" y="223" width="927" height="518" fill="#fff" />
+          <rect x="700" y="493" width="523" height="18" fill="#000" />
+        </mask>
+      </defs>
+      <polygon
+        points="717,223 877,223 970,741 851,741 776,335 443,741 296,741"
+        fill="#14150F"
+        mask="url(#afxm)"
+      />
+      <polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504" />
+      <polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504" />
+      <polygon points="574,611 674,611 567,741 467,741" fill="#F34504" />
     </svg>
   );
+}
+
+function computeInitials(name: string): string {
+  const source = name.trim();
+  if (source.length === 0) return 'U';
+  const parts = source.split(/\s+/).filter(Boolean);
+  if (parts.length >= 2) {
+    return `${parts[0]?.[0] ?? ''}${parts[1]?.[0] ?? ''}`.toUpperCase();
+  }
+  return source.slice(0, 2).toUpperCase();
 }

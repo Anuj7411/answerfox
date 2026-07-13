@@ -29,10 +29,26 @@
   --color-magenta: #ff006e;
   --color-positive: #1e9e57;
 
-  /* fonts (next/font injects the family vars on <html>) */
-  --font-display: var(--font-geist), system-ui, sans-serif;
-  --font-body: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  /* fonts (next/font injects the family vars on <html>) — Porcelain.
+     "Archivo Expanded" is not available via next/font, so the expanded
+     var aliases to Archivo; bold Archivo stands in for the display look. */
+  --font-archivo-expanded: var(--font-archivo);
+  --font-display: var(--font-archivo), system-ui, sans-serif;
+  --font-body: var(--font-archivo), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  /* Porcelain design system (migration target) */
+  --color-porcelain: #f4f5f3;
+  --color-porcelain-sidebar: #eceeeb;
+  --color-pc-ink: #14150f;
+  --color-pc-ink2: #2a2e29;
+  --color-pc-muted: #5c625b;
+  --color-pc-dim: #767b73;
+  --color-blaze: #f34504;
+  --color-blaze-deep: #b23a08;
+  --color-pc-green: #2c8c4e;
+  --color-pc-red: #c4362b;
+  --color-pc-amber: #b8801c;
 
   /* radii */
   --radius-card: 16px;

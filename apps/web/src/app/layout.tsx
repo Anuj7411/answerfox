@@ -1,26 +1,35 @@
 import { PostHogProvider } from '@/components/providers/posthog-provider';
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Inter } from 'next/font/google';
+import { Archivo, JetBrains_Mono } from 'next/font/google';
 import { type ReactNode, Suspense } from 'react';
 import './globals.css';
 
-// Self-hosted at build time by next/font (no third-party CDN, no FOIT).
-const geist = Geist({ subsets: ['latin'], variable: '--font-geist', display: 'swap' });
-const geistMono = Geist_Mono({
+// Porcelain design system fonts, self-hosted at build time by next/font
+// (no third-party CDN, no FOIT). Archivo is the display + body face
+// (bold Archivo stands in for the "expanded" display look), JetBrains
+// Mono the numeric/label mono.
+const archivo = Archivo({
   subsets: ['latin'],
-  variable: '--font-geist-mono',
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-archivo',
   display: 'swap',
 });
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-jetbrains',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Answerfox',
-  description: 'The drop-in SEO toolkit that makes any site answerable by AI search engines.',
+  description:
+    'The AI-readiness layer for your codebase. Get cited by AI, usable by agents, shipped as pull requests.',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${geist.variable} ${geistMono.variable} ${inter.variable}`}>
+    <html lang="en" className={`${archivo.variable} ${jetbrainsMono.variable}`}>
       <body>
         <Suspense fallback={null}>
           <PostHogProvider>{children}</PostHogProvider>
