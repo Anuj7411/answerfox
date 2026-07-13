@@ -1,3 +1,4 @@
+import { AgentAnswerPanel } from '@/components/dashboard/agent-answer-panel';
 import { AgentReadinessHero } from '@/components/dashboard/agent-readiness-hero';
 import { AiFixPanel } from '@/components/dashboard/ai-fix-panel';
 import { AiTrafficTile } from '@/components/dashboard/ai-traffic-tile';
@@ -109,6 +110,10 @@ export default async function SiteDetailPage({ params }: PageProps) {
 
       {site.verificationStatusValue === 'verified' && (
         <AnalyticsSlot siteId={site.id} hasToken={site.ingestToken !== null} />
+      )}
+
+      {site.verificationStatusValue === 'verified' && (
+        <AgentAnswerPanel siteId={site.id} siteUrl={site.url} />
       )}
 
       {site.verificationStatusValue !== 'verified' ? (
