@@ -41,6 +41,7 @@ export default function LandingPage() {
             <span className="wm">Answerfox</span>
           </Link>
           <div className="nav-links">
+            <Link href="/scan">Free scan</Link>
             <Link href="/pricing">Pricing</Link>
             <Link href="/compare">vs Cloudflare</Link>
             <a href="https://github.com/Anuj7411/answerfox" target="_blank" rel="noreferrer">
@@ -77,8 +78,8 @@ export default function LandingPage() {
               repo.
             </p>
             <div className="cta">
-              <Link href="/sign-in" className="btn btn-solid">
-                Audit my site
+              <Link href="/scan" className="btn btn-solid">
+                Scan your site free
               </Link>
               <a
                 href="https://github.com/Anuj7411/answerfox"
