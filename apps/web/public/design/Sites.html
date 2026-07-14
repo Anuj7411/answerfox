@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/design/support.js"></script>
+<style id="afx-bg-swap">#dc-root>*,#dc-root .sc-host,#afx-shell{background-color:#FCFCFB!important;background-image:repeating-linear-gradient(0deg,rgba(20,22,16,.022) 0 1px,transparent 1px 10px)!important}#afx-shell>div>div:first-child{background-color:#FCFCFB!important;background-image:none!important}</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#FAFAF8;color:#1C1C19;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:#B23A08;text-decoration:none}
+  a:hover{color:#F34504}
+  :focus-visible{outline:2px solid #F34504;outline-offset:2px;border-radius:6px}
+  select,input{font-family:'Archivo',sans-serif}
+  input::placeholder{color:#B8B8B0}
+  @keyframes afxUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){[data-reveal]{animation:none!important;opacity:1!important;transform:none!important}}
+  @media (max-width:940px){
+    .afx-thead{display:none!important}
+    .afx-srow{grid-template-columns:1fr auto!important;gap:10px 14px!important}
+    .afx-srow [data-col-verif],.afx-srow [data-col-plan],.afx-srow [data-col-audit]{display:none!important}
+  }
+  @media (max-width:840px){
+    #afx-shell{grid-template-columns:1fr!important}
+    #afx-sidebar{position:static!important;height:auto!important;border-right:none!important;border-bottom:1px solid #EAE9E5!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;gap:10px!important}
+    #afx-sidebar [data-sidebar-foot]{display:none!important}
+    #afx-sidebar [data-nav-workspace]{flex-direction:row!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:4px!important;margin:0!important}
+    #afx-sidebar [data-nav-workspace] [data-group-h]{display:none!important}
+    .afx-phead{flex-direction:column!important;align-items:flex-start!important;gap:16px!important}
+    .afx-ctrl{flex-wrap:wrap!important}
+  }
+</style>
+</helmet>
+
+<div id="afx-shell" style="display:grid;grid-template-columns:240px 1fr;min-height:100vh;background:#FAFAF8">
+
+  <!-- SIDEBAR -->
+  <aside id="afx-sidebar" style="background:#FFFFFF;border-right:1px solid #EAE9E5;padding:16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow:auto">
+    <div style="border:1px solid #EAE9E5;border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;cursor:pointer">
+      <span style="flex:0 0 auto;width:26px;height:26px;border-radius:7px;background:#1C1C19;display:inline-flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span>
+      <span style="display:flex;flex-direction:column;line-height:1.2;min-width:0;flex:1 1 auto">
+        <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:13.5px;letter-spacing:-.01em;color:#1C1C19">All sites</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">7 sites</span>
+      </span>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+    </div>
+
+    <div data-nav-workspace style="margin-top:12px;display:flex;flex-direction:column;gap:2px">
+      <div data-group-h style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9C9C95;padding:0 12px;margin:4px 0 6px">Workspace</div>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>Overview</a>
+      <a href="#" aria-current="page" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;font-weight:500;color:#1C1C19;background:#F5F5F2;box-shadow:inset 3px 0 0 #F34504"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1C19" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>Sites<span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">7</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>Billing</a>
+    </div>
+
+    <div data-sidebar-foot style="margin-top:auto;padding-top:14px;border-top:1px solid #EAE9E5;display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A;flex:0 0 auto"></span>watching 168 pages · v0.9</div>
+  </aside>
+
+  <!-- MAIN -->
+  <div style="display:flex;flex-direction:column;min-width:0">
+    <div style="height:56px;background:#FAFAF8;border-bottom:1px solid #EAE9E5;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:20">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#1C1C19">sites</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border:1px solid #EAE9E5;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A"></span>3 Paid</span>
+        <span style="width:28px;height:28px;border-radius:50%;background:#1C1C19;color:#FAFAF8;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500">A</span>
+      </div>
+    </div>
+
+    <div style="max-width:1240px;width:100%;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:16px">
+
+      <!-- PAGE HEADER -->
+      <div class="afx-phead" data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;display:flex;align-items:flex-start;justify-content:space-between;gap:24px">
+        <div>
+          <h1 style="margin:0;font-family:'Archivo',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.02em;color:#1C1C19">Sites</h1>
+          <p style="margin:6px 0 0;font-size:14px;color:#6B6B65">7 sites · watching 168 pages</p>
+        </div>
+        <a href="#" style="display:inline-flex;align-items:center;gap:8px;flex:0 0 auto;padding:0 15px;height:38px;background:#1C1C19;border-radius:8px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Connect a site</a>
+      </div>
+
+      <!-- 1) SUMMARY STRIP -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:30ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:10px;padding:11px 16px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6B6B65;display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center">
+        <span style="color:#1C1C19;font-weight:500">7 sites</span><span style="color:#DEDDD7">·</span>
+        <span>avg readiness <span style="color:#1C1C19">71</span></span><span style="color:#DEDDD7">·</span>
+        <span style="color:#B45309">2 need attention</span><span style="color:#DEDDD7">·</span>
+        <span>5 open fix-PRs</span><span style="color:#DEDDD7">·</span>
+        <span style="color:#B45309">1 drift alert</span>
+      </div>
+
+      <!-- 2) CONTROL ROW -->
+      <div class="afx-ctrl" data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:60ms;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="display:inline-flex;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:8px;padding:2px;flex-wrap:wrap">
+          <sc-for list="{{ chips }}" as="c" hint-placeholder-count="5">
+            <button onClick="{{ c.onClick }}" style="font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:500;height:28px;padding:0 12px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};border-radius:6px;cursor:pointer;white-space:nowrap">{{ c.label }}</button>
+          </sc-for>
+        </div>
+        <span style="flex:1 1 auto"></span>
+        <select value="{{ sortVal }}" onChange="{{ onSort }}" style="height:32px;padding:0 10px;border:1px solid #DEDDD7;border-radius:8px;background:#FFFFFF;font-size:12.5px;color:#1C1C19;cursor:pointer">
+          <option value="readiness">Sort: Readiness</option>
+          <option value="audited">Sort: Last audited</option>
+          <option value="name">Sort: Name</option>
+        </select>
+        <div style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 10px;border:1px solid #DEDDD7;border-radius:8px;background:#FFFFFF">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9C9C95" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input value="{{ query }}" onInput="{{ onSearch }}" placeholder="Filter sites…" style="border:none;outline:none;background:transparent;font-size:13px;color:#1C1C19;width:150px" />
+        </div>
+      </div>
+
+      <!-- 3) SITES TABLE -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:90ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+        <!-- header -->
+        <div class="afx-thead" style="display:grid;grid-template-columns:minmax(200px,2.3fr) 1.25fr 1.1fr 0.8fr 0.95fr 96px;gap:14px;align-items:center;padding:11px 20px;border-bottom:1px solid #EAE9E5;background:#FCFCFA">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:#9C9C95">Site</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:#9C9C95">Readiness</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:#9C9C95">Verification</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:#9C9C95">Plan</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:#9C9C95">Last audited</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:#9C9C95;text-align:right">Actions</span>
+        </div>
+
+        <!-- rows -->
+        <sc-if value="{{ hasRows }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <sc-for list="{{ sites }}" as="s" hint-placeholder-count="7">
+              <div class="afx-srow" style="display:grid;grid-template-columns:minmax(200px,2.3fr) 1.25fr 1.1fr 0.8fr 0.95fr 96px;gap:14px;align-items:center;padding:13px 20px;border-top:1px solid #F0F0EC;cursor:pointer" style-hover="background:#F5F5F2">
+                <!-- site -->
+                <div style="display:flex;align-items:center;gap:11px;min-width:0">
+                  <span style="flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:#F5F5F2;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center;font-family:'Archivo',sans-serif;font-weight:600;font-size:13px;color:#6B6B65">{{ s.initial }}</span>
+                  <span style="display:flex;flex-direction:column;min-width:0;line-height:1.25">
+                    <span style="display:flex;align-items:center;gap:8px;min-width:0">
+                      <span style="font-size:14px;font-weight:500;color:#1C1C19;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.name }}</span>
+                      <sc-if value="{{ s.drift }}" hint-placeholder-val="{{ false }}">
+                        <span style="display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:#B45309;background:#FEF3E2;border-radius:5px;padding:1px 7px;flex:0 0 auto"><span style="width:4px;height:4px;border-radius:50%;background:#D97706"></span>drift</span>
+                      </sc-if>
+                    </span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.repo }}</span>
+                  </span>
+                </div>
+                <!-- readiness -->
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600;color:{{ s.scoreColor }};font-variant-numeric:tabular-nums">{{ s.score }}</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase;color:{{ s.bandColor }};background:{{ s.bandBg }};border-radius:5px;padding:2px 8px">{{ s.band }}</span>
+                </div>
+                <!-- verification -->
+                <div data-col-verif>
+                  <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:{{ s.verifColor }}">{{ s.verifIcon }}{{ s.verif }}</span>
+                </div>
+                <!-- plan -->
+                <div data-col-plan>
+                  <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:{{ s.planColor }};border:1px solid {{ s.planBorder }};background:{{ s.planBg }};border-radius:999px;padding:2px 10px"><span style="width:5px;height:5px;border-radius:50%;background:{{ s.planDot }}"></span>{{ s.plan }}</span>
+                </div>
+                <!-- last audited -->
+                <div data-col-audit>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65">{{ s.audited }}</span>
+                </div>
+                <!-- actions -->
+                <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px">
+                  <button title="Audit now" aria-label="Audit now" onClick="{{ s.onAudit }}" style="width:30px;height:30px;border:1px solid #EAE9E5;background:#FFFFFF;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:#F0F0EC"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></button>
+                  <a href="#" title="Open" aria-label="Open" style="width:30px;height:30px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;color:#B23A08" style-hover="background:#F0F0EC"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B23A08" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- empty state -->
+        <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:56px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px">
+            <span style="width:52px;height:52px;border-radius:14px;background:#F5F5F2;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9C9C95" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg></span>
+            <div style="display:flex;flex-direction:column;gap:5px;max-width:400px">
+              <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:16px;color:#1C1C19">Connect your first site</span>
+              <span style="font-size:13.5px;color:#6B6B65;text-wrap:pretty">Point Answerfox at your docs and we'll audit every page for AI readiness.</span>
+            </div>
+            <code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1C1C19;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:8px;padding:9px 14px">npx answerfox audit yourdocs.dev</code>
+            <a href="#" style="display:inline-flex;align-items:center;gap:8px;padding:0 15px;height:38px;background:#1C1C19;border-radius:8px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8"><svg width="15" height="15" viewBox="0 0 24 24" fill="#FAFAF8" stroke="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02.8-.22 1.65-.33 2.5-.34.85.01 1.7.12 2.5.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>Install the GitHub App</a>
+          </div>
+        </sc-if>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1280, &quot;height&quot;: 820}}">
+class Component extends DCLogic {
+  state = { filter: 'all', sort: 'readiness', query: '' };
+
+  data = [
+    { name: 'stripe.com',       repo: 'stripe/stripe-docs', score: 74, band: 'strong',    verif: 'verified', plan: 'Paid', audited: '2h ago', ageH: 2,  drift: false, needs: false },
+    { name: 'acme.dev',         repo: 'acme/site',          score: 48, band: 'weak',      verif: 'verified', plan: 'Paid', audited: '5h ago', ageH: 5,  drift: true,  needs: true },
+    { name: 'docs.foo.io',      repo: 'foo/docs',           score: 63, band: 'average',   verif: 'pending',  plan: 'Free', audited: '1d',     ageH: 24, drift: false, needs: false },
+    { name: 'linear-clone.app', repo: 'me/linear-clone',    score: 88, band: 'strong',    verif: 'verified', plan: 'Free', audited: '1d',     ageH: 26, drift: false, needs: false },
+    { name: 'payment-sdk.io',   repo: 'org/payment-sdk',    score: 91, band: 'excellent', verif: 'verified', plan: 'Paid', audited: '2d',     ageH: 48, drift: false, needs: false },
+    { name: 'edge-fns.dev',     repo: 'me/edge-fns',        score: 70, band: 'average',   verif: 'verified', plan: 'Free', audited: '3d',     ageH: 72, drift: false, needs: false },
+    { name: 'sotto.vercel.app', repo: 'anuj/sotto',         score: 55, band: 'weak',      verif: 'failed',   plan: 'Free', audited: '4d',     ageH: 96, drift: false, needs: true },
+  ];
+
+  chipDefs = [
+    { key: 'all',   label: 'All' },
+    { key: 'needs', label: 'Needs attention' },
+    { key: 'paid',  label: 'Paid' },
+    { key: 'free',  label: 'Free' },
+    { key: 'drift', label: 'Drift' },
+  ];
+
+  setFilter = (k) => this.setState({ filter: k });
+  onSort = (e) => this.setState({ sort: e.currentTarget.value });
+  onSearch = (e) => this.setState({ query: e.currentTarget.value });
+
+  bandColors(band) {
+    if (band === 'weak')    return { c: '#DC2626', bg: '#FBE9E9' };
+    if (band === 'average') return { c: '#B45309', bg: '#FEF3E2' };
+    return { c: '#15803D', bg: '#E7F6EC' };
+  }
+  scoreColor(band) {
+    if (band === 'weak')    return '#DC2626';
+    if (band === 'average') return '#B45309';
+    return '#15803D';
+  }
+
+  verifEl(v) {
+    const h = React.createElement;
+    if (v === 'verified') return h('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: '#15803D', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('circle', { cx: 12, cy: 12, r: 10 }), h('path', { d: 'm9 12 2 2 4-4' }));
+    if (v === 'pending')  return h('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: '#B45309', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('circle', { cx: 12, cy: 12, r: 10 }), h('polyline', { points: '12 7 12 12 15 14' }));
+    return h('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: '#DC2626', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('circle', { cx: 12, cy: 12, r: 10 }), h('path', { d: 'm15 9-6 6' }), h('path', { d: 'm9 9 6 6' }));
+  }
+  verifColor(v) { return v === 'verified' ? '#15803D' : v === 'pending' ? '#B45309' : '#DC2626'; }
+
+  renderVals() {
+    const { filter, sort, query } = this.state;
+    const q = query.trim().toLowerCase();
+
+    let list = this.data.filter(s => {
+      if (filter === 'needs' && !s.needs) return false;
+      if (filter === 'paid' && s.plan !== 'Paid') return false;
+      if (filter === 'free' && s.plan !== 'Free') return false;
+      if (filter === 'drift' && !s.drift) return false;
+      if (q && !(s.name.toLowerCase().includes(q) || s.repo.toLowerCase().includes(q))) return false;
+      return true;
+    });
+
+    if (sort === 'readiness') list = list.slice().sort((a, b) => b.score - a.score);
+    else if (sort === 'audited') list = list.slice().sort((a, b) => a.ageH - b.ageH);
+    else if (sort === 'name') list = list.slice().sort((a, b) => a.name.localeCompare(b.name));
+
+    const sites = list.map(s => {
+      const bc = this.bandColors(s.band);
+      const paid = s.plan === 'Paid';
+      return {
+        ...s,
+        initial: s.name.charAt(0).toUpperCase(),
+        scoreColor: this.scoreColor(s.band),
+        bandColor: bc.c, bandBg: bc.bg,
+        verifIcon: this.verifEl(s.verif), verifColor: this.verifColor(s.verif),
+        planColor: paid ? '#15803D' : '#9C9C95',
+        planBorder: paid ? '#CDE9D6' : '#EAE9E5',
+        planBg: paid ? '#F1FAF4' : '#F7F7F4',
+        planDot: paid ? '#16A34A' : '#C4C3BC',
+        onAudit: (e) => { e.preventDefault(); e.stopPropagation(); },
+      };
+    });
+
+    const chips = this.chipDefs.map(c => {
+      const on = c.key === filter;
+      return {
+        label: c.label, onClick: () => this.setFilter(c.key),
+        bg: on ? '#FFFFFF' : 'transparent',
+        border: on ? '#DEDDD7' : 'transparent',
+        color: on ? '#1C1C19' : '#6B6B65',
+      };
+    });
+
+    return {
+      sites, chips,
+      sortVal: sort, onSort: this.onSort,
+      query, onSearch: this.onSearch,
+      hasRows: sites.length > 0, isEmpty: sites.length === 0,
+    };
+  }
+}
+</script>
+</body>
+</html>

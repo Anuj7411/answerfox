@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/design/support.js"></script>
+<style id="afx-bg-swap">#dc-root>*,#dc-root .sc-host,#afx-shell{background-color:#FCFCFB!important;background-image:repeating-linear-gradient(0deg,rgba(20,22,16,.022) 0 1px,transparent 1px 10px)!important}#afx-shell>div>div:first-child{background-color:#FCFCFB!important;background-image:none!important}</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#FAFAF8;color:#1C1C19;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:#B23A08;text-decoration:none}
+  a:hover{color:#F34504}
+  :focus-visible{outline:2px solid #F34504;outline-offset:2px;border-radius:6px}
+  @media (max-width:900px){
+    .afx-score{grid-template-columns:1fr!important;justify-items:center;text-align:center}
+    .afx-tiles{grid-template-columns:repeat(2,1fr)!important}
+    .afx-xray{grid-template-columns:1fr!important}
+    .afx-xray > div:first-child{border-right:none!important;border-bottom:1px solid #EAE9E5}
+  }
+  @media (max-width:840px){
+    .afx-nav-links{display:none!important}
+    .afx-nav-mobile{display:inline-flex!important}
+    .afx-signin{display:none!important}
+    .afx-footer-cols{grid-template-columns:1fr 1fr!important;gap:32px 24px!important}
+    .afx-footer-bottom{flex-direction:column!important;align-items:flex-start!important;gap:16px!important}
+  }
+</style>
+</helmet>
+
+<!-- =================== TOP NAV =================== -->
+<header style="position:sticky;top:0;z-index:40;background:rgba(250,250,248,.88);backdrop-filter:saturate(180%) blur(10px);-webkit-backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid #EAE9E5">
+  <div style="max-width:1180px;margin:0 auto;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <a href="#" style="display:inline-flex;align-items:center;gap:10px;color:#1C1C19">
+      <svg viewBox="296 223 927 518" style="display:block;height:22px;width:auto"><defs><mask id="afxlm-mkt"><rect x="296" y="223" width="927" height="518" fill="#fff"/><rect x="700" y="493" width="523" height="18" fill="#000"/></mask></defs><polygon points="717,223 877,223 970,741 851,741 776,335 443,741 296,741" fill="#1C1C19" mask="url(#afxlm-mkt)"/><polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504"/><polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504"/><polygon points="574,611 674,611 567,741 467,741" fill="#F34504"/></svg>
+      <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:17px;letter-spacing:-.01em;color:#1C1C19">answerfox</span>
+    </a>
+
+    <nav class="afx-nav-links" style="display:flex;align-items:center;gap:28px">
+      <a href="#" style="font-size:13.5px;color:#6B6B65;font-weight:500;white-space:nowrap" style-hover="color:#1C1C19">How it works</a>
+      <a href="#" style="font-size:13.5px;color:#6B6B65;font-weight:500;white-space:nowrap" style-hover="color:#1C1C19">Pricing</a>
+      <a href="#" style="font-size:13.5px;color:#6B6B65;font-weight:500;white-space:nowrap" style-hover="color:#1C1C19">Docs</a>
+      <a href="#" style="font-size:13.5px;color:#6B6B65;font-weight:500;white-space:nowrap" style-hover="color:#1C1C19">Changelog</a>
+    </nav>
+
+    <div style="display:flex;align-items:center;gap:14px">
+      <a href="#" class="afx-signin" style="font-size:13.5px;color:#6B6B65;font-weight:500" style-hover="color:#1C1C19">Sign in</a>
+      <a href="#" style="display:inline-flex;align-items:center;gap:8px;padding:0 14px;height:38px;background:#1C1C19;border-radius:8px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8;white-space:nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="#FAFAF8" stroke="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02.8-.22 1.65-.33 2.5-.34.85.01 1.7.12 2.5.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>Install the GitHub App</a>
+      <button class="afx-nav-mobile" onClick="{{ onMenu }}" aria-label="Menu" style="display:none;align-items:center;justify-content:center;width:38px;height:38px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:8px;cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1C19" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<!-- =================== CONTENT SLOT =================== -->
+<main style="max-width:1080px;margin:0 auto;padding:0 32px">
+
+  <!-- BREADCRUMB -->
+  <div style="padding:24px 0 0;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95">
+    <a href="#" style="color:#9C9C95">audit</a> <span style="color:#DEDDD7">/</span> <span style="color:#1C1C19">vercel.com</span>
+  </div>
+
+  <!-- HERO -->
+  <section style="padding:36px 0 32px;display:flex;flex-direction:column;gap:14px">
+    <span style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:#F34504"><span style="width:6px;height:6px;border-radius:50%;background:#F34504"></span>PUBLIC AUDIT · READ-ONLY</span>
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <span style="width:44px;height:44px;border-radius:11px;background:#1C1C19;color:#FAFAF8;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto"><svg viewBox="0 0 24 24" width="22" height="22" fill="#FAFAF8"><path d="M12 2 22 20H2z"/></svg></span>
+      <h1 style="margin:0;font-family:'Archivo',sans-serif;font-weight:600;font-size:36px;letter-spacing:-.03em;color:#1C1C19;line-height:1.1">vercel.com</h1>
+      <a href="https://vercel.com" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95">visit site<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9C9C95" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+    </div>
+    <p style="margin:0;font-size:17px;color:#6B6B65;max-width:680px;line-height:1.5;text-wrap:pretty">How much of <span style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#1C1C19">vercel.com</span> can an AI crawler actually read?</p>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#9C9C95">audited 3d ago · 25 pages</span>
+  </section>
+
+  <!-- SCORE BAND -->
+  <section style="display:flex;flex-direction:column;gap:16px">
+    <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:14px;padding:26px 28px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center" class="afx-score">
+      <!-- ring -->
+      <div style="position:relative;width:140px;height:140px;flex:0 0 auto">
+        <svg width="140" height="140" viewBox="0 0 140 140" style="transform:rotate(-90deg)">
+          <circle cx="70" cy="70" r="58" fill="none" stroke="#F0F0EC" stroke-width="12"/>
+          <circle cx="70" cy="70" r="58" fill="none" stroke="#B45309" stroke-width="12" stroke-linecap="round" stroke-dasharray="{{ ringLen }}" stroke-dashoffset="{{ ringOffset }}"/>
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1">
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:38px;letter-spacing:-.02em;color:#1C1C19">68</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#B45309;margin-top:4px">average</span>
+        </div>
+      </div>
+      <!-- verdict -->
+      <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9C9C95">Verdict</span>
+        <p style="margin:0;font-family:'Archivo',sans-serif;font-weight:500;font-size:19px;line-height:1.4;letter-spacing:-.01em;color:#1C1C19;text-wrap:pretty">AI crawlers reach <span style="color:#B45309">61%</span> of Vercel's docs. Their pricing and several guides render after page load, so answer engines quote a <span style="color:#B45309">partial version</span>.</p>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:4px">
+          <span style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65"><span style="width:8px;height:8px;border-radius:2px;background:#DC2626"></span>2 critical</span>
+          <span style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65"><span style="width:8px;height:8px;border-radius:2px;background:#B45309"></span>2 major</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- tiles -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px" class="afx-tiles">
+      <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:6px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9C9C95">Passing</span>
+        <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:26px;color:#15803D;letter-spacing:-.01em;line-height:1">34</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#6B6B65">of 50 checks</span>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:6px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9C9C95">Warnings</span>
+        <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:26px;color:#B45309;letter-spacing:-.01em;line-height:1">9</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#6B6B65">worth fixing</span>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:6px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9C9C95">Failing</span>
+        <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:26px;color:#EA580C;letter-spacing:-.01em;line-height:1">5</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#6B6B65">breaks retrieval</span>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:6px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9C9C95">Critical</span>
+        <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:26px;color:#DC2626;letter-spacing:-.01em;line-height:1">2</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#6B6B65">fix these first</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIGGEST FINDINGS -->
+  <section style="padding:48px 0 0;display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap">
+      <h2 style="margin:0;font-family:'Archivo',sans-serif;font-weight:600;font-size:24px;letter-spacing:-.02em;color:#1C1C19">Biggest findings</h2>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9C9C95">ranked · read-only</span>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+      <sc-for list="{{ findings }}" as="f" hint-placeholder-count="4">
+        <div style="display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:16px 20px;border-top:1px solid #F0F0EC" class="afx-finding">
+          <span style="flex:0 0 auto;width:32px;height:32px;border-radius:9px;background:{{ f.iconBg }};display:inline-flex;align-items:center;justify-content:center">{{ f.icon }}</span>
+          <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65">{{ f.id }}</span>
+              <span style="font-size:15px;font-weight:500;color:#1C1C19;letter-spacing:-.005em;text-wrap:pretty">{{ f.title }}</span>
+            </div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:{{ f.evidenceColor }};line-height:1.5;text-wrap:pretty">{{ f.evidence }}</span>
+          </div>
+          <span style="flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:{{ f.sevColor }};background:{{ f.sevBg }};border-radius:5px;padding:3px 9px"><span style="width:5px;height:5px;border-radius:50%;background:{{ f.sevColor }}"></span>{{ f.severity }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- X-RAY TASTE -->
+  <section style="padding:48px 0 0;display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <h2 style="margin:0;font-family:'Archivo',sans-serif;font-weight:600;font-size:24px;letter-spacing:-.02em;color:#1C1C19">Crawler view vs. browser</h2>
+        <span style="font-size:14px;color:#6B6B65">What an agent sees on <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19">vercel.com/pricing</span> — no JavaScript.</span>
+      </div>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9C9C95">X-Ray taste</span>
+    </div>
+
+    <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr" class="afx-xray">
+      <!-- crawler column -->
+      <div style="border-right:1px solid #EAE9E5;display:flex;flex-direction:column">
+        <div style="padding:12px 18px;border-bottom:1px solid #F0F0EC;display:flex;align-items:center;justify-content:space-between;background:#FCFCFA;gap:10px">
+          <span style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#6B6B65;font-weight:500"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-6"/></svg>Crawler view</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:#DC2626;background:#FBE9E9;border-radius:5px;padding:2px 7px">missing</span>
+        </div>
+        <div style="padding:18px;display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ missing }}" as="m" hint-placeholder-count="4">
+            <div style="display:flex;align-items:flex-start;gap:9px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;margin-top:3px"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span style="font-size:13.5px;color:#1C1C19;line-height:1.5">{{ m }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <!-- browser column -->
+      <div style="display:flex;flex-direction:column">
+        <div style="padding:12px 18px;border-bottom:1px solid #F0F0EC;display:flex;align-items:center;justify-content:space-between;background:#FCFCFA;gap:10px">
+          <span style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#6B6B65;font-weight:500"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Browser view</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;background:#E7F6EC;border-radius:5px;padding:2px 7px">present</span>
+        </div>
+        <div style="padding:18px;display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ missing }}" as="m" hint-placeholder-count="4">
+            <div style="display:flex;align-items:flex-start;gap:9px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;margin-top:3px"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-size:13.5px;color:#6B6B65;line-height:1.5">{{ m }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <!-- raw html drawer -->
+    <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+      <button onClick="{{ onToggleHtml }}" style="width:100%;background:transparent;border:none;padding:13px 18px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left">
+        <span style="display:inline-flex;align-items:center;gap:10px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          <span style="font-family:'Archivo',sans-serif;font-weight:500;font-size:14px;color:#1C1C19">Show the raw HTML the crawler received</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">/pricing</span>
+        </span>
+        <span style="transform:{{ htmlIconRot }};transition:transform .2s ease"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+      </button>
+      <sc-if value="{{ showHtml }}" hint-placeholder-val="{{ false }}">
+        <div style="border-top:1px solid #F0F0EC;background:#F5F5F2;padding:14px 18px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#1C1C19;line-height:1.7;overflow:auto;max-height:260px">
+            <div style="color:#9C9C95">&lt;!-- crawler.get('/pricing') · rendered length: 118 bytes --&gt;</div>
+            <div><span style="color:#7C3AED">&lt;html</span> <span style="color:#B45309">lang</span>=<span style="color:#15803D">"en"</span><span style="color:#7C3AED">&gt;</span></div>
+            <div>&nbsp;&nbsp;<span style="color:#7C3AED">&lt;head&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7C3AED">&lt;title&gt;</span>Vercel — Pricing<span style="color:#7C3AED">&lt;/title&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7C3AED">&lt;meta</span> <span style="color:#B45309">name</span>=<span style="color:#15803D">"description"</span> <span style="color:#B45309">content</span>=<span style="color:#15803D">""</span><span style="color:#7C3AED">/&gt;</span></div>
+            <div>&nbsp;&nbsp;<span style="color:#7C3AED">&lt;/head&gt;</span></div>
+            <div>&nbsp;&nbsp;<span style="color:#7C3AED">&lt;body&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7C3AED">&lt;div</span> <span style="color:#B45309">id</span>=<span style="color:#15803D">"__next"</span><span style="color:#7C3AED">&gt;&lt;/div&gt;</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7C3AED">&lt;script</span> <span style="color:#B45309">src</span>=<span style="color:#15803D">"/_next/static/…"</span><span style="color:#7C3AED">&gt;&lt;/script&gt;</span></div>
+            <div>&nbsp;&nbsp;<span style="color:#7C3AED">&lt;/body&gt;</span></div>
+            <div><span style="color:#7C3AED">&lt;/html&gt;</span></div>
+            <div style="margin-top:8px;color:#DC2626">// 0 words of pricing copy. Content lives in a client bundle the crawler never runs.</div>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <section style="padding:72px 0 96px">
+    <div style="background:#1C1C19;border-radius:16px;padding:44px 40px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;position:relative;overflow:hidden">
+      <span style="position:absolute;top:-40px;left:-40px;width:220px;height:220px;background:radial-gradient(circle,rgba(243,69,4,.22),transparent 70%);pointer-events:none"></span>
+      <h2 style="margin:0;font-family:'Archivo',sans-serif;font-weight:600;font-size:30px;letter-spacing:-.03em;color:#FAFAF8;max-width:640px;text-wrap:balance;line-height:1.15">This is your site's first impression on every AI. Fix it.</h2>
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:4px">
+        <button onClick="{{ onRevealCmd }}" style="display:inline-flex;align-items:center;gap:8px;padding:0 18px;height:46px;background:#F34504;border:none;border-radius:9px;font-family:'Archivo',sans-serif;font-size:14px;font-weight:500;color:#FAFAF8;cursor:pointer;white-space:nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>Audit your own site</button>
+        <a href="#" style="display:inline-flex;align-items:center;gap:8px;padding:0 18px;height:46px;background:transparent;border:1px solid rgba(250,250,248,.28);border-radius:9px;font-family:'Archivo',sans-serif;font-size:14px;font-weight:500;color:#FAFAF8;white-space:nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="#FAFAF8" stroke="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02.8-.22 1.65-.33 2.5-.34.85.01 1.7.12 2.5.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>Install the GitHub App</a>
+      </div>
+      <sc-if value="{{ showCmd }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap;justify-content:center;width:100%;max-width:520px">
+          <code style="flex:1 1 260px;min-width:0;font-family:'JetBrains Mono',monospace;font-size:13px;color:#FAFAF8;background:rgba(250,250,248,.06);border:1px solid rgba(250,250,248,.14);border-radius:8px;padding:10px 12px;white-space:nowrap;overflow:auto">npx answerfox audit yourdocs.dev</code>
+          <button onClick="{{ onCopyCmd }}" style="flex:0 0 auto;height:38px;padding:0 12px;background:rgba(250,250,248,.08);border:1px solid rgba(250,250,248,.18);border-radius:8px;font-family:'Archivo',sans-serif;font-size:12.5px;color:#FAFAF8;cursor:pointer">{{ copyCmd }}</button>
+        </div>
+      </sc-if>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:rgba(250,250,248,.5);margin-top:6px">Every public repo gets a page like this, automatically.</span>
+    </div>
+  </section>
+
+</main>
+
+<!-- =================== FOOTER =================== -->
+<footer style="border-top:1px solid #EAE9E5;background:#FAFAF8;margin-top:64px">
+  <div style="max-width:1180px;margin:0 auto;padding:64px 32px 40px;display:flex;flex-direction:column;gap:48px">
+
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:48px" class="afx-footer-cols">
+      <!-- brand -->
+      <div style="display:flex;flex-direction:column;gap:14px;max-width:360px">
+        <a href="#" style="display:inline-flex;align-items:center;gap:10px;color:#1C1C19">
+          <svg viewBox="296 223 927 518" style="display:block;height:22px;width:auto"><defs><mask id="afxlm-ftr"><rect x="296" y="223" width="927" height="518" fill="#fff"/><rect x="700" y="493" width="523" height="18" fill="#000"/></mask></defs><polygon points="717,223 877,223 970,741 851,741 776,335 443,741 296,741" fill="#1C1C19" mask="url(#afxlm-ftr)"/><polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504"/><polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504"/><polygon points="574,611 674,611 567,741 467,741" fill="#F34504"/></svg>
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:17px;letter-spacing:-.01em">answerfox</span>
+        </a>
+        <p style="margin:0;font-size:13.5px;color:#9C9C95;line-height:1.55;text-wrap:pretty">Dependabot for agent readiness. Not an SEO tool.</p>
+      </div>
+
+      <!-- Product -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9C9C95;margin-bottom:2px">Product</span>
+        <a href="#" style="font-size:13.5px;color:#1C1C19;font-weight:500" style-hover="color:#F34504">How it works</a>
+        <a href="#" style="font-size:13.5px;color:#1C1C19;font-weight:500" style-hover="color:#F34504">Pricing</a>
+        <a href="#" style="font-size:13.5px;color:#1C1C19;font-weight:500" style-hover="color:#F34504">Changelog</a>
+        <a href="#" style="font-size:13.5px;color:#1C1C19;font-weight:500" style-hover="color:#F34504">Public audits</a>
+      </div>
+
+      <!-- Developers -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9C9C95;margin-bottom:2px">Developers</span>
+        <a href="#" style="font-size:13.5px;color:#1C1C19;font-weight:500" style-hover="color:#F34504">Docs</a>
+        <a href="#" style="font-size:13.5px;color:#1C1C19;font-weight:500" style-hover="color:#F34504">CLI</a>
+        <a href="#" style="font-size:13.5px;color:#1C1C19;font-weight:500" style-hover="color:#F34504">The 50-check engine on GitHub</a>
+        <a href="#" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19;font-weight:500" style-hover="color:#F34504">llms.txt</a>
+      </div>
+
+      <!-- Company -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9C9C95;margin-bottom:2px">Company</span>
+        <a href="#" style="font-size:13.5px;color:#1C1C19;font-weight:500" style-hover="color:#F34504">About</a>
+        <a href="#" style="font-size:13.5px;color:#1C1C19;font-weight:500" style-hover="color:#F34504">Privacy</a>
+        <a href="#" style="font-size:13.5px;color:#1C1C19;font-weight:500" style-hover="color:#F34504">Terms</a>
+      </div>
+    </div>
+
+    <div class="afx-footer-bottom" style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:24px;border-top:1px solid #EAE9E5">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95">© 2026 Answerfox</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <a href="#" aria-label="GitHub" style="width:32px;height:32px;border-radius:8px;background:#FFFFFF;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center" style-hover="background:#F0F0EC"><svg width="15" height="15" viewBox="0 0 24 24" fill="#1C1C19" stroke="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02.8-.22 1.65-.33 2.5-.34.85.01 1.7.12 2.5.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg></a>
+        <a href="#" aria-label="X" style="width:32px;height:32px;border-radius:8px;background:#FFFFFF;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center" style-hover="background:#F0F0EC"><svg width="13" height="13" viewBox="0 0 24 24" fill="#1C1C19" stroke="none"><path d="M18.244 2H21.5l-7.5 8.573L22.5 22h-6.719l-5.262-6.878L4.5 22H1.243l8.02-9.163L1.5 2h6.876l4.744 6.29L18.244 2Zm-1.176 18.29h1.83L7.02 3.61H5.06L17.068 20.29Z"/></svg></a>
+        <a href="#" aria-label="RSS" style="width:32px;height:32px;border-radius:8px;background:#FFFFFF;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center" style-hover="background:#F0F0EC"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1C1C19" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.5" fill="#1C1C19"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1280, &quot;height&quot;: 1800}}">
+class Component extends DCLogic {
+  state = { showHtml: false, showCmd: false, copyCmd: 'Copy' };
+
+  findingsData = [
+    { id: 'C2',  title: 'Pricing table is client-rendered', evidence: 'crawler.get("/pricing") — 0 words of pricing copy reached the crawler', severity: 'critical' },
+    { id: 'C7',  title: 'No FAQ schema on /docs',           evidence: '<' + 'script type="application/ld+json"> not present on 12 doc pages',   severity: 'warn' },
+    { id: 'C11', title: '3 guides missing structured data', evidence: '/guides/{deploy,edge,env} — no Article JSON-LD',                        severity: 'critical' },
+    { id: 'C18', title: 'llms.txt not found',               evidence: 'GET https://vercel.com/llms.txt → 404',                                 severity: 'warn' },
+  ];
+
+  missing = [
+    'Pricing table (Hobby / Pro / Enterprise)',
+    'The comparison grid — 42 rows of features',
+    '"Trusted by" logo strip',
+    'FAQ answers below the fold',
+  ];
+
+  onToggleHtml = () => this.setState(s => ({ showHtml: !s.showHtml }));
+  onRevealCmd = () => this.setState({ showCmd: true });
+  onCopyCmd = () => {
+    try { navigator.clipboard && navigator.clipboard.writeText('npx answerfox audit yourdocs.dev'); } catch (e) {}
+    this.setState({ copyCmd: 'Copied' });
+    clearTimeout(this._c);
+    this._c = setTimeout(() => this.setState({ copyCmd: 'Copy' }), 1500);
+  };
+  onMenu = () => {};
+
+  icon(kind) {
+    const h = React.createElement;
+    if (kind === 'critical') return h('svg', { width: 17, height: 17, viewBox: '0 0 24 24', fill: 'none', stroke: '#DC2626', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('circle', { cx: 12, cy: 12, r: 10 }), h('path', { d: 'm15 9-6 6' }), h('path', { d: 'm9 9 6 6' }));
+    return h('svg', { width: 17, height: 17, viewBox: '0 0 24 24', fill: 'none', stroke: '#B45309', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('path', { d: 'm21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z' }), h('path', { d: 'M12 9v4' }), h('path', { d: 'M12 17h.01' }));
+  }
+
+  renderVals() {
+    const score = 68;
+    const R = 58, C = 2 * Math.PI * R;
+
+    const findings = this.findingsData.map(f => {
+      const crit = f.severity === 'critical';
+      return {
+        id: f.id, title: f.title, evidence: f.evidence, severity: f.severity,
+        icon: this.icon(f.severity),
+        iconBg: crit ? '#FBE9E9' : '#FEF3E2',
+        sevColor: crit ? '#DC2626' : '#B45309',
+        sevBg: crit ? '#FBE9E9' : '#FEF3E2',
+        evidenceColor: crit ? '#B23A08' : '#6B6B65',
+      };
+    });
+
+    return {
+      onMenu: this.onMenu,
+      ringLen: C, ringOffset: C * (1 - score / 100),
+      findings,
+      missing: this.missing,
+      showHtml: this.state.showHtml, onToggleHtml: this.onToggleHtml,
+      htmlIconRot: this.state.showHtml ? 'rotate(180deg)' : 'rotate(0deg)',
+      onRevealCmd: this.onRevealCmd,
+      showCmd: this.state.showCmd,
+      onCopyCmd: this.onCopyCmd, copyCmd: this.state.copyCmd,
+    };
+  }
+}
+</script>
+</body>
+</html>

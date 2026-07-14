@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/design/support.js"></script>
+<style id="afx-bg-swap">#dc-root>*,#dc-root .sc-host,#afx-shell{background-color:#FCFCFB!important;background-image:repeating-linear-gradient(0deg,rgba(20,22,16,.022) 0 1px,transparent 1px 10px)!important}#afx-shell>div>div:first-child{background-color:#FCFCFB!important;background-image:none!important}</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="design_doc_mode" content="canvas">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#FAFAF8;color:#1C1C19;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:#B23A08;text-decoration:none}
+  a:hover{color:#F34504}
+  :focus-visible{outline:2px solid #F34504;outline-offset:2px;border-radius:6px}
+  input,button{font-family:inherit}
+  input::placeholder{color:#B8B8B0}
+  @keyframes afxUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes afxSpin{to{transform:rotate(360deg)}}
+  @keyframes afxBar{0%{transform:translateX(-40%)}100%{transform:translateX(140%)}}
+</style>
+</helmet>
+
+<div style="padding:48px 24px;display:flex;flex-direction:column;align-items:center;gap:56px">
+
+  <sc-for list="{{ steps }}" as="st" hint-placeholder-count="4">
+    <section id="{{ st.anchor }}" style="width:100%;max-width:560px;display:flex;flex-direction:column;gap:22px;animation:afxUp .4s cubic-bezier(.16,1,.3,1) both">
+
+      <!-- Anchor badge -->
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9C9C95;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:999px;padding:3px 10px"><span style="width:5px;height:5px;border-radius:50%;background:#F34504"></span>state {{ st.anchor }}</span>
+        <a href="#{{ st.anchor }}" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">#{{ st.anchor }}</a>
+      </div>
+
+      <!-- LOCKUP -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px">
+        <svg viewBox="296 223 927 518" style="display:block;height:22px;width:auto"><defs><mask id="afxlm-{{ st.anchor }}"><rect x="296" y="223" width="927" height="518" fill="#fff"/><rect x="700" y="493" width="523" height="18" fill="#000"/></mask></defs><polygon points="717,223 877,223 970,741 851,741 776,335 443,741 296,741" fill="#1C1C19" mask="url(#afxlm-{{ st.anchor }})"/><polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504"/><polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504"/><polygon points="574,611 674,611 567,741 467,741" fill="#F34504"/></svg>
+        <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:16px;letter-spacing:-.01em;color:#1C1C19">answerfox</span>
+      </div>
+
+      <!-- STEP INDICATOR -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;row-gap:8px">
+        <sc-for list="{{ st.stepDots }}" as="d" hint-placeholder-count="4">
+          <div style="display:inline-flex;align-items:center;gap:8px">
+            <sc-if value="{{ d.done }}" hint-placeholder-val="{{ false }}">
+              <span style="width:20px;height:20px;border-radius:50%;background:#1C1C19;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            </sc-if>
+            <sc-if value="{{ d.current }}" hint-placeholder-val="{{ true }}">
+              <span style="position:relative;width:20px;height:20px;flex:0 0 auto"><span style="position:absolute;inset:0;border-radius:50%;background:#F34504;opacity:.18"></span><span style="position:absolute;inset:5px;border-radius:50%;background:#F34504"></span></span>
+            </sc-if>
+            <sc-if value="{{ d.upcoming }}" hint-placeholder-val="{{ false }}">
+              <span style="width:20px;height:20px;border-radius:50%;background:#FFFFFF;border:1.5px solid #DEDDD7;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;font-family:'JetBrains Mono',monospace;font-size:10px;color:#9C9C95">{{ d.num }}</span>
+            </sc-if>
+            <span style="font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:{{ d.weight }};color:{{ d.labelColor }}">{{ d.label }}</span>
+            <sc-if value="{{ d.showSep }}" hint-placeholder-val="{{ true }}">
+              <span style="width:20px;height:1px;background:#DEDDD7;margin:0 10px"></span>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- STEP CARD -->
+      <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:26px 26px 22px;display:flex;flex-direction:column;gap:18px;box-shadow:0 1px 2px rgba(28,28,25,.03)">
+        {{ st.body }}
+      </div>
+
+      <!-- FOOTER -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0 4px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95">Step {{ st.stepNum }} of 4</span>
+        <sc-if value="{{ st.showBack }}" hint-placeholder-val="{{ true }}">
+          <a href="#" style="font-family:'Archivo',sans-serif;font-size:12.5px;color:#9C9C95">← Back</a>
+        </sc-if>
+      </div>
+
+    </section>
+  </sc-for>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 720, &quot;height&quot;: 900}}">
+class Component extends DCLogic {
+  state = { pickedRepo: 'stripe/stripe-docs', auditScore: 74 };
+
+  stepDots(current) {
+    const labels = ['Install', 'Pick repo', 'First audit', 'Done'];
+    return labels.map((label, i) => {
+      const n = i + 1;
+      const done = n < current;
+      const cur = n === current;
+      return {
+        label, num: String(n),
+        done, current: cur, upcoming: !done && !cur,
+        weight: cur ? 600 : 500,
+        labelColor: cur ? '#1C1C19' : (done ? '#6B6B65' : '#9C9C95'),
+        showSep: i < labels.length - 1,
+      };
+    });
+  }
+
+  // small helpers
+  h = React.createElement;
+
+  bodyStep1() {
+    const h = this.h;
+    const permRow = (label, why) =>
+      h('div', { style: { display: 'flex', gap: 12, alignItems: 'flex-start' } },
+        h('span', { style: { flex: '0 0 auto', width: 28, height: 28, borderRadius: 8, background: '#F5F5F2', border: '1px solid #EAE9E5', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' } },
+          h('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: '#6B6B65', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round' },
+            h('rect', { width: 18, height: 11, x: 3, y: 11, rx: 2, ry: 2 }),
+            h('path', { d: 'M7 11V7a5 5 0 0 1 10 0v4' }))
+        ),
+        h('div', { style: { display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 } },
+          h('span', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 12.5, color: '#1C1C19', fontWeight: 500 } }, label),
+          h('span', { style: { fontSize: 13, color: '#6B6B65', textWrap: 'pretty' } }, why),
+        ),
+      );
+
+    return h('div', { style: { display: 'flex', flexDirection: 'column', gap: 18 } },
+      h('div', { style: { display: 'flex', flexDirection: 'column', gap: 6 } },
+        h('span', { style: { fontFamily: "'Archivo',sans-serif", fontWeight: 600, fontSize: 20, letterSpacing: '-.01em', color: '#1C1C19' } }, 'Connect Answerfox to GitHub'),
+        h('span', { style: { fontSize: 14, color: '#6B6B65', textWrap: 'pretty' } }, 'Answerfox reads your repos and opens fix-PRs as code. It runs through the GitHub App.'),
+      ),
+      h('div', { style: { display: 'flex', flexDirection: 'column', gap: 12, padding: 14, border: '1px solid #F0F0EC', borderRadius: 10, background: '#FCFCFA' } },
+        permRow('Contents: read & write', 'so we can open a branch with the fix.'),
+        permRow('Pull requests: read & write', 'so the fix arrives as a PR you review.'),
+      ),
+      h('span', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 12, color: '#9C9C95' } }, "That's it. No access to your secrets, actions, or other settings."),
+      h('div', { style: { display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' } },
+        h('a', { href: '#', style: { display: 'inline-flex', alignItems: 'center', gap: 9, padding: '0 16px', height: 40, background: '#1C1C19', borderRadius: 8, fontFamily: "'Archivo',sans-serif", fontSize: 13.5, fontWeight: 500, color: '#FAFAF8', whiteSpace: 'nowrap' } },
+          h('svg', { width: 15, height: 15, viewBox: '0 0 24 24', fill: '#FAFAF8', stroke: 'none' }, h('path', { d: 'M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02.8-.22 1.65-.33 2.5-.34.85.01 1.7.12 2.5.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z' })),
+          'Install the GitHub App'
+        ),
+        h('a', { href: '#', style: { fontFamily: "'Archivo',sans-serif", fontSize: 12.5, color: '#9C9C95' } }, 'Why does it need write access?'),
+      ),
+    );
+  }
+
+  bodyStep2() {
+    const h = this.h;
+    const repos = [
+      { name: 'stripe/stripe-docs', vis: 'private', branch: 'main', dis: false },
+      { name: 'stripe/stripe-js',   vis: 'public',  branch: 'main', dis: false },
+      { name: 'acme/site',          vis: 'private', branch: 'main', dis: true },
+      { name: 'foo/docs',           vis: 'private', branch: 'main', dis: false },
+    ];
+    const picked = this.state.pickedRepo;
+
+    const row = (r) => {
+      const on = r.name === picked && !r.dis;
+      return h('div', {
+        key: r.name,
+        onClick: r.dis ? undefined : () => this.setState({ pickedRepo: r.name }),
+        style: {
+          display: 'flex', alignItems: 'center', gap: 11, padding: '11px 12px',
+          border: '1px solid ' + (on ? '#1C1C19' : '#EAE9E5'),
+          background: r.dis ? '#F7F7F4' : (on ? '#FCFCFA' : '#FFFFFF'),
+          borderRadius: 8, cursor: r.dis ? 'not-allowed' : 'pointer',
+          opacity: r.dis ? 0.65 : 1,
+        }
+      },
+        h('svg', { width: 15, height: 15, viewBox: '0 0 24 24', fill: 'none', stroke: '#6B6B65', strokeWidth: 1.85, strokeLinecap: 'round', strokeLinejoin: 'round', style: { flex: '0 0 auto' } },
+          h('path', { d: 'M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21' })
+        ),
+        h('span', { style: { flex: '1 1 auto', minWidth: 0, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' } },
+          h('span', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: '#1C1C19' } }, r.name),
+          h('span', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 10.5, letterSpacing: '.04em', textTransform: 'uppercase', color: '#6B6B65', border: '1px solid #EAE9E5', background: '#F5F5F2', borderRadius: 5, padding: '2px 7px' } }, r.vis),
+          h('span', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 12, color: '#9C9C95' } }, r.branch),
+          r.dis ? h('span', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: '#9C9C95' } }, '· already connected') : null,
+        ),
+        h('span', {
+          style: {
+            flex: '0 0 auto', width: 18, height: 18, borderRadius: '50%',
+            border: '1.5px solid ' + (on ? '#1C1C19' : '#C4C3BC'),
+            background: '#FFFFFF', display: 'inline-flex', alignItems: 'center', justifyContent: 'center'
+          }
+        }, on ? h('span', { style: { width: 9, height: 9, borderRadius: '50%', background: '#1C1C19' } }) : null),
+      );
+    };
+
+    return h('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
+      h('div', { style: { display: 'flex', flexDirection: 'column', gap: 6 } },
+        h('span', { style: { fontFamily: "'Archivo',sans-serif", fontWeight: 600, fontSize: 20, letterSpacing: '-.01em', color: '#1C1C19' } }, 'Pick a repo to audit'),
+        h('span', { style: { fontSize: 14, color: '#6B6B65', textWrap: 'pretty' } }, 'These are the repos the App can see. Choose the one whose docs you want AI to read correctly.'),
+      ),
+      h('div', { style: { display: 'flex', alignItems: 'center', gap: 8, height: 36, padding: '0 12px', border: '1px solid #DEDDD7', borderRadius: 8, background: '#FFFFFF' } },
+        h('svg', { width: 15, height: 15, viewBox: '0 0 24 24', fill: 'none', stroke: '#9C9C95', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round' },
+          h('circle', { cx: 11, cy: 11, r: 8 }), h('path', { d: 'm21 21-4.3-4.3' })),
+        h('input', { placeholder: 'Filter repositories…', style: { flex: 1, border: 'none', outline: 'none', background: 'transparent', fontSize: 13, color: '#1C1C19' } }),
+      ),
+      h('div', { style: { display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 240, overflow: 'auto' } }, repos.map(row)),
+      h('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 } },
+        h('span', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 12, color: '#9C9C95' } }, picked ? 'selected: ' + picked : 'select a repo'),
+        h('a', { href: '#', style: { display: 'inline-flex', alignItems: 'center', gap: 8, padding: '0 15px', height: 38, background: '#1C1C19', borderRadius: 8, fontFamily: "'Archivo',sans-serif", fontSize: 13, fontWeight: 500, color: '#FAFAF8', whiteSpace: 'nowrap', opacity: picked ? 1 : 0.5, pointerEvents: picked ? 'auto' : 'none' } },
+          'Audit this repo',
+          h('svg', { width: 13, height: 13, viewBox: '0 0 24 24', fill: 'none', stroke: '#FAFAF8', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round' },
+            h('path', { d: 'M5 12h14' }), h('path', { d: 'm12 5 7 7-7 7' }))
+        ),
+      ),
+    );
+  }
+
+  bodyStep3() {
+    const h = this.h;
+    const check = (color) => h('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: color, strokeWidth: 2.2, strokeLinecap: 'round', strokeLinejoin: 'round', style: { flex: '0 0 auto' } }, h('polyline', { points: '20 6 9 17 4 12' }));
+    const spinner = h('span', { style: { flex: '0 0 auto', width: 14, height: 14, borderRadius: '50%', border: '2px solid #EAE9E5', borderTopColor: '#F34504', animation: 'afxSpin 0.8s linear infinite', display: 'inline-block' } });
+    const empty = h('span', { style: { flex: '0 0 auto', width: 12, height: 12, borderRadius: 3, border: '1.5px solid #DEDDD7' } });
+
+    const row = (icon, text, color) => h('div', { style: { display: 'flex', alignItems: 'center', gap: 11, padding: '9px 2px' } },
+      icon, h('span', { style: { fontSize: 13.5, color } }, text)
+    );
+
+    // score ring
+    const score = this.state.auditScore;
+    const R = 26, C = 2 * Math.PI * R;
+    const ring = h('div', { style: { display: 'flex', alignItems: 'center', gap: 14 } },
+      h('svg', { width: 72, height: 72, viewBox: '0 0 72 72', style: { transform: 'rotate(-90deg)' } },
+        h('circle', { cx: 36, cy: 36, r: R, fill: 'none', stroke: '#F0F0EC', strokeWidth: 6 }),
+        h('circle', { cx: 36, cy: 36, r: R, fill: 'none', stroke: '#15803D', strokeWidth: 6, strokeLinecap: 'round', strokeDasharray: C, strokeDashoffset: C * (1 - score / 100) })
+      ),
+      h('div', { style: { display: 'flex', flexDirection: 'column', gap: 2 } },
+        h('span', { style: { fontFamily: "'Archivo',sans-serif", fontWeight: 600, fontSize: 26, color: '#1C1C19', lineHeight: 1 } }, String(score)),
+        h('span', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: '.05em', textTransform: 'uppercase', color: '#15803D' } }, 'strong'),
+      ),
+    );
+
+    return h('div', { style: { display: 'flex', flexDirection: 'column', gap: 18 } },
+      h('div', { style: { display: 'flex', flexDirection: 'column', gap: 6 } },
+        h('span', { style: { fontFamily: "'Archivo',sans-serif", fontWeight: 600, fontSize: 20, letterSpacing: '-.01em', color: '#1C1C19' } }, 'Auditing stripe.com…'),
+        h('span', { style: { fontSize: 14, color: '#6B6B65', textWrap: 'pretty' } }, 'Fetching your pages exactly as an AI crawler would.'),
+      ),
+      h('div', { style: { position: 'relative', height: 4, borderRadius: 999, background: '#F0F0EC', overflow: 'hidden' } },
+        h('span', { style: { position: 'absolute', top: 0, left: 0, width: '35%', height: '100%', borderRadius: 999, background: '#F34504', animation: 'afxBar 1.4s ease-in-out infinite' } })
+      ),
+      h('div', { style: { display: 'flex', flexDirection: 'column', gap: 2, padding: '4px 4px' } },
+        row(check('#15803D'), 'Detected 25 high-value pages', '#1C1C19'),
+        row(check('#15803D'), 'Fetched crawler view (no-JS)', '#1C1C19'),
+        row(spinner, 'Rendering browser view…', '#1C1C19'),
+        row(empty, 'Scoring agent readiness', '#9C9C95'),
+      ),
+      h('div', { style: { display: 'flex', flexDirection: 'column', gap: 12, padding: 14, border: '1px solid #EAE9E5', background: '#FCFCFA', borderRadius: 10 } },
+        ring,
+        h('div', { style: { display: 'flex', alignItems: 'flex-start', gap: 9 } },
+          check('#15803D'),
+          h('span', { style: { fontSize: 13, color: '#1C1C19' } }, "We detected ", h('span', { style: { fontFamily: "'JetBrains Mono',monospace" } }, 'Next.js'), " — you'll get fix-PRs.")
+        ),
+        h('div', { style: { display: 'flex', alignItems: 'flex-start', gap: 9 } },
+          h('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: '#9C9C95', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', style: { flex: '0 0 auto' } }, h('circle', { cx: 12, cy: 12, r: 10 }), h('path', { d: 'M8 12h8' })),
+          h('span', { style: { fontSize: 12.5, color: '#9C9C95' } }, "If we can't detect a framework, you'll get copy-paste suggestions instead of PRs."),
+        ),
+      ),
+      h('a', { href: '#', style: { alignSelf: 'flex-start', display: 'inline-flex', alignItems: 'center', gap: 8, padding: '0 16px', height: 40, background: '#1C1C19', borderRadius: 8, fontFamily: "'Archivo',sans-serif", fontSize: 13.5, fontWeight: 500, color: '#FAFAF8' } },
+        'See your results',
+        h('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: '#FAFAF8', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('path', { d: 'M5 12h14' }), h('path', { d: 'm12 5 7 7-7 7' }))
+      ),
+    );
+  }
+
+  bodyStep4() {
+    const h = this.h;
+    const finding = (id, title, sev, sevColor) => h('div', { style: { display: 'flex', alignItems: 'center', gap: 12, padding: '10px 12px', border: '1px solid #EAE9E5', background: '#FCFCFA', borderRadius: 8 } },
+      h('span', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 12.5, color: '#6B6B65', flex: '0 0 auto', width: 26 } }, id),
+      h('span', { style: { flex: '1 1 auto', fontSize: 13.5, color: '#1C1C19' } }, title),
+      h('span', { style: { display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: "'JetBrains Mono',monospace", fontSize: 10.5, letterSpacing: '.04em', textTransform: 'uppercase', color: sevColor } },
+        h('span', { style: { width: 6, height: 6, borderRadius: '50%', background: sevColor } }), sev),
+    );
+
+    return h('div', { style: { display: 'flex', flexDirection: 'column', gap: 18 } },
+      h('div', { style: { display: 'flex', alignItems: 'center', gap: 12 } },
+        h('span', { style: { flex: '0 0 auto', width: 44, height: 44, borderRadius: '50%', background: '#E7F6EC', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' } },
+          h('svg', { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: '#15803D', strokeWidth: 2.2, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('circle', { cx: 12, cy: 12, r: 10 }), h('path', { d: 'm9 12 2 2 4-4' }))
+        ),
+        h('div', { style: { display: 'flex', flexDirection: 'column', gap: 4 } },
+          h('span', { style: { fontFamily: "'Archivo',sans-serif", fontWeight: 600, fontSize: 20, letterSpacing: '-.01em', color: '#1C1C19' } }, "You're in."),
+          h('span', { style: { fontSize: 14, color: '#6B6B65' } }, h('span', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: '#1C1C19' } }, 'stripe.com'), ' is now being watched.'),
+        ),
+      ),
+      h('div', { style: { display: 'flex', alignItems: 'center', gap: 14, padding: 14, border: '1px solid #EAE9E5', background: '#FCFCFA', borderRadius: 10 } },
+        h('div', { style: { display: 'flex', flexDirection: 'column' } },
+          h('span', { style: { fontFamily: "'Archivo',sans-serif", fontWeight: 600, fontSize: 30, color: '#15803D', lineHeight: 1 } }, '74'),
+          h('span', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: '.05em', textTransform: 'uppercase', color: '#15803D', marginTop: 2 } }, 'strong'),
+        ),
+        h('span', { style: { width: 1, alignSelf: 'stretch', background: '#EAE9E5' } }),
+        h('span', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 13, color: '#6B6B65', flex: 1 } },
+          h('span', { style: { color: '#1C1C19', fontWeight: 500 } }, '3 fixes'), ' ready to lift it further'),
+      ),
+      h('div', { style: { display: 'flex', flexDirection: 'column', gap: 8 } },
+        h('span', { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 11, letterSpacing: '.08em', textTransform: 'uppercase', color: '#9C9C95' } }, 'Top 3 to fix'),
+        finding('C2', 'Product JSON-LD missing on /pricing',  'critical', '#DC2626'),
+        finding('C7', "robots.txt blocks GPTBot",             'major',    '#EA580C'),
+        finding('C11','llms.txt not published',               'minor',    '#B45309'),
+      ),
+      h('div', { style: { display: 'flex', gap: 12, padding: 14, background: '#F1F5FE', border: '1px solid #D8E3FA', borderRadius: 10 } },
+        h('svg', { width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', stroke: '#2F6FED', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round', style: { flex: '0 0 auto' } }, h('circle', { cx: 12, cy: 12, r: 10 }), h('path', { d: 'M12 16v-4' }), h('path', { d: 'M12 8h.01' })),
+        h('span', { style: { fontSize: 13, color: '#1C1C19', textWrap: 'pretty' } },
+          h('span', { style: { fontWeight: 500 } }, 'One free fix-to-proof loop. '),
+          "This private repo gets one free — one audit, its fix, and the proof it worked, on us."),
+      ),
+      h('div', { style: { display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' } },
+        h('a', { href: '#', style: { display: 'inline-flex', alignItems: 'center', gap: 8, padding: '0 16px', height: 40, background: '#1C1C19', borderRadius: 8, fontFamily: "'Archivo',sans-serif", fontSize: 13.5, fontWeight: 500, color: '#FAFAF8', whiteSpace: 'nowrap' } },
+          h('svg', { width: 15, height: 15, viewBox: '0 0 24 24', fill: 'none', stroke: '#FAFAF8', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('circle', { cx: 18, cy: 18, r: 3 }), h('circle', { cx: 6, cy: 6, r: 3 }), h('path', { d: 'M13 6h3a2 2 0 0 1 2 2v7' }), h('line', { x1: 6, x2: 6, y1: 9, y2: 21 })),
+          'Review your first fix-PR'
+        ),
+        h('a', { href: '#', style: { fontFamily: "'Archivo',sans-serif", fontSize: 12.5, color: '#9C9C95' } }, 'Go to dashboard'),
+      ),
+    );
+  }
+
+  renderVals() {
+    return {
+      steps: [
+        { anchor: '1a', stepNum: 1, stepDots: this.stepDots(1), showBack: false, body: this.bodyStep1() },
+        { anchor: '1b', stepNum: 2, stepDots: this.stepDots(2), showBack: true,  body: this.bodyStep2() },
+        { anchor: '1c', stepNum: 3, stepDots: this.stepDots(3), showBack: true,  body: this.bodyStep3() },
+        { anchor: '1d', stepNum: 4, stepDots: this.stepDots(4), showBack: false, body: this.bodyStep4() },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

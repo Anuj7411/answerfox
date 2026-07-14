@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/design/support.js"></script>
+<style id="afx-bg-swap">#dc-root>*,#dc-root .sc-host,#afx-shell{background-color:#FCFCFB!important;background-image:repeating-linear-gradient(0deg,rgba(20,22,16,.022) 0 1px,transparent 1px 10px)!important}#afx-shell>div>div:first-child{background-color:#FCFCFB!important;background-image:none!important}</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#FAFAF8;color:#1C1C19;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:#B23A08;text-decoration:none}
+  a:hover{color:#F34504}
+  :focus-visible{outline:2px solid #F34504;outline-offset:2px;border-radius:6px}
+  @keyframes afxUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){[data-reveal]{animation:none!important;opacity:1!important;transform:none!important}[data-arc]{transition:none!important}}
+  @media (max-width:1040px){
+    #afx-shell{grid-template-columns:1fr!important}
+    #afx-sidebar{position:static!important;height:auto!important;border-right:none!important;border-bottom:1px solid #EAE9E5!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;gap:10px!important}
+    #afx-sidebar [data-nav-workspace]{flex-direction:row!important;flex-wrap:wrap!important;margin:0!important}
+    #afx-sidebar [data-nav-workspace] [data-group-h]{display:none!important}
+    #afx-sidebar [data-sidebar-foot]{display:none!important}
+    .afx-hero{grid-template-columns:1fr!important}
+    .afx-hero [data-hero-right]{border-left:none!important;border-top:1px solid #EAE9E5!important;padding-left:0!important;padding-top:20px!important}
+    .afx-bottom{grid-template-columns:1fr!important}
+  }
+  @media (max-width:980px){ .afx-sites{grid-template-columns:1fr 1fr!important} }
+  @media (max-width:640px){ .afx-sites{grid-template-columns:1fr!important} .afx-attn-row{flex-wrap:wrap!important} }
+</style>
+</helmet>
+
+<div id="afx-shell" ref="{{ rootRef }}" style="display:grid;grid-template-columns:240px 1fr;min-height:100vh;background:#FAFAF8">
+
+  <!-- SIDEBAR -->
+  <aside id="afx-sidebar" style="background:#FFFFFF;border-right:1px solid #EAE9E5;padding:16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow:auto">
+    <div style="border:1px solid #EAE9E5;border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;cursor:pointer">
+      <svg viewBox="296 223 927 518" style="display:block;height:19px;width:auto;flex:0 0 auto"><defs><mask id="afxmo"><rect x="296" y="223" width="927" height="518" fill="#fff"/><rect x="700" y="493" width="523" height="18" fill="#000"/></mask></defs><polygon points="717,223 877,223 970,741 851,741 776,335 443,741 296,741" fill="#1C1C19" mask="url(#afxmo)"/><polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504"/><polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504"/><polygon points="574,611 674,611 567,741 467,741" fill="#F34504"/></svg>
+      <span style="display:flex;flex-direction:column;line-height:1.2;min-width:0;flex:1 1 auto">
+        <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:13.5px;letter-spacing:-.01em;color:#1C1C19">All sites</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">7 sites</span>
+      </span>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+    </div>
+
+    <div data-nav-workspace style="margin-top:12px;display:flex;flex-direction:column;gap:2px">
+      <div data-group-h style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9C9C95;padding:0 12px;margin:4px 0 6px">Workspace</div>
+      <a href="#" aria-current="page" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;font-weight:500;color:#1C1C19;background:#F5F5F2;box-shadow:inset 3px 0 0 #F34504"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1C19" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>Overview</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>Sites<span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">7</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>Billing</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.23 8.77c.24-.24.581-.353.917-.303.515.077.877.528 1.073 1.01a2.5 2.5 0 1 0 3.259-3.259c-.482-.196-.933-.558-1.01-1.073-.05-.336.063-.676.303-.917l1.525-1.525A2.402 2.402 0 0 1 12 1.998c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02z"/><circle cx="12" cy="12" r="3"/></svg>Integrations</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>Settings</a>
+    </div>
+
+    <div data-sidebar-foot style="margin-top:auto;padding-top:14px;border-top:1px solid #EAE9E5;display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A;flex:0 0 auto"></span>watching 168 pages · v0.9</div>
+  </aside>
+
+  <!-- MAIN -->
+  <div style="display:flex;flex-direction:column;min-width:0">
+    <div style="height:56px;background:#FAFAF8;border-bottom:1px solid #EAE9E5;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:20">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#1C1C19">overview</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border:1px solid #EAE9E5;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A"></span>Paid</span>
+        <button style="display:inline-flex;align-items:center;gap:7px;padding:0 12px;height:34px;background:#FFFFFF;border:1px solid #DEDDD7;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#1C1C19;cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Add a site</button>
+        <span style="width:28px;height:28px;border-radius:50%;background:#1C1C19;color:#FAFAF8;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500">A</span>
+      </div>
+    </div>
+
+    <div style="max-width:1240px;width:100%;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:18px">
+
+      <!-- PAGE HEADER -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap">
+        <div>
+          <h1 style="margin:0;font-family:'Archivo',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.02em;color:#1C1C19">Overview</h1>
+          <p style="margin:6px 0 0;font-family:'JetBrains Mono',monospace;font-size:13px;color:#6B6B65">7 sites · watching 168 pages</p>
+        </div>
+        <button style="display:inline-flex;align-items:center;gap:7px;padding:0 12px;height:34px;background:#FFFFFF;border:1px solid #DEDDD7;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#1C1C19;cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>Audit all</button>
+      </div>
+
+      <!-- HERO -->
+      <div class="afx-hero" data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:40ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:24px;display:grid;grid-template-columns:260px 1fr;gap:32px;align-items:stretch">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9C9C95">Portfolio readiness</span>
+          <div style="position:relative;width:96px;height:96px">
+            <svg width="96" height="96" viewBox="0 0 96 96"><circle cx="48" cy="48" r="42" fill="none" stroke="#EAE9E5" stroke-width="8"/><circle data-arc ref="{{ arcRef }}" cx="48" cy="48" r="42" fill="none" stroke="#D97706" stroke-width="8" stroke-linecap="round" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 48 48)"/></svg>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><span ref="{{ ringRef }}" style="font-family:'Archivo',sans-serif;font-weight:600;font-size:34px;letter-spacing:-.02em;color:#1C1C19;font-variant-numeric:tabular-nums">0</span></div>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;color:#6B6B65">7 sites<br>5 open fix-PRs<br>1 drift alert</div>
+        </div>
+
+        <div data-hero-right style="border-left:1px solid #EAE9E5;padding-left:32px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9C9C95">Needs attention</span>
+
+          <div data-attn style="display:flex;flex-direction:column;gap:12px">
+            <div class="afx-attn-row" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid #EAE9E5;border-radius:8px">
+              <span style="width:8px;height:8px;border-radius:50%;background:#DC2626;flex:0 0 auto"></span>
+              <span style="font-weight:600;font-size:14px;color:#1C1C19;flex:0 0 auto">acme.dev</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#DC2626;background:#FBE9E9;border-radius:6px;padding:2px 8px;flex:0 0 auto">weak 48</span>
+              <span style="font-size:14px;color:#6B6B65;flex:1 1 auto;min-width:180px">Dropped 14 after yesterday's deploy. Schema stripped from /pricing.</span>
+              <a href="#" style="display:inline-flex;align-items:center;gap:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#B23A08;flex:0 0 auto"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B23A08" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>Review fix-PR</a>
+            </div>
+            <div class="afx-attn-row" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid #EAE9E5;border-radius:8px">
+              <span style="width:8px;height:8px;border-radius:50%;background:#D97706;flex:0 0 auto"></span>
+              <span style="font-weight:600;font-size:14px;color:#1C1C19;flex:0 0 auto">docs.foo.io</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#B45309;background:#FBEFD6;border-radius:6px;padding:2px 8px;flex:0 0 auto">drift</span>
+              <span style="font-size:14px;color:#6B6B65;flex:1 1 auto;min-width:180px">GPTBot blocked by a new robots.txt rule.</span>
+              <a href="#" style="display:inline-flex;align-items:center;gap:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#6B6B65;flex:0 0 auto"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Generate fix</a>
+            </div>
+          </div>
+
+          <div data-allclear style="display:none;align-items:center;gap:10px;padding:14px 16px;border:1px solid #EAE9E5;border-radius:8px;background:#E7F6EC">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            <span style="font-size:14px;color:#1C1C19">All 7 sites are healthy. No fix-PRs need review and no drift is open.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SITES AT A GLANCE -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:80ms;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:baseline;gap:10px">
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;color:#1C1C19">Your sites</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9C9C95">7 total</span>
+        </div>
+        <div class="afx-sites" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+          <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:center;gap:10px;min-width:0">
+              <span style="width:26px;height:26px;border-radius:7px;background:#F5F5F2;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#1C1C19;flex:0 0 auto">S</span>
+              <span style="display:flex;flex-direction:column;min-width:0;line-height:1.25">
+                <span style="font-weight:600;font-size:14px;color:#1C1C19;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">stripe.com</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">stripe/stripe-docs</span>
+              </span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:500;color:#15803D;letter-spacing:-.02em;font-variant-numeric:tabular-nums">74</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;background:#E7F6EC;border-radius:6px;padding:2px 8px">strong</span>
+              <span style="margin-left:auto"><svg width="80" height="26" viewBox="0 0 80 26" style="flex:0 0 auto;overflow:visible"><polyline points="0.0,16.1 13.0,15.1 26.0,15.5 39.0,13.5 52.0,12.8 65.0,11.9 78.0,10.9" fill="none" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/><circle cx="78.0" cy="10.9" r="2.6" fill="#2563EB"/><circle cx="78.0" cy="10.9" r="4.5" fill="none" stroke="#2563EB" stroke-width="1" opacity="0.3"/></svg></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding-top:12px;border-top:1px solid #EAE9E5;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><span style="color:#6B6B65">verified</span><span style="color:#DEDDD7">·</span><span style="color:#9C9C95">audited 2h ago</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#B23A08;margin-left:auto">3 PRs</span>
+            </div>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:center;gap:10px;min-width:0">
+              <span style="width:26px;height:26px;border-radius:7px;background:#F5F5F2;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#1C1C19;flex:0 0 auto">A</span>
+              <span style="display:flex;flex-direction:column;min-width:0;line-height:1.25">
+                <span style="font-weight:600;font-size:14px;color:#1C1C19;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">acme.dev</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">acme/acme-web</span>
+              </span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:500;color:#DC2626;letter-spacing:-.02em;font-variant-numeric:tabular-nums">48</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#DC2626;background:#FBE9E9;border-radius:6px;padding:2px 8px">weak</span>
+              <span style="margin-left:auto"><svg width="80" height="26" viewBox="0 0 80 26" style="flex:0 0 auto;overflow:visible"><polyline points="0.0,14.8 13.0,14.1 26.0,14.5 39.0,15.5 52.0,16.1 65.0,17.1 78.0,19.4" fill="none" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/><circle cx="78.0" cy="19.4" r="2.6" fill="#2563EB"/><circle cx="78.0" cy="19.4" r="4.5" fill="none" stroke="#2563EB" stroke-width="1" opacity="0.3"/></svg></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding-top:12px;border-top:1px solid #EAE9E5;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><span style="color:#6B6B65">verified</span><span style="color:#DEDDD7">·</span><span style="color:#9C9C95">audited 2h ago</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#B23A08;margin-left:auto">1 PR</span>
+            </div>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:center;gap:10px;min-width:0">
+              <span style="width:26px;height:26px;border-radius:7px;background:#F5F5F2;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#1C1C19;flex:0 0 auto">D</span>
+              <span style="display:flex;flex-direction:column;min-width:0;line-height:1.25">
+                <span style="font-weight:600;font-size:14px;color:#1C1C19;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">docs.foo.io</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">foo/docs-site</span>
+              </span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:500;color:#B45309;letter-spacing:-.02em;font-variant-numeric:tabular-nums">63</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#B45309;background:#FBEFD6;border-radius:6px;padding:2px 8px">average</span>
+              <span style="margin-left:auto"><svg width="80" height="26" viewBox="0 0 80 26" style="flex:0 0 auto;overflow:visible"><polyline points="0.0,13.5 13.0,14.1 26.0,13.8 39.0,14.8 52.0,14.5 65.0,15.1 78.0,14.5" fill="none" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/><circle cx="78.0" cy="14.5" r="2.6" fill="#2563EB"/><circle cx="78.0" cy="14.5" r="4.5" fill="none" stroke="#2563EB" stroke-width="1" opacity="0.3"/></svg></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding-top:12px;border-top:1px solid #EAE9E5;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><span style="color:#6B6B65">verified</span><span style="color:#DEDDD7">·</span><span style="color:#9C9C95">audited 2h ago</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#B45309;margin-left:auto">drift</span>
+            </div>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:center;gap:10px;min-width:0">
+              <span style="width:26px;height:26px;border-radius:7px;background:#F5F5F2;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#1C1C19;flex:0 0 auto">L</span>
+              <span style="display:flex;flex-direction:column;min-width:0;line-height:1.25">
+                <span style="font-weight:600;font-size:14px;color:#1C1C19;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">linear-clone.app</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">team/linear-clone</span>
+              </span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:500;color:#15803D;letter-spacing:-.02em;font-variant-numeric:tabular-nums">88</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;background:#E7F6EC;border-radius:6px;padding:2px 8px">strong</span>
+              <span style="margin-left:auto"><svg width="80" height="26" viewBox="0 0 80 26" style="flex:0 0 auto;overflow:visible"><polyline points="0.0,8.9 13.0,8.3 26.0,7.9 39.0,7.3 52.0,6.9 65.0,6.6 78.0,6.3" fill="none" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/><circle cx="78.0" cy="6.3" r="2.6" fill="#2563EB"/><circle cx="78.0" cy="6.3" r="4.5" fill="none" stroke="#2563EB" stroke-width="1" opacity="0.3"/></svg></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding-top:12px;border-top:1px solid #EAE9E5;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><span style="color:#6B6B65">verified</span><span style="color:#DEDDD7">·</span><span style="color:#9C9C95">audited 2h ago</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#15803D;margin-left:auto">clear</span>
+            </div>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:center;gap:10px;min-width:0">
+              <span style="width:26px;height:26px;border-radius:7px;background:#F5F5F2;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#1C1C19;flex:0 0 auto">P</span>
+              <span style="display:flex;flex-direction:column;min-width:0;line-height:1.25">
+                <span style="font-weight:600;font-size:14px;color:#1C1C19;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">payment-sdk.io</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">payments/sdk-site</span>
+              </span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:500;color:#15803D;letter-spacing:-.02em;font-variant-numeric:tabular-nums">91</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;background:#E7F6EC;border-radius:6px;padding:2px 8px">excellent</span>
+              <span style="margin-left:auto"><svg width="80" height="26" viewBox="0 0 80 26" style="flex:0 0 auto;overflow:visible"><polyline points="0.0,6.9 13.0,6.3 26.0,6.0 39.0,5.6 52.0,5.6 65.0,5.3 78.0,5.3" fill="none" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/><circle cx="78.0" cy="5.3" r="2.6" fill="#2563EB"/><circle cx="78.0" cy="5.3" r="4.5" fill="none" stroke="#2563EB" stroke-width="1" opacity="0.3"/></svg></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding-top:12px;border-top:1px solid #EAE9E5;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><span style="color:#6B6B65">verified</span><span style="color:#DEDDD7">·</span><span style="color:#9C9C95">audited 2h ago</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#B23A08;margin-left:auto">1 PR</span>
+            </div>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:center;gap:10px;min-width:0">
+              <span style="width:26px;height:26px;border-radius:7px;background:#F5F5F2;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#1C1C19;flex:0 0 auto">E</span>
+              <span style="display:flex;flex-direction:column;min-width:0;line-height:1.25">
+                <span style="font-weight:600;font-size:14px;color:#1C1C19;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">edge-fns.dev</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">edge/functions-docs</span>
+              </span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:500;color:#B45309;letter-spacing:-.02em;font-variant-numeric:tabular-nums">70</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#B45309;background:#FBEFD6;border-radius:6px;padding:2px 8px">average</span>
+              <span style="margin-left:auto"><svg width="80" height="26" viewBox="0 0 80 26" style="flex:0 0 auto;overflow:visible"><polyline points="0.0,13.5 13.0,12.8 26.0,13.8 39.0,12.2 52.0,12.5 65.0,11.9 78.0,12.2" fill="none" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/><circle cx="78.0" cy="12.2" r="2.6" fill="#2563EB"/><circle cx="78.0" cy="12.2" r="4.5" fill="none" stroke="#2563EB" stroke-width="1" opacity="0.3"/></svg></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding-top:12px;border-top:1px solid #EAE9E5;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><span style="color:#6B6B65">verified</span><span style="color:#DEDDD7">·</span><span style="color:#9C9C95">audited 2h ago</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#15803D;margin-left:auto">clear</span>
+            </div>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:center;gap:10px;min-width:0">
+              <span style="width:26px;height:26px;border-radius:7px;background:#F5F5F2;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#1C1C19;flex:0 0 auto">S</span>
+              <span style="display:flex;flex-direction:column;min-width:0;line-height:1.25">
+                <span style="font-weight:600;font-size:14px;color:#1C1C19;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">sotto.vercel.app</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">sotto/app</span>
+              </span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:500;color:#DC2626;letter-spacing:-.02em;font-variant-numeric:tabular-nums">55</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#DC2626;background:#FBE9E9;border-radius:6px;padding:2px 8px">weak</span>
+              <span style="margin-left:auto"><svg width="80" height="26" viewBox="0 0 80 26" style="flex:0 0 auto;overflow:visible"><polyline points="0.0,19.4 13.0,18.7 26.0,19.1 39.0,18.1 52.0,17.7 65.0,17.4 78.0,17.1" fill="none" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/><circle cx="78.0" cy="17.1" r="2.6" fill="#2563EB"/><circle cx="78.0" cy="17.1" r="4.5" fill="none" stroke="#2563EB" stroke-width="1" opacity="0.3"/></svg></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding-top:12px;border-top:1px solid #EAE9E5;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9C9C95" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span style="color:#9C9C95">unverified</span><span style="color:#DEDDD7">·</span><span style="color:#9C9C95">audited 2h ago</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;margin-left:auto">pending</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM ROW -->
+      <div class="afx-bottom" data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:120ms;display:grid;grid-template-columns:1.2fr 1fr;gap:18px;align-items:start">
+
+        <!-- AI TRAFFIC -->
+        <div data-ai-card style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:baseline;gap:10px">
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;color:#1C1C19">AI traffic</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9C9C95">last 30 days</span>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#1C1C19">1.24M requests · <span style="color:#B23A08">38% from AI agents</span></div>
+          <div style="display:flex;height:10px;border-radius:999px;overflow:hidden;background:#F0F0EC">
+            <span style="width:16%;background:#2563EB"></span>
+            <span style="width:7%;background:#7C3AED"></span>
+            <span style="width:5%;background:#0891B2"></span>
+            <span style="width:6%;background:#D97706"></span>
+            <span style="width:4%;background:#16A34A"></span>
+            <span style="width:62%;background:#64748B"></span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 24px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1C1C19"><span style="width:8px;height:8px;border-radius:2px;background:#2563EB;flex:0 0 auto"></span>ChatGPT<span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#1C1C19;margin-left:auto;font-variant-numeric:tabular-nums">198K</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;width:34px;text-align:right">16%</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1C1C19"><span style="width:8px;height:8px;border-radius:2px;background:#7C3AED;flex:0 0 auto"></span>Perplexity<span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#1C1C19;margin-left:auto;font-variant-numeric:tabular-nums">87K</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;width:34px;text-align:right">7%</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1C1C19"><span style="width:8px;height:8px;border-radius:2px;background:#0891B2;flex:0 0 auto"></span>Gemini<span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#1C1C19;margin-left:auto;font-variant-numeric:tabular-nums">62K</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;width:34px;text-align:right">5%</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1C1C19"><span style="width:8px;height:8px;border-radius:2px;background:#D97706;flex:0 0 auto"></span>Claude<span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#1C1C19;margin-left:auto;font-variant-numeric:tabular-nums">74K</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;width:34px;text-align:right">6%</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1C1C19"><span style="width:8px;height:8px;border-radius:2px;background:#16A34A;flex:0 0 auto"></span>Other bots<span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#1C1C19;margin-left:auto;font-variant-numeric:tabular-nums">50K</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;width:34px;text-align:right">4%</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1C1C19"><span style="width:8px;height:8px;border-radius:2px;background:#64748B;flex:0 0 auto"></span>Human<span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#1C1C19;margin-left:auto;font-variant-numeric:tabular-nums">769K</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;width:34px;text-align:right">62%</span></div>
+          </div>
+        </div>
+
+        <!-- RECENT ACTIVITY -->
+        <div data-activity-card style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="flex:0 0 auto;padding:18px 20px 12px;border-bottom:1px solid #EAE9E5"><span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;color:#1C1C19">Recent activity</span></div>
+          <div data-activity-list style="flex:1 1 auto;overflow:auto;min-height:0">
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #EAE9E5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg><span style="font-size:13px;color:#1C1C19;flex:1 1 auto">Fix-PR #147 opened on stripe.com</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;flex:0 0 auto">1h</span></div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #EAE9E5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><span style="font-size:13px;color:#1C1C19;flex:1 1 auto">Proof posted: 61 → 74 on stripe.com</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;flex:0 0 auto">2h</span></div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #EAE9E5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span style="font-size:13px;color:#1C1C19;flex:1 1 auto">Drift detected on docs.foo.io</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;flex:0 0 auto">5h</span></div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #EAE9E5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg><span style="font-size:13px;color:#1C1C19;flex:1 1 auto">Fix-PR #142 merged on acme.dev</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;flex:0 0 auto">1d</span></div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #EAE9E5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><span style="font-size:13px;color:#1C1C19;flex:1 1 auto">Proof: 55 → 61 on acme.dev</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;flex:0 0 auto">1d</span></div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #EAE9E5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg><span style="font-size:13px;color:#1C1C19;flex:1 1 auto">Audit #204 completed on stripe.com</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;flex:0 0 auto">1d</span></div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #EAE9E5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg><span style="font-size:13px;color:#1C1C19;flex:1 1 auto">Fix-PR #146 opened on payment-sdk.io</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;flex:0 0 auto">2d</span></div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #EAE9E5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><span style="font-size:13px;color:#1C1C19;flex:1 1 auto">Proof: 84 → 88 on linear-clone.app</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;flex:0 0 auto">3d</span></div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 20px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg><span style="font-size:13px;color:#1C1C19;flex:1 1 auto">Audit #198 completed on edge-fns.dev</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;flex:0 0 auto">4d</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: {&quot;width&quot;: 1280, &quot;height&quot;: 980},
+  &quot;portfolioScore&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 71, &quot;tsType&quot;: &quot;number&quot;, &quot;min&quot;: 0, &quot;max&quot;: 100, &quot;section&quot;: &quot;Demo&quot;},
+  &quot;showAllClear&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Demo&quot;},
+  &quot;animateOnLoad&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Demo&quot;}
+}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  ringRef = React.createRef();
+  arcRef = React.createRef();
+
+  componentDidMount() {
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const animate = (this.props.animateOnLoad ?? true) && !reduce;
+    const root = this.rootRef.current;
+    if (!root) return;
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    const C = 263.9;
+    const score = Math.max(0, Math.min(100, Math.round(this.props.portfolioScore ?? 71)));
+
+    // all-clear toggle
+    const attn = root.querySelector('[data-attn]');
+    const clear = root.querySelector('[data-allclear]');
+    if (this.props.showAllClear) { if (attn) attn.style.display = 'none'; if (clear) clear.style.display = 'flex'; }
+
+    // ring number + arc
+    const rEl = this.ringRef.current, arc = this.arcRef.current;
+    const targetOffset = C * (1 - score / 100);
+    if (!animate) {
+      if (rEl) rEl.textContent = String(score);
+      if (arc) arc.style.strokeDashoffset = String(targetOffset);
+    } else {
+      const t0 = performance.now(), dur = 1100;
+      const step = now => {
+        const p = Math.min(1, (now - t0) / dur);
+        if (rEl) rEl.textContent = String(Math.round(ease(p) * score));
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+      if (arc) requestAnimationFrame(() => {
+        arc.style.transition = 'stroke-dashoffset 1100ms cubic-bezier(.16,1,.3,1)';
+        arc.style.strokeDashoffset = String(targetOffset);
+      });
+    }
+
+    // match activity timeline height to AI-traffic card
+    this._match = () => this.matchHeights();
+    requestAnimationFrame(this._match);
+    setTimeout(this._match, 350);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(this._match);
+    window.addEventListener('resize', this._match);
+  }
+
+  componentWillUnmount() {
+    if (this._match) window.removeEventListener('resize', this._match);
+  }
+
+  matchHeights() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    const left = root.querySelector('[data-ai-card]');
+    const right = root.querySelector('[data-activity-card]');
+    if (!left || !right) return;
+    if (window.innerWidth <= 1040) { right.style.height = ''; return; }
+    right.style.height = left.offsetHeight + 'px';
+  }
+
+  renderVals() {
+    return { rootRef: this.rootRef, ringRef: this.ringRef, arcRef: this.arcRef };
+  }
+}
+</script>
+</body>
+</html>

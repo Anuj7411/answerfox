@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/design/support.js"></script>
+<style id="afx-bg-swap">#dc-root>*,#dc-root .sc-host,#afx-shell{background-color:#FCFCFB!important;background-image:repeating-linear-gradient(0deg,rgba(20,22,16,.022) 0 1px,transparent 1px 10px)!important}#afx-shell>div>div:first-child{background-color:#FCFCFB!important;background-image:none!important}</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#FAFAF8;color:#1C1C19;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:#B23A08;text-decoration:none}
+  a:hover{color:#F34504}
+  input{font-family:inherit}
+  :focus-visible{outline:2px solid #F34504;outline-offset:2px;border-radius:6px}
+  @keyframes afxUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){[data-reveal]{animation:none!important;opacity:1!important;transform:none!important}}
+  @media (max-width:840px){
+    #afx-shell{grid-template-columns:1fr!important}
+    #afx-sidebar{position:static!important;height:auto!important;border-right:none!important;border-bottom:1px solid #EAE9E5!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;gap:10px!important}
+    #afx-sidebar [data-nav-workspace]{display:none!important}
+    #afx-sidebar [data-sidebar-foot]{display:none!important}
+    #afx-sidebar [data-nav-site]{flex-direction:row!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:4px!important;margin:0!important}
+    #afx-sidebar [data-nav-site] [data-group-h]{display:none!important}
+  }
+  @media (max-width:1040px){
+    .afx-ctrl{flex-direction:column!important;align-items:stretch!important}
+    .afx-ctrl [data-seg]{overflow-x:auto!important}
+    .afx-ctrl [data-search]{width:100%!important}
+  }
+</style>
+</helmet>
+
+<div id="afx-shell" ref="{{ rootRef }}" style="display:grid;grid-template-columns:240px 1fr;min-height:100vh;background:#FAFAF8">
+
+  <!-- SIDEBAR -->
+  <aside id="afx-sidebar" style="background:#FFFFFF;border-right:1px solid #EAE9E5;padding:16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow:auto">
+    <div style="border:1px solid #EAE9E5;border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;cursor:pointer">
+      <svg viewBox="296 223 927 518" style="display:block;height:19px;width:auto;flex:0 0 auto"><defs><mask id="afxmf"><rect x="296" y="223" width="927" height="518" fill="#fff"/><rect x="700" y="493" width="523" height="18" fill="#000"/></mask></defs><polygon points="717,223 877,223 970,741 851,741 776,335 443,741 296,741" fill="#1C1C19" mask="url(#afxmf)"/><polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504"/><polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504"/><polygon points="574,611 674,611 567,741 467,741" fill="#F34504"/></svg>
+      <span style="display:flex;flex-direction:column;line-height:1.2;min-width:0;flex:1 1 auto">
+        <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:13.5px;letter-spacing:-.01em;color:#1C1C19">stripe.com</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">7 sites</span>
+      </span>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+    </div>
+
+    <div data-nav-workspace style="margin-top:12px;display:flex;flex-direction:column;gap:2px">
+      <div data-group-h style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9C9C95;padding:0 12px;margin:4px 0 6px">Workspace</div>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>Overview</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>Sites</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>Billing</a>
+    </div>
+
+    <div data-nav-site style="margin-top:10px;display:flex;flex-direction:column;gap:2px">
+      <div data-group-h style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9C9C95;padding:0 12px;margin:4px 0 6px">stripe.com</div>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>Overview</a>
+      <a href="#" aria-current="page" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;font-weight:500;color:#1C1C19;background:#F5F5F2;box-shadow:inset 3px 0 0 #F34504"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1C19" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg>Findings<span style="margin-left:auto;padding:1px 7px;background:#FBE9E9;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#DC2626">11</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>X-Ray</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>Fix-PRs<span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">3</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>History</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Drift Guard<span style="margin-left:auto;padding:1px 7px;background:#FBE9E9;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#DC2626">1</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>AI Traffic</a>
+    </div>
+
+    <div data-sidebar-foot style="margin-top:auto;padding-top:14px;border-top:1px solid #EAE9E5;display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A;flex:0 0 auto"></span>watching 25 pages · v0.9</div>
+  </aside>
+
+  <!-- MAIN -->
+  <div style="display:flex;flex-direction:column;min-width:0">
+    <div style="height:56px;background:#FAFAF8;border-bottom:1px solid #EAE9E5;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:20">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95">sites <span style="color:#DEDDD7">/</span> stripe.com <span style="color:#DEDDD7">/</span> <span style="color:#1C1C19">findings</span></div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border:1px solid #EAE9E5;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A"></span>Paid</span>
+        <span style="width:28px;height:28px;border-radius:50%;background:#1C1C19;color:#FAFAF8;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500">A</span>
+      </div>
+    </div>
+
+    <div style="max-width:1240px;width:100%;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:18px">
+
+      <!-- PAGE HEADER -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap">
+        <div>
+          <h1 style="margin:0;font-family:'Archivo',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.02em;color:#1C1C19">Findings</h1>
+          <p style="margin:6px 0 0;font-family:'JetBrains Mono',monospace;font-size:13px;color:#6B6B65">50 checks · latest audit #204, 2h ago</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:#FBE9E9;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#DC2626;font-variant-numeric:tabular-nums">7 failing</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:#FBEFD6;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#B45309;font-variant-numeric:tabular-nums">4 warnings</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:#E7F6EC;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#15803D;font-variant-numeric:tabular-nums">38 passed</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:#F5F5F2;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65;font-variant-numeric:tabular-nums">1 skipped</span>
+          <button style="display:inline-flex;align-items:center;gap:7px;padding:0 12px;height:32px;background:#FFFFFF;border:1px solid #DEDDD7;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#1C1C19;cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>Re-run</button>
+        </div>
+      </div>
+
+      <!-- CONTROL ROW -->
+      <div class="afx-ctrl" data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:40ms;display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div data-seg style="display:inline-flex;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:6px;padding:2px;flex:0 0 auto;white-space:nowrap">
+          <button data-filter="all" onClick="{{ onFilter }}" style="font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;height:28px;padding:0 12px;border:1px solid #DEDDD7;background:#FFFFFF;color:#1C1C19;border-radius:4px;cursor:pointer">All</button>
+          <button data-filter="meta" onClick="{{ onFilter }}" style="font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;height:28px;padding:0 12px;border:1px solid transparent;background:transparent;color:#6B6B65;border-radius:4px;cursor:pointer">Meta &amp; technical</button>
+          <button data-filter="schema" onClick="{{ onFilter }}" style="font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;height:28px;padding:0 12px;border:1px solid transparent;background:transparent;color:#6B6B65;border-radius:4px;cursor:pointer">Schema</button>
+          <button data-filter="citations" onClick="{{ onFilter }}" style="font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;height:28px;padding:0 12px;border:1px solid transparent;background:transparent;color:#6B6B65;border-radius:4px;cursor:pointer">Citations</button>
+          <button data-filter="agent" onClick="{{ onFilter }}" style="font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;height:28px;padding:0 12px;border:1px solid transparent;background:transparent;color:#6B6B65;border-radius:4px;cursor:pointer">Agent readiness</button>
+        </div>
+        <div data-search style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px;background:#FFFFFF;border:1px solid #DEDDD7;border-radius:6px;width:240px">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" placeholder="Filter checks…" onInput="{{ onSearch }}" style="border:none;outline:none;background:transparent;font-size:13px;color:#1C1C19;width:100%" />
+        </div>
+      </div>
+
+      <!-- GROUPS -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:80ms;display:flex;flex-direction:column;gap:14px">
+
+        <!-- GROUP: Agent readiness -->
+        <div data-group data-cat="agent" data-open="1" style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+          <button data-group-head onClick="{{ onGroup }}" style="width:100%;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:16px 18px;text-align:left">
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;color:#1C1C19">Agent readiness</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#DC2626;font-variant-numeric:tabular-nums">3 failing / 12</span>
+            <span style="display:flex;height:4px;width:120px;border-radius:999px;overflow:hidden;background:#F0F0EC;margin-left:auto"><span style="width:25%;background:#DC2626"></span><span style="width:8%;background:#D97706"></span><span style="width:67%;background:#16A34A"></span></span>
+            <svg data-group-chev width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;transform:rotate(90deg);transition:transform 160ms cubic-bezier(.4,0,.2,1)"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+          <div data-group-body style="display:block;border-top:1px solid #EAE9E5">
+
+            <div data-row data-cat="agent" data-sev="fail" data-id="C2" data-title="your prices aren't machine-readable on /pricing" style="border-bottom:1px solid #EAE9E5">
+              <button data-row-head onClick="{{ onToggle }}" style="width:100%;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 18px;text-align:left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C2</span>
+                <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Your prices aren't machine-readable on /pricing</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#DC2626;flex:0 0 auto">fail</span>
+                <svg data-row-chev width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;transform:rotate(90deg);transition:transform 160ms cubic-bezier(.4,0,.2,1)"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div data-row-detail style="display:block;padding:0 18px 18px 46px">
+                <div style="background:#F5F5F2;border-radius:6px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65">no &lt;script type="application/ld+json"&gt; in crawler HTML</div>
+                <p style="margin:12px 0 0;font-size:14px;line-height:1.5;color:#1C1C19">Add Product JSON-LD so an AI can quote $9/repo as a fact.</p>
+                <div style="margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+                  <a href="#" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B23A08" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/></svg>Docs</a>
+                  <a href="#" style="display:inline-flex;align-items:center;gap:7px;padding:0 14px;height:36px;background:#1C1C19;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8;margin-left:auto"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>Generate fix</a>
+                </div>
+              </div>
+            </div>
+
+            <div data-row data-cat="agent" data-sev="fail" data-id="C8" data-title="quickstart renders after page load" style="border-bottom:1px solid #EAE9E5">
+              <button data-row-head onClick="{{ onToggle }}" style="width:100%;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 18px;text-align:left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C8</span>
+                <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Quickstart renders after page load</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#DC2626;flex:0 0 auto">fail</span>
+                <svg data-row-chev width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;transform:rotate(90deg);transition:transform 160ms cubic-bezier(.4,0,.2,1)"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div data-row-detail style="display:block;padding:0 18px 18px 46px">
+                <div style="background:#F5F5F2;border-radius:6px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65">0 of 1,240 words in the no-JS fetch</div>
+                <p style="margin:12px 0 0;font-size:14px;line-height:1.5;color:#1C1C19">Prerender the guide so crawlers receive it.</p>
+                <div style="margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+                  <a href="#" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B23A08" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/></svg>Docs</a>
+                  <a href="#" style="display:inline-flex;align-items:center;gap:7px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#B23A08;margin-left:auto"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B23A08" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>Fix-PR ready</a>
+                </div>
+              </div>
+            </div>
+
+            <div data-row data-cat="agent" data-sev="warn" data-id="C5" data-title="robots.txt blocks gptbot on /docs">
+              <button data-row-head onClick="{{ onToggle }}" style="width:100%;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 18px;text-align:left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C5</span>
+                <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">robots.txt blocks GPTBot on /docs</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#B45309;flex:0 0 auto">warn</span>
+                <svg data-row-chev width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;transition:transform 160ms cubic-bezier(.4,0,.2,1)"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div data-row-detail style="display:none;padding:0 18px 18px 46px">
+                <div style="background:#F5F5F2;border-radius:6px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65">Disallow: /docs/ matches the GPTBot user-agent</div>
+                <p style="margin:12px 0 0;font-size:14px;line-height:1.5;color:#1C1C19">Allow GPTBot to crawl /docs so your guides can be cited.</p>
+                <div style="margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+                  <a href="#" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B23A08" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/></svg>Docs</a>
+                  <a href="#" style="display:inline-flex;align-items:center;gap:7px;padding:0 14px;height:36px;background:#1C1C19;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8;margin-left:auto"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>Generate fix</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- GROUP: Schema -->
+        <div data-group data-cat="schema" data-open="1" style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+          <button data-group-head onClick="{{ onGroup }}" style="width:100%;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:16px 18px;text-align:left">
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;color:#1C1C19">Schema</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#B45309;font-variant-numeric:tabular-nums">1 warning / 9</span>
+            <span style="display:flex;height:4px;width:120px;border-radius:999px;overflow:hidden;background:#F0F0EC;margin-left:auto"><span style="width:11%;background:#D97706"></span><span style="width:89%;background:#16A34A"></span></span>
+            <svg data-group-chev width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;transform:rotate(90deg);transition:transform 160ms cubic-bezier(.4,0,.2,1)"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+          <div data-group-body style="display:block;border-top:1px solid #EAE9E5">
+
+            <div data-row data-cat="schema" data-sev="warn" data-id="C14" data-title="faq schema missing on /docs" style="border-bottom:1px solid #EAE9E5">
+              <button data-row-head onClick="{{ onToggle }}" style="width:100%;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 18px;text-align:left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C14</span>
+                <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">FAQ schema missing on /docs</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#B45309;flex:0 0 auto">warn</span>
+                <svg data-row-chev width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;transition:transform 160ms cubic-bezier(.4,0,.2,1)"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div data-row-detail style="display:none;padding:0 18px 18px 46px">
+                <div style="background:#F5F5F2;border-radius:6px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65">no FAQPage schema found on /docs</div>
+                <p style="margin:12px 0 0;font-size:14px;line-height:1.5;color:#1C1C19">Add FAQPage schema so AI answers can pull your Q&amp;A.</p>
+                <div style="margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+                  <a href="#" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B23A08" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/></svg>Docs</a>
+                  <a href="#" style="display:inline-flex;align-items:center;gap:7px;padding:0 14px;height:36px;background:#1C1C19;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8;margin-left:auto"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>Generate fix</a>
+                </div>
+              </div>
+            </div>
+
+            <div data-row data-cat="schema" data-sev="pass" data-id="C11" data-title="organization schema present">
+              <button data-row-head onClick="{{ onToggle }}" style="width:100%;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 18px;text-align:left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C11</span>
+                <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Organization schema present</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+                <svg data-row-chev width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;transition:transform 160ms cubic-bezier(.4,0,.2,1)"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div data-row-detail style="display:none;padding:0 18px 18px 46px">
+                <div style="background:#F5F5F2;border-radius:6px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65">Organization JSON-LD found in &lt;head&gt;</div>
+                <p style="margin:12px 0 0;font-size:14px;line-height:1.5;color:#6B6B65">No action needed.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- GROUP: Meta & technical -->
+        <div data-group data-cat="meta" data-open="0" style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+          <button data-group-head onClick="{{ onGroup }}" style="width:100%;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:16px 18px;text-align:left">
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;color:#1C1C19">Meta &amp; technical</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#DC2626;font-variant-numeric:tabular-nums">2 failing / 15</span>
+            <span style="display:flex;height:4px;width:120px;border-radius:999px;overflow:hidden;background:#F0F0EC;margin-left:auto"><span style="width:13%;background:#DC2626"></span><span style="width:87%;background:#16A34A"></span></span>
+            <svg data-group-chev width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;transition:transform 160ms cubic-bezier(.4,0,.2,1)"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+          <div data-group-body style="display:none;border-top:1px solid #EAE9E5">
+
+            <div data-row data-cat="meta" data-sev="fail" data-id="C21" data-title="canonical tag missing on 3 pages" style="border-bottom:1px solid #EAE9E5">
+              <button data-row-head onClick="{{ onToggle }}" style="width:100%;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 18px;text-align:left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C21</span>
+                <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Canonical tag missing on 3 pages</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#DC2626;flex:0 0 auto">fail</span>
+                <svg data-row-chev width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;transition:transform 160ms cubic-bezier(.4,0,.2,1)"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div data-row-detail style="display:none;padding:0 18px 18px 46px">
+                <div style="background:#F5F5F2;border-radius:6px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65">&lt;link rel="canonical"&gt; absent on /pricing, /docs, /api</div>
+                <p style="margin:12px 0 0;font-size:14px;line-height:1.5;color:#1C1C19">Add canonical tags to stop duplicate crawling.</p>
+                <div style="margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+                  <a href="#" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B23A08" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/></svg>Docs</a>
+                  <a href="#" style="display:inline-flex;align-items:center;gap:7px;padding:0 14px;height:36px;background:#1C1C19;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8;margin-left:auto"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>Generate fix</a>
+                </div>
+              </div>
+            </div>
+
+            <div data-row data-cat="meta" data-sev="fail" data-id="C24" data-title="sitemap omits 12 docs pages">
+              <button data-row-head onClick="{{ onToggle }}" style="width:100%;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 18px;text-align:left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C24</span>
+                <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Sitemap omits 12 docs pages</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#DC2626;flex:0 0 auto">fail</span>
+                <svg data-row-chev width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;transition:transform 160ms cubic-bezier(.4,0,.2,1)"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div data-row-detail style="display:none;padding:0 18px 18px 46px">
+                <div style="background:#F5F5F2;border-radius:6px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65">12 doc URLs missing from sitemap.xml</div>
+                <p style="margin:12px 0 0;font-size:14px;line-height:1.5;color:#1C1C19">Regenerate the sitemap to include every docs page.</p>
+                <div style="margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+                  <a href="#" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B23A08" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/></svg>Docs</a>
+                  <a href="#" style="display:inline-flex;align-items:center;gap:7px;padding:0 14px;height:36px;background:#1C1C19;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8;margin-left:auto"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>Generate fix</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- GROUP: Citations -->
+        <div data-group data-cat="citations" data-open="0" style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+          <button data-group-head onClick="{{ onGroup }}" style="width:100%;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:16px 18px;text-align:left">
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;color:#1C1C19">Citations</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#DC2626;font-variant-numeric:tabular-nums">1 failing / 8</span>
+            <span style="display:flex;height:4px;width:120px;border-radius:999px;overflow:hidden;background:#F0F0EC;margin-left:auto"><span style="width:13%;background:#DC2626"></span><span style="width:87%;background:#16A34A"></span></span>
+            <svg data-group-chev width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;transition:transform 160ms cubic-bezier(.4,0,.2,1)"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+          <div data-group-body style="display:none;border-top:1px solid #EAE9E5">
+
+            <div data-row data-cat="citations" data-sev="fail" data-id="C31" data-title="no author or org attribution on articles">
+              <button data-row-head onClick="{{ onToggle }}" style="width:100%;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 18px;text-align:left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C31</span>
+                <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">No author or org attribution on articles</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#DC2626;flex:0 0 auto">fail</span>
+                <svg data-row-chev width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;transition:transform 160ms cubic-bezier(.4,0,.2,1)"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div data-row-detail style="display:none;padding:0 18px 18px 46px">
+                <div style="background:#F5F5F2;border-radius:6px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65">no author or publisher meta on /blog/*</div>
+                <p style="margin:12px 0 0;font-size:14px;line-height:1.5;color:#1C1C19">Add author and publisher metadata so AI cites you.</p>
+                <div style="margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+                  <a href="#" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B23A08" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/></svg>Docs</a>
+                  <a href="#" style="display:inline-flex;align-items:center;gap:7px;padding:0 14px;height:36px;background:#1C1C19;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8;margin-left:auto"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>Generate fix</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- PASSED BLOCK -->
+        <div data-passed-block>
+          <button data-passed-head onClick="{{ onPassed }}" style="width:100%;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            <span style="font-size:14px;color:#1C1C19">38 checks passed</span>
+            <span data-passed-label style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;margin-left:auto">show all</span>
+            <svg data-passed-chev width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;transition:transform 160ms cubic-bezier(.4,0,.2,1)"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+          <div data-passed-list style="display:none;margin-top:8px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C1</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Title tag present on every page</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C3</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Meta description within length on all pages</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C4</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">robots.txt is reachable and valid</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C6</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">ClaudeBot is allowed site-wide</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C7</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">PerplexityBot is allowed site-wide</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C9</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Sitemap is referenced in robots.txt</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C10</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Canonical present on /pricing homepage</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C12</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">BreadcrumbList schema on docs pages</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C13</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Article schema on blog posts</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C15</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">WebSite schema with search action</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C16</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">No duplicate H1 tags detected</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C17</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Heading order is sequential</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C18</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Language attribute set on <html></span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C19</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Viewport meta present</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C20</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Charset declared as UTF-8</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C22</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">No broken internal links</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C23</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">No redirect chains longer than one hop</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C25</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">404 page returns a 404 status</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C26</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">HTTPS enforced site-wide</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C27</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">HSTS header present</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C28</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Open Graph tags on shareable pages</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C29</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Twitter card tags present</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C30</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Favicon and touch icons declared</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C32</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Publish dates on articles</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C33</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Last-modified dates in sitemap</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C34</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Image alt text coverage above 95%</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C35</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">No orphaned pages in the crawl graph</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C36</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Structured data validates without errors</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C37</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Main content is in the initial HTML on 22 of 25 pages</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C38</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">No cloaking between crawler and browser</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C39</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Response time under 600ms at the edge</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C40</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">No JS errors block first paint</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C41</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Consistent trailing-slash policy</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C42</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Pagination uses rel next/prev</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C43</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">No noindex on public pages</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C44</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Author profiles link to articles</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C45</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">Contact and org info in the footer</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #EAE9E5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C46</span>
+              <span style="font-size:14px;color:#1C1C19;flex:1 1 auto">FAQ schema present on /pricing</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;flex:0 0 auto">pass</span>
+            </div>
+            <div data-passed-row style="display:flex;align-items:center;gap:12px;padding:11px 18px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9C9C95" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto">C50</span>
+              <span style="font-size:14px;color:#6B6B65;flex:1 1 auto">Video transcript check — no videos on this site</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#9C9C95;flex:0 0 auto">skip</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: {&quot;width&quot;: 1280, &quot;height&quot;: 980}
+}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  filter = 'all';
+  query = '';
+
+  onToggle = (e) => {
+    const row = e.currentTarget.closest('[data-row]');
+    const detail = row.querySelector('[data-row-detail]');
+    const chev = row.querySelector('[data-row-chev]');
+    const open = getComputedStyle(detail).display !== 'none';
+    detail.style.display = open ? 'none' : 'block';
+    if (chev) chev.style.transform = open ? 'rotate(0deg)' : 'rotate(90deg)';
+  };
+
+  onGroup = (e) => {
+    const g = e.currentTarget.closest('[data-group]');
+    const open = g.getAttribute('data-open') !== '1';
+    g.setAttribute('data-open', open ? '1' : '0');
+    const body = g.querySelector('[data-group-body]');
+    const chev = g.querySelector('[data-group-chev]');
+    body.style.display = open ? 'block' : 'none';
+    if (chev) chev.style.transform = open ? 'rotate(90deg)' : 'rotate(0deg)';
+  };
+
+  onFilter = (e) => {
+    this.filter = e.currentTarget.getAttribute('data-filter');
+    const root = this.rootRef.current;
+    root.querySelectorAll('[data-seg] [data-filter]').forEach(b => {
+      const on = b.getAttribute('data-filter') === this.filter;
+      b.style.background = on ? '#FFFFFF' : 'transparent';
+      b.style.border = on ? '1px solid #DEDDD7' : '1px solid transparent';
+      b.style.color = on ? '#1C1C19' : '#6B6B65';
+    });
+    this.applyView();
+  };
+
+  onSearch = (e) => {
+    this.query = (e.target.value || '').trim().toLowerCase();
+    this.applyView();
+  };
+
+  onPassed = (e) => {
+    const root = this.rootRef.current;
+    const list = root.querySelector('[data-passed-list]');
+    const chev = root.querySelector('[data-passed-chev]');
+    const label = root.querySelector('[data-passed-label]');
+    const open = getComputedStyle(list).display !== 'none';
+    list.style.display = open ? 'none' : 'block';
+    if (chev) chev.style.transform = open ? 'rotate(0deg)' : 'rotate(90deg)';
+    if (label) label.textContent = open ? 'show all' : 'hide';
+  };
+
+  applyView() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    root.querySelectorAll('[data-group]').forEach(g => {
+      const cat = g.getAttribute('data-cat');
+      const matchFilter = this.filter === 'all' || this.filter === cat;
+      let any = false;
+      g.querySelectorAll('[data-row]').forEach(r => {
+        const hay = (r.getAttribute('data-id') + ' ' + r.getAttribute('data-title')).toLowerCase();
+        const rowMatch = this.query === '' || hay.indexOf(this.query) !== -1;
+        const vis = matchFilter && rowMatch;
+        r.style.display = vis ? '' : 'none';
+        if (vis) any = true;
+      });
+      g.style.display = (matchFilter && any) ? '' : 'none';
+      const body = g.querySelector('[data-group-body]');
+      const chev = g.querySelector('[data-group-chev]');
+      const open = this.query !== '' ? true : (g.getAttribute('data-open') === '1');
+      body.style.display = open ? 'block' : 'none';
+      if (chev) chev.style.transform = open ? 'rotate(90deg)' : 'rotate(0deg)';
+    });
+    const passed = root.querySelector('[data-passed-block]');
+    if (passed) passed.style.display = (this.filter === 'all' && this.query === '') ? '' : 'none';
+  }
+
+  renderVals() {
+    return {
+      rootRef: this.rootRef,
+      onToggle: this.onToggle,
+      onGroup: this.onGroup,
+      onFilter: this.onFilter,
+      onSearch: this.onSearch,
+      onPassed: this.onPassed
+    };
+  }
+}
+</script>
+</body>
+</html>

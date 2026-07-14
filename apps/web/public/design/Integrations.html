@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/design/support.js"></script>
+<style id="afx-bg-swap">#dc-root>*,#dc-root .sc-host,#afx-shell{background-color:#FCFCFB!important;background-image:repeating-linear-gradient(0deg,rgba(20,22,16,.022) 0 1px,transparent 1px 10px)!important}#afx-shell>div>div:first-child{background-color:#FCFCFB!important;background-image:none!important}</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#FAFAF8;color:#1C1C19;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:#B23A08;text-decoration:none}
+  a:hover{color:#F34504}
+  :focus-visible{outline:2px solid #F34504;outline-offset:2px;border-radius:6px}
+  @keyframes afxUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){[data-reveal]{animation:none!important;opacity:1!important;transform:none!important}}
+  @media (max-width:840px){
+    #afx-shell{grid-template-columns:1fr!important}
+    #afx-sidebar{position:static!important;height:auto!important;border-right:none!important;border-bottom:1px solid #EAE9E5!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;gap:10px!important}
+    #afx-sidebar [data-sidebar-foot]{display:none!important}
+    #afx-sidebar [data-nav-workspace]{flex-direction:row!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:4px!important;margin:0!important}
+    #afx-sidebar [data-nav-workspace] [data-group-h]{display:none!important}
+    .afx-phead{flex-direction:column!important;align-items:flex-start!important;gap:16px!important}
+    .afx-instl-head{flex-wrap:wrap!important}
+    .afx-repo{grid-template-columns:1fr!important;gap:6px!important}
+    .afx-repo [data-repo-arrow]{display:none!important}
+  }
+</style>
+</helmet>
+
+<div id="afx-shell" style="display:grid;grid-template-columns:240px 1fr;min-height:100vh;background:#FAFAF8">
+
+  <!-- SIDEBAR -->
+  <aside id="afx-sidebar" style="background:#FFFFFF;border-right:1px solid #EAE9E5;padding:16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow:auto">
+    <div style="border:1px solid #EAE9E5;border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;cursor:pointer">
+      <span style="flex:0 0 auto;width:26px;height:26px;border-radius:7px;background:#1C1C19;display:inline-flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span>
+      <span style="display:flex;flex-direction:column;line-height:1.2;min-width:0;flex:1 1 auto">
+        <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:13.5px;letter-spacing:-.01em;color:#1C1C19">All sites</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">7 sites</span>
+      </span>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+    </div>
+
+    <div data-nav-workspace style="margin-top:12px;display:flex;flex-direction:column;gap:2px">
+      <div data-group-h style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9C9C95;padding:0 12px;margin:4px 0 6px">Workspace</div>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>Overview</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>Sites<span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">7</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>Billing</a>
+      <a href="#" aria-current="page" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;font-weight:500;color:#1C1C19;background:#F5F5F2;box-shadow:inset 3px 0 0 #F34504"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1C19" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Integrations</a>
+    </div>
+
+    <div data-sidebar-foot style="margin-top:auto;padding-top:14px;border-top:1px solid #EAE9E5;display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A;flex:0 0 auto"></span>watching 168 pages · v0.9</div>
+  </aside>
+
+  <!-- MAIN -->
+  <div style="display:flex;flex-direction:column;min-width:0">
+    <div style="height:56px;background:#FAFAF8;border-bottom:1px solid #EAE9E5;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:20">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#1C1C19">integrations</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border:1px solid #EAE9E5;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A"></span>2 orgs connected</span>
+        <span style="width:28px;height:28px;border-radius:50%;background:#1C1C19;color:#FAFAF8;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500">A</span>
+      </div>
+    </div>
+
+    <div style="max-width:1000px;width:100%;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:18px">
+
+      <!-- PAGE HEADER -->
+      <div class="afx-phead" data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;display:flex;align-items:flex-start;justify-content:space-between;gap:24px">
+        <div style="max-width:640px">
+          <h1 style="margin:0;font-family:'Archivo',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.02em;color:#1C1C19">Integrations</h1>
+          <p style="margin:6px 0 0;font-size:14px;color:#6B6B65;text-wrap:pretty">The GitHub App is how Answerfox reads your repos and opens fix-PRs.</p>
+        </div>
+        <a href="#" style="display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;padding:0 13px;height:38px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:8px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#1C1C19"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Install on another account</a>
+      </div>
+
+      <!-- 1) INSTALLATION CARDS -->
+      <sc-for list="{{ installs }}" as="inst" hint-placeholder-count="2">
+        <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+          <!-- header -->
+          <div class="afx-instl-head" style="display:flex;align-items:center;gap:14px;padding:16px 20px;border-bottom:1px solid #EAE9E5">
+            <span style="flex:0 0 auto;width:34px;height:34px;border-radius:9px;background:{{ inst.avatarBg }};color:#FAFAF8;display:inline-flex;align-items:center;justify-content:center;font-family:'Archivo',sans-serif;font-weight:600;font-size:14px">{{ inst.initial }}</span>
+            <span style="display:flex;align-items:center;gap:10px;flex:1 1 auto;min-width:0;flex-wrap:wrap">
+              <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:16px;color:#1C1C19">{{ inst.org }}</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#9C9C95">org</span>
+              <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#15803D;background:#E7F6EC;border-radius:999px;padding:2px 10px"><span style="width:5px;height:5px;border-radius:50%;background:#16A34A"></span>connected</span>
+            </span>
+            <span style="flex:0 0 auto;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95">installed {{ inst.installedOn }}</span>
+          </div>
+
+          <!-- body -->
+          <div style="padding:18px 20px;display:flex;flex-direction:column;gap:18px">
+            <!-- repos -->
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:baseline;gap:10px">
+                <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:13px;color:#1C1C19">Repositories granted</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65">{{ inst.repoCount }} repositories</span>
+              </div>
+              <div style="border:1px solid #EAE9E5;border-radius:10px;overflow:hidden">
+                <sc-for list="{{ inst.repos }}" as="rp" hint-placeholder-count="5">
+                  <div class="afx-repo" style="display:grid;grid-template-columns:1fr 20px 1fr;gap:14px;align-items:center;padding:11px 14px;border-top:1px solid #F0F0EC">
+                    <div style="display:flex;align-items:center;gap:9px;min-width:0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+                      <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1C1C19;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ rp.repo }}</span>
+                    </div>
+                    <span data-repo-arrow style="text-align:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C4C3BC" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                    <sc-if value="{{ rp.linked }}" hint-placeholder-val="{{ true }}">
+                      <a href="#" style="font-size:13px;color:#1C1C19;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ rp.site }}</a>
+                    </sc-if>
+                    <sc-if value="{{ rp.unlinked }}" hint-placeholder-val="{{ false }}">
+                      <span style="display:inline-flex;align-items:center;gap:10px">
+                        <span style="font-size:13px;color:#9C9C95;font-style:italic">not linked</span>
+                        <a href="#" style="font-size:12.5px;color:#B23A08;font-weight:500">Link a site</a>
+                      </span>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <!-- permissions -->
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9C9C95">Permissions</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6B6B65">Contents: read &amp; write <span style="color:#DEDDD7">·</span> Pull requests: read &amp; write</span>
+            </div>
+          </div>
+
+          <!-- footer -->
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 20px;border-top:1px solid #EAE9E5;background:#FCFCFA;flex-wrap:wrap">
+            <a href="#" style="display:inline-flex;align-items:center;gap:7px;padding:0 13px;height:34px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:8px;font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:500;color:#1C1C19">Manage on GitHub<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+            <a href="#" style="font-family:'Archivo',sans-serif;font-size:12.5px;color:#9C9C95">Configure repositories</a>
+          </div>
+        </div>
+      </sc-for>
+
+      <!-- 2) ADD-ANOTHER CARD -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;background:#FCFCFA;border:1px dashed #DEDDD7;border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <span style="flex:0 0 auto;width:38px;height:38px;border-radius:10px;background:#FFFFFF;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></span>
+        <div style="flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:2px">
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;color:#1C1C19">Connect another GitHub org or account</span>
+          <span style="font-size:13px;color:#6B6B65;text-wrap:pretty">Answerfox can watch repos across multiple orgs.</span>
+        </div>
+        <a href="#" style="flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;padding:0 15px;height:36px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:8px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#1C1C19"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1C1C19" stroke="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02.8-.22 1.65-.33 2.5-.34.85.01 1.7.12 2.5.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>Install</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1200, &quot;height&quot;: 900}}">
+class Component extends DCLogic {
+  installsData = [
+    {
+      org: 'stripe', initial: 'S', avatarBg: '#635BFF', installedOn: 'Jun 12',
+      repoCount: 6,
+      repos: [
+        { repo: 'stripe/stripe-docs', site: 'stripe.com', linked: true },
+        { repo: 'stripe/docs-legacy', site: 'docs-legacy.stripe.com', linked: true },
+        { repo: 'stripe/api-ref',     site: 'api.stripe.com', linked: true },
+        { repo: 'stripe/quickstarts', site: null, linked: false },
+        { repo: 'stripe/marketing',   site: null, linked: false },
+        { repo: 'stripe/blog',        site: 'blog.stripe.com', linked: true },
+      ],
+    },
+    {
+      org: 'acme', initial: 'A', avatarBg: '#111', installedOn: 'May 3',
+      repoCount: 3,
+      repos: [
+        { repo: 'acme/site',           site: 'acme.dev', linked: true },
+        { repo: 'acme/marketing-site', site: null, linked: false },
+        { repo: 'acme/handbook',       site: null, linked: false },
+      ],
+    },
+  ];
+
+  renderVals() {
+    const installs = this.installsData.map(inst => ({
+      ...inst,
+      repos: inst.repos.map(r => ({ ...r, unlinked: !r.linked })),
+    }));
+    return { installs };
+  }
+}
+</script>
+</body>
+</html>

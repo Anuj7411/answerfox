@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/design/support.js"></script>
+<style id="afx-bg-swap">#dc-root>*,#dc-root .sc-host,#afx-shell{background-color:#FCFCFB!important;background-image:repeating-linear-gradient(0deg,rgba(20,22,16,.022) 0 1px,transparent 1px 10px)!important}#afx-shell>div>div:first-child{background-color:#FCFCFB!important;background-image:none!important}</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#FAFAF8;color:#1C1C19;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:#B23A08;text-decoration:none}
+  a:hover{color:#F34504}
+  :focus-visible{outline:2px solid #F34504;outline-offset:2px;border-radius:6px}
+  input,button,select,textarea{font-family:inherit}
+  input::placeholder,textarea::placeholder{color:#B8B8B0}
+  @keyframes afxUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){[data-reveal]{animation:none!important;opacity:1!important;transform:none!important}}
+  @media (max-width:840px){
+    #afx-shell{grid-template-columns:1fr!important}
+    #afx-sidebar{position:static!important;height:auto!important;border-right:none!important;border-bottom:1px solid #EAE9E5!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;gap:10px!important}
+    #afx-sidebar [data-nav-workspace],#afx-sidebar [data-sidebar-foot]{display:none!important}
+    #afx-sidebar [data-nav-site]{flex-direction:row!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:4px!important;margin:0!important}
+    #afx-sidebar [data-nav-site] [data-group-h]{display:none!important}
+    .afx-row2{grid-template-columns:1fr!important}
+  }
+</style>
+</helmet>
+
+<div id="afx-shell" style="display:grid;grid-template-columns:240px 1fr;min-height:100vh;background:#FAFAF8">
+
+  <!-- SIDEBAR (site context) -->
+  <aside id="afx-sidebar" style="background:#FFFFFF;border-right:1px solid #EAE9E5;padding:16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow:auto">
+    <div style="border:1px solid #EAE9E5;border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;cursor:pointer">
+      <svg viewBox="296 223 927 518" style="display:block;height:19px;width:auto;flex:0 0 auto"><defs><mask id="afxmp5"><rect x="296" y="223" width="927" height="518" fill="#fff"/><rect x="700" y="493" width="523" height="18" fill="#000"/></mask></defs><polygon points="717,223 877,223 970,741 851,741 776,335 443,741 296,741" fill="#1C1C19" mask="url(#afxmp5)"/><polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504"/><polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504"/><polygon points="574,611 674,611 567,741 467,741" fill="#F34504"/></svg>
+      <span style="display:flex;flex-direction:column;line-height:1.2;min-width:0;flex:1 1 auto">
+        <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:13.5px;letter-spacing:-.01em;color:#1C1C19">stripe.com</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">7 sites</span>
+      </span>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+    </div>
+
+    <div data-nav-workspace style="margin-top:12px;display:flex;flex-direction:column;gap:2px">
+      <div data-group-h style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9C9C95;padding:0 12px;margin:4px 0 6px">Workspace</div>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>Overview</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>Sites</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>Billing</a>
+    </div>
+
+    <div data-nav-site style="margin-top:10px;display:flex;flex-direction:column;gap:2px">
+      <div data-group-h style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9C9C95;padding:0 12px;margin:4px 0 6px">stripe.com</div>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>Overview</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg>Findings<span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">11</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>X-Ray</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>Fix-PRs<span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">3</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>History</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>Drift Guard<span style="margin-left:auto;padding:1px 7px;background:#FBE9E9;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#DC2626">1</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>AI Traffic</a>
+      <a href="#" aria-current="page" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;font-weight:500;color:#1C1C19;background:#F5F5F2;box-shadow:inset 3px 0 0 #F34504"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1C19" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>Settings</a>
+    </div>
+
+    <div data-sidebar-foot style="margin-top:auto;padding-top:14px;border-top:1px solid #EAE9E5;display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A;flex:0 0 auto"></span>watching 25 pages · v0.9</div>
+  </aside>
+
+  <!-- MAIN -->
+  <div style="display:flex;flex-direction:column;min-width:0">
+    <div style="height:56px;background:#FAFAF8;border-bottom:1px solid #EAE9E5;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:20">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95">sites <span style="color:#DEDDD7">/</span> stripe.com <span style="color:#DEDDD7">/</span> <span style="color:#1C1C19">settings</span></div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border:1px solid #EAE9E5;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A"></span>Paid</span>
+        <span style="width:28px;height:28px;border-radius:50%;background:#1C1C19;color:#FAFAF8;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500">A</span>
+      </div>
+    </div>
+
+    <div style="max-width:820px;width:100%;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:18px">
+
+      <!-- PAGE HEADER -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both">
+        <h1 style="margin:0;font-family:'Archivo',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.02em;color:#1C1C19">Settings</h1>
+        <p style="margin:6px 0 0;font-size:14px;color:#6B6B65"><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19">stripe.com</span></p>
+      </div>
+
+      <!-- 1) GENERAL -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:20ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+        <div style="padding:18px 20px 4px;display:flex;flex-direction:column;gap:4px">
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:15px;color:#1C1C19">Site details</span>
+          <span style="font-size:13px;color:#6B6B65">The name, URL, and environment Answerfox tracks.</span>
+        </div>
+        <div style="padding:14px 20px 18px;display:flex;flex-direction:column;gap:14px">
+          <div class="afx-row2" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <label style="display:flex;flex-direction:column;gap:5px">
+              <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Display name</span>
+              <input value="{{ name }}" onInput="{{ onName }}" style="height:36px;padding:0 12px;border:1px solid #DEDDD7;border-radius:6px;background:#FFFFFF;font-size:13.5px;color:#1C1C19;outline:none" style-focus="border-color:#1C1C19" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:5px">
+              <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Canonical URL</span>
+              <div style="display:flex;align-items:center;gap:8px;height:36px;padding:0 12px;border:1px solid #EAE9E5;background:#FCFCFA;border-radius:6px">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#6B6B65;flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">https://stripe.com</span>
+                <span style="display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;background:#E7F6EC;border-radius:5px;padding:2px 7px;flex:0 0 auto">verified</span>
+              </div>
+            </label>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Environment</span>
+            <div style="display:inline-flex;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:8px;padding:2px;align-self:flex-start">
+              <sc-for list="{{ envs }}" as="e" hint-placeholder-count="2">
+                <button onClick="{{ e.onClick }}" style="font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:500;height:28px;padding:0 14px;border:1px solid {{ e.border }};background:{{ e.bg }};color:{{ e.color }};border-radius:6px;cursor:pointer">{{ e.label }}</button>
+              </sc-for>
+            </div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95">Scopes which deploys Drift Guard watches.</span>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Site ID</span>
+            <div style="display:flex;align-items:center;gap:8px">
+              <code style="flex:1 1 auto;min-width:0;height:36px;display:flex;align-items:center;padding:0 12px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:6px">afx_site_9f2a1c</code>
+              <button onClick="{{ onCopyId }}" style="flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:6px;font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:500;color:#1C1C19;cursor:pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>{{ copyIdLabel }}</button>
+            </div>
+          </div>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid #F0F0EC;background:#FCFCFA;display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95">Changes apply to the next audit.</span>
+          <button onClick="{{ onSave1 }}" style="height:34px;padding:0 15px;background:#1C1C19;border:none;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8;cursor:pointer">{{ save1 }}</button>
+        </div>
+      </div>
+
+      <!-- 2) AUDIT & X-RAY -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:40ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+        <div style="padding:18px 20px 4px;display:flex;flex-direction:column;gap:4px">
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:15px;color:#1C1C19">Audit schedule &amp; pages</span>
+          <span style="font-size:13px;color:#6B6B65">When we re-audit, and which pages we look at.</span>
+        </div>
+        <div style="padding:14px 20px 18px;display:flex;flex-direction:column;gap:16px">
+          <div class="afx-row2" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Schedule</span>
+              <div style="display:inline-flex;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:8px;padding:2px;align-self:flex-start">
+                <sc-for list="{{ schedules }}" as="s" hint-placeholder-count="3">
+                  <button onClick="{{ s.onClick }}" style="font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:500;height:28px;padding:0 14px;border:1px solid {{ s.border }};background:{{ s.bg }};color:{{ s.color }};border-radius:6px;cursor:pointer">{{ s.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div class="afx-row2" style="display:grid;grid-template-columns:110px 1fr;gap:10px">
+              <label style="display:flex;flex-direction:column;gap:5px">
+                <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Run at</span>
+                <input type="time" value="{{ runAt }}" onInput="{{ onRunAt }}" style="height:36px;padding:0 10px;border:1px solid #DEDDD7;border-radius:6px;background:#FFFFFF;font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19;outline:none" style-focus="border-color:#1C1C19" />
+              </label>
+              <label style="display:flex;flex-direction:column;gap:5px">
+                <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Timezone</span>
+                <select value="{{ tz }}" onChange="{{ onTz }}" style="height:36px;padding:0 10px;border:1px solid #DEDDD7;border-radius:6px;background:#FFFFFF;font-size:13px;color:#1C1C19;cursor:pointer">
+                  <option value="America/Los_Angeles">America/Los_Angeles</option>
+                  <option value="America/New_York">America/New_York</option>
+                  <option value="Europe/London">Europe/London</option>
+                  <option value="Europe/Berlin">Europe/Berlin</option>
+                  <option value="Asia/Tokyo">Asia/Tokyo</option>
+                  <option value="UTC">UTC</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Pages audited</span>
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#6B6B65">25 of 25 auto-detected</span>
+              <div style="display:inline-flex;align-items:center;border:1px solid #DEDDD7;border-radius:6px;overflow:hidden;background:#FFFFFF">
+                <button onClick="{{ decPages }}" aria-label="decrease" style="width:30px;height:34px;border:none;background:#FFFFFF;color:#6B6B65;font-size:18px;line-height:1;cursor:pointer;border-right:1px solid #EAE9E5">−</button>
+                <span style="min-width:38px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19;font-variant-numeric:tabular-nums">{{ pageLimit }}</span>
+                <button onClick="{{ incPages }}" aria-label="increase" style="width:30px;height:34px;border:none;background:#FFFFFF;color:#6B6B65;font-size:18px;line-height:1;cursor:pointer;border-left:1px solid #EAE9E5">+</button>
+              </div>
+              <a href="#" style="font-family:'Archivo',sans-serif;font-size:12.5px">Edit page set</a>
+              <a href="#" style="font-family:'Archivo',sans-serif;font-size:12.5px">Exclude URLs…</a>
+            </div>
+            <textarea value="{{ excludes }}" onInput="{{ onExcludes }}" rows="2" placeholder="/preview/*&#10;/staging/*" style="padding:10px 12px;border:1px solid #DEDDD7;border-radius:6px;background:#FFFFFF;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1C1C19;outline:none;resize:vertical;line-height:1.6" style-focus="border-color:#1C1C19"></textarea>
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95">last detected 2h ago</span>
+              <button onClick="{{ onRedetect }}" style="height:30px;padding:0 12px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:6px;font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:500;color:#1C1C19;cursor:pointer">Re-detect pages now</button>
+            </div>
+          </div>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid #F0F0EC;background:#FCFCFA;display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95">Next audit: {{ nextAudit }}.</span>
+          <button onClick="{{ onSave2 }}" style="height:34px;padding:0 15px;background:#1C1C19;border:none;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8;cursor:pointer">{{ save2 }}</button>
+        </div>
+      </div>
+
+      <!-- 3) FIX-PRs -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:60ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+        <div style="padding:18px 20px 4px;display:flex;flex-direction:column;gap:4px">
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:15px;color:#1C1C19">Pull requests</span>
+          <span style="font-size:13px;color:#6B6B65">How Answerfox opens fixes on your repo.</span>
+        </div>
+        <div style="padding:14px 20px 18px;display:flex;flex-direction:column;gap:16px">
+          <!-- Linked repo -->
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Linked repository</span>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #EAE9E5;background:#FCFCFA;border-radius:8px;flex-wrap:wrap">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19">stripe/stripe-docs</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95">installation: stripe (org)</span>
+              <span style="flex:1 1 auto"></span>
+              <button style="height:30px;padding:0 12px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:6px;font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:500;color:#1C1C19;cursor:pointer">Relink</button>
+            </div>
+          </div>
+
+          <!-- Mode -->
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Mode</span>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ prModes }}" as="m" hint-placeholder-count="2">
+                <label onClick="{{ m.onClick }}" style="display:flex;gap:11px;padding:11px 12px;border:1px solid {{ m.border }};background:{{ m.bg }};border-radius:8px;cursor:pointer;align-items:flex-start">
+                  <span style="flex:0 0 auto;margin-top:2px;width:16px;height:16px;border-radius:50%;border:1.5px solid {{ m.ringColor }};background:#FFFFFF;display:inline-flex;align-items:center;justify-content:center">
+                    <sc-if value="{{ m.on }}" hint-placeholder-val="{{ true }}">
+                      <span style="width:8px;height:8px;border-radius:50%;background:#1C1C19"></span>
+                    </sc-if>
+                  </span>
+                  <span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                    <span style="font-size:13.5px;font-weight:500;color:#1C1C19">{{ m.label }}</span>
+                    <span style="font-size:12.5px;color:#6B6B65">{{ m.desc }}</span>
+                  </span>
+                </label>
+              </sc-for>
+            </div>
+          </div>
+
+          <div class="afx-row2" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <label style="display:flex;flex-direction:column;gap:5px">
+              <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Target branch</span>
+              <select value="{{ branch }}" onChange="{{ onBranch }}" style="height:36px;padding:0 10px;border:1px solid #DEDDD7;border-radius:6px;background:#FFFFFF;font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19;cursor:pointer">
+                <option value="main">main</option>
+                <option value="dev">dev</option>
+                <option value="staging">staging</option>
+              </select>
+            </label>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Open-PR cap</span>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="display:inline-flex;align-items:center;border:1px solid #DEDDD7;border-radius:6px;overflow:hidden;background:#FFFFFF">
+                  <button onClick="{{ decCap }}" aria-label="decrease" style="width:30px;height:36px;border:none;background:#FFFFFF;color:#6B6B65;font-size:18px;line-height:1;cursor:pointer;border-right:1px solid #EAE9E5">−</button>
+                  <span style="min-width:38px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19">{{ prCap }}</span>
+                  <button onClick="{{ incCap }}" aria-label="increase" style="width:30px;height:36px;border:none;background:#FFFFFF;color:#6B6B65;font-size:18px;line-height:1;cursor:pointer;border-left:1px solid #EAE9E5">+</button>
+                </div>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95">New fixes queue until an open one merges.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Labels -->
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">PR labels</span>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 10px;border:1px solid #DEDDD7;border-radius:6px;background:#FFFFFF;min-height:36px">
+              <sc-for list="{{ labelChips }}" as="lb" hint-placeholder-count="2">
+                <span style="display:inline-flex;align-items:center;gap:6px;padding:3px 4px 3px 10px;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#1C1C19">{{ lb.name }}<button aria-label="remove" onClick="{{ lb.onRemove }}" style="width:18px;height:18px;border:none;background:transparent;color:#9C9C95;cursor:pointer;border-radius:50%;display:inline-flex;align-items:center;justify-content:center">×</button></span>
+              </sc-for>
+              <input value="{{ labelDraft }}" onInput="{{ onLabelDraft }}" onKeyDown="{{ onLabelKey }}" placeholder="Add label…" style="flex:1 1 120px;min-width:120px;border:none;outline:none;background:transparent;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1C1C19" />
+            </div>
+          </div>
+
+          <!-- Auto-generate for -->
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Auto-generate for</span>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px">
+              <sc-for list="{{ autoGen }}" as="ag" hint-placeholder-count="5">
+                <label onClick="{{ ag.onToggle }}" style="display:flex;align-items:center;gap:10px;padding:6px 4px;cursor:pointer">
+                  <span style="flex:0 0 auto;width:18px;height:18px;border-radius:5px;border:1.5px solid {{ ag.border }};background:{{ ag.bg }};display:inline-flex;align-items:center;justify-content:center">
+                    <sc-if value="{{ ag.on }}" hint-placeholder-val="{{ true }}">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </sc-if>
+                  </span>
+                  <span style="font-size:13.5px;color:#1C1C19">{{ ag.label }}</span>
+                </label>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid #F0F0EC;background:#FCFCFA;display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95">Applies to fixes generated after save.</span>
+          <button onClick="{{ onSave3 }}" style="height:34px;padding:0 15px;background:#1C1C19;border:none;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8;cursor:pointer">{{ save3 }}</button>
+        </div>
+      </div>
+
+      <!-- 4) DRIFT GUARD -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:80ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+        <div style="padding:18px 20px 4px;display:flex;flex-direction:column;gap:4px">
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:15px;color:#1C1C19">Drift monitoring</span>
+          <span style="font-size:13px;color:#6B6B65">Watch every deploy and catch regressions.</span>
+        </div>
+        <div style="padding:14px 20px 18px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <span style="font-size:13.5px;font-weight:500;color:#1C1C19">Enable Drift Guard</span>
+              <span style="font-size:12.5px;color:#6B6B65">Re-audit after every configured trigger.</span>
+            </div>
+            <button onClick="{{ onToggleDrift }}" aria-pressed="{{ driftOn }}" style="flex:0 0 auto;position:relative;width:38px;height:22px;border:none;border-radius:999px;background:{{ driftTrack }};cursor:pointer;padding:0">
+              <span style="position:absolute;top:2px;left:{{ driftKnob }};width:18px;height:18px;border-radius:50%;background:#FFFFFF;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:left .18s ease"></span>
+            </button>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Watch triggers</span>
+            <div style="display:flex;flex-wrap:wrap;gap:8px 16px">
+              <sc-for list="{{ triggers }}" as="t" hint-placeholder-count="3">
+                <label onClick="{{ t.onToggle }}" style="display:flex;align-items:center;gap:10px;padding:6px 4px;cursor:pointer">
+                  <span style="flex:0 0 auto;width:18px;height:18px;border-radius:5px;border:1.5px solid {{ t.border }};background:{{ t.bg }};display:inline-flex;align-items:center;justify-content:center">
+                    <sc-if value="{{ t.on }}" hint-placeholder-val="{{ true }}">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </sc-if>
+                  </span>
+                  <span style="font-size:13.5px;color:#1C1C19">{{ t.label }}</span>
+                </label>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Alert threshold</span>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <span style="font-size:13.5px;color:#6B6B65">when readiness drops by</span>
+              <div style="display:inline-flex;align-items:center;border:1px solid #DEDDD7;border-radius:6px;overflow:hidden;background:#FFFFFF">
+                <button onClick="{{ decDrop }}" style="width:30px;height:34px;border:none;background:#FFFFFF;color:#6B6B65;font-size:18px;line-height:1;cursor:pointer;border-right:1px solid #EAE9E5">−</button>
+                <span style="min-width:38px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19">{{ dropPts }}</span>
+                <button onClick="{{ incDrop }}" style="width:30px;height:34px;border:none;background:#FFFFFF;color:#6B6B65;font-size:18px;line-height:1;cursor:pointer;border-left:1px solid #EAE9E5">+</button>
+              </div>
+              <span style="font-size:13.5px;color:#6B6B65">points</span>
+            </div>
+          </div>
+
+          <div class="afx-row2" style="display:grid;grid-template-columns:1.4fr 1fr;gap:12px">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Alert emails</span>
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 10px;border:1px solid #DEDDD7;border-radius:6px;background:#FFFFFF;min-height:36px">
+                <sc-for list="{{ emailChips }}" as="em" hint-placeholder-count="1">
+                  <span style="display:inline-flex;align-items:center;gap:6px;padding:3px 4px 3px 10px;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#1C1C19">{{ em.name }}<button aria-label="remove" onClick="{{ em.onRemove }}" style="width:18px;height:18px;border:none;background:transparent;color:#9C9C95;cursor:pointer;border-radius:50%">×</button></span>
+                </sc-for>
+                <input value="{{ emailDraft }}" onInput="{{ onEmailDraft }}" onKeyDown="{{ onEmailKey }}" placeholder="Add email…" style="flex:1 1 140px;min-width:140px;border:none;outline:none;background:transparent;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1C1C19" />
+              </div>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:5px">
+              <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Reminders</span>
+              <select value="{{ reminder }}" onChange="{{ onReminder }}" style="height:36px;padding:0 10px;border:1px solid #DEDDD7;border-radius:6px;background:#FFFFFF;font-size:13px;color:#1C1C19;cursor:pointer">
+                <option value="off">off</option>
+                <option value="24">every 24h until resolved</option>
+                <option value="12">every 12h until resolved</option>
+                <option value="72">every 72h until resolved</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid #F0F0EC;background:#FCFCFA;display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95">Applies to every deploy after save.</span>
+          <button onClick="{{ onSave4 }}" style="height:34px;padding:0 15px;background:#1C1C19;border:none;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8;cursor:pointer">{{ save4 }}</button>
+        </div>
+      </div>
+
+      <!-- 5) AI TRAFFIC -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:100ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+        <div style="padding:18px 20px 4px;display:flex;flex-direction:column;gap:4px">
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:15px;color:#1C1C19">Agent traffic tracking</span>
+          <span style="font-size:13px;color:#6B6B65">Classify which AI agents fetch this site. Free.</span>
+        </div>
+        <div style="padding:14px 20px 18px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <span style="font-size:13.5px;font-weight:500;color:#1C1C19">Enable tracking</span>
+              <span style="font-size:12.5px;color:#6B6B65">Server-side only — no client script, no cookies.</span>
+            </div>
+            <button onClick="{{ onToggleTraffic }}" aria-pressed="{{ trafficOn }}" style="flex:0 0 auto;position:relative;width:38px;height:22px;border:none;border-radius:999px;background:{{ trafficTrack }};cursor:pointer;padding:0">
+              <span style="position:absolute;top:2px;left:{{ trafficKnob }};width:18px;height:18px;border-radius:50%;background:#FFFFFF;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:left .18s ease"></span>
+            </button>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Ingest token</span>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <code style="flex:1 1 220px;min-width:200px;height:36px;display:flex;align-items:center;padding:0 12px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:6px">afx_live_••••••3f2a</code>
+              <button onClick="{{ onCopyToken }}" style="height:36px;padding:0 14px;background:#1C1C19;border:none;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8;cursor:pointer">{{ copyTokenLabel }}</button>
+              <a href="#" style="font-family:'Archivo',sans-serif;font-size:12.5px;color:#9C9C95">Rotate token</a>
+            </div>
+          </div>
+
+          <div class="afx-row2" style="display:grid;grid-template-columns:1.4fr 1fr;gap:12px">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Status</span>
+              <div style="display:flex;align-items:center;gap:8px;height:36px;padding:0 12px;border:1px solid #EAE9E5;background:#F1FAF4;border-radius:6px">
+                <span style="position:relative;width:8px;height:8px;flex:0 0 auto"><span style="position:absolute;inset:0;border-radius:50%;background:#16A34A"></span><span style="position:absolute;inset:-4px;border-radius:50%;background:#16A34A;opacity:.25"></span></span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#15803D">receiving events · last 2m ago</span>
+              </div>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#1C1C19">Retention</span>
+              <select value="{{ retention }}" onChange="{{ onRetention }}" style="height:36px;padding:0 10px;border:1px solid #DEDDD7;border-radius:6px;background:#FFFFFF;font-size:13px;color:#1C1C19;cursor:pointer">
+                <option value="30">30 days</option>
+                <option value="90">90 days</option>
+                <option value="180">180 days</option>
+                <option value="365">365 days</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6) VERIFICATION -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:120ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+        <div style="padding:18px 20px 4px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:15px;color:#1C1C19">Ownership</span>
+            <span style="font-size:13px;color:#6B6B65">How you proved you own this domain.</span>
+          </div>
+          <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#15803D;background:#E7F6EC;border-radius:999px;padding:3px 11px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>verified</span>
+        </div>
+        <div style="padding:14px 20px 6px;display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ verifRows }}" as="v" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:12px;padding:11px 12px;border:1px solid {{ v.border }};background:{{ v.bg }};border-radius:8px">
+              {{ v.icon }}
+              <span style="flex:1 1 auto;font-size:13.5px;font-weight:500;color:{{ v.labelColor }}">{{ v.label }}</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:{{ v.statusColor }}">{{ v.status }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:8px 20px 18px;display:flex;flex-direction:column;gap:6px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9C9C95">Meta tag</span>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <code style="flex:1 1 320px;min-width:0;height:36px;display:flex;align-items:center;padding:0 12px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1C1C19;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:6px;white-space:nowrap;overflow:auto">&lt;meta name="answerfox-verify" content="9f2a1c-4b8e"&gt;</code>
+            <button onClick="{{ onCopyMeta }}" style="height:36px;padding:0 12px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:6px;font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:500;color:#1C1C19;cursor:pointer">{{ copyMetaLabel }}</button>
+          </div>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid #F0F0EC;background:#FCFCFA;display:flex;align-items:center;justify-content:flex-end">
+          <button onClick="{{ onReverify }}" style="height:34px;padding:0 14px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:6px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#1C1C19;cursor:pointer">Re-verify</button>
+        </div>
+      </div>
+
+      <!-- 7) DANGER ZONE -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:140ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden;border-top:2px solid #DC2626">
+        <div style="padding:18px 20px 8px;display:flex;flex-direction:column;gap:2px">
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:15px;color:#DC2626">Danger zone</span>
+        </div>
+        <div style="padding:6px 20px 18px;display:flex;flex-direction:column">
+          <sc-for list="{{ dangerRows }}" as="d" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:16px;padding:14px 0;border-top:1px solid #F0F0EC">
+              <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:13.5px;font-weight:500;color:#1C1C19">{{ d.label }}</span>
+                <span style="font-size:12.5px;color:#6B6B65;text-wrap:pretty">{{ d.desc }}</span>
+              </div>
+              <button onClick="{{ d.onClick }}" style="flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 13px;background:{{ d.btnBg }};border:1px solid {{ d.btnBorder }};border-radius:6px;font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:500;color:{{ d.btnColor }};cursor:pointer;white-space:nowrap">{{ d.btn }}</button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Delete site dialog -->
+<sc-if value="{{ showDelete }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;background:rgba(28,28,25,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100" onClick="{{ onCancelDelete }}">
+    <div onClick="{{ stopProp }}" style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:14px;max-width:460px;width:100%;padding:22px 22px 18px;display:flex;flex-direction:column;gap:14px;box-shadow:0 20px 40px rgba(0,0,0,.14)">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:16px;color:#DC2626">Delete stripe.com</span>
+        <span style="font-size:13.5px;color:#6B6B65;text-wrap:pretty">Removes the site, its audit history, and all monitoring. Type <span style="font-family:'JetBrains Mono',monospace;color:#1C1C19">stripe.com</span> to confirm.</span>
+      </div>
+      <input value="{{ delText }}" onInput="{{ onDelText }}" placeholder="stripe.com" style="height:38px;padding:0 12px;border:1px solid #DEDDD7;border-radius:8px;background:#FFFFFF;font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19;outline:none" style-focus="border-color:#DC2626" />
+      <div style="display:flex;justify-content:flex-end;gap:8px">
+        <button onClick="{{ onCancelDelete }}" style="height:36px;padding:0 14px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:8px;font-size:13px;font-weight:500;color:#1C1C19;cursor:pointer">Cancel</button>
+        <button onClick="{{ onConfirmDelete }}" disabled="{{ delDisabled }}" style="height:36px;padding:0 14px;background:{{ delBtnBg }};border:none;border-radius:8px;font-size:13px;font-weight:500;color:#FFFFFF;cursor:{{ delCursor }};opacity:{{ delOpacity }}">Delete site</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1160, &quot;height&quot;: 1200}}">
+class Component extends DCLogic {
+  state = {
+    name: 'stripe.com',
+    env: 'production',
+    copyIdLabel: 'Copy',
+    save1: 'Save',
+
+    schedule: 'weekly',
+    runAt: '09:00',
+    tz: 'America/Los_Angeles',
+    pageLimit: 25,
+    excludes: '',
+    save2: 'Save',
+
+    prMode: 'pr',
+    branch: 'main',
+    prCap: 5,
+    labels: ['answerfox', 'agent-readiness'],
+    labelDraft: '',
+    autoGen: { schema: true, meta: true, robots: true, prerender: true, headings: false },
+    save3: 'Save',
+
+    driftOn: true,
+    triggers: { deploy: true, push: true, cron: true },
+    dropPts: 5,
+    emails: ['anuj@acme.dev'],
+    emailDraft: '',
+    reminder: '24',
+    save4: 'Save',
+
+    trafficOn: true,
+    copyTokenLabel: 'Copy',
+    retention: '90',
+
+    copyMetaLabel: 'Copy',
+    showDelete: false,
+    delText: '',
+  };
+
+  autoGenDefs = [
+    { key: 'schema',    label: 'Structured data' },
+    { key: 'meta',      label: 'Crawler meta' },
+    { key: 'robots',    label: 'robots/llms.txt' },
+    { key: 'prerender', label: 'Prerender fallbacks' },
+    { key: 'headings',  label: 'Headings' },
+  ];
+  triggerDefs = [
+    { key: 'deploy', label: 'Deploy' },
+    { key: 'push',   label: 'Push to main' },
+    { key: 'cron',   label: 'Daily cron' },
+  ];
+
+  flash = (k) => {
+    this.setState({ [k]: 'Saved' });
+    clearTimeout(this['_' + k]);
+    this['_' + k] = setTimeout(() => this.setState({ [k]: 'Save' }), 1500);
+  };
+  flashCopy = (k) => {
+    this.setState({ [k]: 'Copied' });
+    clearTimeout(this['_' + k]);
+    this['_' + k] = setTimeout(() => this.setState({ [k]: 'Copy' }), 1500);
+  };
+
+  onName = (e) => this.setState({ name: e.currentTarget.value });
+  onCopyId = () => this.flashCopy('copyIdLabel');
+  setEnv = (v) => this.setState({ env: v });
+  onSave1 = () => this.flash('save1');
+
+  setSchedule = (v) => this.setState({ schedule: v });
+  onRunAt = (e) => this.setState({ runAt: e.currentTarget.value });
+  onTz = (e) => this.setState({ tz: e.currentTarget.value });
+  incPages = () => this.setState(s => ({ pageLimit: Math.min(500, s.pageLimit + 5) }));
+  decPages = () => this.setState(s => ({ pageLimit: Math.max(5, s.pageLimit - 5) }));
+  onExcludes = (e) => this.setState({ excludes: e.currentTarget.value });
+  onRedetect = () => {};
+  onSave2 = () => this.flash('save2');
+
+  setPrMode = (v) => this.setState({ prMode: v });
+  onBranch = (e) => this.setState({ branch: e.currentTarget.value });
+  incCap = () => this.setState(s => ({ prCap: Math.min(50, s.prCap + 1) }));
+  decCap = () => this.setState(s => ({ prCap: Math.max(1, s.prCap - 1) }));
+  onLabelDraft = (e) => this.setState({ labelDraft: e.currentTarget.value });
+  onLabelKey = (e) => {
+    if ((e.key === 'Enter' || e.key === ',') && this.state.labelDraft.trim()) {
+      e.preventDefault();
+      const v = this.state.labelDraft.trim().replace(/,$/, '');
+      if (v && !this.state.labels.includes(v)) this.setState(s => ({ labels: [...s.labels, v], labelDraft: '' }));
+      else this.setState({ labelDraft: '' });
+    } else if (e.key === 'Backspace' && !this.state.labelDraft) {
+      this.setState(s => ({ labels: s.labels.slice(0, -1) }));
+    }
+  };
+  removeLabel = (n) => this.setState(s => ({ labels: s.labels.filter(x => x !== n) }));
+  toggleAutoGen = (k) => this.setState(s => ({ autoGen: { ...s.autoGen, [k]: !s.autoGen[k] } }));
+  onSave3 = () => this.flash('save3');
+
+  onToggleDrift = () => this.setState(s => ({ driftOn: !s.driftOn }));
+  toggleTrigger = (k) => this.setState(s => ({ triggers: { ...s.triggers, [k]: !s.triggers[k] } }));
+  incDrop = () => this.setState(s => ({ dropPts: Math.min(50, s.dropPts + 1) }));
+  decDrop = () => this.setState(s => ({ dropPts: Math.max(1, s.dropPts - 1) }));
+  onEmailDraft = (e) => this.setState({ emailDraft: e.currentTarget.value });
+  onEmailKey = (e) => {
+    if ((e.key === 'Enter' || e.key === ' ' || e.key === ',') && this.state.emailDraft.trim()) {
+      e.preventDefault();
+      const v = this.state.emailDraft.trim().replace(/,$/, '');
+      if (v && !this.state.emails.includes(v)) this.setState(s => ({ emails: [...s.emails, v], emailDraft: '' }));
+      else this.setState({ emailDraft: '' });
+    } else if (e.key === 'Backspace' && !this.state.emailDraft) {
+      this.setState(s => ({ emails: s.emails.slice(0, -1) }));
+    }
+  };
+  removeEmail = (n) => this.setState(s => ({ emails: s.emails.filter(x => x !== n) }));
+  onReminder = (e) => this.setState({ reminder: e.currentTarget.value });
+  onSave4 = () => this.flash('save4');
+
+  onToggleTraffic = () => this.setState(s => ({ trafficOn: !s.trafficOn }));
+  onCopyToken = () => this.flashCopy('copyTokenLabel');
+  onRetention = (e) => this.setState({ retention: e.currentTarget.value });
+
+  onCopyMeta = () => this.flashCopy('copyMetaLabel');
+  onReverify = () => {};
+
+  onDelete = () => this.setState({ showDelete: true, delText: '' });
+  onCancelDelete = () => this.setState({ showDelete: false });
+  onDelText = (e) => this.setState({ delText: e.currentTarget.value });
+  onConfirmDelete = () => {
+    if (this.state.delText.trim().toLowerCase() === 'stripe.com') this.setState({ showDelete: false, delText: '' });
+  };
+  stopProp = (e) => e.stopPropagation();
+
+  verifRow(kind, label, status) {
+    const h = React.createElement;
+    const active = kind === 'ok';
+    const border = active ? '#CDE9D6' : '#EAE9E5';
+    const bg = active ? '#F1FAF4' : '#FCFCFA';
+    const stroke = active ? '#15803D' : '#9C9C95';
+    let icon;
+    if (kind === 'ok') {
+      icon = h('svg', { width: 16, height: 16, viewBox: '0 0 24 24', fill: 'none', stroke, strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', style: { flex: '0 0 auto' } }, h('circle', { cx: 12, cy: 12, r: 10 }), h('path', { d: 'm9 12 2 2 4-4' }));
+    } else {
+      icon = h('svg', { width: 16, height: 16, viewBox: '0 0 24 24', fill: 'none', stroke, strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', style: { flex: '0 0 auto' } }, h('circle', { cx: 12, cy: 12, r: 10 }), h('path', { d: 'M8 12h8' }));
+    }
+    return {
+      icon, label, status, border, bg,
+      labelColor: active ? '#1C1C19' : '#6B6B65',
+      statusColor: active ? '#15803D' : '#9C9C95',
+    };
+  }
+
+  renderVals() {
+    const envs = [
+      { key: 'production', label: 'Production' },
+      { key: 'staging',    label: 'Staging' },
+    ].map(e => {
+      const on = e.key === this.state.env;
+      return { label: e.label, onClick: () => this.setEnv(e.key), bg: on ? '#FFFFFF' : 'transparent', border: on ? '#DEDDD7' : 'transparent', color: on ? '#1C1C19' : '#6B6B65' };
+    });
+
+    const schedules = [
+      { key: 'off',    label: 'Off' },
+      { key: 'daily',  label: 'Daily' },
+      { key: 'weekly', label: 'Weekly' },
+    ].map(s => {
+      const on = s.key === this.state.schedule;
+      return { label: s.label, onClick: () => this.setSchedule(s.key), bg: on ? '#FFFFFF' : 'transparent', border: on ? '#DEDDD7' : 'transparent', color: on ? '#1C1C19' : '#6B6B65' };
+    });
+
+    const prModes = [
+      { key: 'pr',     label: 'PR mode',         desc: 'Answerfox opens a pull request for every fix.' },
+      { key: 'sugg',   label: 'Suggestion mode', desc: 'Fixes appear as suggested changes to review; you open the PR.' },
+    ].map(m => {
+      const on = m.key === this.state.prMode;
+      return { ...m, on, onClick: () => this.setPrMode(m.key), border: on ? '#1C1C19' : '#EAE9E5', bg: on ? '#FCFCFA' : '#FFFFFF', ringColor: on ? '#1C1C19' : '#C4C3BC' };
+    });
+
+    const labelChips = this.state.labels.map(n => ({ name: n, onRemove: () => this.removeLabel(n) }));
+    const emailChips = this.state.emails.map(n => ({ name: n, onRemove: () => this.removeEmail(n) }));
+
+    const boxColor = (on) => ({ bg: on ? '#1C1C19' : '#FFFFFF', border: on ? '#1C1C19' : '#DEDDD7' });
+    const autoGen = this.autoGenDefs.map(ag => {
+      const on = !!this.state.autoGen[ag.key];
+      const bc = boxColor(on);
+      return { label: ag.label, on, bg: bc.bg, border: bc.border, onToggle: () => this.toggleAutoGen(ag.key) };
+    });
+    const triggers = this.triggerDefs.map(t => {
+      const on = !!this.state.triggers[t.key];
+      const bc = boxColor(on);
+      return { label: t.label, on, bg: bc.bg, border: bc.border, onToggle: () => this.toggleTrigger(t.key) };
+    });
+
+    const verifRows = [
+      this.verifRow('ok',    'Meta tag',         'verified'),
+      this.verifRow('muted', 'well-known file',  'not used'),
+      this.verifRow('muted', 'DNS TXT record',   'not used'),
+    ];
+
+    const dangerRows = [
+      { label: 'Pause monitoring',   desc: 'Stop audits, drift checks, and traffic tracking. Keeps your data.', btn: 'Pause',       btnBg: '#FFFFFF', btnBorder: '#EAE9E5', btnColor: '#1C1C19', onClick: () => {} },
+      { label: 'Relink repository',  desc: 'Point fix-PRs at a different repo.',                                btn: 'Relink',      btnBg: '#FFFFFF', btnBorder: '#EAE9E5', btnColor: '#1C1C19', onClick: () => {} },
+      { label: 'Delete site',        desc: "Removes stripe.com, its audit history, and all monitoring. Can't be undone.", btn: 'Delete site', btnBg: '#FFFFFF', btnBorder: '#F0BFBF', btnColor: '#DC2626', onClick: this.onDelete },
+    ];
+
+    const nextAudit = this.state.schedule === 'off' ? 'paused' : (this.state.schedule === 'daily' ? 'tomorrow ' : 'Monday ') + this.state.runAt;
+
+    const canDelete = this.state.delText.trim().toLowerCase() === 'stripe.com';
+
+    return {
+      name: this.state.name, onName: this.onName,
+      envs, copyIdLabel: this.state.copyIdLabel, onCopyId: this.onCopyId,
+      save1: this.state.save1, onSave1: this.onSave1,
+
+      schedules, runAt: this.state.runAt, onRunAt: this.onRunAt,
+      tz: this.state.tz, onTz: this.onTz,
+      pageLimit: this.state.pageLimit, incPages: this.incPages, decPages: this.decPages,
+      excludes: this.state.excludes, onExcludes: this.onExcludes,
+      onRedetect: this.onRedetect, nextAudit,
+      save2: this.state.save2, onSave2: this.onSave2,
+
+      prModes, branch: this.state.branch, onBranch: this.onBranch,
+      prCap: this.state.prCap, incCap: this.incCap, decCap: this.decCap,
+      labelChips, labelDraft: this.state.labelDraft, onLabelDraft: this.onLabelDraft, onLabelKey: this.onLabelKey,
+      autoGen,
+      save3: this.state.save3, onSave3: this.onSave3,
+
+      driftOn: this.state.driftOn, onToggleDrift: this.onToggleDrift,
+      driftTrack: this.state.driftOn ? '#16A34A' : '#DEDDD7', driftKnob: this.state.driftOn ? '18px' : '2px',
+      triggers,
+      dropPts: this.state.dropPts, incDrop: this.incDrop, decDrop: this.decDrop,
+      emailChips, emailDraft: this.state.emailDraft, onEmailDraft: this.onEmailDraft, onEmailKey: this.onEmailKey,
+      reminder: this.state.reminder, onReminder: this.onReminder,
+      save4: this.state.save4, onSave4: this.onSave4,
+
+      trafficOn: this.state.trafficOn, onToggleTraffic: this.onToggleTraffic,
+      trafficTrack: this.state.trafficOn ? '#16A34A' : '#DEDDD7', trafficKnob: this.state.trafficOn ? '18px' : '2px',
+      copyTokenLabel: this.state.copyTokenLabel, onCopyToken: this.onCopyToken,
+      retention: this.state.retention, onRetention: this.onRetention,
+
+      verifRows,
+      copyMetaLabel: this.state.copyMetaLabel, onCopyMeta: this.onCopyMeta,
+      onReverify: this.onReverify,
+
+      dangerRows,
+
+      showDelete: this.state.showDelete, onCancelDelete: this.onCancelDelete, stopProp: this.stopProp,
+      delText: this.state.delText, onDelText: this.onDelText, onConfirmDelete: this.onConfirmDelete,
+      delDisabled: !canDelete, delBtnBg: canDelete ? '#DC2626' : '#EDA4A4',
+      delCursor: canDelete ? 'pointer' : 'not-allowed', delOpacity: canDelete ? 1 : 0.9,
+    };
+  }
+}
+</script>
+</body>
+</html>

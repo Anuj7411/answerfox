@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/design/support.js"></script>
+<style id="afx-bg-swap">#dc-root>*,#dc-root .sc-host,#afx-shell{background-color:#FCFCFB!important;background-image:repeating-linear-gradient(0deg,rgba(20,22,16,.022) 0 1px,transparent 1px 10px)!important}#afx-shell>div>div:first-child{background-color:#FCFCFB!important;background-image:none!important}</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#FAFAF8;color:#1C1C19;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:#B23A08;text-decoration:none}
+  a:hover{color:#F34504}
+  :focus-visible{outline:2px solid #F34504;outline-offset:2px;border-radius:6px}
+  select{font-family:'JetBrains Mono',monospace}
+  @keyframes afxUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){[data-reveal]{animation:none!important;opacity:1!important;transform:none!important}}
+  @media (max-width:840px){
+    #afx-shell{grid-template-columns:1fr!important}
+    #afx-sidebar{position:static!important;height:auto!important;border-right:none!important;border-bottom:1px solid #EAE9E5!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;gap:10px!important}
+    #afx-sidebar [data-nav-workspace]{display:none!important}
+    #afx-sidebar [data-sidebar-foot]{display:none!important}
+    #afx-sidebar [data-nav-site]{flex-direction:row!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:4px!important;margin:0!important}
+    #afx-sidebar [data-nav-site] [data-group-h]{display:none!important}
+    .afx-phead{flex-direction:column!important;align-items:flex-start!important;gap:16px!important}
+    .afx-run{flex-wrap:wrap!important}
+  }
+</style>
+</helmet>
+
+<div id="afx-shell" style="display:grid;grid-template-columns:240px 1fr;min-height:100vh;background:#FAFAF8">
+
+  <!-- SIDEBAR -->
+  <aside id="afx-sidebar" style="background:#FFFFFF;border-right:1px solid #EAE9E5;padding:16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow:auto">
+    <div style="border:1px solid #EAE9E5;border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;cursor:pointer">
+      <svg viewBox="296 223 927 518" style="display:block;height:19px;width:auto;flex:0 0 auto"><defs><mask id="afxmp3"><rect x="296" y="223" width="927" height="518" fill="#fff"/><rect x="700" y="493" width="523" height="18" fill="#000"/></mask></defs><polygon points="717,223 877,223 970,741 851,741 776,335 443,741 296,741" fill="#1C1C19" mask="url(#afxmp3)"/><polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504"/><polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504"/><polygon points="574,611 674,611 567,741 467,741" fill="#F34504"/></svg>
+      <span style="display:flex;flex-direction:column;line-height:1.2;min-width:0;flex:1 1 auto">
+        <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:13.5px;letter-spacing:-.01em;color:#1C1C19">stripe.com</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">7 sites</span>
+      </span>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+    </div>
+
+    <div data-nav-workspace style="margin-top:12px;display:flex;flex-direction:column;gap:2px">
+      <div data-group-h style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9C9C95;padding:0 12px;margin:4px 0 6px">Workspace</div>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>Overview</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>Sites</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>Billing</a>
+    </div>
+
+    <div data-nav-site style="margin-top:10px;display:flex;flex-direction:column;gap:2px">
+      <div data-group-h style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9C9C95;padding:0 12px;margin:4px 0 6px">stripe.com</div>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>Overview</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg>Findings<span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">11</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>X-Ray</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>Fix-PRs<span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">3</span></a>
+      <a href="#" aria-current="page" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;font-weight:500;color:#1C1C19;background:#F5F5F2;box-shadow:inset 3px 0 0 #F34504"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1C19" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>History</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Drift Guard<span style="margin-left:auto;padding:1px 7px;background:#FBE9E9;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#DC2626">1</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>AI Traffic</a>
+    </div>
+
+    <div data-sidebar-foot style="margin-top:auto;padding-top:14px;border-top:1px solid #EAE9E5;display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A;flex:0 0 auto"></span>watching 25 pages · v0.9</div>
+  </aside>
+
+  <!-- MAIN -->
+  <div style="display:flex;flex-direction:column;min-width:0">
+    <div style="height:56px;background:#FAFAF8;border-bottom:1px solid #EAE9E5;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:20">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95">sites <span style="color:#DEDDD7">/</span> stripe.com <span style="color:#DEDDD7">/</span> <span style="color:#1C1C19">history</span></div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border:1px solid #EAE9E5;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A"></span>Paid</span>
+        <span style="width:28px;height:28px;border-radius:50%;background:#1C1C19;color:#FAFAF8;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500">A</span>
+      </div>
+    </div>
+
+    <div style="max-width:1240px;width:100%;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:18px">
+
+      <!-- PAGE HEADER -->
+      <div class="afx-phead" data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;display:flex;align-items:flex-start;justify-content:space-between;gap:24px">
+        <div>
+          <h1 style="margin:0;font-family:'Archivo',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.02em;color:#1C1C19">History</h1>
+          <p style="margin:6px 0 0;font-size:14px;color:#6B6B65">Every audit of <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19">stripe.com</span> · 14 runs</p>
+        </div>
+        <a href="#" style="display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#6B6B65;padding:7px 12px;border:1px solid #EAE9E5;border-radius:8px;background:#FFFFFF"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Export</a>
+      </div>
+
+      <!-- 1) READINESS TREND -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:40ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
+          <div style="display:flex;align-items:baseline;gap:10px">
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:15px;color:#1C1C19">Readiness over time</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9C9C95">last 14 audits</span>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6B6B65;font-variant-numeric:tabular-nums"><span style="color:#1C1C19;font-weight:500">74</span> now · <span style="color:#15803D">+19</span> over 3 months · peak <span style="color:#1C1C19">76</span></div>
+        </div>
+        <div>{{ chart }}</div>
+      </div>
+
+      <!-- 2) COMPARE RUNS -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:80ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:15px;color:#1C1C19">Compare runs</span>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <select value="{{ fromVal }}" onChange="{{ onFrom }}" style="height:34px;padding:0 10px;border:1px solid #DEDDD7;border-radius:8px;background:#FFFFFF;font-size:12.5px;color:#1C1C19;cursor:pointer">
+              <option value="203">#203 · yesterday</option>
+              <option value="202">#202 · 3d</option>
+              <option value="201">#201 · 1w</option>
+              <option value="200">#200 · 1w</option>
+              <option value="199">#199 · 2w</option>
+            </select>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9C9C95" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            <select value="{{ toVal }}" onChange="{{ onTo }}" ref="{{ toRef }}" style="height:34px;padding:0 10px;border:1px solid #DEDDD7;border-radius:8px;background:#FFFFFF;font-size:12.5px;color:#1C1C19;cursor:pointer">
+              <option value="204">#204 · 2h ago</option>
+              <option value="203">#203 · yesterday</option>
+              <option value="202">#202 · 3d</option>
+              <option value="201">#201 · 1w</option>
+              <option value="200">#200 · 1w</option>
+            </select>
+          </div>
+        </div>
+
+        <sc-if value="{{ identical }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px dashed #E2E1DC;border-radius:10px;padding:22px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#9C9C95">No checks changed between these runs.</div>
+        </sc-if>
+
+        <sc-if value="{{ changed }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <!-- regressed -->
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:baseline;gap:8px;padding:0 2px">
+                <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:13px;color:#DC2626">2 regressed</span>
+              </div>
+              <div style="border:1px solid #EAE9E5;border-radius:10px;overflow:hidden">
+                <div class="afx-run" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #F0F0EC">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6B6B65;flex:0 0 auto">C2</span>
+                  <span style="font-size:13.5px;color:#1C1C19;flex:1 1 auto;min-width:0">Product JSON-LD on /pricing</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:#DC2626;background:#FBE9E9;border-radius:6px;padding:2px 9px;flex:0 0 auto">pass → fail</span>
+                </div>
+                <div class="afx-run" style="display:flex;align-items:center;gap:12px;padding:12px 16px">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6B6B65;flex:0 0 auto">C8</span>
+                  <span style="font-size:13.5px;color:#1C1C19;flex:1 1 auto;min-width:0">Quickstart prerender</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:#DC2626;background:#FBE9E9;border-radius:6px;padding:2px 9px;flex:0 0 auto">pass → fail</span>
+                </div>
+              </div>
+            </div>
+            <!-- fixed -->
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:baseline;gap:8px;padding:0 2px">
+                <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:13px;color:#15803D">1 fixed</span>
+              </div>
+              <div style="border:1px solid #EAE9E5;border-radius:10px;overflow:hidden">
+                <div class="afx-run" style="display:flex;align-items:center;gap:12px;padding:12px 16px">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6B6B65;flex:0 0 auto">C11</span>
+                  <span style="font-size:13.5px;color:#1C1C19;flex:1 1 auto;min-width:0">Organization schema</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:#15803D;background:#E7F6EC;border-radius:6px;padding:2px 9px;flex:0 0 auto">fail → pass</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+
+      <!-- 3) ALL RUNS -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:120ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+        <div style="display:flex;align-items:baseline;gap:10px;padding:16px 20px;border-bottom:1px solid #EAE9E5">
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;color:#1C1C19">All runs</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9C9C95">newest first</span>
+        </div>
+        <div>
+          <sc-for list="{{ runs }}" as="r" hint-placeholder-count="6">
+            <div class="afx-run" style="display:flex;align-items:center;gap:16px;padding:13px 20px;border-top:1px solid #F0F0EC">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19;flex:0 0 auto;width:44px">{{ r.id }}</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;flex:0 0 auto;width:66px">{{ r.when }}</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:{{ r.scoreColor }};font-variant-numeric:tabular-nums;flex:0 0 auto;width:34px;text-align:right">{{ r.score }}</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:{{ r.deltaColor }};font-variant-numeric:tabular-nums;flex:0 0 auto;width:40px">{{ r.delta }}</span>
+              <span style="display:inline-flex;align-items:center;gap:2px;font-family:'JetBrains Mono',monospace;font-size:12px;font-variant-numeric:tabular-nums;flex:0 0 auto">
+                <span style="color:#15803D">{{ r.pass }}</span><span style="color:#DEDDD7">/</span><span style="color:#B45309">{{ r.warn }}</span><span style="color:#DEDDD7">/</span><span style="color:#EA580C">{{ r.fail }}</span><span style="color:#DEDDD7">/</span><span style="color:#DC2626">{{ r.crit }}</span>
+              </span>
+              <span style="flex:1 1 auto"></span>
+              <button onClick="{{ r.onCompare }}" style="flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;border:1px solid #EAE9E5;background:#FFFFFF;border-radius:7px;height:30px;padding:0 12px;font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:500;color:#B23A08;cursor:pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#B23A08" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>Compare</button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1280, &quot;height&quot;: 980}}">
+class Component extends DCLogic {
+  state = { hover: null, from: '203', to: '204' };
+  toRef = React.createRef();
+
+  // 14 audits, oldest -> newest
+  series = [
+    { id: '#191', when: 'Apr 10', score: 55 },
+    { id: '#192', when: 'Apr 22', score: 59 },
+    { id: '#193', when: 'May 2',  score: 63 },
+    { id: '#194', when: 'May 12', score: 76 },
+    { id: '#195', when: 'May 20', score: 68 },
+    { id: '#196', when: 'May 30', score: 57 },
+    { id: '#197', when: 'Jun 8',  score: 50 },
+    { id: '#198', when: 'Jun 16', score: 54 },
+    { id: '#199', when: 'Jun 24', score: 52 },
+    { id: '#200', when: 'Jun 27', score: 58 },
+    { id: '#201', when: 'Jul 1',  score: 60 },
+    { id: '#202', when: 'Jul 5',  score: 64 },
+    { id: '#203', when: 'Jul 7',  score: 61 },
+    { id: '#204', when: 'Jul 8',  score: 74 },
+  ];
+
+  // All-runs table (newest first)
+  runsData = [
+    { id: '#204', when: '2h ago', score: 74, delta: '+13', pass: 38, warn: 7, fail: 4, crit: 1 },
+    { id: '#203', when: '1d',     score: 61, delta: '−3',  pass: 34, warn: 9, fail: 6, crit: 1 },
+    { id: '#202', when: '3d',     score: 64, delta: '+4',  pass: 36, warn: 8, fail: 5, crit: 1 },
+    { id: '#201', when: '1w',     score: 60, delta: '+2',  pass: 33, warn: 10, fail: 6, crit: 1 },
+    { id: '#200', when: '1w',     score: 58, delta: '+6',  pass: 32, warn: 11, fail: 6, crit: 1 },
+    { id: '#199', when: '2w',     score: 52, delta: '—',   pass: 29, warn: 13, fail: 7, crit: 1 },
+  ];
+
+  scoreColor(s) { return s >= 70 ? '#15803D' : s >= 55 ? '#B45309' : '#DC2626'; }
+  deltaColor(d) { return d === '—' ? '#9C9C95' : d[0] === '+' ? '#15803D' : '#DC2626'; }
+
+  onFrom = (e) => this.setState({ from: e.currentTarget.value });
+  onTo = (e) => this.setState({ to: e.currentTarget.value });
+  setTo = (id) => {
+    const num = String(id).replace('#','');
+    // pick a sensible 'from' = the run just before it in the table
+    const idx = this.runsData.findIndex(r => r.id === id);
+    const prev = this.runsData[idx + 1];
+    this.setState({ to: num, from: prev ? prev.id.replace('#','') : this.state.from });
+  };
+
+  buildChart() {
+    const runs = this.series;
+    const W = 1000, H = 300, padL = 30, padR = 24, padT = 24, padB = 34;
+    const n = runs.length;
+    const xs = i => padL + (W - padL - padR) * (i / (n - 1));
+    const ys = s => padT + (H - padT - padB) * (1 - s / 100);
+    const h = React.createElement;
+
+    const guides = [40, 60, 80].map(g =>
+      h('g', { key: 'g' + g },
+        h('line', { x1: padL, x2: W - padR, y1: ys(g), y2: ys(g), stroke: '#EEEDE8', strokeWidth: 1 }),
+        h('text', { x: padL, y: ys(g) - 5, fontFamily: 'JetBrains Mono, monospace', fontSize: 11, fill: '#C4C3BC' }, g)
+      )
+    );
+
+    const linePts = runs.map((r, i) => xs(i) + ',' + ys(r.score)).join(' ');
+    const areaPts = 'M' + linePts.split(' ').join(' L ') + ' L ' + xs(n - 1) + ',' + (H - padB) + ' L ' + xs(0) + ',' + (H - padB) + ' Z';
+
+    const points = runs.map((r, i) => {
+      const last = i === n - 1;
+      const active = this.state.hover === i;
+      const cx = xs(i), cy = ys(r.score);
+      return h('g', {
+        key: 'p' + i, style: { cursor: 'pointer' },
+        onMouseEnter: () => this.setState({ hover: i }),
+        onMouseLeave: () => this.setState({ hover: null }),
+      },
+        h('rect', { x: cx - 16, y: padT, width: 32, height: H - padT - padB, fill: 'transparent' }),
+        last ? h('circle', { cx, cy, r: 9, fill: 'rgba(243,69,4,.14)' }) : null,
+        h('circle', {
+          cx, cy, r: last ? 5.5 : (active ? 4.5 : 3),
+          fill: last ? '#F34504' : '#2F6FED',
+          stroke: '#FFFFFF', strokeWidth: last ? 2 : (active ? 1.75 : 1.25)
+        })
+      );
+    });
+
+    const svg = h('svg', {
+      viewBox: '0 0 ' + W + ' ' + H, width: '100%',
+      style: { display: 'block', height: 'auto', overflow: 'visible' }
+    },
+      h('defs', null,
+        h('linearGradient', { id: 'afxFill', x1: 0, y1: 0, x2: 0, y2: 1 },
+          h('stop', { offset: '0%', stopColor: '#2F6FED', stopOpacity: 0.12 }),
+          h('stop', { offset: '100%', stopColor: '#2F6FED', stopOpacity: 0 })
+        )
+      ),
+      guides,
+      h('path', { d: areaPts, fill: 'url(#afxFill)' }),
+      h('polyline', { points: linePts, fill: 'none', stroke: '#2F6FED', strokeWidth: 2, strokeLinejoin: 'round', strokeLinecap: 'round' }),
+      points
+    );
+
+    // tooltip as HTML overlay positioned by percentage
+    let tip = null;
+    const hv = this.state.hover;
+    if (hv != null) {
+      const r = runs[hv];
+      const leftPct = (xs(hv) / W) * 100;
+      const topPct = (ys(r.score) / H) * 100;
+      tip = h('div', {
+        style: {
+          position: 'absolute', left: leftPct + '%', top: topPct + '%',
+          transform: 'translate(-50%, calc(-100% - 12px))',
+          background: '#1C1C19', color: '#FAFAF8', borderRadius: 8,
+          padding: '7px 10px', pointerEvents: 'none', whiteSpace: 'nowrap',
+          boxShadow: '0 4px 14px rgba(0,0,0,.18)', zIndex: 5
+        }
+      },
+        h('div', { style: { fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#B8B8B0' } }, r.id + ' · ' + r.when),
+        h('div', { style: { fontFamily: 'JetBrains Mono, monospace', fontSize: 14, fontWeight: 500, marginTop: 2 } }, 'readiness ' + r.score)
+      );
+    }
+
+    return h('div', { style: { position: 'relative', width: '100%' } }, svg, tip);
+  }
+
+  renderVals() {
+    const from = this.state.from, to = this.state.to;
+    const identical = from === to;
+    const runs = this.runsData.map(r => ({
+      ...r,
+      scoreColor: this.scoreColor(r.score),
+      deltaColor: this.deltaColor(r.delta),
+      onCompare: () => this.setTo(r.id),
+    }));
+    return {
+      chart: this.buildChart(),
+      fromVal: from, toVal: to,
+      onFrom: this.onFrom, onTo: this.onTo, toRef: this.toRef,
+      identical, changed: !identical,
+      runs,
+    };
+  }
+}
+</script>
+</body>
+</html>

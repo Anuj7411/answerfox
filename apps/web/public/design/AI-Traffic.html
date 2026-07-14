@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/design/support.js"></script>
+<style id="afx-bg-swap">#dc-root>*,#dc-root .sc-host,#afx-shell{background-color:#FCFCFB!important;background-image:repeating-linear-gradient(0deg,rgba(20,22,16,.022) 0 1px,transparent 1px 10px)!important}#afx-shell>div>div:first-child{background-color:#FCFCFB!important;background-image:none!important}</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#FAFAF8;color:#1C1C19;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:#B23A08;text-decoration:none}
+  a:hover{color:#F34504}
+  :focus-visible{outline:2px solid #F34504;outline-offset:2px;border-radius:6px}
+  @keyframes afxUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){[data-reveal]{animation:none!important;opacity:1!important;transform:none!important}}
+  @media (max-width:900px){ .afx-cols{grid-template-columns:1fr!important} }
+  @media (max-width:840px){
+    #afx-shell{grid-template-columns:1fr!important}
+    #afx-sidebar{position:static!important;height:auto!important;border-right:none!important;border-bottom:1px solid #EAE9E5!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;gap:10px!important}
+    #afx-sidebar [data-nav-workspace]{display:none!important}
+    #afx-sidebar [data-sidebar-foot]{display:none!important}
+    #afx-sidebar [data-nav-site]{flex-direction:row!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:4px!important;margin:0!important}
+    #afx-sidebar [data-nav-site] [data-group-h]{display:none!important}
+    .afx-phead{flex-direction:column!important;align-items:flex-start!important;gap:16px!important}
+  }
+</style>
+</helmet>
+
+<div id="afx-shell" style="display:grid;grid-template-columns:240px 1fr;min-height:100vh;background:#FAFAF8">
+
+  <!-- SIDEBAR -->
+  <aside id="afx-sidebar" style="background:#FFFFFF;border-right:1px solid #EAE9E5;padding:16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow:auto">
+    <div style="border:1px solid #EAE9E5;border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;cursor:pointer">
+      <svg viewBox="296 223 927 518" style="display:block;height:19px;width:auto;flex:0 0 auto"><defs><mask id="afxmp4"><rect x="296" y="223" width="927" height="518" fill="#fff"/><rect x="700" y="493" width="523" height="18" fill="#000"/></mask></defs><polygon points="717,223 877,223 970,741 851,741 776,335 443,741 296,741" fill="#1C1C19" mask="url(#afxmp4)"/><polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504"/><polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504"/><polygon points="574,611 674,611 567,741 467,741" fill="#F34504"/></svg>
+      <span style="display:flex;flex-direction:column;line-height:1.2;min-width:0;flex:1 1 auto">
+        <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:13.5px;letter-spacing:-.01em;color:#1C1C19">stripe.com</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">7 sites</span>
+      </span>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+    </div>
+
+    <div data-nav-workspace style="margin-top:12px;display:flex;flex-direction:column;gap:2px">
+      <div data-group-h style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9C9C95;padding:0 12px;margin:4px 0 6px">Workspace</div>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>Overview</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>Sites</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>Billing</a>
+    </div>
+
+    <div data-nav-site style="margin-top:10px;display:flex;flex-direction:column;gap:2px">
+      <div data-group-h style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9C9C95;padding:0 12px;margin:4px 0 6px">stripe.com</div>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>Overview</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg>Findings<span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">11</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>X-Ray</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>Fix-PRs<span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">3</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>History</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Drift Guard<span style="margin-left:auto;padding:1px 7px;background:#FBE9E9;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#DC2626">1</span></a>
+      <a href="#" aria-current="page" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;font-weight:500;color:#1C1C19;background:#F5F5F2;box-shadow:inset 3px 0 0 #F34504"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1C19" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>AI Traffic</a>
+    </div>
+
+    <div data-sidebar-foot style="margin-top:auto;padding-top:14px;border-top:1px solid #EAE9E5;display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A;flex:0 0 auto"></span>watching 25 pages · v0.9</div>
+  </aside>
+
+  <!-- MAIN -->
+  <div style="display:flex;flex-direction:column;min-width:0">
+    <div style="height:56px;background:#FAFAF8;border-bottom:1px solid #EAE9E5;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:20">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95">sites <span style="color:#DEDDD7">/</span> stripe.com <span style="color:#DEDDD7">/</span> <span style="color:#1C1C19">ai-traffic</span></div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border:1px solid #EAE9E5;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A"></span>Paid</span>
+        <span style="width:28px;height:28px;border-radius:50%;background:#1C1C19;color:#FAFAF8;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500">A</span>
+      </div>
+    </div>
+
+    <div style="max-width:1240px;width:100%;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:18px">
+
+      <!-- PAGE HEADER -->
+      <div class="afx-phead" data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;display:flex;align-items:flex-start;justify-content:space-between;gap:24px">
+        <div>
+          <h1 style="margin:0;font-family:'Archivo',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.02em;color:#1C1C19">AI Traffic</h1>
+          <p style="margin:6px 0 0;font-size:14px;color:#6B6B65">Which AI agents are actually fetching <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19">stripe.com</span></p>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex:0 0 auto">
+          <div style="display:inline-flex;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:8px;padding:2px">
+            <sc-for list="{{ ranges }}" as="rg" hint-placeholder-count="3">
+              <button onClick="{{ rg.onClick }}" style="font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:500;height:28px;padding:0 13px;border:1px solid {{ rg.border }};background:{{ rg.bg }};color:{{ rg.color }};border-radius:6px;cursor:pointer">{{ rg.label }}</button>
+            </sc-for>
+          </div>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">Free with every site.</span>
+        </div>
+      </div>
+
+      <!-- 1) TRAFFIC CHART -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:40ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#6B6B65;font-variant-numeric:tabular-nums"><span style="color:#1C1C19;font-weight:500;font-size:15px">{{ headHits }}</span> agent requests · {{ headSpan }} · <span style="color:#1C1C19">{{ headPct }}</span> of all traffic</div>
+        <div>{{ chart }}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px 22px;border-top:1px solid #F0F0EC;padding-top:14px">
+          <sc-for list="{{ legend }}" as="lg" hint-placeholder-count="6">
+            <div style="display:inline-flex;align-items:center;gap:8px">
+              <span style="width:9px;height:9px;border-radius:3px;background:{{ lg.color }};flex:0 0 auto"></span>
+              <span style="font-size:13px;color:#1C1C19;font-weight:500">{{ lg.name }}</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65;font-variant-numeric:tabular-nums">{{ lg.count }}</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95">{{ lg.pct }}</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ lg.trendColor }}">{{ lg.trend }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- 2) TWO COLUMNS -->
+      <div class="afx-cols" data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:80ms;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch">
+
+        <!-- LEFT: By agent -->
+        <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:16px">
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:15px;color:#1C1C19">By agent</span>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <sc-for list="{{ agents }}" as="a" hint-placeholder-count="5">
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="width:10px;height:10px;border-radius:3px;background:{{ a.color }};flex:0 0 auto"></span>
+                  <span style="font-size:13.5px;font-weight:500;color:#1C1C19;flex:1 1 auto;min-width:0">{{ a.name }}</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19;font-variant-numeric:tabular-nums">{{ a.count }}</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;width:34px;text-align:right">{{ a.pct }}</span>
+                </div>
+                <div style="height:7px;border-radius:4px;background:#F2F1EC;overflow:hidden">
+                  <div style="height:100%;width:{{ a.barPct }};background:{{ a.color }};border-radius:4px"></div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- RIGHT: Wire up tracking -->
+        <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:15px;color:#1C1C19">Wire up tracking</span>
+            <span style="font-size:13px;color:#6B6B65;text-wrap:pretty">Add one middleware and we classify every agent hit, server-side.</span>
+          </div>
+
+          <div style="margin:0;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:10px;padding:14px 16px;overflow:auto;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;color:#1C1C19"><div><span style="color:#9C9C95">// middleware.ts</span></div><div><span style="color:#7C3AED">import</span> { afx } <span style="color:#7C3AED">from</span> <span style="color:#15803D">'@answerfox/edge'</span></div><div>&nbsp;</div><div><span style="color:#7C3AED">export const</span> middleware = afx.<span style="color:#2F6FED">track</span>({</div><div>&nbsp;&nbsp;token: process.env.<span style="color:#B45309">AFX_INGEST_TOKEN</span>,</div><div>})</div><div>&nbsp;</div><div><span style="color:#7C3AED">export const</span> config = { matcher: <span style="color:#15803D">'/:path*'</span> }</div></div>
+
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9C9C95">Ingest token</span>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <code style="flex:1 1 auto;min-width:160px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:8px;padding:9px 12px">afx_live_••••••3f2a</code>
+              <button onClick="{{ onCopy }}" style="flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 14px;background:#1C1C19;border:none;border-radius:8px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8;cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>{{ copyLabel }}</button>
+            </div>
+            <a href="#" style="font-family:'Archivo',sans-serif;font-size:12.5px;color:#9C9C95;align-self:flex-start">Rotate token</a>
+          </div>
+
+          <div style="margin-top:auto;border-top:1px solid #F0F0EC;padding-top:12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95">Server-side only — no client script, no cookies.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1280, &quot;height&quot;: 940}}">
+class Component extends DCLogic {
+  state = { range: '30', copied: false };
+
+  // fixed agent hues — one meaning each
+  agentDefs = [
+    { name: 'ChatGPT',    color: '#2F6FED', share: 0.44, trend: '↑' },
+    { name: 'Perplexity', color: '#7C3AED', share: 0.20, trend: '↑' },
+    { name: 'Gemini',     color: '#0891B2', share: 0.15, trend: '↑' },
+    { name: 'Claude',     color: '#D97706', share: 0.12, trend: '↑' },
+    { name: 'Other bots', color: '#15803D', share: 0.09, trend: '→' },
+  ];
+  humanColor = '#C4C3BC';
+
+  // per range: agent total, agent share of all traffic, span label, points
+  rangeCfg = {
+    '7':  { agent: 112000,  pct: 0.39, span: 'last 7 days',  pts: 7,  head: 'last 30 days' },
+    '30': { agent: 482000,  pct: 0.41, span: 'last 30 days', pts: 30 },
+    '90': { agent: 1340000, pct: 0.43, span: 'last 90 days', pts: 30 },
+  };
+
+  fmt(v) {
+    if (v >= 1e6) return (v / 1e6).toFixed(2) + 'M';
+    if (v >= 1e3) return Math.round(v / 1e3) + 'K';
+    return String(Math.round(v));
+  }
+
+  onCopy = () => {
+    try { navigator.clipboard && navigator.clipboard.writeText('afx_live_9a41c07b2e6f4d18b3f2a'); } catch (e) {}
+    this.setState({ copied: true });
+    clearTimeout(this._ct);
+    this._ct = setTimeout(() => this.setState({ copied: false }), 1600);
+  };
+
+  setRange = (r) => this.setState({ range: r });
+
+  // deterministic daily weight
+  weight(i, n, phase) {
+    return 1 + 0.22 * Math.sin((i / n) * Math.PI * 3 + phase) + 0.18 * (i / n);
+  }
+
+  buildChart() {
+    const cfg = this.rangeCfg[this.state.range];
+    const n = cfg.pts;
+    const agentTotal = cfg.agent;
+    const total = agentTotal / cfg.pct;
+    const humanTotal = total - agentTotal;
+
+    // series bottom -> top
+    const series = [
+      { total: humanTotal, color: this.humanColor, opacity: 0.55, phase: 0.4 },
+      ...this.agentDefs.slice().reverse().map((a, k) => ({ total: agentTotal * a.share, color: a.color, opacity: 0.92, phase: 1 + k * 0.9 })),
+    ];
+
+    // build per-day normalized values
+    const dayVals = series.map(s => {
+      const raw = [];
+      let sum = 0;
+      for (let i = 0; i < n; i++) { const w = Math.max(0.2, this.weight(i, n, s.phase)); raw.push(w); sum += w; }
+      return raw.map(w => (w / sum) * s.total);
+    });
+
+    // cumulative per day
+    const cum = [];
+    for (let d = 0; d < n; d++) {
+      let acc = 0; const col = [];
+      for (let s = 0; s < series.length; s++) { const lo = acc; acc += dayVals[s][d]; col.push([lo, acc]); }
+      cum.push(col);
+    }
+    let maxTotal = 0;
+    for (let d = 0; d < n; d++) maxTotal = Math.max(maxTotal, cum[d][series.length - 1][1]);
+
+    const W = 1000, H = 300, padL = 8, padR = 8, padT = 16, padB = 22;
+    const xs = i => padL + (W - padL - padR) * (n === 1 ? 0.5 : i / (n - 1));
+    const ys = v => padT + (H - padT - padB) * (1 - v / maxTotal);
+    const h = React.createElement;
+
+    const areas = series.map((s, si) => {
+      let top = '', bot = '';
+      for (let d = 0; d < n; d++) top += (d ? ' L ' : 'M ') + xs(d) + ' ' + ys(cum[d][si][1]);
+      for (let d = n - 1; d >= 0; d--) bot += ' L ' + xs(d) + ' ' + ys(cum[d][si][0]);
+      return h('path', { key: 'a' + si, d: top + bot + ' Z', fill: s.color, opacity: s.opacity });
+    });
+
+    const baseline = h('line', { x1: padL, x2: W - padR, y1: ys(0), y2: ys(0), stroke: '#EAE9E5', strokeWidth: 1 });
+
+    return h('svg', {
+      viewBox: '0 0 ' + W + ' ' + H, width: '100%',
+      preserveAspectRatio: 'none',
+      style: { display: 'block', height: '220px', width: '100%' }
+    }, areas, baseline);
+  }
+
+  renderVals() {
+    const r = this.state.range;
+    const cfg = this.rangeCfg[r];
+    const agentTotal = cfg.agent;
+
+    const ranges = ['7', '30', '90'].map(k => {
+      const on = k === r;
+      return {
+        label: k + 'd', onClick: () => this.setRange(k),
+        bg: on ? '#FFFFFF' : 'transparent',
+        border: on ? '#DEDDD7' : 'transparent',
+        color: on ? '#1C1C19' : '#6B6B65',
+      };
+    });
+
+    const agents = this.agentDefs.map(a => {
+      const v = agentTotal * a.share;
+      return {
+        name: a.name, color: a.color, count: this.fmt(v),
+        pct: Math.round(a.share * 100) + '%',
+        barPct: Math.round((a.share / this.agentDefs[0].share) * 100) + '%',
+      };
+    });
+
+    const legend = this.agentDefs.map(a => ({
+      name: a.name, color: a.color, count: this.fmt(agentTotal * a.share),
+      pct: Math.round(a.share * 100) + '%',
+      trend: a.trend, trendColor: a.trend === '↑' ? '#15803D' : '#9C9C95',
+    }));
+    const total = agentTotal / cfg.pct;
+    legend.push({
+      name: 'Human', color: this.humanColor, count: this.fmt(total - agentTotal),
+      pct: Math.round((1 - cfg.pct) * 100) + '%', trend: '', trendColor: '#9C9C95',
+    });
+
+    return {
+      chart: this.buildChart(),
+      ranges, agents, legend,
+      headHits: this.fmt(agentTotal), headSpan: cfg.span,
+      headPct: Math.round(cfg.pct * 100) + '%',
+      onCopy: this.onCopy, copyLabel: this.state.copied ? 'Copied' : 'Copy',
+    };
+  }
+}
+</script>
+</body>
+</html>

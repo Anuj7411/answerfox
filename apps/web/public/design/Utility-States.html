@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/design/support.js"></script>
+<style id="afx-bg-swap">#dc-root>*,#dc-root .sc-host,#afx-shell{background-color:#FCFCFB!important;background-image:repeating-linear-gradient(0deg,rgba(20,22,16,.022) 0 1px,transparent 1px 10px)!important}#afx-shell>div>div:first-child{background-color:#FCFCFB!important;background-image:none!important}</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="design_doc_mode" content="canvas">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#F0EFEA;color:#1C1C19;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:#B23A08;text-decoration:none}
+  a:hover{color:#F34504}
+  :focus-visible{outline:2px solid #F34504;outline-offset:2px;border-radius:6px}
+  .afx-frame{background:#FAFAF8;border:1px solid #DEDDD7;border-radius:14px;overflow:hidden;box-shadow:0 20px 40px -20px rgba(28,28,25,.15)}
+  .afx-frame-label{display:flex;align-items:center;gap:10px;padding:0 4px 10px}
+  .afx-anchor{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9C9C95;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:999px;padding:3px 10px}
+  .afx-anchor span{width:5px;height:5px;border-radius:50%;background:#F34504}
+  .afx-title{font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;color:#1C1C19}
+  .afx-sub{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95}
+  @keyframes afxShimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+  .afx-sk{position:relative;background:#EFEEE8;border-radius:6px;overflow:hidden}
+  .afx-sk::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);animation:afxShimmer 1.6s ease-in-out infinite}
+  @media (prefers-reduced-motion: reduce){.afx-sk::after{animation:none;display:none}}
+</style>
+</helmet>
+
+<div style="padding:40px 32px;display:flex;flex-direction:column;gap:48px;align-items:center">
+
+  <!-- ROW 1: 404 + ERROR side by side -->
+  <section style="width:100%;max-width:1600px;display:flex;flex-wrap:wrap;gap:32px;justify-content:center">
+
+    <!-- 404 -->
+    <div id="1a" style="display:flex;flex-direction:column">
+      <div class="afx-frame-label">
+        <span class="afx-anchor"><span></span>1a</span>
+        <span class="afx-title">404 · Not found</span>
+        <span class="afx-sub">full page</span>
+      </div>
+      <div class="afx-frame" style="width:760px;height:520px;display:flex;flex-direction:column">
+        <div style="height:56px;background:#FAFAF8;border-bottom:1px solid #EAE9E5;display:flex;align-items:center;padding:0 24px;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:8px">
+            <svg viewBox="296 223 927 518" style="display:block;height:16px;width:auto"><defs><mask id="afxlogo1a"><rect x="296" y="223" width="927" height="518" fill="#fff"/><rect x="700" y="493" width="523" height="18" fill="#000"/></mask></defs><polygon points="717,223 877,223 970,741 851,741 776,335 443,741 296,741" fill="#1C1C19" mask="url(#afxlogo1a)"/><polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504"/><polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504"/><polygon points="574,611 674,611 567,741 467,741" fill="#F34504"/></svg>
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:13px;color:#1C1C19">answerfox</span>
+          </div>
+        </div>
+        <div style="flex:1 1 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:32px">
+          <svg viewBox="296 223 927 518" style="display:block;height:48px;width:auto;opacity:.35"><defs><mask id="afxlogo1abig"><rect x="296" y="223" width="927" height="518" fill="#fff"/><rect x="700" y="493" width="523" height="18" fill="#000"/></mask></defs><polygon points="717,223 877,223 970,741 851,741 776,335 443,741 296,741" fill="#1C1C19" mask="url(#afxlogo1abig)"/><polygon points="734,413 1223,413 1144,493 668,493" fill="#8C8C85"/><polygon points="655,511 1077,511 1000,591 589,591" fill="#8C8C85"/><polygon points="574,611 674,611 567,741 467,741" fill="#8C8C85"/></svg>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:.15em;color:#9C9C95">404</span>
+          <div style="display:flex;flex-direction:column;gap:6px;text-align:center;max-width:440px">
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.02em;color:#1C1C19">This page slipped past the crawler.</span>
+            <span style="font-size:14px;color:#6B6B65;text-wrap:pretty">The page you're after doesn't exist or moved.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;margin-top:4px">
+            <a href="#" style="display:inline-flex;align-items:center;gap:8px;padding:0 16px;height:40px;background:#1C1C19;border-radius:8px;font-family:'Archivo',sans-serif;font-size:13.5px;font-weight:500;color:#FAFAF8;white-space:nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>Back to dashboard</a>
+            <a href="#" style="font-family:'Archivo',sans-serif;font-size:12.5px;color:#9C9C95">Report a broken link</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ERROR -->
+    <div id="1b" style="display:flex;flex-direction:column">
+      <div class="afx-frame-label">
+        <span class="afx-anchor"><span></span>1b</span>
+        <span class="afx-title">Error boundary</span>
+        <span class="afx-sub">full page</span>
+      </div>
+      <div class="afx-frame" style="width:760px;height:520px;display:flex;flex-direction:column">
+        <div style="height:56px;background:#FAFAF8;border-bottom:1px solid #EAE9E5;display:flex;align-items:center;padding:0 24px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <svg viewBox="296 223 927 518" style="display:block;height:16px;width:auto"><defs><mask id="afxlogo1b"><rect x="296" y="223" width="927" height="518" fill="#fff"/><rect x="700" y="493" width="523" height="18" fill="#000"/></mask></defs><polygon points="717,223 877,223 970,741 851,741 776,335 443,741 296,741" fill="#1C1C19" mask="url(#afxlogo1b)"/><polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504"/><polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504"/><polygon points="574,611 674,611 567,741 467,741" fill="#F34504"/></svg>
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:13px;color:#1C1C19">answerfox</span>
+          </div>
+        </div>
+        <div style="flex:1 1 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:32px">
+          <span style="width:56px;height:56px;border-radius:14px;background:#FEF3E2;display:inline-flex;align-items:center;justify-content:center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span>
+          <div style="display:flex;flex-direction:column;gap:6px;text-align:center;max-width:460px">
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.02em;color:#1C1C19">Something broke on our end.</span>
+            <span style="font-size:14px;color:#6B6B65;text-wrap:pretty">This one's on us, not your site — we've been notified.</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1C1C19;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:6px;padding:6px 10px">ref: 7c30ab</code>
+            <button onClick="{{ onCopyRef }}" style="height:32px;padding:0 10px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:6px;font-family:'Archivo',sans-serif;font-size:12.5px;color:#1C1C19;cursor:pointer;display:inline-flex;align-items:center;gap:6px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>{{ copyRef }}</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px">
+            <a href="#" onClick="{{ onReload }}" style="display:inline-flex;align-items:center;gap:8px;padding:0 16px;height:40px;background:#1C1C19;border-radius:8px;font-family:'Archivo',sans-serif;font-size:13.5px;font-weight:500;color:#FAFAF8"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>Reload</a>
+            <a href="#" style="font-family:'Archivo',sans-serif;font-size:12.5px;color:#9C9C95">Contact support</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROW 2: THREE EMPTY STATES -->
+  <section style="width:100%;max-width:1600px;display:flex;flex-wrap:wrap;gap:32px;justify-content:center">
+
+    <!-- Zero sites -->
+    <div id="1c" style="display:flex;flex-direction:column">
+      <div class="afx-frame-label">
+        <span class="afx-anchor"><span></span>1c</span>
+        <span class="afx-title">Empty · Zero sites</span>
+      </div>
+      <div class="afx-frame" style="width:500px;height:520px">
+        <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px 28px;text-align:center">
+          <span style="width:56px;height:56px;border-radius:14px;background:#F5F5F2;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg></span>
+          <div style="display:flex;flex-direction:column;gap:6px;max-width:380px">
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:17px;color:#1C1C19">Watch your first site</span>
+            <span style="font-size:13.5px;color:#6B6B65;text-wrap:pretty">Point Answerfox at a repo and we'll show you what AI sees in about 60 seconds.</span>
+          </div>
+          <a href="#" style="display:inline-flex;align-items:center;gap:8px;padding:0 15px;height:38px;background:#1C1C19;border-radius:8px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Connect a site</a>
+          <div style="width:100%;max-width:400px;display:flex;flex-direction:column;gap:6px;margin-top:8px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9C9C95;text-align:left">Or from your terminal</span>
+            <div style="display:flex;align-items:center;gap:8px">
+              <code style="flex:1 1 auto;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1C1C19;background:#F5F5F2;border:1px solid #EAE9E5;border-radius:8px;padding:9px 12px;text-align:left;white-space:nowrap;overflow:auto">npx answerfox audit yourdocs.dev</code>
+              <button onClick="{{ onCopyCmd }}" style="flex:0 0 auto;height:36px;width:36px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zero fix-PRs -->
+    <div id="1d" style="display:flex;flex-direction:column">
+      <div class="afx-frame-label">
+        <span class="afx-anchor"><span></span>1d</span>
+        <span class="afx-title">Empty · Zero fix-PRs</span>
+      </div>
+      <div class="afx-frame" style="width:500px;height:520px">
+        <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px 28px;text-align:center">
+          <span style="width:56px;height:56px;border-radius:14px;background:#F5F5F2;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg></span>
+          <div style="display:flex;flex-direction:column;gap:6px;max-width:380px">
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:17px;color:#1C1C19">No fix-PRs yet</span>
+            <span style="font-size:13.5px;color:#6B6B65;text-wrap:pretty">When a check fails on a PR-mode repo, the fix arrives here as a pull request you can merge.</span>
+          </div>
+          <button style="display:inline-flex;align-items:center;gap:8px;padding:0 15px;height:38px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:8px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#1C1C19;cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6B65" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>Run an audit</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zero drift history -->
+    <div id="1e" style="display:flex;flex-direction:column">
+      <div class="afx-frame-label">
+        <span class="afx-anchor"><span></span>1e</span>
+        <span class="afx-title">Empty · Zero drift</span>
+      </div>
+      <div class="afx-frame" style="width:500px;height:520px">
+        <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px 28px;text-align:center">
+          <span style="width:56px;height:56px;border-radius:14px;background:#E7F6EC;display:inline-flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <div style="display:flex;flex-direction:column;gap:6px;max-width:380px">
+            <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:17px;color:#1C1C19">Nothing has drifted</span>
+            <span style="font-size:13.5px;color:#6B6B65;text-wrap:pretty">Every deploy is watched. If a fix regresses, the alert and its fix-PR show up here.</span>
+          </div>
+          <span style="display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A"></span>last checked 2h ago</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROW 3: LOADING SKELETON (Site Detail Overview mid-load) -->
+  <section id="1f" style="width:100%;max-width:1600px;display:flex;flex-direction:column">
+    <div class="afx-frame-label">
+      <span class="afx-anchor"><span></span>1f</span>
+      <span class="afx-title">Loading skeleton · Site Detail Overview</span>
+      <span class="afx-sub">no layout shift when data lands</span>
+    </div>
+    <div class="afx-frame" style="width:1240px;max-width:100%">
+      <!-- app shell mimic -->
+      <div style="display:grid;grid-template-columns:240px 1fr;min-height:720px">
+        <!-- sidebar -->
+        <aside style="background:#FFFFFF;border-right:1px solid #EAE9E5;padding:16px;display:flex;flex-direction:column;gap:10px">
+          <div class="afx-sk" style="height:44px;border-radius:12px"></div>
+          <div class="afx-sk" style="height:12px;width:70%;margin-top:10px"></div>
+          <div class="afx-sk" style="height:26px"></div>
+          <div class="afx-sk" style="height:26px"></div>
+          <div class="afx-sk" style="height:26px"></div>
+          <div class="afx-sk" style="height:12px;width:60%;margin-top:14px"></div>
+          <div class="afx-sk" style="height:26px"></div>
+          <div class="afx-sk" style="height:26px"></div>
+          <div class="afx-sk" style="height:26px"></div>
+          <div class="afx-sk" style="height:26px"></div>
+          <div class="afx-sk" style="height:26px"></div>
+          <div class="afx-sk" style="height:26px"></div>
+        </aside>
+        <!-- main -->
+        <div style="display:flex;flex-direction:column">
+          <!-- topbar -->
+          <div style="height:56px;border-bottom:1px solid #EAE9E5;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:#FAFAF8">
+            <div class="afx-sk" style="height:14px;width:220px"></div>
+            <div style="display:flex;gap:10px"><div class="afx-sk" style="height:26px;width:80px;border-radius:999px"></div><div class="afx-sk" style="height:28px;width:28px;border-radius:50%"></div></div>
+          </div>
+          <div style="padding:24px;display:flex;flex-direction:column;gap:18px">
+            <!-- page header -->
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:24px">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div class="afx-sk" style="height:24px;width:280px"></div>
+                <div class="afx-sk" style="height:14px;width:420px"></div>
+              </div>
+              <div class="afx-sk" style="height:38px;width:120px;border-radius:8px"></div>
+            </div>
+            <!-- hero: ring + verdict -->
+            <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:22px;display:flex;align-items:center;gap:28px">
+              <div class="afx-sk" style="width:120px;height:120px;border-radius:50%;flex:0 0 auto"></div>
+              <div style="flex:1 1 auto;display:flex;flex-direction:column;gap:10px">
+                <div class="afx-sk" style="height:20px;width:60%"></div>
+                <div class="afx-sk" style="height:14px;width:80%"></div>
+                <div class="afx-sk" style="height:14px;width:65%"></div>
+                <div class="afx-sk" style="height:38px;width:170px;border-radius:8px;margin-top:6px"></div>
+              </div>
+            </div>
+            <!-- contributor rows -->
+            <div style="background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:14px">
+              <div class="afx-sk" style="height:14px;width:180px"></div>
+              <div style="display:flex;align-items:center;gap:14px">
+                <div class="afx-sk" style="width:22px;height:22px;border-radius:6px"></div>
+                <div class="afx-sk" style="height:14px;flex:1"></div>
+                <div class="afx-sk" style="height:14px;width:56px"></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px">
+                <div class="afx-sk" style="width:22px;height:22px;border-radius:6px"></div>
+                <div class="afx-sk" style="height:14px;flex:1"></div>
+                <div class="afx-sk" style="height:14px;width:56px"></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px">
+                <div class="afx-sk" style="width:22px;height:22px;border-radius:6px"></div>
+                <div class="afx-sk" style="height:14px;flex:1"></div>
+                <div class="afx-sk" style="height:14px;width:56px"></div>
+              </div>
+            </div>
+            <!-- 4 tiles -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+              <div class="afx-sk" style="height:110px;border-radius:12px"></div>
+              <div class="afx-sk" style="height:110px;border-radius:12px"></div>
+              <div class="afx-sk" style="height:110px;border-radius:12px"></div>
+              <div class="afx-sk" style="height:110px;border-radius:12px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1680, &quot;height&quot;: 1900}}">
+class Component extends DCLogic {
+  state = { copyRef: 'Copy' };
+  onCopyRef = () => {
+    try { navigator.clipboard && navigator.clipboard.writeText('7c30ab'); } catch(e){}
+    this.setState({ copyRef: 'Copied' });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ copyRef: 'Copy' }), 1500);
+  };
+  onCopyCmd = () => { try { navigator.clipboard && navigator.clipboard.writeText('npx answerfox audit yourdocs.dev'); } catch(e){} };
+  onReload = (e) => { e.preventDefault(); };
+  renderVals() {
+    return { copyRef: this.state.copyRef, onCopyRef: this.onCopyRef, onCopyCmd: this.onCopyCmd, onReload: this.onReload };
+  }
+}
+</script>
+</body>
+</html>

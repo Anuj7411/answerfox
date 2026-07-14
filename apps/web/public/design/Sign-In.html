@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/design/support.js"></script>
+<style id="afx-bg-swap">#dc-root>*,#dc-root .sc-host,#afx-shell{background-color:#FCFCFB!important;background-image:repeating-linear-gradient(0deg,rgba(20,22,16,.022) 0 1px,transparent 1px 10px)!important}#afx-shell>div>div:first-child{background-color:#FCFCFB!important;background-image:none!important}</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#FAFAF8;color:#1C1C19;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:#B23A08;text-decoration:none}
+  a:hover{color:#F34504}
+  :focus-visible{outline:2px solid #F34504;outline-offset:2px;border-radius:6px}
+  @media (max-width:840px){
+    .afx-nav-links{display:none!important}
+    .afx-nav-mobile{display:inline-flex!important}
+    .afx-signin{display:none!important}
+    .afx-footer-cols{grid-template-columns:1fr 1fr!important;gap:32px 24px!important}
+    .afx-footer-bottom{flex-direction:column!important;align-items:flex-start!important;gap:16px!important}
+  }
+</style>
+</helmet>
+
+<!-- =================== TOP NAV (slim: lockup only) =================== -->
+<header style="border-bottom:1px solid #EAE9E5;background:#FAFAF8">
+  <div style="max-width:1180px;margin:0 auto;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:center">
+    <a href="#" style="display:inline-flex;align-items:center;gap:10px;color:#1C1C19">
+      <svg viewBox="296 223 927 518" style="display:block;height:22px;width:auto"><defs><mask id="afxlm-si"><rect x="296" y="223" width="927" height="518" fill="#fff"/><rect x="700" y="493" width="523" height="18" fill="#000"/></mask></defs><polygon points="717,223 877,223 970,741 851,741 776,335 443,741 296,741" fill="#1C1C19" mask="url(#afxlm-si)"/><polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504"/><polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504"/><polygon points="574,611 674,611 567,741 467,741" fill="#F34504"/></svg>
+      <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:17px;letter-spacing:-.01em;color:#1C1C19">answerfox</span>
+    </a>
+  </div>
+</header>
+
+<!-- =================== CONTENT SLOT =================== -->
+<main style="min-height:calc(100vh - 64px - 60px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 24px 40px;gap:22px">
+
+  <!-- CARD -->
+  <div style="width:100%;max-width:420px;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:14px;padding:36px 32px 28px;display:flex;flex-direction:column;align-items:center;gap:20px;box-shadow:0 1px 2px rgba(28,28,25,.03)">
+    <!-- mark -->
+    <svg viewBox="296 223 927 518" style="display:block;height:34px;width:auto"><defs><mask id="afxlm-signcard"><rect x="296" y="223" width="927" height="518" fill="#fff"/><rect x="700" y="493" width="523" height="18" fill="#000"/></mask></defs><polygon points="717,223 877,223 970,741 851,741 776,335 443,741 296,741" fill="#1C1C19" mask="url(#afxlm-signcard)"/><polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504"/><polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504"/><polygon points="574,611 674,611 567,741 467,741" fill="#F34504"/></svg>
+
+    <div style="display:flex;flex-direction:column;gap:8px;text-align:center">
+      <h1 style="margin:0;font-family:'Archivo',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.02em;color:#1C1C19">Sign in to Answerfox</h1>
+      <p style="margin:0;font-size:14px;color:#6B6B65;line-height:1.55;text-wrap:pretty">Answerfox runs inside GitHub. Sign in with GitHub to start.</p>
+    </div>
+
+    <a href="#" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;height:46px;background:#1C1C19;border-radius:9px;font-family:'Archivo',sans-serif;font-size:14px;font-weight:500;color:#FAFAF8;white-space:nowrap"><svg width="17" height="17" viewBox="0 0 24 24" fill="#FAFAF8" stroke="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02.8-.22 1.65-.33 2.5-.34.85.01 1.7.12 2.5.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>Continue with GitHub</a>
+
+    <span style="font-size:13px;color:#9C9C95;text-align:center">New here? Signing in creates your account.</span>
+
+    <div style="width:100%;padding-top:16px;border-top:1px solid #F0F0EC;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;text-align:center;line-height:1.6;text-wrap:pretty">By continuing you agree to the <a href="#" style="color:#6B6B65">Terms</a> and <a href="#" style="color:#6B6B65">Privacy Policy</a>.</div>
+  </div>
+
+  <!-- REASSURANCE -->
+  <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:center;max-width:520px">
+    <span style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95;white-space:nowrap"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9C9C95" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>Read-only until you pick a repo</span>
+    <span style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95;white-space:nowrap"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9C9C95" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>No access to your secrets</span>
+    <span style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95;white-space:nowrap"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9C9C95" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>Uninstall anytime</span>
+  </div>
+
+</main>
+
+<!-- =================== FOOTER (slim) =================== -->
+<footer style="border-top:1px solid #EAE9E5;background:#FAFAF8">
+  <div style="max-width:1180px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95">© 2026 Answerfox</span>
+    <div style="display:flex;align-items:center;gap:18px">
+      <a href="#" style="font-family:'Archivo',sans-serif;font-size:12.5px;color:#9C9C95">Privacy</a>
+      <a href="#" style="font-family:'Archivo',sans-serif;font-size:12.5px;color:#9C9C95">Terms</a>
+      <a href="#" style="font-family:'Archivo',sans-serif;font-size:12.5px;color:#9C9C95">Docs</a>
+    </div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 900, &quot;height&quot;: 700}}">
+class Component extends DCLogic {
+  onMenu = () => {};
+  renderVals() { return { onMenu: this.onMenu }; }
+}
+</script>
+</body>
+</html>

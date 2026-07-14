@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/design/support.js"></script>
+<style id="afx-bg-swap">#dc-root>*,#dc-root .sc-host,#afx-shell{background-color:#FCFCFB!important;background-image:repeating-linear-gradient(0deg,rgba(20,22,16,.022) 0 1px,transparent 1px 10px)!important}#afx-shell>div>div:first-child{background-color:#FCFCFB!important;background-image:none!important}</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#FAFAF8;color:#1C1C19;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:#B23A08;text-decoration:none}
+  a:hover{color:#F34504}
+  :focus-visible{outline:2px solid #F34504;outline-offset:2px;border-radius:6px}
+  @keyframes afxUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){[data-reveal]{animation:none!important;opacity:1!important;transform:none!important}}
+  @media (max-width:840px){
+    #afx-shell{grid-template-columns:1fr!important}
+    #afx-sidebar{position:static!important;height:auto!important;border-right:none!important;border-bottom:1px solid #EAE9E5!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;gap:10px!important}
+    #afx-sidebar [data-nav-workspace]{display:none!important}
+    #afx-sidebar [data-sidebar-foot]{display:none!important}
+    #afx-sidebar [data-nav-site]{flex-direction:row!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:4px!important;margin:0!important}
+    #afx-sidebar [data-nav-site] [data-group-h]{display:none!important}
+    .afx-phead{flex-direction:column!important;align-items:flex-start!important;gap:16px!important}
+    .afx-hero{flex-direction:column!important}
+    .afx-hero [data-hero-left]{border-right:none!important;border-bottom:1px solid #EAE9E5!important}
+  }
+</style>
+</helmet>
+
+<div id="afx-shell" style="display:grid;grid-template-columns:240px 1fr;min-height:100vh;background:#FAFAF8">
+
+  <!-- SIDEBAR -->
+  <aside id="afx-sidebar" style="background:#FFFFFF;border-right:1px solid #EAE9E5;padding:16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow:auto">
+    <div style="border:1px solid #EAE9E5;border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;cursor:pointer">
+      <svg viewBox="296 223 927 518" style="display:block;height:19px;width:auto;flex:0 0 auto"><defs><mask id="afxmp2"><rect x="296" y="223" width="927" height="518" fill="#fff"/><rect x="700" y="493" width="523" height="18" fill="#000"/></mask></defs><polygon points="717,223 877,223 970,741 851,741 776,335 443,741 296,741" fill="#1C1C19" mask="url(#afxmp2)"/><polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504"/><polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504"/><polygon points="574,611 674,611 567,741 467,741" fill="#F34504"/></svg>
+      <span style="display:flex;flex-direction:column;line-height:1.2;min-width:0;flex:1 1 auto">
+        <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:13.5px;letter-spacing:-.01em;color:#1C1C19">stripe.com</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">7 sites</span>
+      </span>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+    </div>
+
+    <div data-nav-workspace style="margin-top:12px;display:flex;flex-direction:column;gap:2px">
+      <div data-group-h style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9C9C95;padding:0 12px;margin:4px 0 6px">Workspace</div>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>Overview</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>Sites</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>Billing</a>
+    </div>
+
+    <div data-nav-site style="margin-top:10px;display:flex;flex-direction:column;gap:2px">
+      <div data-group-h style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9C9C95;padding:0 12px;margin:4px 0 6px">stripe.com</div>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>Overview</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg>Findings<span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">11</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>X-Ray</a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>Fix-PRs<span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95">3</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>History</a>
+      <a href="#" aria-current="page" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;font-weight:500;color:#1C1C19;background:#F5F5F2;box-shadow:inset 3px 0 0 #F34504"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1C19" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Drift Guard<span style="margin-left:auto;padding:1px 7px;background:#FBE9E9;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#DC2626">1</span></a>
+      <a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:6px;font-size:13px;color:#6B6B65"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>AI Traffic</a>
+    </div>
+
+    <div data-sidebar-foot style="margin-top:auto;padding-top:14px;border-top:1px solid #EAE9E5;display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A;flex:0 0 auto"></span>watching 25 pages · v0.9</div>
+  </aside>
+
+  <!-- MAIN -->
+  <div style="display:flex;flex-direction:column;min-width:0">
+    <div style="height:56px;background:#FAFAF8;border-bottom:1px solid #EAE9E5;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:20">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95">sites <span style="color:#DEDDD7">/</span> stripe.com <span style="color:#DEDDD7">/</span> <span style="color:#1C1C19">drift-guard</span></div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border:1px solid #EAE9E5;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B6B65"><span style="width:6px;height:6px;border-radius:50%;background:#16A34A"></span>Paid</span>
+        <span style="width:28px;height:28px;border-radius:50%;background:#1C1C19;color:#FAFAF8;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500">A</span>
+      </div>
+    </div>
+
+    <div style="max-width:1240px;width:100%;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:18px">
+
+      <!-- PAGE HEADER -->
+      <div class="afx-phead" data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;display:flex;align-items:flex-start;justify-content:space-between;gap:24px">
+        <div style="max-width:640px">
+          <h1 style="margin:0;font-family:'Archivo',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.02em;color:#1C1C19">Drift Guard</h1>
+          <p style="margin:6px 0 0;font-size:14px;color:#6B6B65;text-wrap:pretty">Every deploy is watched. When something regresses, the alert arrives with its fix-PR already open.</p>
+        </div>
+        <a href="#" style="display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#6B6B65;padding:7px 12px;border:1px solid #EAE9E5;border-radius:8px;background:#FFFFFF"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>Settings</a>
+      </div>
+
+      <!-- 1) OPEN REGRESSION HERO -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:40ms;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:baseline;gap:10px;padding:0 2px">
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:13px;color:#1C1C19">1 open regression</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9C9C95">alert + fix, bound together</span>
+        </div>
+
+        <div class="afx-hero" style="display:flex;align-items:stretch;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden;box-shadow:inset 4px 0 0 #D97706">
+          <!-- LEFT: the alert -->
+          <div data-hero-left style="flex:1.3 1 0;min-width:0;padding:20px 22px;border-right:1px solid #EAE9E5;display:flex;gap:14px;align-items:flex-start">
+            <span style="flex:0 0 auto;width:38px;height:38px;border-radius:9px;background:#FEF3E2;display:inline-flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span>
+            <div style="min-width:0;display:flex;flex-direction:column;gap:6px">
+              <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#B45309;background:#FEF3E2;border-radius:5px;padding:2px 7px;align-self:flex-start">regression</span>
+              <span style="font-size:16px;font-weight:600;color:#1C1C19;letter-spacing:-.01em">Schema stripped from /pricing</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C9C95;line-height:1.5">detected 5h ago after deploy 4f2a1c · readiness <span style="color:#6B6B65">74</span> → <span style="color:#B45309">66</span> <span style="color:#DC2626">(−8)</span></span>
+            </div>
+          </div>
+
+          <!-- connector -->
+          <div style="flex:0 0 auto;width:0;position:relative;display:flex;align-items:center;justify-content:center">
+            <span style="position:absolute;width:26px;height:26px;border-radius:50%;background:#FFFFFF;border:1px solid #EAE9E5;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 1px 2px rgba(0,0,0,.04)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9C9C95" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </div>
+
+          <!-- RIGHT: the fix -->
+          <div style="flex:1 1 0;min-width:0;padding:20px 22px;background:#FDFBF7;display:flex;flex-direction:column;gap:12px;justify-content:center">
+            <div style="display:flex;align-items:flex-start;gap:12px">
+              <span style="flex:0 0 auto;width:34px;height:34px;border-radius:8px;background:#E7F6EC;display:inline-flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg></span>
+              <div style="min-width:0;display:flex;flex-direction:column;gap:4px">
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#1C1C19;font-weight:500">Fix-PR #148</span>
+                  <span style="display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:#15803D;background:#E7F6EC;border-radius:5px;padding:2px 7px"><span style="width:5px;height:5px;border-radius:50%;background:#15803D"></span>open</span>
+                </div>
+                <span style="font-size:13.5px;color:#6B6B65;line-height:1.5;text-wrap:pretty">Re-adds the Product JSON-LD that the deploy removed.</span>
+              </div>
+            </div>
+            <a href="#" style="align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:0 16px;height:38px;background:#1C1C19;border-radius:8px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:500;color:#FAFAF8">Review fix-PR<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FAFAF8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2) ALERT THRESHOLD -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:80ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;padding:18px 22px;display:flex;flex-direction:column;gap:14px">
+        <div class="afx-row" style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <span style="font-size:15px;font-weight:600;color:#1C1C19;letter-spacing:-.01em">Alert me when readiness drops</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+            <!-- stepper -->
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-size:13.5px;color:#6B6B65">by</span>
+              <div style="display:inline-flex;align-items:center;border:1px solid #DEDDD7;border-radius:8px;overflow:hidden;background:#FFFFFF">
+                <button onClick="{{ dec }}" aria-label="decrease" style="width:32px;height:34px;border:none;background:#FFFFFF;color:#6B6B65;font-size:18px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;border-right:1px solid #EAE9E5">−</button>
+                <span style="min-width:38px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:14px;color:#1C1C19;font-variant-numeric:tabular-nums">{{ points }}</span>
+                <button onClick="{{ inc }}" aria-label="increase" style="width:32px;height:34px;border:none;background:#FFFFFF;color:#6B6B65;font-size:18px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;border-left:1px solid #EAE9E5">+</button>
+              </div>
+              <span style="font-size:13.5px;color:#6B6B65">points</span>
+            </div>
+            <!-- divider -->
+            <span style="width:1px;height:26px;background:#EAE9E5"></span>
+            <!-- email toggle -->
+            <button onClick="{{ toggleEmail }}" style="display:inline-flex;align-items:center;gap:10px;border:none;background:transparent;cursor:pointer;padding:0">
+              <span ref="{{ trackRef }}" style="position:relative;width:38px;height:22px;border-radius:999px;background:#16A34A;transition:background .18s ease;flex:0 0 auto"><span ref="{{ knobRef }}" style="position:absolute;top:2px;left:18px;width:18px;height:18px;border-radius:50%;background:#FFFFFF;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:left .18s ease"></span></span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1C1C19">Email <span style="color:#6B6B65">anuj@acme.dev</span></span>
+            </button>
+          </div>
+        </div>
+        <div style="border-top:1px solid #F0F0EC;padding-top:12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95">Checked on every deploy, push, and the daily cron.</div>
+      </div>
+
+      <!-- 3) WATCH HISTORY -->
+      <div data-reveal style="animation:afxUp .4s cubic-bezier(.16,1,.3,1) both;animation-delay:120ms;background:#FFFFFF;border:1px solid #EAE9E5;border-radius:12px;overflow:hidden">
+        <div style="display:flex;align-items:baseline;gap:10px;padding:16px 20px;border-bottom:1px solid #EAE9E5">
+          <span style="font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;color:#1C1C19">Watch history</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9C9C95">last 30 days</span>
+        </div>
+        <div style="padding:6px 0">
+
+          <!-- drift row: deploy 4f2a1c -->
+          <div class="afx-row" style="display:flex;align-items:center;gap:14px;padding:13px 20px">
+            <span style="flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:#FEF3E2;display:inline-flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg></span>
+            <div style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <span style="font-size:13.5px;color:#1C1C19"><span style="font-weight:500">deploy</span> <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6B6B65">4f2a1c</span></span>
+              <span style="font-size:13px;color:#B45309;font-weight:500">drift: C2 regressed</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;flex:0 0 auto">
+              <a href="#" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#15803D;background:#E7F6EC;border-radius:6px;padding:3px 9px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>Fix-PR #148 open</a>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;width:26px;text-align:right">5h</span>
+            </div>
+          </div>
+          <div style="height:1px;background:#F0F0EC;margin:0 20px"></div>
+
+          <!-- push a91f2c -->
+          <div class="afx-row" style="display:flex;align-items:center;gap:14px;padding:13px 20px">
+            <span style="flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:#F5F5F2;display:inline-flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><line x1="3" x2="9" y1="12" y2="12"/><line x1="15" x2="21" y1="12" y2="12"/></svg></span>
+            <div style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <span style="font-size:13.5px;color:#1C1C19"><span style="font-weight:500">push</span> <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6B6B65">a91f2c</span></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;flex:0 0 auto">
+              <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B8B8B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>no drift</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;width:26px;text-align:right">1d</span>
+            </div>
+          </div>
+          <div style="height:1px;background:#F0F0EC;margin:0 20px"></div>
+
+          <!-- cron -->
+          <div class="afx-row" style="display:flex;align-items:center;gap:14px;padding:13px 20px">
+            <span style="flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:#F5F5F2;display:inline-flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+            <div style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <span style="font-size:13.5px;color:#1C1C19"><span style="font-weight:500">cron</span></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;flex:0 0 auto">
+              <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B8B8B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>no drift</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;width:26px;text-align:right">2d</span>
+            </div>
+          </div>
+          <div style="height:1px;background:#F0F0EC;margin:0 20px"></div>
+
+          <!-- drift row: deploy 7c30ab merged -->
+          <div class="afx-row" style="display:flex;align-items:center;gap:14px;padding:13px 20px">
+            <span style="flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:#FEF3E2;display:inline-flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg></span>
+            <div style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <span style="font-size:13.5px;color:#1C1C19"><span style="font-weight:500">deploy</span> <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6B6B65">7c30ab</span></span>
+              <span style="font-size:13px;color:#B45309;font-weight:500">drift: C5 regressed</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;flex:0 0 auto">
+              <a href="#" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#7C3AED;background:rgba(124,58,237,.10);border-radius:6px;padding:3px 9px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>Fix-PR #138 merged</a>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;width:26px;text-align:right">4d</span>
+            </div>
+          </div>
+          <div style="height:1px;background:#F0F0EC;margin:0 20px"></div>
+
+          <!-- push 22ab9f -->
+          <div class="afx-row" style="display:flex;align-items:center;gap:14px;padding:13px 20px">
+            <span style="flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:#F5F5F2;display:inline-flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><line x1="3" x2="9" y1="12" y2="12"/><line x1="15" x2="21" y1="12" y2="12"/></svg></span>
+            <div style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <span style="font-size:13.5px;color:#1C1C19"><span style="font-weight:500">push</span> <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6B6B65">22ab9f</span></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;flex:0 0 auto">
+              <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B8B8B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>no drift</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;width:26px;text-align:right">5d</span>
+            </div>
+          </div>
+          <div style="height:1px;background:#F0F0EC;margin:0 20px"></div>
+
+          <!-- deploy 90ff11 no drift -->
+          <div class="afx-row" style="display:flex;align-items:center;gap:14px;padding:13px 20px">
+            <span style="flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:#F5F5F2;display:inline-flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C8C85" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg></span>
+            <div style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <span style="font-size:13.5px;color:#1C1C19"><span style="font-weight:500">deploy</span> <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6B6B65">90ff11</span></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;flex:0 0 auto">
+              <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9C9C95"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B8B8B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>no drift</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9C9C95;width:26px;text-align:right">6d</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1280, &quot;height&quot;: 900}}">
+class Component extends DCLogic {
+  state = { points: 5, emailOn: true };
+  trackRef = React.createRef();
+  knobRef = React.createRef();
+
+  syncToggle() {
+    const t = this.trackRef.current, k = this.knobRef.current;
+    if (!t || !k) return;
+    t.style.background = this.state.emailOn ? '#16A34A' : '#DEDDD7';
+    k.style.left = this.state.emailOn ? '18px' : '2px';
+  }
+  componentDidMount() { this.syncToggle(); }
+  componentDidUpdate() { this.syncToggle(); }
+
+  inc = () => this.setState(s => ({ points: Math.min(50, s.points + 1) }));
+  dec = () => this.setState(s => ({ points: Math.max(1, s.points - 1) }));
+  toggleEmail = () => this.setState(s => ({ emailOn: !s.emailOn }));
+
+  renderVals() {
+    return {
+      points: this.state.points,
+      inc: this.inc, dec: this.dec, toggleEmail: this.toggleEmail,
+      trackRef: this.trackRef, knobRef: this.knobRef
+    };
+  }
+}
+</script>
+</body>
+</html>
