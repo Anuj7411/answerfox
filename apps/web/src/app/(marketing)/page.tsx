@@ -1,115 +1,37 @@
-import { Bloom } from '@/components/bloom/Bloom';
-import { LandingTerminal } from '@/components/bloom/LandingTerminal';
-import type { BloomOpts } from '@/components/bloom/types';
-import { FoxMark } from '@/components/brand/fox-mark';
-import { GitHubIcon } from '@/components/icons';
-import Link from 'next/link';
+import type { Metadata } from 'next';
+import { LANDING_HTML } from './landing-html';
+import { LandingScripts } from './landing-scripts';
+import './landing.css';
 
-const landingBloom: BloomOpts = {
-  base: '#D6D2CB',
-  ember: [248, 148, 68],
-  intensity: 0.74,
-  cx: 0.78,
-  cy: 0.42,
-  radius: 0.5,
-  orbitX: 0.04,
-  orbitY: 0.035,
-  orbitPeriod: 30,
-  orbitPeriod2: 36,
-  counterBloom: { rgb: [120, 116, 108], a: 0.14 },
-  period: 16,
-  breathAmp: 0.045,
-  grainMul: 0.15,
-  grainTime: 3.2,
-  renderScale: 0.6,
-  fps: 30,
+export const metadata: Metadata = {
+  title: 'Answerfox — AI is reading the blank version of your docs',
+  description:
+    "GPTBot, ClaudeBot and PerplexityBot don't run JavaScript, so your docs reach them gutted. See exactly what AI crawlers receive, then merge the fix as a pull request.",
 };
 
+/**
+ * Marketing landing, ported verbatim from the delivered answerfox-landing.html
+ * design. The markup lives in landing-html.ts (copied 1:1, CTA hrefs wired),
+ * the styles in landing.css, and the interactions in landing-scripts.tsx.
+ *
+ * The inline script adds `.js` to <html> before paint so the reveal
+ * animations start hidden (no flash), matching the design's own bootstrap.
+ * The HTML is a static first-party string, so dangerouslySetInnerHTML is safe.
+ */
 export default function LandingPage() {
   return (
-    <main
-      className="lvp relative isolate min-h-screen overflow-hidden bg-slate-base text-ink"
-      data-page="landing"
-      style={{ ['--ember' as string]: '#F89444' } as React.CSSProperties}
-    >
-      <Bloom opts={landingBloom} />
-
-      <div className="layer relative z-10">
-        <nav className="nav">
-          <Link href="/" className="brand">
-            <FoxMark size={28} />
-            <span className="wm">Answerfox</span>
-          </Link>
-          <div className="nav-links">
-            <Link href="/scan">Free scan</Link>
-            <Link href="/pricing">Pricing</Link>
-            <Link href="/compare">vs Cloudflare</Link>
-            <a href="https://github.com/Anuj7411/answerfox" target="_blank" rel="noreferrer">
-              GitHub
-            </a>
-          </div>
-          <div className="nav-right">
-            <a
-              href="https://github.com/Anuj7411/answerfox"
-              target="_blank"
-              rel="noreferrer"
-              className="nstar"
-            >
-              <GitHubIcon size={15} /> <b>500+</b>
-            </a>
-            <Link href="/sign-in" className="btn btn-quiet">
-              <GitHubIcon /> Sign in
-            </Link>
-          </div>
-        </nav>
-
-        <div className="hero">
-          <div className="lp">
-            <span className="eyebrow">
-              <span className="dot" /> Open-source. Fixes ship as pull requests.
-            </span>
-            <h1>
-              The AI-readiness layer that lives in your codebase and{' '}
-              <em>ships the fix as a pull request.</em>
-            </h1>
-            <p className="sub">
-              Answerfox audits your site the way an AI crawler and a real agent see it, writes the
-              fix, opens the PR, and proves the score moved. Not another dashboard. The fix, in your
-              repo.
-            </p>
-            <div className="cta">
-              <Link href="/scan" className="btn btn-solid">
-                Scan your site free
-              </Link>
-              <a
-                href="https://github.com/Anuj7411/answerfox"
-                target="_blank"
-                rel="noreferrer"
-                className="btn btn-ghost"
-              >
-                <GitHubIcon /> View on GitHub
-              </a>
-            </div>
-            <div className="trust">
-              <span>
-                <b>MIT</b> licensed
-              </span>
-              <span className="sep" />
-              <span>
-                <b>v0.6.0</b> shipped
-              </span>
-              <span className="sep" />
-              <span>
-                <b>16 of 16</b> Cloudflare parity
-              </span>
-            </div>
-          </div>
-
-          <div className="stage">
-            <LandingTerminal />
-          </div>
-        </div>
-      </div>
-    </main>
+    <>
+      <script
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: static first-party bootstrap, no user input
+        dangerouslySetInnerHTML={{
+          __html: "try{document.documentElement.classList.add('js')}catch(e){}",
+        }}
+      />
+      <div
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: static first-party design markup, no user input
+        dangerouslySetInnerHTML={{ __html: LANDING_HTML }}
+      />
+      <LandingScripts />
+    </>
   );
 }

@@ -29,7 +29,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${archivo.variable} ${jetbrainsMono.variable}`}>
+    <html
+      lang="en"
+      className={`${archivo.variable} ${jetbrainsMono.variable}`}
+      // The landing adds a `js` class to <html> via an inline pre-hydration
+      // script (so reveal animations start hidden without a flash). That is an
+      // intentional server/client difference; suppress the hydration warning
+      // for this one attribute, the theme-script pattern.
+      suppressHydrationWarning
+    >
       <body>
         <Suspense fallback={null}>
           <PostHogProvider>{children}</PostHogProvider>
