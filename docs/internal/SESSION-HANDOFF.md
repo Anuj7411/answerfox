@@ -50,10 +50,25 @@ parent layout owns the sidebar, so the cleanest path is a client sidebar reading
   It holds ~21 `.dc.html` files + `support.js`. Format: standalone HTML with an `<x-dc>`
   wrapper, **inline styles**, and a small React-style interaction script per page. Ignore
   `support.js` (design-canvas runtime) — translate the visual HTML/CSS to React.
-- **Porcelain palette:** bg `#F4F5F3`, sidebar `#ECEEEB`, ink `#14150F`, ink2 `#2A2E29`,
-  muted `#5C625B`, dim `#767B73`, blaze `#F34504`, blaze-deep `#B23A08`, green `#2C8C4E`,
-  red `#C4362B`, amber `#B8801C`, hairline `rgba(20,22,16,.10)`. Fonts: Archivo (display+body),
-  JetBrains Mono (numeric/labels).
+- **FIDELITY RULE (user feedback 2026-07-14):** COPY each `.dc.html` file exactly — same
+  layout, exact hex, icons, sparklines, pills, copy structure. Do NOT reinterpret or drop
+  visual elements. Wire real data into the design's exact shell. See memory
+  `feedback_design_fidelity.md`. Pages 1-2 were first built too loosely and corrected.
+- **Porcelain palette (CORRECTED to the design files' exact hex, in `porcelain.ts` `PC`):**
+  bg `#FAFAF8`, sidebar `#FFFFFF` (white, icon nav), card `#FFFFFF`, ink `#1C1C19`,
+  muted `#6B6B65`, dim `#9C9C95`, dim2 `#8C8C85`, faint `#DEDDD7`, line `#EAE9E5`,
+  hover `#F5F5F2`, blaze `#F34504`, blaze-deep `#B23A08`, green `#15803D`/`#16A34A`
+  (wash `#E7F6EC`), amber `#B45309` (wash `#FBEFD6`), red `#DC2626` (wash `#FBE9E9`).
+  The earlier `#ECEEEB`/`#14150F` values were wrong (drift from the Site-Detail file);
+  the Overview file's white-sidebar palette is canonical. Fonts: Archivo, JetBrains Mono.
+- **Shell (`(dashboard)/layout.tsx` + `porcelain-nav.tsx`) now matches Overview.dc.html:**
+  white sidebar, switcher, icon `WorkspaceNav` (Overview/Sites/Billing/Integrations/Settings,
+  active = inset orange left-bar), foot, top-bar `Breadcrumb` + plan pill. Billing +
+  Integrations have Porcelain placeholder pages so the nav resolves (real designs pending).
+- **STILL TODO (strict re-check):** Site Detail (page 1) content vs its file — it inherits the
+  corrected shell/palette now, but re-verify blocks against `Site Detail Overview.dc.html`.
+  Metrics with no real source (per-site "N PRs"/drift, ring "open fix-PRs/drift alert",
+  "watching N pages") currently use real proxies; wire real counts if/when tracked.
 - **Font gotcha:** "Archivo Expanded" is NOT on next/font, so it's aliased to Archivo in
   globals. In components, reference fonts as `var(--font-archivo)` / `var(--font-jetbrains)`,
   NOT the literal family names the .dc.html uses.
