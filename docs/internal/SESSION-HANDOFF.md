@@ -8,8 +8,30 @@ over the actual files/commits.
 ## RESUME HERE (the one active task)
 
 Migrating the whole app to the locked **Porcelain** design system, using a delivered
-design set as the source of truth. **Phase 1 is done. Phase 2 = wire the page contents,
-one page at a time, starting with the Site Detail Overview.**
+design set as the source of truth. **Phase 1 done. Phase 2 in progress = wire the page
+contents one page at a time.** Page 1 (Site Detail Overview) is DONE (commit `be6d7c7`,
+pushed). Next: the dashboard-home Overview, then Sites, Findings, X-Ray, Fix-PRs, etc.
+
+**Site Detail Overview — what shipped (page 1):** new Porcelain summary at the top of
+`sites/[siteId]/page.tsx` — header (status + repo), segmented schedule + Audit now (wired
+to real actions), animated score card (real score, band, delta, 7-run sparkline, Agent
+Readiness n/8), fix-delivery card (repo/installation state, no fake stack), pass/fail/warn/
+skip tiles, X-Ray card (wired to the real action; dual-pane HTML split deferred to the
+X-Ray page since the action doesn't return both HTML blobs yet), top-findings preview +
+latest-audit rail. New shared code in `components/dashboard/site-overview/` (porcelain.ts
+tokens, animated-score, schedule-audit-controls, xray-overview-card). afxUp keyframe +
+`.afx-bento`/`.afx-tiles` responsive rules appended to `globals.css`.
+
+**Interim debt to unwind as later pages ship:** the deep panels (full findings + AI fix,
+agent-answer, AI-traffic + analytics, alert threshold, billing, site management) are still
+rendered BELOW the new summary on the Overview page so the fix loop stays reachable. Lift
+each onto its own tab page (Findings / AI Traffic / Settings) when built, then delete it
+from `sites/[siteId]/page.tsx`.
+
+**Per-site nav still TODO:** deferred from page 1 (would 404 against tab routes that don't
+exist yet). Add it to the sidebar in `(dashboard)/layout.tsx` as those tab pages land — the
+parent layout owns the sidebar, so the cleanest path is a client sidebar reading usePathname
+(a nested `sites/[siteId]/layout.tsx` renders inside the content column, not the sidebar).
 
 - **Design files:** re-extract the zip at `C:\Users\ojhaa\Downloads\AnswerFox Site Detail Overview.zip`
   (the previous session's scratchpad extraction is gone; the Downloads zip is stable).
