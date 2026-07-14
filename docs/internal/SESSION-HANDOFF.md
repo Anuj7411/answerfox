@@ -9,8 +9,20 @@ over the actual files/commits.
 
 Migrating the whole app to the locked **Porcelain** design system, using a delivered
 design set as the source of truth. **Phase 1 done. Phase 2 in progress = wire the page
-contents one page at a time.** Page 1 (Site Detail Overview) is DONE (commit `be6d7c7`,
-pushed). Next: the dashboard-home Overview, then Sites, Findings, X-Ray, Fix-PRs, etc.
+contents one page at a time.** DONE so far: page 1 Site Detail Overview (`be6d7c7`) and
+page 2 dashboard-home Overview (`6e46a52`). Next: Sites list, then Findings, X-Ray,
+Fix-PRs, History, Drift-Guard, AI-Traffic, Settings.
+
+**Dashboard home (page 2) — what shipped + a bug it fixed:** `(dashboard)/dashboard/page.tsx`
+rebuilt on the `Overview.dc.html` design with real data — animated portfolio-readiness ring
+(avg of site scores), needs-attention list (weakest bands first), site-card grid (score,
+band, agent-readiness n/8, verification, PR mode), and a bottom row with the real AI-traffic
+rollup + recent audits. New client comp `site-overview/portfolio-ring.tsx`; `.afx-hero/
+-sites/-bottom/-attn-row` responsive rules appended to `globals.css`. This fixed a Phase 1
+regression: the old home rendered `.dvp`-scoped CSS but the new shell dropped the `.dvp`
+wrapper, so it fell back to raw unstyled HTML. NOTE: the old `.dvp .*` CSS in globals.css is
+now fully dead (only that page used it) and can be pruned later; `home-ai-traffic-tile.tsx`
+and `score-trend-chart.tsx` are now unimported orphans.
 
 **Site Detail Overview — what shipped (page 1):** new Porcelain summary at the top of
 `sites/[siteId]/page.tsx` — header (status + repo), segmented schedule + Audit now (wired
