@@ -3,71 +3,161 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
-
-const MONO = 'var(--font-jetbrains), ui-monospace, monospace';
-const LINE = 'rgba(20,22,16,.10)';
+import { MONO, PC } from './site-overview/porcelain';
 
 /**
- * Porcelain sidebar nav item. Client component so it can highlight the
- * active route. `exact` matches the pathname exactly (for the Overview
- * root); otherwise it matches the route prefix.
+ * Workspace sidebar nav, copied from the Overview.dc.html design: icon +
+ * label rows, the active row tinted (#F5F5F2) with an inset orange left
+ * bar. Client component so it can highlight the active route.
  */
-export function NavItem({
-  href,
-  exact = false,
-  count,
-  countTone,
-  children,
-}: {
+const ITEMS: ReadonlyArray<{
   readonly href: string;
+  readonly label: string;
   readonly exact?: boolean;
-  readonly count?: number;
-  readonly countTone?: 'muted' | 'red';
-  readonly children: ReactNode;
-}) {
-  const pathname = usePathname();
-  const active = exact ? pathname === href : pathname === href || pathname.startsWith(`${href}/`);
+  readonly icon: ReactNode;
+}> = [
+  {
+    href: '/dashboard',
+    label: 'Overview',
+    exact: true,
+    icon: (
+      <>
+        <rect width="7" height="9" x="3" y="3" rx="1" />
+        <rect width="7" height="5" x="14" y="3" rx="1" />
+        <rect width="7" height="9" x="14" y="12" rx="1" />
+        <rect width="7" height="5" x="3" y="16" rx="1" />
+      </>
+    ),
+  },
+  {
+    href: '/dashboard/sites',
+    label: 'Sites',
+    icon: (
+      <>
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+        <path d="M2 12h20" />
+      </>
+    ),
+  },
+  {
+    href: '/dashboard/billing',
+    label: 'Billing',
+    icon: (
+      <>
+        <rect width="20" height="14" x="2" y="5" rx="2" />
+        <line x1="2" x2="22" y1="10" y2="10" />
+      </>
+    ),
+  },
+  {
+    href: '/dashboard/integrations',
+    label: 'Integrations',
+    icon: (
+      <>
+        <path d="M20 7h-9" />
+        <path d="M14 17H5" />
+        <circle cx="17" cy="17" r="3" />
+        <circle cx="7" cy="7" r="3" />
+      </>
+    ),
+  },
+  {
+    href: '/dashboard/settings',
+    label: 'Settings',
+    icon: (
+      <>
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+        <circle cx="12" cy="12" r="3" />
+      </>
+    ),
+  },
+];
 
+export function WorkspaceNav({ siteCount }: { readonly siteCount: number }) {
+  const pathname = usePathname();
   return (
-    <Link
-      href={href}
-      aria-current={active ? 'page' : undefined}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 9,
-        padding: '6px 10px',
-        borderRadius: 6,
-        fontSize: 13,
-        textDecoration: 'none',
-        color: active ? '#14150F' : '#5C625B',
-        fontWeight: active ? 600 : 400,
-        background: active ? '#FFFFFF' : 'transparent',
-        border: active ? `1px solid ${LINE}` : '1px solid transparent',
-      }}
-    >
-      <span
+    <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <div
         style={{
-          width: 5,
-          height: 5,
-          borderRadius: '50%',
-          background: active ? '#F34504' : '#C7CCC6',
-          flex: '0 0 auto',
+          fontFamily: MONO,
+          fontSize: 11,
+          letterSpacing: '.12em',
+          textTransform: 'uppercase',
+          color: PC.dim,
+          padding: '0 12px',
+          margin: '4px 0 6px',
         }}
-      />
-      {children}
-      {typeof count === 'number' ? (
-        <span
-          style={{
-            marginLeft: 'auto',
-            fontFamily: MONO,
-            fontSize: 11,
-            color: countTone === 'red' ? '#C4362B' : '#767B73',
-          }}
-        >
-          {count}
+      >
+        Workspace
+      </div>
+      {ITEMS.map((item) => {
+        const active = item.exact
+          ? pathname === item.href
+          : pathname === item.href || pathname.startsWith(`${item.href}/`);
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            aria-current={active ? 'page' : undefined}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              padding: '7px 12px',
+              borderRadius: 6,
+              fontSize: 13,
+              textDecoration: 'none',
+              fontWeight: active ? 500 : 400,
+              color: active ? PC.ink : PC.muted,
+              background: active ? PC.hover : 'transparent',
+              boxShadow: active ? `inset 3px 0 0 ${PC.blaze}` : 'none',
+            }}
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke={active ? PC.ink : PC.dim2}
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
+              {item.icon}
+            </svg>
+            {item.label}
+            {item.label === 'Sites' && siteCount > 0 ? (
+              <span style={{ marginLeft: 'auto', fontFamily: MONO, fontSize: 11, color: PC.dim }}>
+                {siteCount}
+              </span>
+            ) : null}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
+/**
+ * Top-bar breadcrumb, e.g. "overview" or "sites / stripe.com". Mirrors the
+ * lowercase mono crumb in the design, derived from the pathname so it
+ * stays correct across pages without threading props through the layout.
+ */
+export function Breadcrumb() {
+  const pathname = usePathname();
+  const parts = pathname.split('/').filter(Boolean);
+  const rest = parts.slice(1); // drop leading "dashboard"
+  const crumbs = rest.length === 0 ? ['overview'] : rest;
+  return (
+    <div style={{ fontFamily: MONO, fontSize: 12, color: PC.ink }}>
+      {crumbs.map((c, i) => (
+        <span key={`${c}-${i}`}>
+          {i > 0 ? <span style={{ color: PC.faint }}> / </span> : null}
+          <span style={{ color: i === crumbs.length - 1 ? PC.ink : PC.dim }}>{c}</span>
         </span>
-      ) : null}
-    </Link>
+      ))}
+    </div>
   );
 }

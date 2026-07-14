@@ -1,29 +1,32 @@
 /**
- * Shared Porcelain design tokens for the Site Detail Overview blocks.
- *
- * The .dc.html source uses literal font families ('Archivo Expanded',
- * 'JetBrains Mono'). In-app those are wired through next/font CSS vars,
- * and "Archivo Expanded" is aliased to Archivo (see globals.css). We
- * keep the palette as literal hex to match the delivered design exactly
- * rather than reaching for the half-migrated Tailwind tokens.
+ * Shared Porcelain design tokens, taken verbatim from the delivered
+ * `.dc.html` design set (Overview / Site Detail). These are the exact
+ * hex values from the files — do not swap them for the half-migrated
+ * Tailwind tokens. Fonts are wired through next/font CSS vars.
  */
 export const PC = {
-  bg: '#F4F5F3',
-  sidebar: '#ECEEEB',
+  bg: '#FAFAF8',
+  sidebar: '#FFFFFF',
   card: '#FFFFFF',
-  ink: '#14150F',
-  ink2: '#2A2E29',
-  muted: '#5C625B',
-  dim: '#767B73',
-  faint: '#C7CCC6',
+  ink: '#1C1C19',
+  ink2: '#1C1C19',
+  muted: '#6B6B65',
+  dim: '#9C9C95',
+  dim2: '#8C8C85',
+  faint: '#DEDDD7',
   blaze: '#F34504',
   blazeDeep: '#B23A08',
-  green: '#2C8C4E',
-  red: '#C4362B',
-  amber: '#B8801C',
-  line: 'rgba(20,22,16,.10)',
-  line16: 'rgba(20,22,16,.16)',
-  greenWash: 'rgba(44,140,78,.12)',
+  green: '#15803D',
+  greenBright: '#16A34A',
+  red: '#DC2626',
+  amber: '#B45309',
+  amberBright: '#D97706',
+  line: '#EAE9E5',
+  line16: '#DEDDD7',
+  hover: '#F5F5F2',
+  greenWash: '#E7F6EC',
+  amberWash: '#FBEFD6',
+  redWash: '#FBE9E9',
   blazeWash: 'rgba(243,69,4,.08)',
 } as const;
 
@@ -31,7 +34,7 @@ export const DISPLAY = "var(--font-archivo-expanded), var(--font-archivo), syste
 export const BODY = 'var(--font-archivo), system-ui, sans-serif';
 export const MONO = 'var(--font-jetbrains), ui-monospace, monospace';
 
-/** Label used above every card: uppercase mono, tracked out. */
+/** Label used above cards: uppercase mono, tracked out. */
 export const cardLabel = {
   fontFamily: MONO,
   fontSize: 11,
@@ -40,15 +43,19 @@ export const cardLabel = {
   color: PC.dim,
 } as const;
 
-/** Tone → color for score bands and status pills. */
-export function bandTone(band: string): { readonly label: string; readonly color: string } {
+/** Tone (color + wash bg) for score bands and status pills. */
+export function bandTone(band: string): {
+  readonly label: string;
+  readonly color: string;
+  readonly bg: string;
+} {
   switch (band) {
     case 'excellent':
     case 'strong':
-      return { label: band, color: PC.green };
+      return { label: band, color: PC.green, bg: PC.greenWash };
     case 'average':
-      return { label: band, color: PC.amber };
+      return { label: band, color: PC.amber, bg: PC.amberWash };
     default:
-      return { label: band, color: PC.red };
+      return { label: band, color: PC.red, bg: PC.redWash };
   }
 }
