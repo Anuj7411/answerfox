@@ -87,6 +87,12 @@ parent layout owns the sidebar, so the cleanest path is a client sidebar reading
    Settings, Site-Settings
 3. Billing, Integrations, Onboarding (these routes are new; add them)
 4. Marketing: Pricing, Public-Audit, Sign-In, How-It-Works, Changelog, Marketing-Frame
+   (LANDING PAGE DONE, commit `af26628`: ported `Downloads/answerfox-landing.html` 1:1 to
+   the root `/` route — `(marketing)/landing.css` + `landing-html.ts` + `landing-scripts.tsx`,
+   replacing the old Bloom landing. Source is a standalone animated HTML with embedded fonts
+   (skipped; app uses next/font). `<html suppressHydrationWarning>` added for the pre-hydration
+   `.js` bootstrap. NOTE: source design HTML deliverables now arrive in Downloads, e.g.
+   `answerfox-landing.html` — check there when the user says a page is "finished building".)
 5. Utility-States
 
 ## What's already DONE this session (all on `relaunch`, pushed, deploying)
