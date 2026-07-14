@@ -2297,3 +2297,15 @@ body {
   .afx-bento { grid-template-columns: 1fr !important; }
   .afx-tiles { grid-template-columns: 1fr 1fr !important; }
 }
+
+/* Porcelain — dashboard-home responsiveness */
+@media (max-width: 1040px) {
+  .afx-hero { grid-template-columns: 1fr !important; }
+  .afx-hero-right { border-left: none !important; padding-left: 0 !important; border-top: 1px solid rgba(20,22,16,.10) !important; padding-top: 18px !important; }
+  .afx-bottom { grid-template-columns: 1fr !important; }
+  .afx-sites { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 640px) {
+  .afx-sites { grid-template-columns: 1fr !important; }
+  .afx-attn-row { flex-wrap: wrap !important; }
+}
