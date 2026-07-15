@@ -25,12 +25,12 @@ Standing user instructions (memory: `feedback_autonomous-build-and-test`):
   `/design/support.js` src. Design pages have STATIC nav (`href="#"`), demo content.
 
 ### STILL-SHADOWED routes (static copies — build these) — from `next.config.ts` DESIGN array:
-`/fix-prs` · `/ai-traffic` ·
+`/fix-prs` ·
 `/dashboard/settings` · `/dashboard/billing` · `/dashboard/integrations` ·
 `/dashboard/onboarding` · `/pricing` · `/how-it-works` · `/changelog` · `/marketing-frame` ·
 `/utility-states`. (Landing `/`, `/sign-in`, `/scan`, Site-Settings `/dashboard/sites/:id/settings`,
-X-Ray `/dashboard/sites/:id/x-ray`, Drift Guard `/dashboard/sites/:id/drift-guard` are NOT rewritten
-= functional.)
+X-Ray `/dashboard/sites/:id/x-ray`, Drift Guard `/dashboard/sites/:id/drift-guard`,
+AI Traffic `/dashboard/sites/:id/ai-traffic` are NOT rewritten = functional.)
 
 ## DONE + TESTED THIS SESSION (all committed, pushed to `relaunch`)
 
@@ -66,18 +66,21 @@ X-Ray `/dashboard/sites/:id/x-ray`, Drift Guard `/dashboard/sites/:id/drift-guar
   hero (armed/needs-repo/needs-verify from repoFullName+installationId+verified), how-it-fires
   (triggers+debounce+fix-PR binding), read-only score-drop alert → Settings, links to History/Findings,
   honest "no timeline yet" note. Browser-tested (needs-a-repo state).
+- **AI Traffic** `/dashboard/sites/:id/ai-traffic` — functional (13da36c). SERVER component
+  (`ai-traffic/page.tsx`). Wires `getAgentTrafficSummary`: total agent requests + AI share + per-agent
+  breakdown bars (design hues, drill into existing `/traffic/:label`). 7d/30d/90d range toggle via
+  `?days=` searchParam (real windowDays). Design's stacked-area time series OMITTED (summary has no
+  per-day counts). Integration states (not-integrated → Mint on Settings / integrated-empty / has-data)
+  + middleware wire-up snippet. Browser-tested (empty state + range toggle re-queries).
 - **Impersonation dev bypass** (dc68abb): see below.
 
 Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboard/sites/[siteId]`,
-`.../findings`, `.../history`, `.../settings`, `.../x-ray`, `.../drift-guard`, `/dashboard/sites/new`,
-`/dashboard/settings` (minimal display-name).
+`.../findings`, `.../history`, `.../settings`, `.../x-ray`, `.../drift-guard`, `.../ai-traffic`,
+`/dashboard/sites/new`, `/dashboard/settings` (minimal display-name).
 
 ## PRIORITIZED PLAN (remaining, in order)
 
-1. **AI Traffic** `/ai-traffic` — NEXT. `getAgentTrafficSummary` (agent-visits) exists; components
-   `AiTrafficTile`, `AnalyticsIntegrationCard` orphaned. Wire. Ingest-token rotation now lives on
-   Settings; ingest happens via `/api/track/visit`. Test site likely has no visits → empty state.
-2. **Fix-PRs** `/fix-prs` — THIN BACKEND: no PR-tracking table (only `ai_fixes` = fix attempts).
+1. **Fix-PRs** `/fix-prs` — NEXT. THIN BACKEND: no PR-tracking table (only `ai_fixes` = fix attempts).
    Do a live GitHub PR list via the App (needs repo+installation linked; none in test data → mostly
    a "connect a repo" state) + optionally list `ai_fixes` generated fixes.
 6. **Account Settings** `/dashboard/settings` — expand the display-name page to Porcelain
