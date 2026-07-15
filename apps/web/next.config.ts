@@ -20,7 +20,7 @@ const DESIGN: ReadonlyArray<{ source: string; file: string }> = [
   // Functional React pages (un-shadowed in Phase 0): /dashboard (Overview home),
   // /dashboard/sites/:id (Site Detail), /dashboard/sites/new (Add-site).
   // /dashboard/settings is now the functional React page.
-  { source: '/dashboard/billing', file: 'Billing' },
+  // /dashboard/billing is now the functional React page.
   { source: '/dashboard/integrations', file: 'Integrations' },
   { source: '/dashboard/onboarding', file: 'Onboarding' },
   // marketing
