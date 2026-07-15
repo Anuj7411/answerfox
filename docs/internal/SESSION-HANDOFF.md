@@ -25,12 +25,12 @@ Standing user instructions (memory: `feedback_autonomous-build-and-test`):
   `/design/support.js` src. Design pages have STATIC nav (`href="#"`), demo content.
 
 ### STILL-SHADOWED routes (static copies — build these) — from `next.config.ts` DESIGN array:
-`/fix-prs` ·
 `/dashboard/settings` · `/dashboard/billing` · `/dashboard/integrations` ·
 `/dashboard/onboarding` · `/pricing` · `/how-it-works` · `/changelog` · `/marketing-frame` ·
 `/utility-states`. (Landing `/`, `/sign-in`, `/scan`, Site-Settings `/dashboard/sites/:id/settings`,
 X-Ray `/dashboard/sites/:id/x-ray`, Drift Guard `/dashboard/sites/:id/drift-guard`,
-AI Traffic `/dashboard/sites/:id/ai-traffic` are NOT rewritten = functional.)
+AI Traffic `/dashboard/sites/:id/ai-traffic`, Fix-PRs `/dashboard/sites/:id/fix-prs` are NOT
+rewritten = functional.)
 
 ## DONE + TESTED THIS SESSION (all committed, pushed to `relaunch`)
 
@@ -72,18 +72,24 @@ AI Traffic `/dashboard/sites/:id/ai-traffic` are NOT rewritten = functional.)
   `?days=` searchParam (real windowDays). Design's stacked-area time series OMITTED (summary has no
   per-day counts). Integration states (not-integrated → Mint on Settings / integrated-empty / has-data)
   + middleware wire-up snippet. Browser-tested (empty state + range toggle re-queries).
+- **Fix-PRs** `/dashboard/sites/:id/fix-prs` — functional (39aa2ea). SERVER component
+  (`fix-prs/page.tsx`). No PR-tracking table exists — shows AI-fix generation timeline from
+  `listAiFixesForSite` (joins ai_fixes→findings→audits). Monthly quota progress bar (X of 90),
+  segmented filter (All/Generated/Pending/Failed) via `?status=` searchParam, fix rows grouped by
+  status with checkId + category + severity badges, hero card with repo link when connected, empty
+  states for no-repo/no-fixes/filtered-empty, honest scope note about PR tracking landing later.
+  Browser-tested (4 real generated fixes shown, filter to empty state works, no console errors).
+- **Vercel deploy fix** (2f75b5a): per-package `apps/web/turbo.json` adds `.next/**` to turbo
+  outputs so cache hits restore `routes-manifest.json`. Root `turbo.json` only had `dist/**`.
 - **Impersonation dev bypass** (dc68abb): see below.
 
 Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboard/sites/[siteId]`,
 `.../findings`, `.../history`, `.../settings`, `.../x-ray`, `.../drift-guard`, `.../ai-traffic`,
-`/dashboard/sites/new`, `/dashboard/settings` (minimal display-name).
+`.../fix-prs`, `/dashboard/sites/new`, `/dashboard/settings` (minimal display-name).
 
 ## PRIORITIZED PLAN (remaining, in order)
 
-1. **Fix-PRs** `/fix-prs` — NEXT. THIN BACKEND: no PR-tracking table (only `ai_fixes` = fix attempts).
-   Do a live GitHub PR list via the App (needs repo+installation linked; none in test data → mostly
-   a "connect a repo" state) + optionally list `ai_fixes` generated fixes.
-6. **Account Settings** `/dashboard/settings` — expand the display-name page to Porcelain
+6. **Account Settings** `/dashboard/settings` — NEXT. Expand the display-name page to Porcelain
    (`updateDisplayName` in settings/actions.ts) + delete-account.
 7. **Billing** `/dashboard/billing` — **$29/mo** (design shows stale $9 — reconcile). Polar
    checkout `/api/checkout` + `/api/webhook/polar` exist; add plan/upgrade/portal/cancel UI.
