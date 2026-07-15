@@ -12,7 +12,7 @@ const DESIGN: ReadonlyArray<{ source: string; file: string }> = [
   // per-site tabs (most specific first)
   // /findings is now the functional React page (Phase 1).
   // /x-ray is now the functional React page (Phase 2).
-  { source: '/dashboard/sites/:id/fix-prs', file: 'Fix-PRs' },
+  // /fix-prs is now the functional React page (Phase 2).
   // /history is now the functional React page (Phase 1).
   // /drift-guard is now the functional React page (Phase 2).
   // /ai-traffic is now the functional React page (Phase 2).
