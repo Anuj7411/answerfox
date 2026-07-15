@@ -25,10 +25,11 @@ Standing user instructions (memory: `feedback_autonomous-build-and-test`):
   `/design/support.js` src. Design pages have STATIC nav (`href="#"`), demo content.
 
 ### STILL-SHADOWED routes (static copies — build these) — from `next.config.ts` DESIGN array:
-`/dashboard/sites/:id/x-ray` · `/fix-prs` · `/drift-guard` · `/ai-traffic` · `/settings`
-(Site-Settings) · `/dashboard/settings` · `/dashboard/billing` · `/dashboard/integrations` ·
+`/dashboard/sites/:id/x-ray` · `/fix-prs` · `/drift-guard` · `/ai-traffic` ·
+`/dashboard/settings` · `/dashboard/billing` · `/dashboard/integrations` ·
 `/dashboard/onboarding` · `/pricing` · `/how-it-works` · `/changelog` · `/marketing-frame` ·
-`/utility-states`. (Landing `/`, `/sign-in`, `/scan` are NOT rewritten = functional.)
+`/utility-states`. (Landing `/`, `/sign-in`, `/scan`, Site-Settings `/dashboard/sites/:id/settings`
+are NOT rewritten = functional.)
 
 ## DONE + TESTED THIS SESSION (all committed, pushed to `relaunch`)
 
@@ -44,27 +45,29 @@ Standing user instructions (memory: `feedback_autonomous-build-and-test`):
   Re-run via `runAuditAction`).
 - **History** `/history` — functional (88c9099). Server component: readiness line chart +
   all-runs table + Compare links (to existing `/compare/:from/:to`) + Export-latest.
+- **Site Settings** `/dashboard/sites/:id/settings` — functional (9833c9c).
+  `components/dashboard/site-settings/site-settings-view.tsx` (client). Cards: Site details
+  (rename), Audit schedule, Pull requests (read-only linked repo), Score-drop alert
+  (updateAlertThreshold), Agent traffic (rotateIngestToken, shown-once), Ownership
+  (initiate/check verification, per-method rows + meta snippet), Danger zone (delete via native
+  `<dialog>` typed-confirm). Un-shadowed + trimmed AlertThresholdCard/SiteManagementCard off Site
+  Detail. Design controls with no backend (env, per-PR config, drift triggers, retention) omitted,
+  not faked. Browser-tested (200, no console errors, dirty-Save + delete dialog work).
 - **Impersonation dev bypass** (dc68abb): see below.
 
 Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboard/sites/[siteId]`,
-`.../findings`, `.../history`, `/dashboard/sites/new`, `/dashboard/settings` (minimal display-name).
+`.../findings`, `.../history`, `.../settings`, `/dashboard/sites/new`, `/dashboard/settings`
+(minimal display-name).
 
 ## PRIORITIZED PLAN (remaining, in order)
 
-1. **Site Settings** `/dashboard/sites/:id/settings` — NEXT. Actions all exist + pure-DB (fully
-   testable): `renameSite`, `deleteSite` (management-actions.ts), `updateAuditSchedule`
-   (schedule-actions.ts), `updateAlertThreshold` (alert-actions.ts), verification-actions.ts
-   (`initiateVerificationAction`/`checkVerificationAction`), `rotateIngestToken` (analytics-actions.ts).
-   Old components exist (VerificationPanel, AuditScheduleCard, AlertThresholdCard, SiteManagementCard,
-   AnalyticsIntegrationCard) — Porcelain-ify or reuse. Then TRIM these panels off Site Detail
-   (`sites/[siteId]/page.tsx` still has interim panels below the summary).
-2. **X-Ray** `/x-ray` — `runXrayAction` exists; needs `CLOUDFLARE_ACCOUNT_ID`+`CLOUDFLARE_API_TOKEN`
+1. **X-Ray** `/x-ray` — NEXT. `runXrayAction` exists; needs `CLOUDFLARE_ACCOUNT_ID`+`CLOUDFLARE_API_TOKEN`
    or returns "unavailable" (handle that state). `XrayOverviewCard` exists on Site Detail.
-3. **Drift Guard** `/drift-guard` — `run-drift`/`check-drift` engines exist; likely a status/empty
+2. **Drift Guard** `/drift-guard` — `run-drift`/`check-drift` engines exist; likely a status/empty
    page (no dedicated drift-events table — verify).
-4. **AI Traffic** `/ai-traffic` — `getAgentTrafficSummary` (agent-visits) exists; components
+3. **AI Traffic** `/ai-traffic` — `getAgentTrafficSummary` (agent-visits) exists; components
    `AiTrafficTile`, `AnalyticsIntegrationCard` orphaned. Wire.
-5. **Fix-PRs** `/fix-prs` — THIN BACKEND: no PR-tracking table (only `ai_fixes` = fix attempts).
+4. **Fix-PRs** `/fix-prs` — THIN BACKEND: no PR-tracking table (only `ai_fixes` = fix attempts).
    Do a live GitHub PR list via the App (needs repo+installation linked; none in test data → mostly
    a "connect a repo" state) + optionally list `ai_fixes` generated fixes.
 6. **Account Settings** `/dashboard/settings` — expand the display-name page to Porcelain
