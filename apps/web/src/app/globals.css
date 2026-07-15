@@ -2296,7 +2296,12 @@ body {
 @media (max-width: 820px) {
   .afx-bento { grid-template-columns: 1fr !important; }
   .afx-tiles { grid-template-columns: 1fr 1fr !important; }
+  .afx-row2 { grid-template-columns: 1fr !important; }
 }
+
+/* Porcelain — native <dialog> modal (Site Settings danger zone) */
+dialog.afx-modal { margin: auto; }
+dialog.afx-modal::backdrop { background: rgba(28,28,25,.55); }
 
 /* Porcelain — dashboard-home responsiveness */
 @media (max-width: 1040px) {

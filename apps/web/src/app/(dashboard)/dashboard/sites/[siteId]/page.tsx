@@ -1,10 +1,7 @@
 import { AgentAnswerPanel } from '@/components/dashboard/agent-answer-panel';
 import { AiFixPanel } from '@/components/dashboard/ai-fix-panel';
 import { AiTrafficTile } from '@/components/dashboard/ai-traffic-tile';
-import { AlertThresholdCard } from '@/components/dashboard/alert-threshold-card';
 import { AnalyticsIntegrationCard } from '@/components/dashboard/analytics-integration-card';
-import { SiteManagementCard } from '@/components/dashboard/site-management-card';
-import { VerificationPanel } from '@/components/dashboard/verification-panel';
 import { AnimatedScore } from '@/components/dashboard/site-overview/animated-score';
 import {
   BODY,
@@ -16,6 +13,7 @@ import {
 } from '@/components/dashboard/site-overview/porcelain';
 import { ScheduleAuditControls } from '@/components/dashboard/site-overview/schedule-audit-controls';
 import { XrayOverviewCard } from '@/components/dashboard/site-overview/xray-overview-card';
+import { VerificationPanel } from '@/components/dashboard/verification-panel';
 import { listAgentAnswerReportsForSite } from '@/lib/db/queries/agent-answer-reports';
 import { getAgentTrafficSummary } from '@/lib/db/queries/agent-visits';
 import {
@@ -28,8 +26,8 @@ import { getSiteForUser } from '@/lib/db/queries/sites';
 import type { Finding } from '@/lib/db/schema/findings';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
 import Link from 'next/link';
-import type { CSSProperties, ReactNode } from 'react';
 import { notFound } from 'next/navigation';
+import type { CSSProperties, ReactNode } from 'react';
 
 interface PageProps {
   readonly params: Promise<{ readonly siteId: string }>;
@@ -136,15 +134,14 @@ export default async function SiteDetailPage({ params }: PageProps) {
           />
 
           {/* Interim: the deep panels below move to their own tabs
-              (Findings / AI Traffic / Settings) as those pages ship in
-              Phase 2. Kept here so the fix loop and controls stay reachable
-              during the migration. */}
+              (Findings / AI Traffic) as those pages ship in Phase 2. Kept
+              here so the fix loop and controls stay reachable during the
+              migration. Rename, delete, score-drop alert, and ingest-token
+              rotation now live on the functional Settings page. */}
           <FindingsAndFixes auditId={latest.id} gatePageDetected={latest.gatePageDetected} />
           <AgentAnswerSlot siteId={site.id} siteUrl={site.url} />
           <AnalyticsSlot siteId={site.id} hasToken={site.ingestToken !== null} />
-          <AlertThresholdCard siteId={site.id} current={site.alertThreshold} />
           <BillingSlot plan={site.plan} siteId={site.id} userEmail={user.email ?? ''} />
-          <SiteManagementCard siteId={site.id} currentName={site.name} />
         </>
       )}
     </div>
@@ -572,7 +569,10 @@ async function FindingsAuditBento({
       <div style={cardStyle(24)}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
           <span style={cardLabel}>Top findings</span>
-          <Link href="#all-findings" style={{ fontFamily: MONO, fontSize: 12, color: PC.blazeDeep }}>
+          <Link
+            href="#all-findings"
+            style={{ fontFamily: MONO, fontSize: 12, color: PC.blazeDeep }}
+          >
             all {open.length} →
           </Link>
         </div>
@@ -847,8 +847,7 @@ function BillingSlot({
   readonly userEmail: string;
 }) {
   const polarProductId = process.env.POLAR_PRODUCT_ID ?? '';
-  const polarConfigured =
-    process.env.POLAR_ACCESS_TOKEN !== undefined && polarProductId.length > 0;
+  const polarConfigured = process.env.POLAR_ACCESS_TOKEN !== undefined && polarProductId.length > 0;
   const checkoutHref = `/api/checkout?products=${encodeURIComponent(
     polarProductId,
   )}&customerEmail=${encodeURIComponent(userEmail)}&metadata=${encodeURIComponent(
