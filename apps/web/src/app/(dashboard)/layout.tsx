@@ -1,6 +1,7 @@
 import { Breadcrumb, WorkspaceNav } from '@/components/dashboard/porcelain-nav';
 import { SignOutButton } from '@/components/dashboard/sign-out-button';
 import { BODY, MONO, PC } from '@/components/dashboard/site-overview/porcelain';
+import { SiteNav, SiteSwitcher } from '@/components/dashboard/site-sidebar';
 import { listSitesForUser } from '@/lib/db/queries/sites';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
 import Link from 'next/link';
@@ -23,6 +24,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   if (user === null) redirect('/sign-in?redirect=/dashboard');
 
   const sites = await listSitesForUser(user.id);
+  const sitesLite = sites.map((s) => ({ id: s.id, name: s.name }));
   const userName = (user.user_metadata?.name as string | undefined) ?? user.email ?? 'You';
   const userEmail = user.email ?? '';
   const initials = computeInitials(userName);
@@ -53,64 +55,10 @@ export default async function DashboardLayout({ children }: { children: ReactNod
           overflow: 'auto',
         }}
       >
-        {/* SWITCHER */}
-        <Link
-          href="/dashboard"
-          style={{
-            border: `1px solid ${PC.line}`,
-            borderRadius: 12,
-            padding: '11px 12px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-            textDecoration: 'none',
-          }}
-        >
-          <FoxLogo />
-          <span
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              lineHeight: 1.2,
-              minWidth: 0,
-              flex: '1 1 auto',
-            }}
-          >
-            <span
-              style={{
-                fontFamily: BODY,
-                fontWeight: 600,
-                fontSize: 13.5,
-                letterSpacing: '-.01em',
-                color: PC.ink,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              All sites
-            </span>
-            <span style={{ fontFamily: MONO, fontSize: 11, color: PC.dim }}>
-              {sites.length} site{sites.length === 1 ? '' : 's'}
-            </span>
-          </span>
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke={PC.dim2}
-            strokeWidth="1.75"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
-          >
-            <path d="m7 15 5 5 5-5" />
-            <path d="m7 9 5-5 5 5" />
-          </svg>
-        </Link>
+        <SiteSwitcher sites={sitesLite} />
 
         <WorkspaceNav siteCount={sites.length} />
+        <SiteNav sites={sitesLite} />
 
         {/* FOOT */}
         <div
@@ -262,7 +210,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
                 strokeWidth="1.75"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                aria-hidden
+                aria-hidden="true"
               >
                 <path d="M5 12h14" />
                 <path d="M12 5v14" />
@@ -304,31 +252,6 @@ export default async function DashboardLayout({ children }: { children: ReactNod
         </div>
       </div>
     </div>
-  );
-}
-
-function FoxLogo() {
-  return (
-    <svg
-      viewBox="296 223 927 518"
-      style={{ display: 'block', height: 19, width: 'auto', flex: '0 0 auto' }}
-      aria-hidden
-    >
-      <defs>
-        <mask id="afxmo">
-          <rect x="296" y="223" width="927" height="518" fill="#fff" />
-          <rect x="700" y="493" width="523" height="18" fill="#000" />
-        </mask>
-      </defs>
-      <polygon
-        points="717,223 877,223 970,741 851,741 776,335 443,741 296,741"
-        fill="#1C1C19"
-        mask="url(#afxmo)"
-      />
-      <polygon points="734,413 1223,413 1144,493 668,493" fill="#F34504" />
-      <polygon points="655,511 1077,511 1000,591 589,591" fill="#F34504" />
-      <polygon points="574,611 674,611 567,741 467,741" fill="#F34504" />
-    </svg>
   );
 }
 

@@ -17,14 +17,12 @@ const DESIGN: ReadonlyArray<{ source: string; file: string }> = [
   { source: '/dashboard/sites/:id/drift-guard', file: 'Drift-Guard' },
   { source: '/dashboard/sites/:id/ai-traffic', file: 'AI-Traffic' },
   { source: '/dashboard/sites/:id/settings', file: 'Site-Settings' },
-  { source: '/dashboard/sites/new', file: 'Onboarding' },
-  { source: '/dashboard/sites/:id', file: 'Site-Detail-Overview' },
-  // /dashboard/sites is now the functional React page (removed from static copies).
+  // Functional React pages (un-shadowed in Phase 0): /dashboard (Overview home),
+  // /dashboard/sites/:id (Site Detail), /dashboard/sites/new (Add-site).
   { source: '/dashboard/settings', file: 'Settings' },
   { source: '/dashboard/billing', file: 'Billing' },
   { source: '/dashboard/integrations', file: 'Integrations' },
   { source: '/dashboard/onboarding', file: 'Onboarding' },
-  { source: '/dashboard', file: 'Overview' },
   // marketing
   { source: '/pricing', file: 'Pricing' },
   // /sign-in stays the functional React page — the static copy has a dead
