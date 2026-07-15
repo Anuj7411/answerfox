@@ -25,11 +25,11 @@ Standing user instructions (memory: `feedback_autonomous-build-and-test`):
   `/design/support.js` src. Design pages have STATIC nav (`href="#"`), demo content.
 
 ### STILL-SHADOWED routes (static copies — build these) — from `next.config.ts` DESIGN array:
-`/dashboard/sites/:id/x-ray` · `/fix-prs` · `/drift-guard` · `/ai-traffic` ·
+`/fix-prs` · `/drift-guard` · `/ai-traffic` ·
 `/dashboard/settings` · `/dashboard/billing` · `/dashboard/integrations` ·
 `/dashboard/onboarding` · `/pricing` · `/how-it-works` · `/changelog` · `/marketing-frame` ·
-`/utility-states`. (Landing `/`, `/sign-in`, `/scan`, Site-Settings `/dashboard/sites/:id/settings`
-are NOT rewritten = functional.)
+`/utility-states`. (Landing `/`, `/sign-in`, `/scan`, Site-Settings `/dashboard/sites/:id/settings`,
+X-Ray `/dashboard/sites/:id/x-ray` are NOT rewritten = functional.)
 
 ## DONE + TESTED THIS SESSION (all committed, pushed to `relaunch`)
 
@@ -53,21 +53,25 @@ are NOT rewritten = functional.)
   `<dialog>` typed-confirm). Un-shadowed + trimmed AlertThresholdCard/SiteManagementCard off Site
   Detail. Design controls with no backend (env, per-PR config, drift triggers, retention) omitted,
   not faked. Browser-tested (200, no console errors, dirty-Save + delete dialog work).
+- **X-Ray** `/dashboard/sites/:id/x-ray` — functional (482bffe).
+  `components/dashboard/xray/xray-view.tsx` (client). Wires `runXrayAction` (single homepage):
+  coverage% hero + crawler/browser word tiles + missing-text evidence + unavailable/failed states
+  + honest "single page today" note. Design's 25-page master/detail + HTML dual-pane DEFERRED (engine
+  returns no raw HTML / no fan-out). Locally hits `unavailable` (no Cloudflare creds — prod has them);
+  browser-tested that state (Run executes, names both CF env vars, no console errors).
 - **Impersonation dev bypass** (dc68abb): see below.
 
 Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboard/sites/[siteId]`,
-`.../findings`, `.../history`, `.../settings`, `/dashboard/sites/new`, `/dashboard/settings`
-(minimal display-name).
+`.../findings`, `.../history`, `.../settings`, `.../x-ray`, `/dashboard/sites/new`,
+`/dashboard/settings` (minimal display-name).
 
 ## PRIORITIZED PLAN (remaining, in order)
 
-1. **X-Ray** `/x-ray` — NEXT. `runXrayAction` exists; needs `CLOUDFLARE_ACCOUNT_ID`+`CLOUDFLARE_API_TOKEN`
-   or returns "unavailable" (handle that state). `XrayOverviewCard` exists on Site Detail.
-2. **Drift Guard** `/drift-guard` — `run-drift`/`check-drift` engines exist; likely a status/empty
+1. **Drift Guard** `/drift-guard` — NEXT. `run-drift`/`check-drift` engines exist; likely a status/empty
    page (no dedicated drift-events table — verify).
-3. **AI Traffic** `/ai-traffic` — `getAgentTrafficSummary` (agent-visits) exists; components
+2. **AI Traffic** `/ai-traffic` — `getAgentTrafficSummary` (agent-visits) exists; components
    `AiTrafficTile`, `AnalyticsIntegrationCard` orphaned. Wire.
-4. **Fix-PRs** `/fix-prs` — THIN BACKEND: no PR-tracking table (only `ai_fixes` = fix attempts).
+3. **Fix-PRs** `/fix-prs` — THIN BACKEND: no PR-tracking table (only `ai_fixes` = fix attempts).
    Do a live GitHub PR list via the App (needs repo+installation linked; none in test data → mostly
    a "connect a repo" state) + optionally list `ai_fixes` generated fixes.
 6. **Account Settings** `/dashboard/settings` — expand the display-name page to Porcelain
