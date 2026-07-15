@@ -1,3 +1,4 @@
+import { buildDevUser, devBypassAllowed } from '@/lib/auth/dev-bypass';
 import { createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
 
@@ -42,6 +43,16 @@ export function createMiddlewareSupabaseClient(request: NextRequest) {
       },
     },
   });
+
+  // Local-only impersonation: report a signed-in user so protected routes
+  // aren't redirected to sign-in. The real user (with data) is resolved in
+  // the server client; here we only need a non-null user. Gated to dev.
+  if (devBypassAllowed()) {
+    supabase.auth.getUser = (async () => ({
+      data: { user: buildDevUser('dev-bypass', 'dev@localhost', 'Dev') },
+      error: null,
+    })) as typeof supabase.auth.getUser;
+  }
 
   return { supabase, response };
 }

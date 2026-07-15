@@ -1,14 +1,16 @@
+import type { User } from '@supabase/supabase-js';
+
 /**
- * Local-only auth bypass for fast iteration.
+ * Local-only auth bypass for testing/iteration.
  *
- * When enabled, the middleware sends unauthenticated dashboard requests
- * to `/api/dev-login`, which signs in (and, on first run, provisions) a
- * throwaway dev user via email/password so you land straight on the
- * pages without the GitHub OAuth round-trip every time.
+ * When enabled, the Supabase client factories make `auth.getUser()` return
+ * a dev user (impersonating a real profile from the DB) so every authed page
+ * renders with real data WITHOUT a Supabase login — email/password auth is
+ * off in this project and OAuth can't run headlessly. This is purely
+ * app-level; it never touches Supabase auth config.
  *
- * SAFETY: this is triple-gated so it can NEVER run on a deployed app.
- * It requires `DEV_AUTH_BYPASS=true` AND that we are not on Vercel AND
- * not a production build. Real GitHub OAuth is untouched in production.
+ * SAFETY: triple-gated so it can NEVER run on a deployed app — requires
+ * `DEV_AUTH_BYPASS=true` AND not on Vercel AND not a production build.
  */
 export function devBypassAllowed(): boolean {
   return (
@@ -18,10 +20,14 @@ export function devBypassAllowed(): boolean {
   );
 }
 
-/** The dev user's credentials, read from the local env. */
-export function devCredentials(): { email: string; password: string } | null {
-  const email = process.env.DEV_AUTH_EMAIL;
-  const password = process.env.DEV_AUTH_PASSWORD;
-  if (!email || !password) return null;
-  return { email, password };
+/** Build a minimal Supabase User the app's call sites can use (id/email/name). */
+export function buildDevUser(id: string, email: string, name: string | null): User {
+  return {
+    id,
+    email,
+    app_metadata: {},
+    user_metadata: name ? { name } : {},
+    aud: 'authenticated',
+    created_at: new Date(0).toISOString(),
+  } as User;
 }

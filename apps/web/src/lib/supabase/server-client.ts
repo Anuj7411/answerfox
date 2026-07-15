@@ -1,4 +1,8 @@
+import { buildDevUser, devBypassAllowed } from '@/lib/auth/dev-bypass';
+import { getDb } from '@/lib/db/client';
+import { profiles } from '@/lib/db/schema/profiles';
 import { createServerClient } from '@supabase/ssr';
+import { eq } from 'drizzle-orm';
 import { cookies } from 'next/headers';
 
 /**
@@ -23,7 +27,7 @@ export async function createServerSupabaseClient() {
 
   const cookieStore = await cookies();
 
-  return createServerClient(url, anonKey, {
+  const client = createServerClient(url, anonKey, {
     cookies: {
       getAll() {
         return cookieStore.getAll();
@@ -41,4 +45,31 @@ export async function createServerSupabaseClient() {
       },
     },
   });
+
+  // Local-only impersonation: make getUser() return a real profile so authed
+  // pages render with real data without a Supabase login. Gated to dev.
+  if (devBypassAllowed()) {
+    const dev = await resolveDevUser();
+    if (dev !== null) {
+      client.auth.getUser = (async () => ({
+        data: { user: dev },
+        error: null,
+      })) as typeof client.auth.getUser;
+    }
+  }
+
+  return client;
+}
+
+async function resolveDevUser() {
+  try {
+    const envId = process.env.DEV_AUTH_USER_ID;
+    const rows = envId
+      ? await getDb().select().from(profiles).where(eq(profiles.id, envId)).limit(1)
+      : await getDb().select().from(profiles).limit(1);
+    const p = rows[0];
+    return p ? buildDevUser(p.id, p.email, p.name) : null;
+  } catch {
+    return null;
+  }
 }

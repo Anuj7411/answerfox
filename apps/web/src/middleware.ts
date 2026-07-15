@@ -1,4 +1,3 @@
-import { devBypassAllowed } from '@/lib/auth/dev-bypass';
 import { createMiddlewareSupabaseClient } from '@/lib/supabase/middleware-client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
@@ -31,15 +30,9 @@ export async function middleware(request: NextRequest) {
   const isProtected = pathname.startsWith('/dashboard');
   const isAuthPage = pathname.startsWith('/sign-in') || pathname.startsWith('/sign-up');
 
-  // Protected route, no user → sign in. On a local dev machine with the
-  // bypass enabled, route to the auto dev-login instead of GitHub OAuth so
-  // testing lands straight on the pages.
+  // Protected route, no user → sign in. (With the local dev bypass on, the
+  // middleware client reports a signed-in user, so this doesn't fire.)
   if (isProtected && user === null) {
-    if (devBypassAllowed()) {
-      const devLogin = new URL('/api/dev-login', request.url);
-      devLogin.searchParams.set('next', pathname + search);
-      return NextResponse.redirect(devLogin);
-    }
     const signInUrl = new URL('/sign-in', request.url);
     signInUrl.searchParams.set('redirect', pathname + search);
     return NextResponse.redirect(signInUrl);
