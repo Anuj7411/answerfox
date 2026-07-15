@@ -14,7 +14,7 @@ const DESIGN: ReadonlyArray<{ source: string; file: string }> = [
   // /x-ray is now the functional React page (Phase 2).
   { source: '/dashboard/sites/:id/fix-prs', file: 'Fix-PRs' },
   // /history is now the functional React page (Phase 1).
-  { source: '/dashboard/sites/:id/drift-guard', file: 'Drift-Guard' },
+  // /drift-guard is now the functional React page (Phase 2).
   { source: '/dashboard/sites/:id/ai-traffic', file: 'AI-Traffic' },
   // /dashboard/sites/:id/settings is now the functional React page.
   // Functional React pages (un-shadowed in Phase 0): /dashboard (Overview home),
