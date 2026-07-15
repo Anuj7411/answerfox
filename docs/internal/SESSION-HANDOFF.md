@@ -29,8 +29,8 @@ Standing user instructions (memory: `feedback_autonomous-build-and-test`):
 `/dashboard/onboarding` · `/pricing` · `/how-it-works` · `/changelog` · `/marketing-frame` ·
 `/utility-states`. (Landing `/`, `/sign-in`, `/scan`, Site-Settings `/dashboard/sites/:id/settings`,
 X-Ray `/dashboard/sites/:id/x-ray`, Drift Guard `/dashboard/sites/:id/drift-guard`,
-AI Traffic `/dashboard/sites/:id/ai-traffic`, Fix-PRs `/dashboard/sites/:id/fix-prs` are NOT
-rewritten = functional.)
+AI Traffic `/dashboard/sites/:id/ai-traffic`, Fix-PRs `/dashboard/sites/:id/fix-prs`,
+Account Settings `/dashboard/settings` are NOT rewritten = functional.)
 
 ## DONE + TESTED THIS SESSION (all committed, pushed to `relaunch`)
 
@@ -82,16 +82,21 @@ rewritten = functional.)
 - **Vercel deploy fix** (2f75b5a): per-package `apps/web/turbo.json` adds `.next/**` to turbo
   outputs so cache hits restore `routes-manifest.json`. Root `turbo.json` only had `dist/**`.
 - **Impersonation dev bypass** (dc68abb): see below.
+- **Account Settings** `/dashboard/settings` — functional (72e4bc0). Porcelain rewrite with 4 cards:
+  Profile (editable display name via `updateDisplayName`, read-only email, avatar initial),
+  GitHub Account (connected status from `resolveGithubLogin` auth metadata, security footer),
+  Billing (plan label + manage link), Danger Zone (delete account with typed-confirm "delete my
+  account" modal via `deleteAccountAction` → `deleteProfileForUser` cascade). Cards without backend
+  (Appearance, Notifications, GitHub App, API Tokens) omitted per standing rule. Browser-tested
+  (200, all cards render, no console errors).
 
 Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboard/sites/[siteId]`,
 `.../findings`, `.../history`, `.../settings`, `.../x-ray`, `.../drift-guard`, `.../ai-traffic`,
-`.../fix-prs`, `/dashboard/sites/new`, `/dashboard/settings` (minimal display-name).
+`.../fix-prs`, `/dashboard/sites/new`, `/dashboard/settings`.
 
 ## PRIORITIZED PLAN (remaining, in order)
 
-6. **Account Settings** `/dashboard/settings` — NEXT. Expand the display-name page to Porcelain
-   (`updateDisplayName` in settings/actions.ts) + delete-account.
-7. **Billing** `/dashboard/billing` — **$29/mo** (design shows stale $9 — reconcile). Polar
+7. **Billing** `/dashboard/billing` — NEXT. **$29/mo** (design shows stale $9 — reconcile). Polar
    checkout `/api/checkout` + `/api/webhook/polar` exist; add plan/upgrade/portal/cancel UI.
 8. **Integrations** `/dashboard/integrations` — GitHub App status + ingest-token minting.
 9. **Onboarding** `/dashboard/onboarding` (+ Porcelain-ify Add-site) — `onboardRepoAction`,
