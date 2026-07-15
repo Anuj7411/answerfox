@@ -1,8 +1,10 @@
 'use server';
 
+import { deleteProfileForUser } from '@/lib/db/mutations/profile';
 import { updateProfileName } from '@/lib/db/mutations/profile';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 const NAME_MAX_LEN = 80;
 
@@ -38,4 +40,30 @@ export async function updateDisplayName(
   revalidatePath('/dashboard/settings');
   revalidatePath('/dashboard');
   return { ok: true };
+}
+
+/**
+ * Permanently delete the caller's account. Removes the profile row,
+ * which cascades to sites, audits, findings, ai_fixes, and agent
+ * visits. Signs out the Supabase session and redirects to /.
+ *
+ * On success this function never returns (redirect throws). The
+ * return type covers only the failure paths.
+ */
+export async function deleteAccountAction(): Promise<{ ok: false; error: string }> {
+  const supabase = await createServerSupabaseClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (user === null) {
+    return { ok: false, error: 'Not signed in.' };
+  }
+
+  const deleted = await deleteProfileForUser(user.id);
+  if (!deleted) {
+    return { ok: false, error: 'Account not found.' };
+  }
+
+  await supabase.auth.signOut();
+  redirect('/');
 }

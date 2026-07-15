@@ -18,3 +18,15 @@ export async function updateProfileName(input: {
     .returning({ id: profiles.id });
   return rows.length > 0;
 }
+
+/**
+ * Delete a user's profile row. Sites cascade via ON DELETE CASCADE,
+ * which in turn cascades audits, findings, ai_fixes, and agent_visits.
+ */
+export async function deleteProfileForUser(userId: string): Promise<boolean> {
+  const rows = await getDb()
+    .delete(profiles)
+    .where(eq(profiles.id, userId))
+    .returning({ id: profiles.id });
+  return rows.length > 0;
+}
