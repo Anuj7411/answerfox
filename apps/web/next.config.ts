@@ -10,7 +10,7 @@ import type { NextConfig } from 'next';
  */
 const DESIGN: ReadonlyArray<{ source: string; file: string }> = [
   // per-site tabs (most specific first)
-  { source: '/dashboard/sites/:id/findings', file: 'Findings' },
+  // /findings is now the functional React page (Phase 1).
   { source: '/dashboard/sites/:id/x-ray', file: 'X-Ray' },
   { source: '/dashboard/sites/:id/fix-prs', file: 'Fix-PRs' },
   { source: '/dashboard/sites/:id/history', file: 'History' },
