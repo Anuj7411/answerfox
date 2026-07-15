@@ -19,7 +19,7 @@ const DESIGN: ReadonlyArray<{ source: string; file: string }> = [
   { source: '/dashboard/sites/:id/settings', file: 'Site-Settings' },
   { source: '/dashboard/sites/new', file: 'Onboarding' },
   { source: '/dashboard/sites/:id', file: 'Site-Detail-Overview' },
-  { source: '/dashboard/sites', file: 'Sites' },
+  // /dashboard/sites is now the functional React page (removed from static copies).
   { source: '/dashboard/settings', file: 'Settings' },
   { source: '/dashboard/billing', file: 'Billing' },
   { source: '/dashboard/integrations', file: 'Integrations' },
@@ -27,7 +27,9 @@ const DESIGN: ReadonlyArray<{ source: string; file: string }> = [
   { source: '/dashboard', file: 'Overview' },
   // marketing
   { source: '/pricing', file: 'Pricing' },
-  { source: '/sign-in', file: 'Sign-In' },
+  // /sign-in stays the functional React page — the static copy has a dead
+  // GitHub button, which would break real login. Porcelain sign-in is wired
+  // as its own scheduled task.
   { source: '/how-it-works', file: 'How-It-Works' },
   { source: '/changelog', file: 'Changelog' },
   { source: '/scan', file: 'Public-Audit' },
