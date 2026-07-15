@@ -13,7 +13,7 @@ const DESIGN: ReadonlyArray<{ source: string; file: string }> = [
   // /findings is now the functional React page (Phase 1).
   { source: '/dashboard/sites/:id/x-ray', file: 'X-Ray' },
   { source: '/dashboard/sites/:id/fix-prs', file: 'Fix-PRs' },
-  { source: '/dashboard/sites/:id/history', file: 'History' },
+  // /history is now the functional React page (Phase 1).
   { source: '/dashboard/sites/:id/drift-guard', file: 'Drift-Guard' },
   { source: '/dashboard/sites/:id/ai-traffic', file: 'AI-Traffic' },
   { source: '/dashboard/sites/:id/settings', file: 'Site-Settings' },
