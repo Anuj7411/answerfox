@@ -32,7 +32,8 @@ const DESIGN: ReadonlyArray<{ source: string; file: string }> = [
   // as its own scheduled task.
   { source: '/how-it-works', file: 'How-It-Works' },
   { source: '/changelog', file: 'Changelog' },
-  { source: '/scan', file: 'Public-Audit' },
+  // /scan stays the functional free public scanner (the landing's audit funnel).
+  // The Public-Audit design becomes the Porcelain /scan as a scheduled task.
   { source: '/marketing-frame', file: 'Marketing-Frame' },
   { source: '/utility-states', file: 'Utility-States' },
 ];
