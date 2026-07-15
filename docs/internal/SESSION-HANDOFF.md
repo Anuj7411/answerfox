@@ -1,160 +1,144 @@
-# Session Handoff — 2026-07-14
+# Session Handoff — 2026-07-15 (FUNCTIONAL BUILD)
 
-Read this first when resuming. Everything below is ground truth as of 2026-07-14.
-Source of truth = git (all work committed + pushed to branch `relaunch`) + the project
-memory (`project_answerfox-v1-v2-direction.md`) + this file. Do not trust any summary
-over the actual files/commits.
+Read this first when resuming. Ground truth = git (branch `relaunch`, all work committed +
+pushed), the auto-loaded project memory, and this file. Do not trust any auto-summary over the
+actual files/commits.
 
-## RESUME HERE (the one active task)
+## THE ONE ACTIVE TASK
 
-Migrating the whole app to the locked **Porcelain** design system, using a delivered
-design set as the source of truth. **Phase 1 done. Phase 2 in progress = wire the page
-contents one page at a time.** DONE so far: page 1 Site Detail Overview (`be6d7c7`) and
-page 2 dashboard-home Overview (`6e46a52`). Next: Sites list, then Findings, X-Ray,
-Fix-PRs, History, Drift-Guard, AI-Traffic, Settings.
+Convert the app from **static design copies → fully-functional Porcelain React pages**, one page
+at a time, per the prioritized plan below. Every page: match its `.dc.html` design faithfully,
+wire the real backend, **stress-gate AND browser-test**, remove that page's static rewrite, commit.
+The backend is ~90% done — this is almost entirely frontend (surfacing existing engines/actions).
 
-**Dashboard home (page 2) — what shipped + a bug it fixed:** `(dashboard)/dashboard/page.tsx`
-rebuilt on the `Overview.dc.html` design with real data — animated portfolio-readiness ring
-(avg of site scores), needs-attention list (weakest bands first), site-card grid (score,
-band, agent-readiness n/8, verification, PR mode), and a bottom row with the real AI-traffic
-rollup + recent audits. New client comp `site-overview/portfolio-ring.tsx`; `.afx-hero/
--sites/-bottom/-attn-row` responsive rules appended to `globals.css`. This fixed a Phase 1
-regression: the old home rendered `.dvp`-scoped CSS but the new shell dropped the `.dvp`
-wrapper, so it fell back to raw unstyled HTML. NOTE: the old `.dvp .*` CSS in globals.css is
-now fully dead (only that page used it) and can be pruned later; `home-ai-traffic-tile.tsx`
-and `score-trend-chart.tsx` are now unimported orphans.
+Standing user instructions (memory: `feedback_autonomous-build-and-test`):
+- **Build autonomously — do NOT ask for go-ahead each page/phase.** Keep going.
+- **ALWAYS browser-test after each build**, not just the stress gate.
 
-**Site Detail Overview — what shipped (page 1):** new Porcelain summary at the top of
-`sites/[siteId]/page.tsx` — header (status + repo), segmented schedule + Audit now (wired
-to real actions), animated score card (real score, band, delta, 7-run sparkline, Agent
-Readiness n/8), fix-delivery card (repo/installation state, no fake stack), pass/fail/warn/
-skip tiles, X-Ray card (wired to the real action; dual-pane HTML split deferred to the
-X-Ray page since the action doesn't return both HTML blobs yet), top-findings preview +
-latest-audit rail. New shared code in `components/dashboard/site-overview/` (porcelain.ts
-tokens, animated-score, schedule-audit-controls, xray-overview-card). afxUp keyframe +
-`.afx-bento`/`.afx-tiles` responsive rules appended to `globals.css`.
+## HOW THE STATIC-COPY SYSTEM WORKS (critical)
 
-**Interim debt to unwind as later pages ship:** the deep panels (full findings + AI fix,
-agent-answer, AI-traffic + analytics, alert threshold, billing, site management) are still
-rendered BELOW the new summary on the Overview page so the fix loop stays reachable. Lift
-each onto its own tab page (Findings / AI Traffic / Settings) when built, then delete it
-from `sites/[siteId]/page.tsx`.
+- Every design page is served verbatim from `apps/web/public/design/*.html` (+ `support.js`
+  runtime), mapped onto app routes via `beforeFiles` rewrites in `apps/web/next.config.ts`.
+- To make a page functional: build the React page, then **delete its entry from the `DESIGN`
+  array in `next.config.ts`** (un-shadow). The functional page then renders through the shell.
+- Only `.dc.html` edit was a white-with-lines background swap (`#afx-bg-swap` style) + absolute
+  `/design/support.js` src. Design pages have STATIC nav (`href="#"`), demo content.
 
-**Per-site nav still TODO:** deferred from page 1 (would 404 against tab routes that don't
-exist yet). Add it to the sidebar in `(dashboard)/layout.tsx` as those tab pages land — the
-parent layout owns the sidebar, so the cleanest path is a client sidebar reading usePathname
-(a nested `sites/[siteId]/layout.tsx` renders inside the content column, not the sidebar).
+### STILL-SHADOWED routes (static copies — build these) — from `next.config.ts` DESIGN array:
+`/dashboard/sites/:id/x-ray` · `/fix-prs` · `/drift-guard` · `/ai-traffic` · `/settings`
+(Site-Settings) · `/dashboard/settings` · `/dashboard/billing` · `/dashboard/integrations` ·
+`/dashboard/onboarding` · `/pricing` · `/how-it-works` · `/changelog` · `/marketing-frame` ·
+`/utility-states`. (Landing `/`, `/sign-in`, `/scan` are NOT rewritten = functional.)
 
-- **Design files:** re-extract the zip at `C:\Users\ojhaa\Downloads\AnswerFox Site Detail Overview.zip`
-  (the previous session's scratchpad extraction is gone; the Downloads zip is stable).
-  It holds ~21 `.dc.html` files + `support.js`. Format: standalone HTML with an `<x-dc>`
-  wrapper, **inline styles**, and a small React-style interaction script per page. Ignore
-  `support.js` (design-canvas runtime) — translate the visual HTML/CSS to React.
-- **FIDELITY RULE (user feedback 2026-07-14):** COPY each `.dc.html` file exactly — same
-  layout, exact hex, icons, sparklines, pills, copy structure. Do NOT reinterpret or drop
-  visual elements. Wire real data into the design's exact shell. See memory
-  `feedback_design_fidelity.md`. Pages 1-2 were first built too loosely and corrected.
-- **Porcelain palette (CORRECTED to the design files' exact hex, in `porcelain.ts` `PC`):**
-  bg `#FAFAF8`, sidebar `#FFFFFF` (white, icon nav), card `#FFFFFF`, ink `#1C1C19`,
-  muted `#6B6B65`, dim `#9C9C95`, dim2 `#8C8C85`, faint `#DEDDD7`, line `#EAE9E5`,
-  hover `#F5F5F2`, blaze `#F34504`, blaze-deep `#B23A08`, green `#15803D`/`#16A34A`
-  (wash `#E7F6EC`), amber `#B45309` (wash `#FBEFD6`), red `#DC2626` (wash `#FBE9E9`).
-  The earlier `#ECEEEB`/`#14150F` values were wrong (drift from the Site-Detail file);
-  the Overview file's white-sidebar palette is canonical. Fonts: Archivo, JetBrains Mono.
-- **Shell (`(dashboard)/layout.tsx` + `porcelain-nav.tsx`) now matches Overview.dc.html:**
-  white sidebar, switcher, icon `WorkspaceNav` (Overview/Sites/Billing/Integrations/Settings,
-  active = inset orange left-bar), foot, top-bar `Breadcrumb` + plan pill. Billing +
-  Integrations have Porcelain placeholder pages so the nav resolves (real designs pending).
-- **STILL TODO (strict re-check):** Site Detail (page 1) content vs its file — it inherits the
-  corrected shell/palette now, but re-verify blocks against `Site Detail Overview.dc.html`.
-  Metrics with no real source (per-site "N PRs"/drift, ring "open fix-PRs/drift alert",
-  "watching N pages") currently use real proxies; wire real counts if/when tracked.
-- **Font gotcha:** "Archivo Expanded" is NOT on next/font, so it's aliased to Archivo in
-  globals. In components, reference fonts as `var(--font-archivo)` / `var(--font-jetbrains)`,
-  NOT the literal family names the .dc.html uses.
-- **Approach that works:** translate each design to a React page/components with **inline
-  styles matching the design hex** (fastest faithful path), then wire real data from the
-  existing queries/actions. Stress-test each page before committing.
-- **Per-site nav:** the new shell only has the workspace nav today. The per-site nav
-  (Overview / Findings / X-Ray / Fix-PRs / History / Drift Guard / AI Traffic / Settings)
-  should be added via a **site-level layout** at
-  `apps/web/src/app/(dashboard)/dashboard/sites/[siteId]/layout.tsx` when wiring site pages.
+## DONE + TESTED THIS SESSION (all committed, pushed to `relaunch`)
 
-### Page migration order (design filename -> app route)
-1. Site Detail Overview -> `(dashboard)/dashboard/sites/[siteId]/page.tsx` (has the animated
-   score, stack card, pass/fail/warn/skip tiles, draggable X-Ray split, top findings, latest-audit rail)
-2. Overview (dashboard home), Sites, Findings, X-Ray, Fix-PRs, History, Drift-Guard, AI-Traffic,
-   Settings, Site-Settings
-3. Billing, Integrations, Onboarding (these routes are new; add them)
-4. Marketing: Pricing, Public-Audit, Sign-In, How-It-Works, Changelog, Marketing-Frame
-   (LANDING PAGE DONE, commit `af26628`: ported `Downloads/answerfox-landing.html` 1:1 to
-   the root `/` route — `(marketing)/landing.css` + `landing-html.ts` + `landing-scripts.tsx`,
-   replacing the old Bloom landing. Source is a standalone animated HTML with embedded fonts
-   (skipped; app uses next/font). `<html suppressHydrationWarning>` added for the pre-hydration
-   `.js` bootstrap. NOTE: source design HTML deliverables now arrive in Downloads, e.g.
-   `answerfox-landing.html` — check there when the user says a page is "finished building".)
-5. Utility-States
+- Landing `/` (Porcelain, af26628). Sign-in `/sign-in` FUNCTIONAL but OLD Bloom design (Porcelain
+  redesign pending). `/scan` free scanner un-shadowed (539ec03).
+- **Sites list** `/dashboard/sites` — functional (707b9b1). `components/dashboard/sites-table.tsx`.
+- **Phase 0** (6333769): per-site nav + functional site switcher in
+  `components/dashboard/site-sidebar.tsx` (`SiteNav`, `SiteSwitcher`), wired into
+  `(dashboard)/layout.tsx`. Un-shadowed Overview home (`/dashboard`), Site Detail
+  (`/dashboard/sites/:id`), Add-site (`/dashboard/sites/new`, functional but old-styled).
+- **Findings** `/findings` — functional (c8135f4). `components/dashboard/findings-view.tsx`
+  (category groups, filter chips + search, per-finding Generate-fix via `generateAIFixAction`,
+  Re-run via `runAuditAction`).
+- **History** `/history` — functional (88c9099). Server component: readiness line chart +
+  all-runs table + Compare links (to existing `/compare/:from/:to`) + Export-latest.
+- **Impersonation dev bypass** (dc68abb): see below.
 
-## What's already DONE this session (all on `relaunch`, pushed, deploying)
+Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboard/sites/[siteId]`,
+`.../findings`, `.../history`, `/dashboard/sites/new`, `/dashboard/settings` (minimal display-name).
 
-Features (every commit stress-gated: tsc + vitest + next build; 253 tests pass):
-- All 3 orphaned engines WIRED: Agent Answer Simulation (dashboard panel + persisted trend),
-  Onboarding repo-picker (install -> audited site), X-Ray (Cloudflare Browser Rendering).
-- Free public scanner `/scan` (SSRF-guarded, Gemini-backed), shareable results `/scan/[id]`
-  with a dynamic OG social score-card, scanner linked from the landing hero + nav.
-- Answerability trend over time (persisted per run).
-- Positioning reframed off "AI-SEO toolkit" to the AI-readiness/fix-as-code line.
-- Polar payment rail: `/api/checkout` + `/api/webhook/polar` + per-site $9/mo upgrade CTA
-  (order.paid -> markSitePaid, cancel/revoke -> markSiteFree, site_id via checkout metadata).
-  CODE DONE; needs Polar env to go live (see Deferred).
-- Porcelain design **Phase 1** (commit `d9e1af5`): Archivo + JetBrains Mono fonts, Porcelain
-  tokens in `globals.css`, new dashboard shell `(dashboard)/layout.tsx` + client
-  `components/dashboard/porcelain-nav.tsx`.
+## PRIORITIZED PLAN (remaining, in order)
 
-Migrations applied by the user in Supabase (project `eicvswhtqinbxcmkgail`):
-0009 agent_answer_reports, 0010 public_scans, 0011 xray_cache. (Hand-written idempotent SQL
-in `apps/web/drizzle/`, RLS enabled, app writes via service role.)
+1. **Site Settings** `/dashboard/sites/:id/settings` — NEXT. Actions all exist + pure-DB (fully
+   testable): `renameSite`, `deleteSite` (management-actions.ts), `updateAuditSchedule`
+   (schedule-actions.ts), `updateAlertThreshold` (alert-actions.ts), verification-actions.ts
+   (`initiateVerificationAction`/`checkVerificationAction`), `rotateIngestToken` (analytics-actions.ts).
+   Old components exist (VerificationPanel, AuditScheduleCard, AlertThresholdCard, SiteManagementCard,
+   AnalyticsIntegrationCard) — Porcelain-ify or reuse. Then TRIM these panels off Site Detail
+   (`sites/[siteId]/page.tsx` still has interim panels below the summary).
+2. **X-Ray** `/x-ray` — `runXrayAction` exists; needs `CLOUDFLARE_ACCOUNT_ID`+`CLOUDFLARE_API_TOKEN`
+   or returns "unavailable" (handle that state). `XrayOverviewCard` exists on Site Detail.
+3. **Drift Guard** `/drift-guard` — `run-drift`/`check-drift` engines exist; likely a status/empty
+   page (no dedicated drift-events table — verify).
+4. **AI Traffic** `/ai-traffic` — `getAgentTrafficSummary` (agent-visits) exists; components
+   `AiTrafficTile`, `AnalyticsIntegrationCard` orphaned. Wire.
+5. **Fix-PRs** `/fix-prs` — THIN BACKEND: no PR-tracking table (only `ai_fixes` = fix attempts).
+   Do a live GitHub PR list via the App (needs repo+installation linked; none in test data → mostly
+   a "connect a repo" state) + optionally list `ai_fixes` generated fixes.
+6. **Account Settings** `/dashboard/settings` — expand the display-name page to Porcelain
+   (`updateDisplayName` in settings/actions.ts) + delete-account.
+7. **Billing** `/dashboard/billing` — **$29/mo** (design shows stale $9 — reconcile). Polar
+   checkout `/api/checkout` + `/api/webhook/polar` exist; add plan/upgrade/portal/cancel UI.
+8. **Integrations** `/dashboard/integrations` — GitHub App status + ingest-token minting.
+9. **Onboarding** `/dashboard/onboarding` (+ Porcelain-ify Add-site) — `onboardRepoAction`,
+   `listConnectableReposAction`.
+10. **Sign-In** Porcelain redesign (keep GitHub OAuth wired). Then marketing: Pricing ($29),
+    How-It-Works, Changelog, Public-Audit(/scan Porcelain).
+11. Net-new (section 3): badge picker modal, evidence inspector, AI-fix quota UI, Pro upsell
+    states, weekly email digest, public leaderboard, Google OAuth, CSV export, annotations.
+12. **v2 SKIPPED**: team/org+SSO, API keys, citation tracking, accessibility pillar, MCP/commerce
+    scaffolding, Slack, Studio $99, outcome-weighted score.
 
-Deployment + prod-config DONE:
-- Vercel project `answerfox-web` (Hobby), root dir `apps/web`, production branch = `relaunch`,
-  live at **answerfox-web.vercel.app** (public, verified serving new code). Cron changed to
-  daily (`5 0 * * *`) to fit Hobby.
-- Vercel env set: all Supabase (5), `GEMINI_API_KEY`, GitHub App (`GITHUB_APP_ID`,
-  `GITHUB_APP_PRIVATE_KEY`, `GITHUB_WEBHOOK_SECRET`), `NEXT_PUBLIC_GITHUB_APP_SLUG=answerfox`,
-  `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`, `INNGEST_EVENT_KEY`, `INNGEST_SIGNING_KEY`.
-  (`INNGEST_DEV` deleted — its presence had forced dev mode and 500'd `/api/inngest`.)
-- Supabase Auth: Site URL + Redirect URLs set to the Vercel domain (sign-in works in prod).
-- GitHub App (slug `answerfox`, App ID 4216145): webhook -> `/api/github/webhook`.
-- Cloudflare Browser Rendering token added (X-Ray live).
-- Inngest Cloud connected + app synced (3 functions: open-fix-pr, post-proof, check-drift).
+## LOCKED DECISIONS (memory: `project_answerfox-confirmed-build-decisions`)
 
-## Deferred / TODO (not done)
-- Design Phase 2: the ~20 remaining page contents (the active task above).
-- Polar payment GO-LIVE: create a Polar account + product ($9/mo), add `POLAR_ACCESS_TOKEN`,
-  `POLAR_WEBHOOK_SECRET`, `POLAR_PRODUCT_ID` (+ optional `POLAR_SERVER`, `POLAR_SUCCESS_URL`)
-  to Vercel, and point a Polar webhook at `/api/webhook/polar`. Code is done.
-- Unify the two fix generators (dashboard artifact vs pipeline validated-edit) — a UX decision.
-- X-Ray sitemap money-page fan-out (currently homepage-only).
-- Custom domain; eventually merge `relaunch` -> `main` (branch protection: PR + green CI).
-- Verify sign-in end-to-end + install the GitHub App on a repo to exercise the fix-PR loop
-  (assistant can't do interactive OAuth / installs).
+- **Pricing $29/mo** (design pages show stale **$9** — use $29, flag design). Model conflict
+  ($29/account vs $9/repo) unresolved — confirm when building Billing.
+- **Positioning: current only** — "Dependabot for agent-readiness / fix-as-code". Old AEO/SEO
+  framing retired.
+- **Audit = shipped 53-check / 0-100 / bands + Agent Readiness n/8.** (AUDIT-FRAMEWORK.md says 50
+  A-F but CODE=53 is authoritative. Latest doc GODLEVEL_AND_V2 proposes an outcome-weighted score
+  = v2, SKIPPED.)
 
-## Conventions (keep these)
-- Stress gate after each unit, must stay green:
-  `cd apps/web && npx tsc --noEmit && npx vitest run && npx next build`.
-- Conventional commits; trailer `Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>`.
-  Push to `relaunch` auto-deploys to Vercel production.
-- Paths with `[siteId]` / `(dashboard)` need `GIT_LITERAL_PATHSPECS=1 git add ...`.
-- Voice: zero em-dashes, no AI-tells (delve/leverage/seamless/robust/comprehensive), real numbers.
-- Supabase migrations: hand-written idempotent SQL committed to `apps/web/drizzle/`, delivered
-  INLINE to the user to run (the connected Supabase MCP is a different org and cannot apply to
-  `eicvswhtqinbxcmkgail`). SQL Editor: https://supabase.com/dashboard/project/eicvswhtqinbxcmkgail/sql/new
-- The claude-mem Read hook dedups files to line 1; when it blocks a needed read, use Bash `cat`.
+## TESTING: impersonation dev bypass (how to browser-test authed pages)
 
-## Key files / docs
-- Strategy + roadmap: `docs/internal/ANSWERFOX_V1_GODLEVEL_AND_V2_2026-07-13.md`,
-  `docs/internal/ANSWERFOX_FEATURE_ROADMAP_2026-07-13.md`.
-- Project memory (auto-loaded): `project_answerfox-v1-v2-direction.md` (locked v1/v2 direction,
-  what's built, prod-config).
-- New shell: `apps/web/src/app/(dashboard)/layout.tsx`, `components/dashboard/porcelain-nav.tsx`.
-- Fonts/tokens: `apps/web/src/app/layout.tsx`, `apps/web/src/app/globals.css`.
+- `DEV_AUTH_BYPASS=true` in `apps/web/.env.local` (already set; local-only, gitignored). Code:
+  `lib/auth/dev-bypass.ts` (`devBypassAllowed`, triple-gated: flag AND not Vercel AND not prod);
+  `server-client.ts` overrides `auth.getUser` to impersonate the first `profiles` row (real data
+  via DATABASE_URL); `middleware-client.ts` returns a stub user so routes don't redirect. NEVER
+  runs on a deploy.
+- **Test site id (real, owned by impersonated profile): `faf47921-3914-45a9-968a-3e5edcfe50af`**
+  (has audit history + findings). Others: 035a0590…, 22058f64…, 32f5704c….
+- Auth reality: anon key VALID (GitHub OAuth works in prod); `SUPABASE_SERVICE_ROLE_KEY` STALE
+  ("Invalid API key" — nothing in app uses it, app DB = DATABASE_URL); email/password auth
+  intentionally DISABLED by user (re-enable when built).
+
+## WORKFLOW GOTCHAS (learned the hard way)
+
+- **Do NOT run `next build` while `next dev` is live** → corrupts `.next` (500
+  `Cannot find module './vendor-chunks/...'`). Sequence: **stop dev → `rm -rf apps/web/.next` →
+  gate (`npx tsc --noEmit && npx biome check && npx vitest run && npx next build`) → start dev
+  clean → browser-test.**
+- **Client-module (`'use client'`) functions can't be CALLED from a server component** (only
+  rendered/props). Bug this session: `sortFindings` exported from findings-view (client) + called
+  in the server page → 500. Keep server helpers in the server file.
+- `preview_screenshot` is flaky here (times out) — verify renders via **curl** (grep markers +
+  check no "Application error") and lightweight `preview_eval`; both reliable.
+- Biome flags bare `aria-hidden` on `<svg>` → use `aria-hidden="true"`. Biome not in the stress
+  gate but run `npx biome check --write <files>` per page.
+- Paths with `[siteId]`/`(dashboard)` need `GIT_LITERAL_PATHSPECS=1 git add ...`.
+- Regressions found+fixed: `/sign-in` and `/scan` had been shadowed by static copies (dead
+  buttons). Watch for other functional routes being shadowed.
+
+## DESIGN / CONVENTIONS
+
+- Porcelain tokens: `components/dashboard/site-overview/porcelain.ts` (`PC`: sidebar/card #FFFFFF,
+  bg #FAFAF8, ink #1C1C19, muted #6B6B65, dim #9C9C95, line #EAE9E5, hover #F5F5F2, blaze #F34504,
+  green #15803D, amber #B45309, red #DC2626 + washes). `DISPLAY`/`BODY`=Archivo, `MONO`=JetBrains.
+  Fonts via next/font vars (see globals.css); reference `var(--font-archivo)` not literal names.
+- **Fidelity rule** (memory `feedback_design_fidelity`): copy each `.dc.html` faithfully
+  (colors/icons/layout), wire real data INTO the exact structure; don't reinterpret.
+- Design source files: re-extract `C:\Users\ojhaa\Downloads\AnswerFox Site Detail Overview.zip`
+  to the scratchpad if gone (21 `.dc.html`); landing = `C:\Users\ojhaa\Downloads\answerfox-landing.html`.
+  Served copies live in `apps/web/public/design/`.
+- Reusable patterns: `sites-table.tsx` (per-row `useActionState` for runAuditAction),
+  `findings-view.tsx` (`ReRunButton`, per-row fix), `bandTone()`, inline `relativeTime()`.
+  `AiFixPanel` exists (old-styled). Voice: zero em-dashes; real numbers.
+- Commits: conventional, trailer `Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>`.
+  Push to `relaunch` auto-deploys to Vercel (answerfox-web.vercel.app). Deferred: merge relaunch→main.
+
+## PROD CONFIG (unchanged, working)
+Vercel `answerfox-web` (root apps/web, prod branch `relaunch`). Supabase `eicvswhtqinbxcmkgail`
+(migrations 0009/0010/0011 applied). GitHub App slug `answerfox`. Inngest (open-fix-pr/post-proof/
+check-drift). Cloudflare token for X-Ray. Polar rail code-done (needs env to go live).
