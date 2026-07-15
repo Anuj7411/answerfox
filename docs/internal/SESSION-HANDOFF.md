@@ -25,11 +25,12 @@ Standing user instructions (memory: `feedback_autonomous-build-and-test`):
   `/design/support.js` src. Design pages have STATIC nav (`href="#"`), demo content.
 
 ### STILL-SHADOWED routes (static copies — build these) — from `next.config.ts` DESIGN array:
-`/fix-prs` · `/drift-guard` · `/ai-traffic` ·
+`/fix-prs` · `/ai-traffic` ·
 `/dashboard/settings` · `/dashboard/billing` · `/dashboard/integrations` ·
 `/dashboard/onboarding` · `/pricing` · `/how-it-works` · `/changelog` · `/marketing-frame` ·
 `/utility-states`. (Landing `/`, `/sign-in`, `/scan`, Site-Settings `/dashboard/sites/:id/settings`,
-X-Ray `/dashboard/sites/:id/x-ray` are NOT rewritten = functional.)
+X-Ray `/dashboard/sites/:id/x-ray`, Drift Guard `/dashboard/sites/:id/drift-guard` are NOT rewritten
+= functional.)
 
 ## DONE + TESTED THIS SESSION (all committed, pushed to `relaunch`)
 
@@ -59,19 +60,24 @@ X-Ray `/dashboard/sites/:id/x-ray` are NOT rewritten = functional.)
   + honest "single page today" note. Design's 25-page master/detail + HTML dual-pane DEFERRED (engine
   returns no raw HTML / no fan-out). Locally hits `unavailable` (no Cloudflare creds — prod has them);
   browser-tested that state (Run executes, names both CF env vars, no console errors).
+- **Drift Guard** `/dashboard/sites/:id/drift-guard` — functional (024f187). SERVER component
+  (`drift-guard/page.tsx`, no client). Webhook engine (`check-drift`) has NO drift-events table, so
+  design's watch-history timeline + open-regression hero DEFERRED. Shows real config-grounded status
+  hero (armed/needs-repo/needs-verify from repoFullName+installationId+verified), how-it-fires
+  (triggers+debounce+fix-PR binding), read-only score-drop alert → Settings, links to History/Findings,
+  honest "no timeline yet" note. Browser-tested (needs-a-repo state).
 - **Impersonation dev bypass** (dc68abb): see below.
 
 Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboard/sites/[siteId]`,
-`.../findings`, `.../history`, `.../settings`, `.../x-ray`, `/dashboard/sites/new`,
+`.../findings`, `.../history`, `.../settings`, `.../x-ray`, `.../drift-guard`, `/dashboard/sites/new`,
 `/dashboard/settings` (minimal display-name).
 
 ## PRIORITIZED PLAN (remaining, in order)
 
-1. **Drift Guard** `/drift-guard` — NEXT. `run-drift`/`check-drift` engines exist; likely a status/empty
-   page (no dedicated drift-events table — verify).
-2. **AI Traffic** `/ai-traffic` — `getAgentTrafficSummary` (agent-visits) exists; components
-   `AiTrafficTile`, `AnalyticsIntegrationCard` orphaned. Wire.
-3. **Fix-PRs** `/fix-prs` — THIN BACKEND: no PR-tracking table (only `ai_fixes` = fix attempts).
+1. **AI Traffic** `/ai-traffic` — NEXT. `getAgentTrafficSummary` (agent-visits) exists; components
+   `AiTrafficTile`, `AnalyticsIntegrationCard` orphaned. Wire. Ingest-token rotation now lives on
+   Settings; ingest happens via `/api/track/visit`. Test site likely has no visits → empty state.
+2. **Fix-PRs** `/fix-prs` — THIN BACKEND: no PR-tracking table (only `ai_fixes` = fix attempts).
    Do a live GitHub PR list via the App (needs repo+installation linked; none in test data → mostly
    a "connect a repo" state) + optionally list `ai_fixes` generated fixes.
 6. **Account Settings** `/dashboard/settings` — expand the display-name page to Porcelain
