@@ -150,8 +150,9 @@ Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboa
 
 7. ~~Billing~~ DONE (6060a66). 8. ~~Integrations~~ DONE (1b161a6). 9. ~~Onboarding~~ DONE (384061f)
    — `/dashboard/onboarding` Porcelain 4-step wizard (`components/dashboard/onboarding/onboarding-flow.tsx`)
-   wiring `listConnectableReposAction`/`onboardRepoAction`. (Add-site `/dashboard/sites/new` still
-   old-Tailwind — optional Porcelain-ify remains.)
+   wiring `listConnectableReposAction`/`onboardRepoAction`. Add-site `/dashboard/sites/new` is now
+   Porcelain too (d979473 — restyled `AddSiteForm`, repo section links to the onboarding wizard;
+   `components/dashboard/repo-onboarder.tsx` now orphaned — flagged for deletion).
 10. ~~Sign-In~~ DONE (e97362f). ~~Pricing~~ DONE (cdcaa58, $29 reconciled; shared
     `components/marketing/marketing-chrome.tsx` = MarketingNav/Footer/AnswerfoxMark for reuse).
     ~~How-It-Works~~ DONE (3e42d73). ~~Changelog~~ DONE (9c2ba03). ~~Public-Audit `/scan`~~ DONE
