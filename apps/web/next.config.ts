@@ -21,7 +21,7 @@ const DESIGN: ReadonlyArray<{ source: string; file: string }> = [
   // /dashboard/sites/:id (Site Detail), /dashboard/sites/new (Add-site).
   // /dashboard/settings is now the functional React page.
   // /dashboard/billing is now the functional React page.
-  { source: '/dashboard/integrations', file: 'Integrations' },
+  // /dashboard/integrations is now the functional React page.
   { source: '/dashboard/onboarding', file: 'Onboarding' },
   // marketing
   { source: '/pricing', file: 'Pricing' },
