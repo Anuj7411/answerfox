@@ -24,7 +24,7 @@ const DESIGN: ReadonlyArray<{ source: string; file: string }> = [
   // /dashboard/integrations is now the functional React page.
   // /dashboard/onboarding is now the functional React page.
   // marketing
-  { source: '/pricing', file: 'Pricing' },
+  // /pricing is now the functional React page.
   // /sign-in stays the functional React page — the static copy has a dead
   // GitHub button, which would break real login. Porcelain sign-in is wired
   // as its own scheduled task.
