@@ -79,8 +79,22 @@ Account Settings `/dashboard/settings` are NOT rewritten = functional.)
   status with checkId + category + severity badges, hero card with repo link when connected, empty
   states for no-repo/no-fixes/filtered-empty, honest scope note about PR tracking landing later.
   Browser-tested (4 real generated fixes shown, filter to empty state works, no console errors).
-- **Vercel deploy fix** (2f75b5a): per-package `apps/web/turbo.json` adds `.next/**` to turbo
-  outputs so cache hits restore `routes-manifest.json`. Root `turbo.json` only had `dist/**`.
+- **Vercel deploy failure — REAL root cause found + FIXED (2026-07-16, verified GREEN).** The
+  repeated "Failed production deployment" emails were NOT the turbo-outputs/routes-manifest thing
+  (that theory was wrong; Vercel never ran `turbo`, so `2f75b5a`'s `apps/web/turbo.json` was
+  irrelevant — harmless, now useful). **Actual cause (read from the Vercel build log):** the Vercel
+  Build Command was `pnpm --filter @answerfox/web build`, which runs only `next build` and never
+  compiles the workspace deps `@answerfox/core` + `@answerfox/audit` (they build to `dist/` via
+  `tsc`). No `dist/` → `Module not found: Can't resolve '@answerfox/audit'` (from
+  `lib/onboarding/onboard-site.ts`, `api/inngest/route.ts`) → build exits 1 in ~20-32s. Passed
+  locally only because `dist/` existed on disk; passed on some deploys only via a lucky restored
+  build cache — once it rotated, every deploy failed. **Fix:** changed the Vercel Build Command
+  (dashboard → Build and Deployment, Root Directory `apps/web`) to
+  `npx turbo run build --filter=@answerfox/web` — turbo's `dependsOn: ["^build"]` builds
+  core → audit → web first. Proven cold locally (pnpm cmd FAILS with the exact error; turbo cmd
+  SUCCEEDS 3/3) AND by a GREEN production redeploy of 6060a66 (2m45s, Ready, live on
+  answerfox-web.vercel.app). Optional durability follow-up: commit `apps/web/vercel.json` with the
+  same `buildCommand`. Do NOT re-fix via turbo.json/routes-manifest.
 - **Impersonation dev bypass** (dc68abb): see below.
 - **Account Settings** `/dashboard/settings` — functional (72e4bc0). Porcelain rewrite with 4 cards:
   Profile (editable display name via `updateDisplayName`, read-only email, avatar initial),
