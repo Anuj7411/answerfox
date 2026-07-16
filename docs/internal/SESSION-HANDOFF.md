@@ -25,7 +25,7 @@ Standing user instructions (memory: `feedback_autonomous-build-and-test`):
   `/design/support.js` src. Design pages have STATIC nav (`href="#"`), demo content.
 
 ### STILL-SHADOWED routes (static copies — build these) — from `next.config.ts` DESIGN array:
-`/pricing` · `/how-it-works` · `/changelog` · `/marketing-frame` · `/utility-states`.
+`/how-it-works` · `/changelog` · `/marketing-frame` · `/utility-states`.
 (Everything else is functional/un-shadowed: Landing `/`, `/sign-in`, `/scan`,
 `/dashboard/settings`, `/dashboard/billing`, `/dashboard/integrations`, `/dashboard/onboarding`,
 Site-Settings `/dashboard/sites/:id/settings`, X-Ray, Drift Guard, AI Traffic, Fix-PRs.)
@@ -118,11 +118,16 @@ Site-Settings `/dashboard/sites/:id/settings`, X-Ray, Drift Guard, AI Traffic, F
   `listConnectableReposAction`, + required site URL/name) → running → Done (real score ring/band +
   links) via `onboardRepoAction` (create+link+audit in one). No faked progress/findings.
   Browser-tested (auto-loads → Install step renders); deployed green.
+- **Sign-In** `/sign-in` — Porcelain redesign (e97362f); OAuth flow unchanged. See top note.
+- **Pricing** `/pricing` — functional (cdcaa58). Porcelain: sticky nav, hero, Free ($0) + Pro
+  ($29/repo/mo — stale $9 reconciled) plans, reassurance, FAQ (native `<details>`), CTA. Monthly-
+  only (no yearly toggle — no yearly checkout). Real CTAs (App install, `/scan`). Shared marketing
+  chrome (`components/marketing/marketing-chrome.tsx`). Browser-tested (renders, FAQ toggles, $29).
 
 Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboard/sites/[siteId]`,
 `.../findings`, `.../history`, `.../settings`, `.../x-ray`, `.../drift-guard`, `.../ai-traffic`,
 `.../fix-prs`, `/dashboard/sites/new`, `/dashboard/settings`, `/dashboard/billing`,
-`/dashboard/integrations`, `/dashboard/onboarding`.
+`/dashboard/integrations`, `/dashboard/onboarding`, `/sign-in`, `/pricing`.
 
 ## PRIORITIZED PLAN (remaining, in order)
 
@@ -130,9 +135,10 @@ Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboa
    — `/dashboard/onboarding` Porcelain 4-step wizard (`components/dashboard/onboarding/onboarding-flow.tsx`)
    wiring `listConnectableReposAction`/`onboardRepoAction`. (Add-site `/dashboard/sites/new` still
    old-Tailwind — optional Porcelain-ify remains.)
-10. ~~Sign-In Porcelain redesign~~ DONE (e97362f). **Marketing pages — NEXT:** Pricing ($29, design
-    shows stale $9), How-It-Works, Changelog, Public-Audit (Porcelain `/scan`). These are
-    still-shadowed static copies in the DESIGN array — build + un-shadow each.
+10. ~~Sign-In~~ DONE (e97362f). ~~Pricing~~ DONE (cdcaa58, $29 reconciled; shared
+    `components/marketing/marketing-chrome.tsx` = MarketingNav/Footer/AnswerfoxMark for reuse).
+    **Marketing — NEXT:** How-It-Works, Changelog, Public-Audit (Porcelain `/scan`). Reuse the
+    marketing chrome. Still-shadowed static copies in the DESIGN array — build + un-shadow each.
 11. Net-new (section 3): badge picker modal, evidence inspector, AI-fix quota UI, Pro upsell
     states, weekly email digest, public leaderboard, Google OAuth, CSV export, annotations.
 12. **v2 SKIPPED**: team/org+SSO, API keys, citation tracking, accessibility pillar, MCP/commerce
