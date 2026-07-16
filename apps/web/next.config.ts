@@ -29,7 +29,7 @@ const DESIGN: ReadonlyArray<{ source: string; file: string }> = [
   // GitHub button, which would break real login. Porcelain sign-in is wired
   // as its own scheduled task.
   // /how-it-works is now the functional React page.
-  { source: '/changelog', file: 'Changelog' },
+  // /changelog is now the functional React page.
   // /scan stays the functional free public scanner (the landing's audit funnel).
   // The Public-Audit design becomes the Porcelain /scan as a scheduled task.
   { source: '/marketing-frame', file: 'Marketing-Frame' },

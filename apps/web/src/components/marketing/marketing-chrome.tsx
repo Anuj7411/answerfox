@@ -263,7 +263,7 @@ export function MarketingFooter() {
               rel="noreferrer"
               style={flink}
             >
-              The 50-check engine on GitHub
+              The 53-check engine on GitHub
             </a>
           </div>
 
