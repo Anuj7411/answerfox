@@ -1,6 +1,7 @@
 'use client';
 
 import { type PublicScanState, runPublicScanAction } from '@/app/scan/scan-actions';
+import { BODY, MONO, PC } from '@/components/dashboard/site-overview/porcelain';
 import { ScanResult } from '@/components/scan/scan-result';
 import { useState, useTransition } from 'react';
 
@@ -22,41 +23,80 @@ export function ScanForm() {
 
   return (
     <div>
-      <form onSubmit={submit} className="flex flex-wrap gap-3">
+      <form onSubmit={submit} style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
         <input
           type="text"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="https://your-docs-site.com"
-          className="min-w-0 flex-1 rounded-md border border-ink/15 bg-white/70 px-3 py-2 font-mono text-[14px]"
+          style={{
+            minWidth: 0,
+            flex: '1 1 auto',
+            height: 46,
+            padding: '0 14px',
+            border: `1px solid ${PC.faint}`,
+            borderRadius: 9,
+            background: PC.card,
+            fontFamily: MONO,
+            fontSize: 14,
+            color: PC.ink,
+            outline: 'none',
+          }}
         />
         <button
           type="submit"
           disabled={pending}
-          className="rounded-md border border-ember/40 bg-ember/10 px-4 py-2 text-[14px] font-medium hover:bg-ember/20 disabled:opacity-60"
+          style={{
+            flex: '0 0 auto',
+            height: 46,
+            padding: '0 20px',
+            background: PC.ink,
+            border: 'none',
+            borderRadius: 9,
+            fontFamily: BODY,
+            fontSize: 14,
+            fontWeight: 500,
+            color: '#FAFAF8',
+            cursor: pending ? 'progress' : 'pointer',
+            opacity: pending ? 0.75 : 1,
+          }}
         >
-          {pending ? 'Scanning...' : 'Scan'}
+          {pending ? 'Scanning…' : 'Scan'}
         </button>
       </form>
 
-      {state.status === 'invalid' || state.status === 'failed' ? (
-        <p className="mt-4 rounded-md border border-red-300 bg-red-50 p-3 text-[13px] text-red-900">
-          {state.status === 'invalid' ? state.reason : state.error}
-        </p>
-      ) : null}
+      {(state.status === 'invalid' || state.status === 'failed') && (
+        <Notice tone="red">{state.status === 'invalid' ? state.reason : state.error}</Notice>
+      )}
 
-      {state.status === 'unavailable' ? (
-        <p className="mt-4 rounded-md border border-amber-300 bg-amber-50 p-3 text-[13px] text-amber-950">
-          {state.reason}
-        </p>
-      ) : null}
+      {state.status === 'unavailable' && <Notice tone="amber">{state.reason}</Notice>}
 
-      {state.status === 'succeeded' ? (
-        <div className="mt-6">
+      {state.status === 'succeeded' && (
+        <div style={{ marginTop: 28 }}>
           <ScanResult report={state.report} />
-          {state.scanId !== null ? <ShareLink scanId={state.scanId} /> : null}
+          {state.scanId !== null && <ShareLink scanId={state.scanId} />}
         </div>
-      ) : null}
+      )}
+    </div>
+  );
+}
+
+function Notice({ tone, children }: { tone: 'red' | 'amber'; children: React.ReactNode }) {
+  const color = tone === 'red' ? PC.red : PC.amber;
+  const bg = tone === 'red' ? PC.redWash : PC.amberWash;
+  return (
+    <div
+      style={{
+        marginTop: 16,
+        padding: '11px 14px',
+        border: `1px solid ${bg}`,
+        background: bg,
+        borderRadius: 9,
+        fontSize: 13,
+        color,
+      }}
+    >
+      {children}
     </div>
   );
 }
@@ -74,13 +114,36 @@ function ShareLink({ scanId }: { readonly scanId: string }) {
   }
 
   return (
-    <div className="mt-4 flex flex-wrap items-center gap-3">
-      <span className="font-mono text-[12px] text-ink-muted">Share this result:</span>
-      <code className="rounded bg-ink/5 px-2 py-1 font-mono text-[12px]">{path}</code>
+    <div
+      style={{ marginTop: 16, display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10 }}
+    >
+      <span style={{ fontFamily: MONO, fontSize: 12, color: PC.dim }}>Share this result:</span>
+      <code
+        style={{
+          fontFamily: MONO,
+          fontSize: 12,
+          color: PC.ink,
+          background: PC.hover,
+          borderRadius: 6,
+          padding: '4px 8px',
+        }}
+      >
+        {path}
+      </code>
       <button
         type="button"
         onClick={copy}
-        className="rounded-md border border-ink/15 bg-white/60 px-2.5 py-1 font-mono text-[12px] hover:border-ember/40 hover:bg-white"
+        style={{
+          height: 30,
+          padding: '0 12px',
+          background: PC.card,
+          border: `1px solid ${PC.line}`,
+          borderRadius: 7,
+          fontFamily: MONO,
+          fontSize: 12,
+          color: PC.ink,
+          cursor: 'pointer',
+        }}
       >
         {copied ? 'Copied' : 'Copy link'}
       </button>
