@@ -22,7 +22,7 @@ const DESIGN: ReadonlyArray<{ source: string; file: string }> = [
   // /dashboard/settings is now the functional React page.
   // /dashboard/billing is now the functional React page.
   // /dashboard/integrations is now the functional React page.
-  { source: '/dashboard/onboarding', file: 'Onboarding' },
+  // /dashboard/onboarding is now the functional React page.
   // marketing
   { source: '/pricing', file: 'Pricing' },
   // /sign-in stays the functional React page — the static copy has a dead
