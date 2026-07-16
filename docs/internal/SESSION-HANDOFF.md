@@ -25,12 +25,10 @@ Standing user instructions (memory: `feedback_autonomous-build-and-test`):
   `/design/support.js` src. Design pages have STATIC nav (`href="#"`), demo content.
 
 ### STILL-SHADOWED routes (static copies — build these) — from `next.config.ts` DESIGN array:
-`/dashboard/settings` · `/dashboard/billing` · `/dashboard/integrations` ·
 `/dashboard/onboarding` · `/pricing` · `/how-it-works` · `/changelog` · `/marketing-frame` ·
-`/utility-states`. (Landing `/`, `/sign-in`, `/scan`, Site-Settings `/dashboard/sites/:id/settings`,
-X-Ray `/dashboard/sites/:id/x-ray`, Drift Guard `/dashboard/sites/:id/drift-guard`,
-AI Traffic `/dashboard/sites/:id/ai-traffic`, Fix-PRs `/dashboard/sites/:id/fix-prs`,
-Account Settings `/dashboard/settings` are NOT rewritten = functional.)
+`/utility-states`. (Everything else is functional/un-shadowed: Landing `/`, `/sign-in`, `/scan`,
+`/dashboard/settings`, `/dashboard/billing`, `/dashboard/integrations`, Site-Settings
+`/dashboard/sites/:id/settings`, X-Ray, Drift Guard, AI Traffic, Fix-PRs.)
 
 ## DONE + TESTED THIS SESSION (all committed, pushed to `relaunch`)
 
@@ -103,18 +101,28 @@ Account Settings `/dashboard/settings` are NOT rewritten = functional.)
   account" modal via `deleteAccountAction` → `deleteProfileForUser` cascade). Cards without backend
   (Appearance, Notifications, GitHub App, API Tokens) omitted per standing rule. Browser-tested
   (200, all cards render, no console errors).
+- **Billing** `/dashboard/billing` — functional (6060a66). Porcelain: plan summary (spend + $29/repo),
+  per-site plans table (plan badge + free-loop status + Polar checkout upgrade links), honest empty
+  receipts. Deployed green.
+- **Integrations** `/dashboard/integrations` — functional (1b161a6). Porcelain GitHub App view:
+  resolves the user's installations (personal via `getActiveInstallationForLogin`(login) + any their
+  sites' `installationId`s), per-install card (account/type/connected/installed-date), repos granted
+  (`listActiveRepositoriesForInstallation` cache ∪ linked-site repos) each mapped to its site or a
+  "Link a site" link, App permissions, Manage-on-GitHub. Honest no-installation empty state + install
+  CTA (slug `answerfox`). New queries: `getInstallationByInstallationId`,
+  `listActiveRepositoriesForInstallation`. Browser-tested (200, empty state renders); deployed green.
 
 Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboard/sites/[siteId]`,
 `.../findings`, `.../history`, `.../settings`, `.../x-ray`, `.../drift-guard`, `.../ai-traffic`,
-`.../fix-prs`, `/dashboard/sites/new`, `/dashboard/settings`.
+`.../fix-prs`, `/dashboard/sites/new`, `/dashboard/settings`, `/dashboard/billing`,
+`/dashboard/integrations`.
 
 ## PRIORITIZED PLAN (remaining, in order)
 
-7. **Billing** `/dashboard/billing` — NEXT. **$29/mo** (design shows stale $9 — reconcile). Polar
-   checkout `/api/checkout` + `/api/webhook/polar` exist; add plan/upgrade/portal/cancel UI.
-8. **Integrations** `/dashboard/integrations` — GitHub App status + ingest-token minting.
-9. **Onboarding** `/dashboard/onboarding` (+ Porcelain-ify Add-site) — `onboardRepoAction`,
-   `listConnectableReposAction`.
+7. ~~Billing~~ — DONE (6060a66). 8. ~~Integrations~~ — DONE (1b161a6).
+9. **Onboarding** `/dashboard/onboarding` (+ Porcelain-ify Add-site) — NEXT. Actions already exist:
+   `listConnectableReposAction` / `onboardRepoAction` in `sites/new/onboard-actions.ts` (repo-picker
+   → `onboardSiteFromRepo`). Porcelain-ify the flow; handle no-github / no-installation states.
 10. **Sign-In** Porcelain redesign (keep GitHub OAuth wired). Then marketing: Pricing ($29),
     How-It-Works, Changelog, Public-Audit(/scan Porcelain).
 11. Net-new (section 3): badge picker modal, evidence inspector, AI-fix quota UI, Pro upsell
