@@ -32,8 +32,9 @@ Site-Settings `/dashboard/sites/:id/settings`, X-Ray, Drift Guard, AI Traffic, F
 
 ## DONE + TESTED THIS SESSION (all committed, pushed to `relaunch`)
 
-- Landing `/` (Porcelain, af26628). Sign-in `/sign-in` FUNCTIONAL but OLD Bloom design (Porcelain
-  redesign pending). `/scan` free scanner un-shadowed (539ec03).
+- Landing `/` (Porcelain, af26628). Sign-in `/sign-in` — Porcelain redesign done (e97362f): slim
+  nav + centered card (Continue-with-GitHub) + reassurance row + footer; GitHub OAuth flow
+  (`sign-in-with-github.tsx` → `/auth/callback`) unchanged. `/scan` free scanner un-shadowed (539ec03).
 - **Sites list** `/dashboard/sites` — functional (707b9b1). `components/dashboard/sites-table.tsx`.
 - **Phase 0** (6333769): per-site nav + functional site switcher in
   `components/dashboard/site-sidebar.tsx` (`SiteNav`, `SiteSwitcher`), wired into
@@ -129,8 +130,9 @@ Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboa
    — `/dashboard/onboarding` Porcelain 4-step wizard (`components/dashboard/onboarding/onboarding-flow.tsx`)
    wiring `listConnectableReposAction`/`onboardRepoAction`. (Add-site `/dashboard/sites/new` still
    old-Tailwind — optional Porcelain-ify remains.)
-10. **Sign-In** Porcelain redesign (keep GitHub OAuth wired) — NEXT. Then marketing: Pricing ($29),
-    How-It-Works, Changelog, Public-Audit(/scan Porcelain).
+10. ~~Sign-In Porcelain redesign~~ DONE (e97362f). **Marketing pages — NEXT:** Pricing ($29, design
+    shows stale $9), How-It-Works, Changelog, Public-Audit (Porcelain `/scan`). These are
+    still-shadowed static copies in the DESIGN array — build + un-shadow each.
 11. Net-new (section 3): badge picker modal, evidence inspector, AI-fix quota UI, Pro upsell
     states, weekly email digest, public leaderboard, Google OAuth, CSV export, annotations.
 12. **v2 SKIPPED**: team/org+SSO, API keys, citation tracking, accessibility pillar, MCP/commerce
