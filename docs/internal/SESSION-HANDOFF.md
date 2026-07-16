@@ -25,7 +25,7 @@ Standing user instructions (memory: `feedback_autonomous-build-and-test`):
   `/design/support.js` src. Design pages have STATIC nav (`href="#"`), demo content.
 
 ### STILL-SHADOWED routes (static copies — build these) — from `next.config.ts` DESIGN array:
-`/how-it-works` · `/changelog` · `/marketing-frame` · `/utility-states`.
+`/changelog` · `/marketing-frame` · `/utility-states`.
 (Everything else is functional/un-shadowed: Landing `/`, `/sign-in`, `/scan`,
 `/dashboard/settings`, `/dashboard/billing`, `/dashboard/integrations`, `/dashboard/onboarding`,
 Site-Settings `/dashboard/sites/:id/settings`, X-Ray, Drift Guard, AI Traffic, Fix-PRs.)
@@ -123,11 +123,15 @@ Site-Settings `/dashboard/sites/:id/settings`, X-Ray, Drift Guard, AI Traffic, F
   ($29/repo/mo — stale $9 reconciled) plans, reassurance, FAQ (native `<details>`), CTA. Monthly-
   only (no yearly toggle — no yearly checkout). Real CTAs (App install, `/scan`). Shared marketing
   chrome (`components/marketing/marketing-chrome.tsx`). Browser-tested (renders, FAQ toggles, $29).
+- **How-It-Works** `/how-it-works` — functional (3e42d73). Porcelain via marketing chrome: hero +
+  4-node loop diagram, 4 alternating feature sections with product-artifact mockups (X-Ray panes,
+  Fix-PR diff, Proof re-audit comment, Drift alert+fix), credibility strip, CTA. 50→53 checks.
+  Real CTAs. Static prerender. Browser-tested (all sections render to design).
 
 Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboard/sites/[siteId]`,
 `.../findings`, `.../history`, `.../settings`, `.../x-ray`, `.../drift-guard`, `.../ai-traffic`,
 `.../fix-prs`, `/dashboard/sites/new`, `/dashboard/settings`, `/dashboard/billing`,
-`/dashboard/integrations`, `/dashboard/onboarding`, `/sign-in`, `/pricing`.
+`/dashboard/integrations`, `/dashboard/onboarding`, `/sign-in`, `/pricing`, `/how-it-works`.
 
 ## PRIORITIZED PLAN (remaining, in order)
 
@@ -137,8 +141,9 @@ Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboa
    old-Tailwind — optional Porcelain-ify remains.)
 10. ~~Sign-In~~ DONE (e97362f). ~~Pricing~~ DONE (cdcaa58, $29 reconciled; shared
     `components/marketing/marketing-chrome.tsx` = MarketingNav/Footer/AnswerfoxMark for reuse).
-    **Marketing — NEXT:** How-It-Works, Changelog, Public-Audit (Porcelain `/scan`). Reuse the
-    marketing chrome. Still-shadowed static copies in the DESIGN array — build + un-shadow each.
+    ~~How-It-Works~~ DONE (3e42d73, marketing chrome reused; 4-node loop + 4 artifact sections).
+    **Marketing — NEXT:** Changelog, then Public-Audit (Porcelain `/scan`). Reuse the marketing
+    chrome. Still-shadowed static copies in the DESIGN array — build + un-shadow each.
 11. Net-new (section 3): badge picker modal, evidence inspector, AI-fix quota UI, Pro upsell
     states, weekly email digest, public leaderboard, Google OAuth, CSV export, annotations.
 12. **v2 SKIPPED**: team/org+SSO, API keys, citation tracking, accessibility pillar, MCP/commerce
