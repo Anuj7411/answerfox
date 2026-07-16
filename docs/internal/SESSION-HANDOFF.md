@@ -128,6 +128,13 @@ Site-Settings `/dashboard/sites/:id/settings`, X-Ray, Drift Guard, AI Traffic, F
   4-node loop diagram, 4 alternating feature sections with product-artifact mockups (X-Ray panes,
   Fix-PR diff, Proof re-audit comment, Drift alert+fix), credibility strip, CTA. 50→53 checks.
   Real CTAs. Static prerender. Browser-tested (all sections render to design).
+- **Public Audit `/scan`** — Porcelain redesign (a3d8737). `components/scan/scan-result.tsx`
+  (shared by the live form + `/scan/[id]`) rewritten to the design's score-band + verdict-count
+  tiles + "Biggest gaps" findings + CTA, wired to the real `AgentAnswerReport`
+  (answerabilityScore + per-question verdicts + gaps). `/scan` input + `/scan/[id]` shells use the
+  marketing chrome. `runPublicScanAction` unchanged. Design's per-page X-Ray/raw-HTML omitted (no
+  backing data). Browser-tested with a LIVE scan of react.dev (23s; score 0, 3 unanswerable gaps
+  rendered from real grader output).
 - **Changelog** `/changelog` — functional (9c2ba03). Porcelain via marketing chrome: hero +
   Subscribe (→ GitHub releases), dated entries v0.4–v0.9 (sticky date/version column) each with a
   small artifact (agent bars, alert, proof ring, PR chip, X-Ray mini), closing CTA. v0.7 note
@@ -137,7 +144,7 @@ Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboa
 `.../findings`, `.../history`, `.../settings`, `.../x-ray`, `.../drift-guard`, `.../ai-traffic`,
 `.../fix-prs`, `/dashboard/sites/new`, `/dashboard/settings`, `/dashboard/billing`,
 `/dashboard/integrations`, `/dashboard/onboarding`, `/sign-in`, `/pricing`, `/how-it-works`,
-`/changelog`.
+`/changelog`, `/scan` (+ `/scan/[id]`).
 
 ## PRIORITIZED PLAN (remaining, in order)
 
@@ -147,10 +154,11 @@ Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboa
    old-Tailwind — optional Porcelain-ify remains.)
 10. ~~Sign-In~~ DONE (e97362f). ~~Pricing~~ DONE (cdcaa58, $29 reconciled; shared
     `components/marketing/marketing-chrome.tsx` = MarketingNav/Footer/AnswerfoxMark for reuse).
-    ~~How-It-Works~~ DONE (3e42d73). ~~Changelog~~ DONE (9c2ba03, dated entries + artifacts; also
-    fixed shared footer 50→53). **Marketing — NEXT (last one):** Public-Audit — Porcelain redesign
-    of `/scan` (currently functional but old-styled). Reuse the marketing chrome. Design file =
-    `public/design/Public-Audit.html` (if present).
+    ~~How-It-Works~~ DONE (3e42d73). ~~Changelog~~ DONE (9c2ba03). ~~Public-Audit `/scan`~~ DONE
+    (a3d8737 — Porcelain score band/tiles/findings wired to real AgentAnswerReport; X-Ray/raw-HTML
+    omitted, no data). **ALL PRIORITIZED PAGES COMPLETE.** Remaining work is only the net-new
+    feature set (item 11 below) — no more static design copies to convert (only the two
+    design-system reference frames remain shadowed).
 11. Net-new (section 3): badge picker modal, evidence inspector, AI-fix quota UI, Pro upsell
     states, weekly email digest, public leaderboard, Google OAuth, CSV export, annotations.
 12. **v2 SKIPPED**: team/org+SSO, API keys, citation tracking, accessibility pillar, MCP/commerce
