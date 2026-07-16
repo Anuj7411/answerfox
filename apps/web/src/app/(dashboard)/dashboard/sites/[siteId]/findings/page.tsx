@@ -4,7 +4,9 @@ import {
   FindingsView,
   ReRunButton,
 } from '@/components/dashboard/findings-view';
-import { DISPLAY, MONO, PC } from '@/components/dashboard/site-overview/porcelain';
+import { ProUpsellNotice } from '@/components/dashboard/pro-upsell-notice';
+import { BODY, DISPLAY, MONO, PC } from '@/components/dashboard/site-overview/porcelain';
+import { listMonthlyAiFixUsage } from '@/lib/db/queries/ai-fixes';
 import { getLatestAuditForSite, listFindingsForAudit } from '@/lib/db/queries/audits';
 import { getSiteForUser } from '@/lib/db/queries/sites';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
@@ -81,7 +83,10 @@ export default async function FindingsPage({ params }: PageProps) {
     );
   }
 
-  const findings = await listFindingsForAudit(audit.id);
+  const [findings, quota] = await Promise.all([
+    listFindingsForAudit(audit.id),
+    listMonthlyAiFixUsage(user.id),
+  ]);
   const byCategory = new Map<string, FindingItem[]>();
   for (const f of findings) {
     const item: FindingItem = {
@@ -114,6 +119,7 @@ export default async function FindingsPage({ params }: PageProps) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
       <Header
         siteId={site.id}
+        auditId={audit.id}
         title="Findings"
         subtitle={`${total} checks · latest audit ${relativeTime(audit.fetchedAt)}`}
         audit={{
@@ -123,6 +129,45 @@ export default async function FindingsPage({ params }: PageProps) {
           skip: audit.skipCount,
         }}
       />
+      {(() => {
+        const pct = quota.quota > 0 ? Math.round((quota.used / quota.quota) * 100) : 0;
+        const resetLabel = quota.resetAt.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+        });
+        if (pct >= 100) {
+          return (
+            <ProUpsellNotice
+              variant="quota-reached"
+              quota={quota.quota}
+              remaining={quota.remaining}
+              resetLabel={resetLabel}
+            />
+          );
+        }
+        if (pct >= 90) {
+          return (
+            <ProUpsellNotice
+              variant="quota-near"
+              remaining={quota.remaining}
+              resetLabel={resetLabel}
+            />
+          );
+        }
+        if (pct >= 75) {
+          return (
+            <ProUpsellNotice
+              variant="quota-heavy"
+              remaining={quota.remaining}
+              resetLabel={resetLabel}
+            />
+          );
+        }
+        if (site.plan === 'free' && site.repoFullName !== null) {
+          return <ProUpsellNotice variant="site-free" siteId={site.id} />;
+        }
+        return null;
+      })()}
       <FindingsView groups={groups} />
     </div>
   );
@@ -130,11 +175,13 @@ export default async function FindingsPage({ params }: PageProps) {
 
 function Header({
   siteId,
+  auditId,
   title,
   subtitle,
   audit,
 }: {
   readonly siteId: string;
+  readonly auditId?: string;
   readonly title: string;
   readonly subtitle: string;
   readonly audit: { fail: number; warn: number; pass: number; skip: number } | null;
@@ -189,6 +236,43 @@ function Header({
             ) : null}
           </>
         ) : null}
+        {auditId !== undefined && (
+          <a
+            href={`/api/sites/${siteId}/audits/${auditId}/export/csv`}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              height: 30,
+              padding: '0 10px',
+              background: PC.card,
+              border: `1px solid ${PC.line}`,
+              borderRadius: 7,
+              fontFamily: BODY,
+              fontSize: 12.5,
+              color: PC.ink,
+              textDecoration: 'none',
+            }}
+            download
+          >
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke={PC.muted}
+              strokeWidth="1.9"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" x2="12" y1="15" y2="3" />
+            </svg>
+            Export CSV
+          </a>
+        )}
         <ReRunButton siteId={siteId} />
       </div>
     </div>

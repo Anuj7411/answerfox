@@ -3,6 +3,7 @@
 import { generateAIFixAction } from '@/app/(dashboard)/dashboard/sites/[siteId]/ai-fix-actions';
 import type { GenerateAiFixState } from '@/app/(dashboard)/dashboard/sites/[siteId]/ai-fix-actions';
 import { runAuditAction } from '@/app/(dashboard)/dashboard/sites/actions';
+import { InspectButton } from '@/components/dashboard/evidence-inspector';
 import { useActionState, useMemo, useState } from 'react';
 import { BODY, MONO, PC } from './site-overview/porcelain';
 
@@ -381,6 +382,27 @@ function Row({ item }: { readonly item: FindingItem }) {
               {item.fixRecommendation}
             </p>
           ) : null}
+          <div
+            style={{
+              marginTop: 12,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              flexWrap: 'wrap',
+            }}
+          >
+            <InspectButton
+              item={{
+                checkId: item.checkId,
+                category: item.category,
+                severity: item.severity,
+                status: item.status,
+                evidence: item.evidence,
+                fixRecommendation: item.fixRecommendation,
+                title,
+              }}
+            />
+          </div>
           {canFix ? (
             <form
               action={fixAction}

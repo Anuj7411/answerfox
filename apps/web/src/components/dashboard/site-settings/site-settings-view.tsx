@@ -13,6 +13,7 @@ import {
   initiateVerificationAction,
 } from '@/app/(dashboard)/dashboard/sites/[siteId]/verification-actions';
 import { BODY, MONO, PC } from '@/components/dashboard/site-overview/porcelain';
+import { BadgePickerCard } from '@/components/dashboard/site-settings/badge-picker-card';
 import {
   type CSSProperties,
   type ReactNode,
@@ -82,6 +83,7 @@ export function SiteSettingsView(props: SiteSettingsViewProps) {
         token={props.verificationToken}
         verifiedAt={props.verifiedAt}
       />
+      <BadgePickerCard siteUrl={props.url} />
       <DangerZoneCard siteId={props.siteId} name={props.name} />
     </div>
   );
