@@ -1,4 +1,5 @@
 import { AccountSettingsView } from '@/components/dashboard/account-settings-view';
+import { listMonthlyAiFixUsage } from '@/lib/db/queries/ai-fixes';
 import { getProfileWithStats } from '@/lib/db/queries/profile';
 import { resolveGithubLogin } from '@/lib/github/resolve-github-login';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
@@ -13,7 +14,10 @@ export default async function SettingsPage() {
   } = await supabase.auth.getUser();
   if (user === null) redirect('/sign-in?redirect=/dashboard/settings');
 
-  const profile = await getProfileWithStats(user.id);
+  const [profile, aiFixQuota] = await Promise.all([
+    getProfileWithStats(user.id),
+    listMonthlyAiFixUsage(user.id),
+  ]);
   if (profile === null) {
     redirect('/dashboard');
   }
@@ -33,6 +37,12 @@ export default async function SettingsPage() {
       githubLogin={githubLogin}
       planLabel={planLabel}
       paidSiteCount={paidSiteCount}
+      aiFixQuota={{
+        used: aiFixQuota.used,
+        quota: aiFixQuota.quota,
+        remaining: aiFixQuota.remaining,
+        resetAt: aiFixQuota.resetAt.toISOString(),
+      }}
     />
   );
 }

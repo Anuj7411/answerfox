@@ -4,6 +4,7 @@ import {
   deleteAccountAction,
   updateDisplayName,
 } from '@/app/(dashboard)/dashboard/settings/actions';
+import { AiFixQuotaCard } from '@/components/dashboard/ai-fix-quota-card';
 import { BODY, MONO, PC } from '@/components/dashboard/site-overview/porcelain';
 import { useEffect, useRef, useState, useTransition } from 'react';
 
@@ -24,6 +25,13 @@ export interface AccountSettingsProps {
   readonly githubLogin: string | null;
   readonly planLabel: string;
   readonly paidSiteCount: number;
+  readonly aiFixQuota: {
+    readonly used: number;
+    readonly quota: number;
+    readonly remaining: number;
+    /** ISO string; serialized so a client component can consume it. */
+    readonly resetAt: string;
+  };
 }
 
 /* ============================================================
@@ -35,6 +43,7 @@ export function AccountSettingsView({
   githubLogin,
   planLabel,
   paidSiteCount,
+  aiFixQuota,
 }: AccountSettingsProps) {
   return (
     <div
@@ -68,6 +77,12 @@ export function AccountSettingsView({
       <ProfileCard name={profile.name} email={profile.email} />
       <GitHubAccountCard login={githubLogin} />
       <BillingCard planLabel={planLabel} paidSiteCount={paidSiteCount} />
+      <AiFixQuotaCard
+        used={aiFixQuota.used}
+        quota={aiFixQuota.quota}
+        remaining={aiFixQuota.remaining}
+        resetAt={new Date(aiFixQuota.resetAt)}
+      />
       <DangerZoneCard />
     </div>
   );
