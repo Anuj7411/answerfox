@@ -160,8 +160,16 @@ Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboa
     omitted, no data). **ALL PRIORITIZED PAGES COMPLETE.** Remaining work is only the net-new
     feature set (item 11 below) — no more static design copies to convert (only the two
     design-system reference frames remain shadowed).
-11. Net-new (section 3): badge picker modal, evidence inspector, AI-fix quota UI, Pro upsell
-    states, weekly email digest, public leaderboard, Google OAuth, CSV export, annotations.
+11. Net-new (section 3). DONE: badge picker modal, evidence inspector, AI-fix quota UI, Pro
+    upsell states, CSV export (07cbd6e/b56fe06). DONE: weekly email digest (34fa4fc — profiles.
+    weekly_digest_opt_in / migration 0012 APPLIED to project DB; lib/email/digest-format.ts +
+    send-digest.ts; lib/db/queries/weekly-digest.ts; /api/cron/weekly-digest Mon 13:00 UTC in
+    vercel.json; Notifications toggle on Account Settings. Verified e2e via cron route: real
+    4-site digest rendered + auth-gated. Pushed/deployed). REMAINING: public leaderboard
+    (needs sites.isPublic col + cross-site ranking query), annotations (net-new table), Google
+    OAuth (DEFERRED — GitHub-centric product, low value, needs Supabase dashboard provider cfg).
+    NOTE: Supabase free project auto-pauses after ~1wk idle (NXDOMAIN) — open the dashboard to
+    resume before testing. See memory project_supabase-project-missing.
 12. **v2 SKIPPED**: team/org+SSO, API keys, citation tracking, accessibility pillar, MCP/commerce
     scaffolding, Slack, Studio $99, outcome-weighted score.
 
