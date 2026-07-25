@@ -33,6 +33,7 @@ export default async function SiteSettingsPage({ params }: PageProps) {
       siteId={site.id}
       name={site.name}
       url={site.url}
+      isPublic={site.isPublic}
       auditSchedule={site.auditSchedule}
       nextScheduledAuditAt={site.nextScheduledAuditAt?.toISOString() ?? null}
       alertThreshold={site.alertThreshold}

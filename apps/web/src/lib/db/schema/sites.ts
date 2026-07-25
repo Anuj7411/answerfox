@@ -1,5 +1,6 @@
 import {
   bigint,
+  boolean,
   index,
   integer,
   pgEnum,
@@ -113,10 +114,18 @@ export const sites = pgTable(
      */
     plan: sitePlan('plan').notNull().default('free'),
     freeLoopConsumedAt: timestamp('free_loop_consumed_at', { withTimezone: true }),
+    /**
+     * Opt-in to the public /leaderboard. Off by default; the owner flips
+     * it from Site Settings (only for a verified site). When true, the
+     * site's domain + latest score + band appear on the public board.
+     * See migration 0014.
+     */
+    isPublic: boolean('is_public').notNull().default(false),
   },
   (table) => ({
     userIdIdx: index('sites_user_id_idx').on(table.userId),
     repoFullNameIdx: index('sites_repo_full_name_idx').on(table.repoFullName),
+    isPublicIdx: index('sites_is_public_idx').on(table.isPublic),
   }),
 );
 

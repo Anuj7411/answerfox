@@ -2,6 +2,7 @@
 
 import { updateAlertThreshold } from '@/app/(dashboard)/dashboard/sites/[siteId]/alert-actions';
 import { rotateIngestToken } from '@/app/(dashboard)/dashboard/sites/[siteId]/analytics-actions';
+import { updateSitePublicListing } from '@/app/(dashboard)/dashboard/sites/[siteId]/listing-actions';
 import {
   deleteSite,
   renameSite,
@@ -36,6 +37,7 @@ export interface SiteSettingsViewProps {
   readonly siteId: string;
   readonly name: string;
   readonly url: string;
+  readonly isPublic: boolean;
   readonly auditSchedule: ScheduleValue;
   readonly nextScheduledAuditAt: string | null;
   readonly alertThreshold: number | null;
@@ -84,6 +86,11 @@ export function SiteSettingsView(props: SiteSettingsViewProps) {
         verifiedAt={props.verifiedAt}
       />
       <BadgePickerCard siteUrl={props.url} />
+      <LeaderboardCard
+        siteId={props.siteId}
+        isPublic={props.isPublic}
+        verified={props.verificationStatus === 'verified'}
+      />
       <DangerZoneCard siteId={props.siteId} name={props.name} />
     </div>
   );
@@ -1161,6 +1168,72 @@ function TokenBlock({ label, code }: { label: string; code: string }) {
         {code}
       </code>
     </div>
+  );
+}
+
+/* ============================================================
+   6b) PUBLIC LEADERBOARD — opt-in toggle
+   ============================================================ */
+
+function LeaderboardCard({
+  siteId,
+  isPublic,
+  verified,
+}: { siteId: string; isPublic: boolean; verified: boolean }) {
+  const [on, setOn] = useState(isPublic);
+  const [pending, start] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+  const [savedAt, setSavedAt] = useState<Date | null>(null);
+
+  function toggle() {
+    const next = !on;
+    setError(null);
+    setOn(next); // optimistic
+    start(async () => {
+      const res = await updateSitePublicListing(siteId, next);
+      if (!res.ok) {
+        setOn(!next); // revert
+        setError(res.error);
+        return;
+      }
+      setSavedAt(new Date());
+    });
+  }
+
+  return (
+    <Card delay={90}>
+      <CardHead
+        title="Public leaderboard"
+        subtitle="List this site on the public board — domain, score, and band only."
+        right={<Toggle on={on} onToggle={toggle} disabled={pending || !verified} />}
+      />
+      <CardBody>
+        {!verified ? (
+          <span style={{ fontSize: 13.5, color: PC.muted }}>
+            Verify ownership above to make this site eligible for the leaderboard.
+          </span>
+        ) : on ? (
+          <span style={{ fontSize: 13.5, color: PC.muted }}>
+            Listed. Your domain and latest score are public. Findings, agent traffic, and the linked
+            repo stay private.
+          </span>
+        ) : (
+          <span style={{ fontSize: 13.5, color: PC.muted }}>
+            Not listed. Turn this on to show your domain and score publicly and benchmark against
+            other sites.
+          </span>
+        )}
+      </CardBody>
+      <CardFoot
+        note={
+          <a href="/leaderboard" style={{ color: PC.muted, textDecoration: 'underline' }}>
+            View the leaderboard
+          </a>
+        }
+      >
+        <StatusNote error={error} savedAt={savedAt} dirty={false} />
+      </CardFoot>
+    </Card>
   );
 }
 

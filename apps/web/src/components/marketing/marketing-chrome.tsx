@@ -51,7 +51,7 @@ function GithubMark({ size = 14, fill = '#FAFAF8' }: { size?: number; fill?: str
   );
 }
 
-type MarketingPage = 'how-it-works' | 'pricing' | 'changelog';
+type MarketingPage = 'how-it-works' | 'pricing' | 'changelog' | 'leaderboard';
 
 export function MarketingNav({ current }: { current?: MarketingPage }) {
   const installUrl = marketingInstallUrl();
@@ -126,6 +126,9 @@ export function MarketingNav({ current }: { current?: MarketingPage }) {
           </Link>
           <Link href="/pricing" style={link(current === 'pricing')}>
             Pricing
+          </Link>
+          <Link href="/leaderboard" style={link(current === 'leaderboard')}>
+            Leaderboard
           </Link>
           <a href={REPO_URL} target="_blank" rel="noreferrer" style={link(false)}>
             Docs
@@ -238,6 +241,9 @@ export function MarketingFooter() {
             </Link>
             <Link href="/changelog" style={flink}>
               Changelog
+            </Link>
+            <Link href="/leaderboard" style={flink}>
+              Leaderboard
             </Link>
             <Link href="/scan" style={flink}>
               Public audits
