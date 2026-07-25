@@ -174,8 +174,14 @@ Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboa
     private note keyed (siteId,checkId) so it survives re-audits; lib/annotations/normalize.ts +
     queries/mutations; saveAnnotationAction; "Private note" editor per finding row in
     findings-view.tsx. Read path live-verified 200 no-error post-migration; save-click not
-    exercised (preview pane doesn't composite here). Pushed/deployed). REMAINING: public
-    leaderboard only (needs sites.isPublic col + cross-site ranking); Google OAuth still DEFERRED.
+    exercised (preview pane doesn't composite here). Pushed/deployed).
+    DONE: public leaderboard (947b56f — sites.is_public / migration 0014 APPLIED + index; opt-in
+    toggle on Site Settings gated on verification; lib/leaderboard/rank.ts pure rank/domain +
+    queries/leaderboard.ts (domain+score+band only); listing-actions.ts updateSitePublicListing;
+    public /leaderboard page via marketing chrome, force-dynamic, nav+footer links. Read path
+    live-verified 200 empty-state post-migration; toggle-click not exercised (pane). Pushed).
+    **ITEM 11 COMPLETE.** Only Google OAuth remains, DEFERRED (GitHub-centric product, low value,
+    needs Supabase dashboard provider cfg). NET-NEW BUILD LIST DONE.
 12. **v2 SKIPPED**: team/org+SSO, API keys, citation tracking, accessibility pillar, MCP/commerce
     scaffolding, Slack, Studio $99, outcome-weighted score.
 
