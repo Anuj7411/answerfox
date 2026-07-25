@@ -170,6 +170,12 @@ Functional React page files present: `/dashboard`, `/dashboard/sites`, `/dashboa
     OAuth (DEFERRED — GitHub-centric product, low value, needs Supabase dashboard provider cfg).
     NOTE: Supabase free project auto-pauses after ~1wk idle (NXDOMAIN) — open the dashboard to
     resume before testing. See memory project_supabase-project-missing.
+    DONE: annotations (74543c5 — annotations table / migration 0013 APPLIED, owner RLS; per-check
+    private note keyed (siteId,checkId) so it survives re-audits; lib/annotations/normalize.ts +
+    queries/mutations; saveAnnotationAction; "Private note" editor per finding row in
+    findings-view.tsx. Read path live-verified 200 no-error post-migration; save-click not
+    exercised (preview pane doesn't composite here). Pushed/deployed). REMAINING: public
+    leaderboard only (needs sites.isPublic col + cross-site ranking); Google OAuth still DEFERRED.
 12. **v2 SKIPPED**: team/org+SSO, API keys, citation tracking, accessibility pillar, MCP/commerce
     scaffolding, Slack, Studio $99, outcome-weighted score.
 
