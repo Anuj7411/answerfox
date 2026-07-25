@@ -1,6 +1,7 @@
 import { AccountSettingsView } from '@/components/dashboard/account-settings-view';
 import { listMonthlyAiFixUsage } from '@/lib/db/queries/ai-fixes';
 import { getProfileWithStats } from '@/lib/db/queries/profile';
+import { getWeeklyDigestOptIn } from '@/lib/db/queries/weekly-digest';
 import { resolveGithubLogin } from '@/lib/github/resolve-github-login';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
 import { redirect } from 'next/navigation';
@@ -14,9 +15,10 @@ export default async function SettingsPage() {
   } = await supabase.auth.getUser();
   if (user === null) redirect('/sign-in?redirect=/dashboard/settings');
 
-  const [profile, aiFixQuota] = await Promise.all([
+  const [profile, aiFixQuota, weeklyDigestOptIn] = await Promise.all([
     getProfileWithStats(user.id),
     listMonthlyAiFixUsage(user.id),
+    getWeeklyDigestOptIn(user.id),
   ]);
   if (profile === null) {
     redirect('/dashboard');
@@ -37,6 +39,7 @@ export default async function SettingsPage() {
       githubLogin={githubLogin}
       planLabel={planLabel}
       paidSiteCount={paidSiteCount}
+      weeklyDigestOptIn={weeklyDigestOptIn}
       aiFixQuota={{
         used: aiFixQuota.used,
         quota: aiFixQuota.quota,

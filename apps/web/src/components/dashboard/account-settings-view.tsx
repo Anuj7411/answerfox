@@ -3,6 +3,7 @@
 import {
   deleteAccountAction,
   updateDisplayName,
+  updateWeeklyDigestOptIn,
 } from '@/app/(dashboard)/dashboard/settings/actions';
 import { AiFixQuotaCard } from '@/components/dashboard/ai-fix-quota-card';
 import { BODY, MONO, PC } from '@/components/dashboard/site-overview/porcelain';
@@ -25,6 +26,7 @@ export interface AccountSettingsProps {
   readonly githubLogin: string | null;
   readonly planLabel: string;
   readonly paidSiteCount: number;
+  readonly weeklyDigestOptIn: boolean;
   readonly aiFixQuota: {
     readonly used: number;
     readonly quota: number;
@@ -43,6 +45,7 @@ export function AccountSettingsView({
   githubLogin,
   planLabel,
   paidSiteCount,
+  weeklyDigestOptIn,
   aiFixQuota,
 }: AccountSettingsProps) {
   return (
@@ -83,6 +86,7 @@ export function AccountSettingsView({
         remaining={aiFixQuota.remaining}
         resetAt={new Date(aiFixQuota.resetAt)}
       />
+      <NotificationsCard optIn={weeklyDigestOptIn} />
       <DangerZoneCard />
     </div>
   );
@@ -505,7 +509,103 @@ function BillingCard({
 }
 
 /* ============================================================
-   4) DANGER ZONE — delete account with typed confirm
+   4) NOTIFICATIONS — weekly digest opt-in toggle
+   ============================================================ */
+
+function NotificationsCard({ optIn }: { optIn: boolean }) {
+  const [on, setOn] = useState(optIn);
+  const [pending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
+  function toggle() {
+    const next = !on;
+    setError(null);
+    setOn(next); // optimistic
+    startTransition(async () => {
+      const res = await updateWeeklyDigestOptIn(next);
+      if (!res.ok) {
+        setOn(!next); // revert
+        setError(res.error);
+      }
+    });
+  }
+
+  return (
+    <Card>
+      <CardHead title="Notifications" subtitle="Email you get from Answerfox." />
+      <div
+        style={{
+          padding: '14px 20px 18px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 16,
+        }}
+      >
+        <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+          <div style={{ fontFamily: BODY, fontSize: 14, fontWeight: 500, color: PC.ink }}>
+            Weekly digest
+          </div>
+          <div style={{ marginTop: 3, fontSize: 13, color: PC.muted, lineHeight: 1.5 }}>
+            A Monday summary of every site's score and what moved this week.
+          </div>
+          {error !== null ? (
+            <div style={{ marginTop: 6, fontSize: 12.5, color: PC.red }}>{error}</div>
+          ) : null}
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={on}
+          aria-label="Weekly digest email"
+          onClick={toggle}
+          disabled={pending}
+          style={{
+            flex: '0 0 auto',
+            position: 'relative',
+            width: 44,
+            height: 26,
+            borderRadius: 13,
+            border: 'none',
+            padding: 0,
+            cursor: pending ? 'default' : 'pointer',
+            background: on ? PC.ink : FIELD_LINE,
+            transition: 'background .15s ease',
+            opacity: pending ? 0.6 : 1,
+          }}
+        >
+          <span
+            style={{
+              position: 'absolute',
+              top: 3,
+              left: on ? 21 : 3,
+              width: 20,
+              height: 20,
+              borderRadius: '50%',
+              background: '#FFFFFF',
+              transition: 'left .15s ease',
+              boxShadow: '0 1px 2px rgba(0,0,0,.2)',
+            }}
+          />
+        </button>
+      </div>
+      <div
+        style={{
+          padding: '11px 20px',
+          borderTop: `1px solid ${FOOT_LINE}`,
+          background: FOOT_BG,
+          fontFamily: MONO,
+          fontSize: 11.5,
+          color: PC.dim,
+        }}
+      >
+        {on ? 'On · sent Mondays' : 'Off · no weekly email'}
+      </div>
+    </Card>
+  );
+}
+
+/* ============================================================
+   5) DANGER ZONE — delete account with typed confirm
    ============================================================ */
 
 function DangerZoneCard() {

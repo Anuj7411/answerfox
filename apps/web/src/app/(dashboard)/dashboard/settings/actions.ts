@@ -1,7 +1,10 @@
 'use server';
 
-import { deleteProfileForUser } from '@/lib/db/mutations/profile';
-import { updateProfileName } from '@/lib/db/mutations/profile';
+import {
+  deleteProfileForUser,
+  setWeeklyDigestOptIn,
+  updateProfileName,
+} from '@/lib/db/mutations/profile';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -39,6 +42,29 @@ export async function updateDisplayName(
 
   revalidatePath('/dashboard/settings');
   revalidatePath('/dashboard');
+  return { ok: true };
+}
+
+/**
+ * Turn the weekly readiness digest email on or off for the caller.
+ */
+export async function updateWeeklyDigestOptIn(
+  optIn: boolean,
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  const supabase = await createServerSupabaseClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (user === null) {
+    return { ok: false, error: 'Not signed in.' };
+  }
+
+  const updated = await setWeeklyDigestOptIn({ userId: user.id, optIn });
+  if (!updated) {
+    return { ok: false, error: 'Profile not found.' };
+  }
+
+  revalidatePath('/dashboard/settings');
   return { ok: true };
 }
 

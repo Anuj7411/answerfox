@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { boolean, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 /**
  * Public profile for an authenticated user.
@@ -17,6 +17,12 @@ export const profiles = pgTable('profiles', {
   email: text('email').notNull().unique(),
   name: text('name'),
   avatarUrl: text('avatar_url'),
+  /**
+   * Opt-in for the weekly readiness digest email (cron:
+   * /api/cron/weekly-digest). Defaults to true; users turn it off from
+   * Account Settings. See migration 0012.
+   */
+  weeklyDigestOptIn: boolean('weekly_digest_opt_in').notNull().default(true),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });

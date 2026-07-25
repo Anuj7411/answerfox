@@ -20,6 +20,22 @@ export async function updateProfileName(input: {
 }
 
 /**
+ * Toggle the weekly digest opt-in on a user's profile. Returns true if
+ * a row was updated, false if no profile exists for the user yet.
+ */
+export async function setWeeklyDigestOptIn(input: {
+  userId: string;
+  optIn: boolean;
+}): Promise<boolean> {
+  const rows = await getDb()
+    .update(profiles)
+    .set({ weeklyDigestOptIn: input.optIn, updatedAt: new Date() })
+    .where(eq(profiles.id, input.userId))
+    .returning({ id: profiles.id });
+  return rows.length > 0;
+}
+
+/**
  * Delete a user's profile row. Sites cascade via ON DELETE CASCADE,
  * which in turn cascades audits, findings, ai_fixes, and agent_visits.
  */
