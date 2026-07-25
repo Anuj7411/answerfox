@@ -2,9 +2,10 @@
 
 import { generateAIFixAction } from '@/app/(dashboard)/dashboard/sites/[siteId]/ai-fix-actions';
 import type { GenerateAiFixState } from '@/app/(dashboard)/dashboard/sites/[siteId]/ai-fix-actions';
+import { saveAnnotationAction } from '@/app/(dashboard)/dashboard/sites/[siteId]/annotation-actions';
 import { runAuditAction } from '@/app/(dashboard)/dashboard/sites/actions';
 import { InspectButton } from '@/components/dashboard/evidence-inspector';
-import { useActionState, useMemo, useState } from 'react';
+import { useActionState, useMemo, useState, useTransition } from 'react';
 import { BODY, MONO, PC } from './site-overview/porcelain';
 
 /** Wired "Re-run" audit button for the Findings header. */
@@ -63,6 +64,8 @@ export interface FindingItem {
   readonly status: 'pass' | 'fail' | 'warn' | 'skip';
   readonly evidence: string | null;
   readonly fixRecommendation: string | null;
+  /** The owner's saved note for this check on this site, or null. */
+  readonly note: string | null;
 }
 
 export interface FindingGroup {
@@ -81,7 +84,10 @@ const STATUS_COLOR: Record<string, string> = {
 
 /** Functional Findings view (Findings.dc.html): category filter + search over
  *  collapsible groups of checks, each expandable to evidence + fix + Generate-fix. */
-export function FindingsView({ groups }: { readonly groups: readonly FindingGroup[] }) {
+export function FindingsView({
+  siteId,
+  groups,
+}: { readonly siteId: string; readonly groups: readonly FindingGroup[] }) {
   const [cat, setCat] = useState('all');
   const [query, setQuery] = useState('');
 
@@ -101,7 +107,8 @@ export function FindingsView({ groups }: { readonly groups: readonly FindingGrou
             q === '' ||
             it.checkId.toLowerCase().includes(q) ||
             (it.fixRecommendation ?? '').toLowerCase().includes(q) ||
-            (it.evidence ?? '').toLowerCase().includes(q),
+            (it.evidence ?? '').toLowerCase().includes(q) ||
+            (it.note ?? '').toLowerCase().includes(q),
         ),
       }))
       .filter((g) => g.items.length > 0);
@@ -216,14 +223,14 @@ export function FindingsView({ groups }: { readonly groups: readonly FindingGrou
             No checks match.
           </div>
         ) : (
-          visible.map((g) => <Group key={g.category} group={g} />)
+          visible.map((g) => <Group key={g.category} siteId={siteId} group={g} />)
         )}
       </div>
     </>
   );
 }
 
-function Group({ group }: { readonly group: FindingGroup }) {
+function Group({ siteId, group }: { readonly siteId: string; readonly group: FindingGroup }) {
   const [open, setOpen] = useState(group.fail > 0);
   const total = group.items.length;
   const fail = group.items.filter((i) => i.status === 'fail').length;
@@ -293,7 +300,7 @@ function Group({ group }: { readonly group: FindingGroup }) {
       {open ? (
         <div style={{ borderTop: `1px solid ${PC.line}` }}>
           {group.items.map((it) => (
-            <Row key={it.id} item={it} />
+            <Row key={it.id} siteId={siteId} item={it} />
           ))}
         </div>
       ) : null}
@@ -303,12 +310,13 @@ function Group({ group }: { readonly group: FindingGroup }) {
 
 const initialFix: GenerateAiFixState = { status: 'idle' };
 
-function Row({ item }: { readonly item: FindingItem }) {
+function Row({ siteId, item }: { readonly siteId: string; readonly item: FindingItem }) {
   const [open, setOpen] = useState(false);
   const [fix, fixAction, fixing] = useActionState(
     async () => generateAIFixAction(item.id),
     initialFix,
   );
+  const [hasNote, setHasNote] = useState(item.note !== null);
   const color = STATUS_COLOR[item.status] ?? PC.dim;
   const canFix = item.status === 'fail' || item.status === 'warn';
   const title = item.fixRecommendation ?? item.evidence ?? item.category;
@@ -346,6 +354,7 @@ function Row({ item }: { readonly item: FindingItem }) {
         >
           {title}
         </span>
+        {hasNote ? <NoteIcon /> : null}
         <span
           style={{
             fontFamily: MONO,
@@ -403,6 +412,12 @@ function Row({ item }: { readonly item: FindingItem }) {
               }}
             />
           </div>
+          <NoteEditor
+            siteId={siteId}
+            checkId={item.checkId}
+            initial={item.note}
+            onChangeHasNote={setHasNote}
+          />
           {canFix ? (
             <form
               action={fixAction}
@@ -458,6 +473,177 @@ function Row({ item }: { readonly item: FindingItem }) {
           <FixResult state={fix} />
         </div>
       ) : null}
+    </div>
+  );
+}
+
+function NoteIcon() {
+  return (
+    <svg
+      width="13"
+      height="13"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={PC.dim2}
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{ flex: '0 0 auto' }}
+      role="img"
+      aria-label="Has note"
+    >
+      <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+      <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z" />
+      <path d="M9 13h6" />
+      <path d="M9 17h6" />
+    </svg>
+  );
+}
+
+/** Per-check private note editor. Seeds from the saved note, upserts on
+ *  Save, deletes when cleared. Persists across re-audits (keyed by
+ *  siteId + checkId server-side). */
+function NoteEditor({
+  siteId,
+  checkId,
+  initial,
+  onChangeHasNote,
+}: {
+  readonly siteId: string;
+  readonly checkId: string;
+  readonly initial: string | null;
+  readonly onChangeHasNote: (has: boolean) => void;
+}) {
+  const [baseline, setBaseline] = useState(initial ?? '');
+  const [value, setValue] = useState(initial ?? '');
+  const [pending, startTransition] = useTransition();
+  const [msg, setMsg] = useState<{ tone: string; text: string } | null>(null);
+
+  const dirty = value.trim() !== baseline.trim();
+
+  function save(next: string) {
+    setMsg(null);
+    startTransition(async () => {
+      const res = await saveAnnotationAction({ siteId, checkId, body: next });
+      if (res.status === 'error') {
+        setMsg({ tone: PC.red, text: res.error });
+        return;
+      }
+      const saved = next.trim();
+      setBaseline(saved);
+      setValue(saved);
+      onChangeHasNote(res.hasNote);
+      setMsg({ tone: PC.green, text: res.hasNote ? 'Saved' : 'Cleared' });
+    });
+  }
+
+  const btnBase = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    height: 32,
+    padding: '0 14px',
+    borderRadius: 6,
+    fontFamily: BODY,
+    fontSize: 13,
+    fontWeight: 500 as const,
+  };
+
+  return (
+    <div style={{ marginTop: 14 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+        <NoteIcon />
+        <span
+          style={{
+            fontFamily: MONO,
+            fontSize: 11,
+            letterSpacing: '.08em',
+            textTransform: 'uppercase',
+            color: PC.dim,
+          }}
+        >
+          Private note
+        </span>
+      </div>
+      <textarea
+        value={value}
+        onChange={(e) => setValue(e.currentTarget.value)}
+        placeholder="Why this check is skipped, who owns it, or a link to context…"
+        rows={3}
+        style={{
+          width: '100%',
+          resize: 'vertical',
+          boxSizing: 'border-box',
+          border: `1px solid ${PC.line16}`,
+          borderRadius: 8,
+          padding: '10px 12px',
+          fontFamily: BODY,
+          fontSize: 13.5,
+          color: PC.ink,
+          background: PC.card,
+          outline: 'none',
+          lineHeight: 1.5,
+        }}
+      />
+      <div
+        style={{
+          marginTop: 8,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12,
+          flexWrap: 'wrap',
+        }}
+      >
+        <button
+          type="button"
+          disabled={!dirty || pending}
+          onClick={() => save(value)}
+          style={{
+            ...btnBase,
+            background: PC.ink,
+            color: '#FAFAF8',
+            border: 'none',
+            opacity: !dirty || pending ? 0.55 : 1,
+            cursor: !dirty || pending ? 'default' : 'pointer',
+          }}
+        >
+          {pending ? 'Saving…' : 'Save note'}
+        </button>
+        {baseline.trim().length > 0 ? (
+          <button
+            type="button"
+            disabled={pending}
+            onClick={() => {
+              setValue('');
+              save('');
+            }}
+            style={{
+              ...btnBase,
+              background: PC.card,
+              color: PC.muted,
+              border: `1px solid ${PC.line16}`,
+              opacity: pending ? 0.55 : 1,
+              cursor: pending ? 'default' : 'pointer',
+            }}
+          >
+            Clear
+          </button>
+        ) : null}
+        <span style={{ fontFamily: MONO, fontSize: 11, color: PC.dim }}>
+          Only you can see this. Kept across re-audits.
+        </span>
+        {msg ? (
+          <span
+            style={{
+              fontFamily: MONO,
+              fontSize: 11.5,
+              color: msg.tone,
+              marginLeft: 'auto',
+            }}
+          >
+            {msg.text}
+          </span>
+        ) : null}
+      </div>
     </div>
   );
 }

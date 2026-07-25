@@ -7,6 +7,7 @@ import {
 import { ProUpsellNotice } from '@/components/dashboard/pro-upsell-notice';
 import { BODY, DISPLAY, MONO, PC } from '@/components/dashboard/site-overview/porcelain';
 import { listMonthlyAiFixUsage } from '@/lib/db/queries/ai-fixes';
+import { getAnnotationsForSite } from '@/lib/db/queries/annotations';
 import { getLatestAuditForSite, listFindingsForAudit } from '@/lib/db/queries/audits';
 import { getSiteForUser } from '@/lib/db/queries/sites';
 import { createServerSupabaseClient } from '@/lib/supabase/server-client';
@@ -83,9 +84,10 @@ export default async function FindingsPage({ params }: PageProps) {
     );
   }
 
-  const [findings, quota] = await Promise.all([
+  const [findings, quota, notes] = await Promise.all([
     listFindingsForAudit(audit.id),
     listMonthlyAiFixUsage(user.id),
+    getAnnotationsForSite(site.id, user.id),
   ]);
   const byCategory = new Map<string, FindingItem[]>();
   for (const f of findings) {
@@ -97,6 +99,7 @@ export default async function FindingsPage({ params }: PageProps) {
       status: f.status,
       evidence: f.evidence,
       fixRecommendation: f.fixRecommendation,
+      note: notes[f.checkId] ?? null,
     };
     const arr = byCategory.get(f.category) ?? [];
     arr.push(item);
@@ -168,7 +171,7 @@ export default async function FindingsPage({ params }: PageProps) {
         }
         return null;
       })()}
-      <FindingsView groups={groups} />
+      <FindingsView siteId={site.id} groups={groups} />
     </div>
   );
 }
