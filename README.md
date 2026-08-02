@@ -1,4 +1,4 @@
-# Answerfox
+# Answerfoxx
 
 > **The open-source AI-SEO toolkit that lives in your codebase and ships fixes as code.**
 
