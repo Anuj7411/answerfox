@@ -1,5 +1,4 @@
 # Answerfox
-
 > **The open-source AI-SEO toolkit that lives in your codebase and ships fixes as code.**
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](./LICENSE)
